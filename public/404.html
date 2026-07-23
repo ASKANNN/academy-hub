@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>404 — Askan Academy</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --color-bg-base:        #F2F0FF;
+      --color-bg-surface:     #FFFFFF;
+      --color-text-primary:   #111827;
+      --color-text-secondary: #374151;
+      --color-text-tertiary:  #6B7280;
+      --color-accent:         #6366F1;
+      --color-border:         #E5E7EB;
+    }
+    [data-theme="dark"] {
+      --color-bg-base:        #0A0C10;
+      --color-bg-surface:     #15161D;
+      --color-text-primary:   #F9FAFB;
+      --color-text-secondary: #E5E7EB;
+      --color-text-tertiary:  #9CA3AF;
+      --color-accent:         #6366F1;
+      --color-border:         #1F2937;
+    }
+
+    html { background-color: var(--color-bg-base); }
+
+    body {
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', system-ui, sans-serif;
+      background-color: var(--color-bg-base);
+      color: var(--color-text-primary);
+      -webkit-font-smoothing: antialiased;
+      text-align: center;
+      padding: 2rem;
+    }
+
+    .brand {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--color-accent);
+      margin-bottom: 3rem;
+    }
+
+    .code {
+      font-size: 7rem;
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: var(--color-accent);
+      opacity: 0.18;
+      margin-bottom: 1.5rem;
+      user-select: none;
+    }
+
+    .title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.75rem;
+    }
+
+    .subtitle {
+      font-size: 1rem;
+      color: var(--color-text-secondary);
+      line-height: 1.6;
+      max-width: 400px;
+      margin-bottom: 2.5rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.625rem 1.5rem;
+      background-color: var(--color-accent);
+      color: #ffffff;
+      font-size: 0.875rem;
+      font-weight: 600;
+      border-radius: 9999px;
+      text-decoration: none;
+      transition: opacity 0.15s ease;
+    }
+    .btn:hover { opacity: 0.85; }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { transition-duration: 0.01ms !important; }
+    }
+  </style>
+  <script>
+    (function () {
+      const stored = localStorage.getItem('academy-hub-theme');
+      if (stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.setAttribute('data-theme', 'dark');
+      }
+    })();
+  </script>
+</head>
+<body>
+  <p class="brand">Askan Academy</p>
+  <p class="code" aria-hidden="true">404</p>
+  <h1 class="title">Страница не найдена</h1>
+  <p class="subtitle">Такой страницы не существует или она была перемещена. Вернитесь на главную.</p>
+  <a class="btn" href="/">На главную</a>
+</body>
+</html>
