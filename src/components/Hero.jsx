@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { getStrings } from '../i18n/strings.js';
 
 function NeuralCanvas() {
   const canvasRef = useRef(null);
@@ -85,23 +86,8 @@ function NeuralCanvas() {
   return <canvas ref={canvasRef} className="hero__canvas" aria-hidden="true" />;
 }
 
-const TEXTS = {
-  ru: {
-    eyebrow: 'Software Engineering Platform',
-    title: 'Askan Academy',
-    subtitle:
-      'База знаний из отдельных разделов по темам программирования. Design Patterns Academy уже открыта — остальные ветви дерева заполняются по мере готовности.',
-  },
-  en: {
-    eyebrow: 'Software Engineering Platform',
-    title: 'Askan Academy',
-    subtitle:
-      'A knowledge base of individual sections on programming topics. Design Patterns Academy is open — other branches fill in as they become ready.',
-  },
-};
-
 export function Hero({ lang = 'ru' }) {
-  const t = TEXTS[lang] ?? TEXTS.ru;
+  const t = getStrings(lang).hero;
 
   return (
     <section className="hero-wrapper">
@@ -110,6 +96,10 @@ export function Hero({ lang = 'ru' }) {
         <span className="hero__eyebrow">{t.eyebrow}</span>
         <h1 className="hero__title">{t.title}</h1>
         <p className="hero__subtitle">{t.subtitle}</p>
+        <blockquote className="hero__quote">
+          <p>{t.quote}</p>
+          <cite>{t.quoteAuthor}</cite>
+        </blockquote>
       </div>
     </section>
   );

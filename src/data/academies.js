@@ -11,6 +11,26 @@ export const ACADEMIES = [
     icon: 'patterns',
     status: 'live',
     url: DESIGN_PATTERNS_URL,
+    categories: [
+      {
+        key: 'creational',
+        color: 'creational',
+        count: 5,
+        label: { ru: 'Порождающие', en: 'Creational' },
+      },
+      {
+        key: 'structural',
+        color: 'structural',
+        count: 7,
+        label: { ru: 'Структурные', en: 'Structural' },
+      },
+      {
+        key: 'behavioral',
+        color: 'behavioral',
+        count: 11,
+        label: { ru: 'Поведенческие', en: 'Behavioral' },
+      },
+    ],
   },
   {
     id: 'algorithms',

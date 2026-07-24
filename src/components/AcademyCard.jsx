@@ -1,25 +1,9 @@
 import { useState } from 'react';
 import { Icon } from './Icon.jsx';
-
-const TEXTS = {
-  ru: {
-    live: 'Открыто',
-    planned: 'Скоро',
-    openLabel: 'перейти',
-    expand: 'Показать темы',
-    collapse: 'Свернуть',
-  },
-  en: {
-    live: 'Open',
-    planned: 'Coming soon',
-    openLabel: 'open',
-    expand: 'Show topics',
-    collapse: 'Collapse',
-  },
-};
+import { getStrings } from '../i18n/strings.js';
 
 function CardShell({ academy, lang, children, ...rest }) {
-  const t = TEXTS[lang] ?? TEXTS.ru;
+  const t = getStrings(lang).academyCard;
   const tagline = academy.tagline[lang] ?? academy.tagline.ru;
 
   return (
@@ -43,19 +27,46 @@ function CardShell({ academy, lang, children, ...rest }) {
 
 export function AcademyCard({ academy, lang = 'ru' }) {
   const [expanded, setExpanded] = useState(false);
-  const t = TEXTS[lang] ?? TEXTS.ru;
+  const t = getStrings(lang).academyCard;
 
   if (academy.status === 'live') {
     return (
-      <a
-        className="academy-card-link"
-        href={academy.url}
-        target="_blank"
-        rel="noreferrer"
-        aria-label={`${academy.name} — ${t.openLabel}`}
-      >
-        <CardShell academy={academy} lang={lang} />
-      </a>
+      <div className="academy-card-link">
+        <CardShell academy={academy} lang={lang}>
+          <a
+            className="academy-card__stretched-link"
+            href={academy.url}
+            target="_blank"
+            rel="noreferrer"
+            aria-label={`${academy.name} — ${t.openLabel}`}
+          />
+          {academy.categories && (
+            <>
+              <div className={`academy-card__topics-wrap ${expanded ? 'is-expanded' : ''}`}>
+                <ul className="academy-card__topics">
+                  {academy.categories.map((cat) => (
+                    <li key={cat.key} className="academy-card__topic">
+                      <span
+                        className={`academy-card__topic-dot academy-card__topic-dot--${cat.color}`}
+                        aria-hidden="true"
+                      />
+                      {cat.label[lang] ?? cat.label.ru} · {cat.count}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <button
+                type="button"
+                className={`academy-card__expand-hint academy-card__expand-hint--button ${expanded ? 'is-expanded' : ''}`}
+                onClick={() => setExpanded((v) => !v)}
+                aria-expanded={expanded}
+              >
+                {expanded ? t.collapse : t.expand}
+              </button>
+            </>
+          )}
+        </CardShell>
+      </div>
     );
   }
 
@@ -79,7 +90,7 @@ export function AcademyCard({ academy, lang = 'ru' }) {
             ))}
           </ul>
         </div>
-        <span className="academy-card__expand-hint">
+        <span className={`academy-card__expand-hint ${expanded ? 'is-expanded' : ''}`}>
           {expanded ? t.collapse : t.expand}
         </span>
       </CardShell>

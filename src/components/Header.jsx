@@ -1,4 +1,5 @@
 import { BrandMark } from './BrandMark.jsx';
+import { getStrings } from '../i18n/strings.js';
 
 const SunIcon = () => (
   <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -20,12 +21,12 @@ const MoonIcon = () => (
 
 export function Header({ theme, onToggleTheme, lang, onToggleLang }) {
   const isDark = theme === 'dark';
-  const isRu = lang === 'ru';
+  const t = getStrings(lang).header;
 
   return (
     <header className="header">
       <div className="container header__inner">
-        <a href="#/" className="header__logo" aria-label={isRu ? 'Askan Academy — на главную' : 'Askan Academy — home'}>
+        <a href="#/" className="header__logo" aria-label={t.home}>
           <BrandMark />
           <span className="header__logo-text">
             <span className="header__logo-name">Askan</span>
@@ -38,18 +39,16 @@ export function Header({ theme, onToggleTheme, lang, onToggleLang }) {
             type="button"
             className="lang-toggle"
             onClick={onToggleLang}
-            aria-label={isRu ? 'Switch to English' : 'Переключить на русский'}
+            aria-label={t.langToggle}
           >
-            {isRu ? 'RU' : 'EN'}
+            {lang === 'ru' ? 'RU' : 'EN'}
           </button>
 
           <button
             type="button"
             className="theme-toggle"
             onClick={onToggleTheme}
-            aria-label={isDark
-              ? (isRu ? 'Включить светлую тему' : 'Switch to light')
-              : (isRu ? 'Включить тёмную тему' : 'Switch to dark')}
+            aria-label={isDark ? t.themeToLight : t.themeToDark}
           >
             {isDark ? <SunIcon /> : <MoonIcon />}
           </button>

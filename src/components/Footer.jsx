@@ -1,4 +1,5 @@
 import { ACADEMIES } from '../data/academies.js';
+import { getStrings } from '../i18n/strings.js';
 
 const ArrowUpIcon = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
@@ -12,25 +13,8 @@ const GitHubIcon = () => (
   </svg>
 );
 
-const TEXTS = {
-  ru: {
-    desc: 'База знаний из отдельных разделов по темам программирования.',
-    sections: 'Разделы',
-    contacts: 'Контакты',
-    mit: 'Открытый исходный код, лицензия MIT.',
-    backTop: 'Наверх',
-  },
-  en: {
-    desc: 'A knowledge base of individual sections on programming topics.',
-    sections: 'Sections',
-    contacts: 'Contacts',
-    mit: 'Open source, MIT license.',
-    backTop: 'Top',
-  },
-};
-
 export function Footer({ lang = 'ru' }) {
-  const t = TEXTS[lang] ?? TEXTS.ru;
+  const t = getStrings(lang).footer;
 
   return (
     <footer className="footer">
@@ -71,11 +55,6 @@ export function Footer({ lang = 'ru' }) {
                 GitHub
               </a>
             </li>
-            <li>
-              <a href="mailto:asaevnatan@gmail.com" className="footer__nav-link">
-                asaevnatan@gmail.com
-              </a>
-            </li>
           </ul>
         </div>
       </div>
@@ -87,7 +66,7 @@ export function Footer({ lang = 'ru' }) {
             type="button"
             className="footer__back-top"
             onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-            aria-label={lang === 'ru' ? 'Прокрутить наверх' : 'Scroll to top'}
+            aria-label={t.scrollTop}
           >
             {t.backTop}
             <ArrowUpIcon />
