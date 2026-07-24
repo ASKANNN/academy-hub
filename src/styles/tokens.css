@@ -208,10 +208,10 @@
 
 :root {
 
-  --color-bg-base:     #F2F0FF;
+  --color-bg-base:     #FAFAFC;
   --color-bg-surface:  #FFFFFF;
   --color-bg-elevated: #FFFFFF;
-  --color-bg-subtle:   #E9E6FF;
+  --color-bg-subtle:   #F1F0F8;
   --color-bg-inverse:  var(--palette-gray-900);
 
   --color-text-primary:   var(--palette-gray-900);

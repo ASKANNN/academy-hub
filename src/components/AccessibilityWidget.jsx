@@ -31,8 +31,16 @@ export function AccessibilityWidget({ lang }) {
         buttonRef.current?.focus();
       }
     };
+    const onPointerDown = (e) => {
+      if (panelRef.current?.contains(e.target) || buttonRef.current?.contains(e.target)) return;
+      setOpen(false);
+    };
     document.addEventListener('keydown', onKeyDown);
-    return () => document.removeEventListener('keydown', onKeyDown);
+    document.addEventListener('pointerdown', onPointerDown);
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener('pointerdown', onPointerDown);
+    };
   }, [open]);
 
   useEffect(() => {

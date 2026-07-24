@@ -4,6 +4,7 @@ import { AcademyTree } from './components/AcademyTree.jsx';
 import { Footer } from './components/Footer.jsx';
 import { PageIntro } from './components/PageIntro.jsx';
 import { AccessibilityWidget } from './components/AccessibilityWidget.jsx';
+import { BackToTop } from './components/BackToTop.jsx';
 import { useTheme } from './hooks/useTheme.js';
 import { useLocale } from './hooks/useLocale.js';
 import { useIntro } from './hooks/useIntro.js';
@@ -28,6 +29,7 @@ export default function App() {
         <Footer lang={lang} />
       </div>
       <AccessibilityWidget lang={lang} />
+      <BackToTop lang={lang} />
     </>
   );
 }

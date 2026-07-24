@@ -31,7 +31,6 @@ export const STRINGS = {
       sections: 'Разделы',
       contacts: 'Контакты',
       mit: 'Открытый исходный код, лицензия MIT.',
-      backTop: 'Наверх',
       scrollTop: 'Прокрутить наверх',
     },
     accessibility: {
@@ -82,7 +81,6 @@ export const STRINGS = {
       sections: 'Sections',
       contacts: 'Contacts',
       mit: 'Open source, MIT license.',
-      backTop: 'Top',
       scrollTop: 'Scroll to top',
     },
     accessibility: {
