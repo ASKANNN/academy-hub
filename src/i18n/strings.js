@@ -30,7 +30,7 @@ export const STRINGS = {
       desc: 'Живая база знаний — каждая академия растёт как отдельная ветвь инженерного мышления.',
       sections: 'Разделы',
       contacts: 'Контакты',
-      mit: 'Открытый исходный код, лицензия MIT.',
+      license: 'Некоммерческая лицензия на исходный код.',
       scrollTop: 'Прокрутить наверх',
     },
     accessibility: {
@@ -80,7 +80,7 @@ export const STRINGS = {
       desc: 'A living knowledge base — each academy grows as its own branch of engineering thought.',
       sections: 'Sections',
       contacts: 'Contacts',
-      mit: 'Open source, MIT license.',
+      license: 'Non-commercial source-available license.',
       scrollTop: 'Scroll to top',
     },
     accessibility: {

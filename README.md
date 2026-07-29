@@ -5,7 +5,7 @@ of academies by programming topic: each academy is either a finished
 standalone project (the card links to it) or a planned branch with a list of
 topics that will appear as they're ready.
 
-Open source, MIT license.
+Source-available, non-commercial license.
 
 ## Features
 
@@ -103,4 +103,6 @@ npm run build     # production build
 
 ## License
 
-MIT © 2026 Askan Academy
+Askan Academy Non-Commercial Source License © 2026 Askan Academy — free to view, use,
+and modify for non-commercial purposes; commercial use requires prior written
+permission. See [LICENSE](./LICENSE).

@@ -55,7 +55,7 @@ export function Footer({ lang = 'ru' }) {
 
       <div className="footer__bottom">
         <div className="container footer__bottom-inner">
-          <span className="footer__copy">© 2026 Askan Academy. {t.mit}</span>
+          <span className="footer__copy">© 2026 Askan Academy. {t.license}</span>
         </div>
       </div>
     </footer>
