@@ -63,7 +63,7 @@ export const STRINGS = {
       subtitle:
         'A living knowledge base: each academy is its own branch of engineering thought, growing at its own pace. Design Patterns Academy is open — the remaining branches unfold as they mature.',
       quote:
-        '"Programs must be written for people to read, and only incidentally for machines to execute."',
+        '"Programs must be written for people to read, and only incidentally for machines to execute"',
       quoteAuthor: '— Harold Abelson, Structure and Interpretation of Computer Programs',
     },
     academyTree: {
