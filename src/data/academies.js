@@ -1,4 +1,4 @@
-export const DESIGN_PATTERNS_URL = 'http://localhost:3000';
+export const DESIGN_PATTERNS_URL = 'https://design-patterns-academy-gilt.vercel.app';
 
 export const ACADEMIES = [
   {
