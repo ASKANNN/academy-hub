@@ -62,24 +62,44 @@ src/
 **A new topic within an academy** — add a line to `topics.ru` and `topics.en`
 of the relevant academy in `src/data/academies.js`.
 
-**A new academy** — add an object to the `ACADEMIES` array:
+**A new academy** — add an object to the `ACADEMIES` array. The shape depends
+on `status`, so `topics` and `categories`/`url` are not interchangeable:
+
+Planned academy (`status: 'planned'`) — needs `topics`:
 ```js
 {
   id: 'my-academy',
   name: 'My Academy',
   tagline: { ru: 'Краткое описание', en: 'Short description' },
   icon: 'icon-id',
-  status: 'planned',   // or 'live'
-  url: 'https://...',  // live only
+  status: 'planned',
   topics: {
     ru: ['Тема 1', 'Тема 2'],
     en: ['Topic 1', 'Topic 2'],
   },
 }
 ```
-And add the icon's SVG path to `GLYPHS` in `src/components/Icon.jsx`.
 
-**Academy is ready** — change `status: 'planned'` → `'live'`, set `url`.
+Live academy (`status: 'live'`) — needs `url` and `categories` instead of `topics`:
+```js
+{
+  id: 'my-academy',
+  name: 'My Academy',
+  tagline: { ru: 'Краткое описание', en: 'Short description' },
+  icon: 'icon-id',
+  status: 'live',
+  url: 'https://...',
+  categories: [
+    { key: 'group-1', color: 'creational', count: 5, label: { ru: 'Группа 1', en: 'Group 1' } },
+  ],
+}
+```
+
+`icon` must match a key in `GLYPHS` (`src/components/Icon.jsx`); add the SVG
+path there for a new icon.
+
+**Academy is ready** — change `status: 'planned'` → `'live'`, replace `topics`
+with `categories`, and set `url`.
 
 ## How to add interface text
 
