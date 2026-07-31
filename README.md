@@ -67,32 +67,32 @@ on `status`, so `topics` and `categories`/`url` are not interchangeable:
 
 Planned academy (`status: 'planned'`) — needs `topics`:
 ```js
-{
+const academy = {
   id: 'my-academy',
   name: 'My Academy',
-  tagline: { ru: 'Краткое описание', en: 'Short description' },
+  tagline: { ru: '<Russian tagline>', en: 'Short description' },
   icon: 'icon-id',
   status: 'planned',
   topics: {
-    ru: ['Тема 1', 'Тема 2'],
+    ru: ['<Russian topic 1>', '<Russian topic 2>'],
     en: ['Topic 1', 'Topic 2'],
   },
-}
+};
 ```
 
 Live academy (`status: 'live'`) — needs `url` and `categories` instead of `topics`:
 ```js
-{
+const academy = {
   id: 'my-academy',
   name: 'My Academy',
-  tagline: { ru: 'Краткое описание', en: 'Short description' },
+  tagline: { ru: '<Russian tagline>', en: 'Short description' },
   icon: 'icon-id',
   status: 'live',
   url: 'https://...',
   categories: [
-    { key: 'group-1', color: 'creational', count: 5, label: { ru: 'Группа 1', en: 'Group 1' } },
+    { key: 'group-1', color: 'creational', count: 5, label: { ru: '<Russian label>', en: 'Group 1' } },
   ],
-}
+};
 ```
 
 `icon` must match a key in `GLYPHS` (`src/components/Icon.jsx`); add the SVG
