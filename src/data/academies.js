@@ -92,13 +92,13 @@ export const ACADEMIES = [
     id: 'ai',
     name: 'AI Academy',
     tagline: {
-      ru: 'Основы ML, нейросети, промпт-инжиниринг',
+      ru: 'Основы ML, нейросети, промпт-инжинеринг',
       en: 'ML fundamentals, neural networks, prompt engineering',
     },
     icon: 'ai',
     status: 'planned',
     topics: {
-      ru: ['Основы Machine Learning', 'Нейросети', 'Промпт-инжиниринг', 'Векторные представления'],
+      ru: ['Основы Machine Learning', 'Нейросети', 'Промпт-инжинеринг', 'Векторные представления'],
       en: ['Machine Learning Basics', 'Neural Networks', 'Prompt Engineering', 'Vector Embeddings'],
     },
   },
