@@ -1,3 +1,8 @@
+// Dev-only. Vercel's build machine can't run headless Chromium (missing
+// system libs like libnspr4.so, no apt/yum access to install them), so this
+// must be run locally after `npm run build` whenever page content changes,
+// and the resulting file committed. See scripts/inject-prerender.mjs for the
+// build-time step that actually uses it (no browser involved there).
 import { preview } from 'vite';
 import { chromium } from '@playwright/test';
 import { writeFile } from 'node:fs/promises';
@@ -18,11 +23,11 @@ await page.addInitScript(() => {
 await page.goto(url, { waitUntil: 'networkidle' });
 await page.waitForSelector('.hero__title');
 
-const html = await page.evaluate(() => `<!doctype html>\n${document.documentElement.outerHTML}`);
+const rootHtml = await page.evaluate(() => document.getElementById('root').innerHTML);
 
 await browser.close();
 await new Promise((res) => server.httpServer.close(res));
 
-await writeFile(resolve(root, 'dist/index.html'), html);
+await writeFile(resolve(root, 'prerendered/root.html'), rootHtml);
 
-console.log('Prerendered dist/index.html');
+console.log('Wrote prerendered/root.html — commit this file.');
