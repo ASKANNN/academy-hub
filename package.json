@@ -7,8 +7,10 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "postbuild": "node scripts/prerender.mjs",
     "lint": "oxlint",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "postinstall": "playwright install chromium"
   },
   "dependencies": {
     "react": "^19.2.7",
