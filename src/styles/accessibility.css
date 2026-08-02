@@ -8,7 +8,7 @@ html.a11y-text-xlarge {
   font-size: 125%;
 }
 
-html.a11y-high-contrast {
+html.a11y-contrast-high {
   --color-bg-base: #000000;
   --color-bg-surface: #000000;
   --color-bg-elevated: #0A0A0A;
@@ -25,17 +25,18 @@ html.a11y-high-contrast {
   --color-text-link-hover: #FFE066;
 }
 
-html.a11y-invert {
+html.a11y-contrast-invert {
   filter: invert(1) hue-rotate(180deg);
 }
 
-html.a11y-invert img,
-html.a11y-invert video,
-html.a11y-invert .a11y-widget {
+html.a11y-contrast-invert img,
+html.a11y-contrast-invert video,
+html.a11y-contrast-invert .a11y-dock,
+html.a11y-contrast-invert .a11y-widget__panel {
   filter: invert(1) hue-rotate(180deg);
 }
 
-html.a11y-monochrome {
+.page-content.a11y-monochrome {
   filter: grayscale(1);
 }
 
@@ -49,32 +50,75 @@ html.a11y-underline-links a {
 
 /* ---------- accessibility widget ---------- */
 
-.a11y-widget {
+.a11y-dock {
   position: fixed;
-  right: var(--space-6);
+  right: 0;
   bottom: var(--space-6);
   z-index: var(--z-tooltip);
+  display: flex;
+  align-items: center;
 }
 
-.a11y-widget__toggle {
+.a11y-widget__trigger {
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
   width: 52px;
   height: 52px;
+  margin-right: var(--space-6);
   border-radius: var(--radius-full);
   background: var(--color-accent);
   color: var(--color-accent-text);
   box-shadow: var(--shadow-lg);
-  transition: var(--transition-transform), var(--transition-colors);
+  transition: var(--transition-transform), var(--transition-colors), var(--transition-opacity);
 }
-.a11y-widget__toggle:hover { background: var(--color-accent-hover); }
-.a11y-widget__toggle:active { transform: scale(0.96); }
-.a11y-widget__toggle:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+.a11y-widget__trigger:active { transform: scale(0.96); }
+.a11y-widget__trigger:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+
+.a11y-dock__tab {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 28px;
+  height: 44px;
+  margin-left: -14px;
+  border-radius: var(--radius-full);
+  border: none;
+  background: var(--color-accent);
+  color: var(--color-accent-text);
+  box-shadow: var(--shadow-md);
+}
+.a11y-dock__tab:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+/* Docked state: the trigger slides and fades behind the tab, dissolving into it
+   rather than peeking out beside it. Toggled purely by JS (is-docked class via a
+   click handler on the tab), never by :hover. */
+.a11y-dock.is-docked .a11y-widget__trigger {
+  transform: translateX(calc(100% + var(--space-6)));
+  opacity: 0;
+}
+
+/* :hover rules on interactive widget elements are gated behind pointer-fine so
+   they never register on touch devices — on iOS WebKit an element with its own
+   bare :hover rule needs a second tap to actually click, so the rule must not
+   apply at all on touch for the first tap to work as an immediate click. */
+@media (hover: hover) and (pointer: fine) {
+  .a11y-widget__trigger:hover { background: var(--color-accent-hover); }
+  .a11y-dock__tab:hover { background: var(--color-accent-hover); }
+  .a11y-dock.is-docked:hover .a11y-widget__trigger,
+  .a11y-dock.is-docked:focus-within .a11y-widget__trigger {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
 
 .back-to-top {
   position: fixed;
-  right: calc(var(--space-6) + 52px + var(--space-3));
+  right: calc(20px + var(--space-6) + 52px + var(--space-3));
   bottom: var(--space-6);
   z-index: var(--z-tooltip);
   display: flex;
@@ -89,32 +133,46 @@ html.a11y-underline-links a {
   box-shadow: var(--shadow-lg);
   transition: var(--transition-transform), var(--transition-colors);
 }
-.back-to-top:hover { color: var(--color-accent); border-color: var(--color-border-accent); }
 .back-to-top:active { transform: scale(0.96); }
 .back-to-top:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) {
+  .back-to-top:hover { color: var(--color-accent); border-color: var(--color-border-accent); }
+}
 
 .a11y-widget__panel {
-  position: absolute;
-  right: 0;
-  bottom: calc(100% + var(--space-3));
-  width: 280px;
-  max-height: min(70vh, 520px);
+  position: fixed;
+  right: var(--space-6);
+  bottom: calc(var(--space-6) + 52px + var(--space-3));
+  z-index: var(--z-modal);
+  width: min(320px, calc(100vw - var(--space-12)));
+  max-height: min(560px, calc(100vh - 120px));
   overflow-y: auto;
   padding: var(--space-4);
   border-radius: var(--radius-lg);
   background: var(--color-bg-elevated);
   border: 1px solid var(--color-border);
   box-shadow: var(--shadow-xl);
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(12px) scale(0.96);
+  transition: var(--transition-transform), var(--transition-opacity), visibility var(--duration-normal);
+}
+.a11y-widget__panel.is-open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
 }
 
-.a11y-widget__panel-header {
+.a11y-widget__header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: var(--space-3);
 }
 
-.a11y-widget__panel-title {
+.a11y-widget__title {
   font-size: var(--text-base);
   font-weight: var(--font-weight-semibold);
   color: var(--color-text-primary);
@@ -131,11 +189,16 @@ html.a11y-underline-links a {
   line-height: 1;
   color: var(--color-text-secondary);
 }
-.a11y-widget__close:hover { background: var(--color-bg-subtle); }
 .a11y-widget__close:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .a11y-widget__close:hover { background: var(--color-bg-subtle); }
+}
 
 .a11y-widget__group {
   padding-block: var(--space-3);
+  padding-inline: 0;
+  margin: 0;
+  border: none;
   border-top: 1px solid var(--color-border-subtle);
 }
 .a11y-widget__group:first-of-type { border-top: none; padding-top: 0; }
@@ -162,14 +225,14 @@ html.a11y-underline-links a {
   border: 1px solid var(--color-border);
   color: var(--color-text-secondary);
 }
-.a11y-widget__segment[aria-pressed="true"] {
+.a11y-widget__segment[aria-checked="true"] {
   background: var(--color-accent);
   border-color: var(--color-accent);
   color: var(--color-accent-text);
 }
 .a11y-widget__segment:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
 
-.a11y-widget__toggle-row {
+.a11y-widget__switch-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -180,10 +243,37 @@ html.a11y-underline-links a {
   cursor: pointer;
 }
 
-.a11y-widget__toggle-row input {
-  width: 18px;
-  height: 18px;
-  accent-color: var(--color-accent);
+.a11y-widget__switch-row input[type="checkbox"] {
+  appearance: none;
+  flex-shrink: 0;
+  width: 36px;
+  height: 20px;
+  border-radius: var(--radius-full);
+  background: var(--color-border);
+  position: relative;
+  cursor: pointer;
+  transition: var(--transition-colors);
+}
+.a11y-widget__switch-row input[type="checkbox"]::before {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  transition: var(--transition-transform);
+}
+.a11y-widget__switch-row input[type="checkbox"]:checked {
+  background: var(--color-accent);
+}
+.a11y-widget__switch-row input[type="checkbox"]:checked::before {
+  transform: translateX(16px);
+}
+.a11y-widget__switch-row input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
 
 .a11y-widget__reset {
@@ -196,9 +286,7 @@ html.a11y-underline-links a {
   border: 1px solid var(--color-border-strong);
   color: var(--color-text-primary);
 }
-.a11y-widget__reset:hover { background: var(--color-bg-subtle); }
 .a11y-widget__reset:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
-
-@media (max-width: 480px) {
-  .a11y-widget__panel { width: calc(100vw - var(--space-8)); }
+@media (hover: hover) and (pointer: fine) {
+  .a11y-widget__reset:hover { background: var(--color-bg-subtle); }
 }

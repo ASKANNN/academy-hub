@@ -27,7 +27,7 @@ const easeOutCubic = t => 1 - Math.pow(1 - t, 3);
 
 const T_APPEAR = 600;
 const T_FLY = 1800;
-const T_HOLD = 4500;
+const T_HOLD = 4100;
 const T_TOTAL = 4500;
 const T_TEXT_START = T_FLY + 150;
 const T_TEXT_ZOOM = 700;
