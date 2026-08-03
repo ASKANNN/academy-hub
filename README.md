@@ -9,52 +9,68 @@ Source-available, non-commercial license.
 
 ## Features
 
-- Canvas constellation animation on first visit per session (`prefers-reduced-motion` respected)
+- Canvas constellation animation on first visit per session, skippable by
+  tap/click/keypress (`prefers-reduced-motion` respected)
 - Light / dark theme, persisted in `localStorage`
 - RU / EN language toggle across the whole site, text centralized in `src/i18n/strings.js`
 - Accessibility widget: text size, high contrast, invert, monochrome mode,
   readable font, forced underlined links — settings persisted in `localStorage`
 - Glass header with backdrop-blur
-- Responsive grid of academy cards
-- Click-to-expand topics/categories list inside a planned academy's card
+- Responsive grid of academy cards, click-to-expand topics list inside a
+  planned academy's card
+- Client-side routing (`react-router-dom`) with a fade/slide page transition
+  on every navigation
+- **Algorithms Academy** — full in-app section (`/algorithms/...`): category
+  and algorithm catalogs, algorithm detail pages with animated visualizers,
+  bilingual explanations, JS/Python code samples, and a quiz per algorithm
 
 ## Stack
 
-Vite + React, plain JS (no TypeScript), no third-party UI libraries or CSS frameworks.
-Design tokens (`src/styles/tokens.css`) are the single source of truth for colors,
-typography, spacing, shadows and z-index; hardcoding these values directly in
-components is not allowed.
+Vite + React, plain JS (no TypeScript). `react-router-dom` for routing and
+`prism-react-renderer` for code-block syntax highlighting are the only two
+runtime dependencies beyond React itself — no other UI libraries or CSS
+frameworks. Design tokens (`src/styles/tokens.css`) are the single source of
+truth for colors, typography, spacing, shadows and z-index; hardcoding these
+values directly in components is not allowed.
 
 ## Structure
 
 ```
 src/
-  main.jsx                — entry point, imports styles and mounts <App/>
-  App.jsx                 — page assembly: intro, Header, Hero, AcademyTree, Footer, AccessibilityWidget
-  components/
-    Header.jsx             — logo, RU|EN switcher, theme toggle
-    Hero.jsx                — banner heading
-    AcademyTree.jsx          — responsive grid of cards
-    AcademyCard.jsx           — academy card: live — link, planned — click-to-expand topics
-    Footer.jsx                — copyright + links
-    BrandMark.jsx              — SVG logo
-    Icon.jsx                    — academy icons by id
-    PageIntro.jsx                — canvas constellation animation, shown once per session
-    AccessibilityWidget.jsx       — floating button + accessibility settings panel
+  main.jsx                — entry point: BrowserRouter + route table, imports all stylesheets
   data/
-    academies.js            — list of academies: live (has url) and planned (has topics/categories)
+    academies.js            — hub tree: live (external url, or internal path) and planned (topics) academies
+    algorithms/              — Algorithms Academy content: categories, per-algorithm modules (bilingual), registry
+  components/
+    Layout.jsx               — shared route shell: intro, header, page-transition wrapper around <Outlet/>, footer, a11y widget
+    Header.jsx                — logo, RU|EN switcher, theme toggle
+    Hero.jsx                  — banner heading
+    AcademyTree.jsx            — responsive grid of cards
+    AcademyCard.jsx             — academy card: live+external — new-tab link, live+internal — in-app <Link>, planned — click-to-expand topics
+    Footer.jsx                  — copyright + links
+    BrandMark.jsx                — SVG logo
+    Icon.jsx                      — academy icons by id
+    PageIntro.jsx                  — canvas constellation animation, shown once per session, skippable
+    AccessibilityWidget.jsx         — floating button + accessibility settings panel
+    BackToTop.jsx                   — floating scroll-to-top button
+    algorithms/                      — Algorithms Academy-specific components (cards, visualizer, breadcrumb, prev/next nav)
+    ui/                                — generic reusable components (code block, quiz, tabs, rich text)
+  pages/                     — one component per route (home, algorithms catalog/category/detail, 404)
   hooks/
     useTheme.js              — light/dark theme, localStorage
     useLocale.js               — RU/EN language, localStorage
     useIntro.js                 — flag for showing the intro animation, sessionStorage
     useAccessibility.js          — accessibility settings, localStorage
+  utils/
+    algorithmSteps.js         — generates animation frames for each sorting algorithm from the real algorithm logic
   i18n/
     strings.js                — all interface text in RU and EN in one place
   styles/
     tokens.css                — design tokens: colors, typography, spacing, shadows, z-index
     base.css                   — CSS reset and base typography
-    app.css                     — styles for all components
-    accessibility.css            — accessibility widget styles and global effect classes
+    app.css                     — hub component styles
+    algorithms.css               — Algorithms Academy styles
+    accessibility.css             — accessibility widget styles and global effect classes
 ```
 
 ## How to add an academy
@@ -62,8 +78,7 @@ src/
 **A new topic within an academy** — add a line to `topics.ru` and `topics.en`
 of the relevant academy in `src/data/academies.js`.
 
-**A new academy** — add an object to the `ACADEMIES` array. The shape depends
-on `status`, so `topics` and `categories`/`url` are not interchangeable:
+**A new academy** — add an object to the `ACADEMIES` array:
 
 Planned academy (`status: 'planned'`) — needs `topics`:
 ```js
@@ -80,7 +95,10 @@ const academy = {
 };
 ```
 
-Live academy (`status: 'live'`) — needs `url` and `categories` instead of `topics`:
+Live academy (`status: 'live'`) — by default, build it **in-app**, the same
+way Algorithms Academy was built (routes under its own path, content in
+`src/data/<academy>/`, page components in `src/pages/`). The hub-tree entry
+just points at it:
 ```js
 const academy = {
   id: 'my-academy',
@@ -88,18 +106,17 @@ const academy = {
   tagline: { ru: '<Russian tagline>', en: 'Short description' },
   icon: 'icon-id',
   status: 'live',
-  url: 'https://...',
-  categories: [
-    { key: 'group-1', color: 'creational', count: 5, label: { ru: '<Russian label>', en: 'Group 1' } },
-  ],
+  internal: true,
+  path: '/my-academy',
 };
 ```
+Only link out to a separately deployed project (`url` instead of `internal`/
+`path`) if there's a specific reason to keep it a standalone site — that's
+now the exception, kept only for `design-patterns-academy` which predates
+this convention.
 
 `icon` must match a key in `GLYPHS` (`src/components/Icon.jsx`); add the SVG
 path there for a new icon.
-
-**Academy is ready** — change `status: 'planned'` → `'live'`, replace `topics`
-with `categories`, and set `url`.
 
 ## How to add interface text
 

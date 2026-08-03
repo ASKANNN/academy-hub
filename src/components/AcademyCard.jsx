@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Icon } from './Icon.jsx';
 import { getStrings } from '../i18n/strings.js';
 
@@ -30,16 +31,26 @@ export function AcademyCard({ academy, lang = 'ru' }) {
   const t = getStrings(lang).academyCard;
 
   if (academy.status === 'live') {
+    const topics = academy.topics?.[lang] ?? academy.topics?.ru;
+
     return (
       <div className="academy-card-link">
         <CardShell academy={academy} lang={lang}>
-          <a
-            className="academy-card__stretched-link"
-            href={academy.url}
-            target="_blank"
-            rel="noreferrer"
-            aria-label={`${academy.name} — ${t.openLabel}`}
-          />
+          {academy.internal ? (
+            <Link
+              className="academy-card__stretched-link"
+              to={academy.path}
+              aria-label={`${academy.name} — ${t.openLabel}`}
+            />
+          ) : (
+            <a
+              className="academy-card__stretched-link"
+              href={academy.url}
+              target="_blank"
+              rel="noreferrer"
+              aria-label={`${academy.name} — ${t.openLabel}`}
+            />
+          )}
           {academy.categories && (
             <>
               <div className={`academy-card__topics-wrap ${expanded ? 'is-expanded' : ''}`}>
@@ -51,6 +62,28 @@ export function AcademyCard({ academy, lang = 'ru' }) {
                         aria-hidden="true"
                       />
                       {cat.label[lang] ?? cat.label.ru} · {cat.count}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <button
+                type="button"
+                className={`academy-card__expand-hint academy-card__expand-hint--button ${expanded ? 'is-expanded' : ''}`}
+                onClick={() => setExpanded((v) => !v)}
+                aria-expanded={expanded}
+              >
+                {expanded ? t.collapse : t.expand}
+              </button>
+            </>
+          )}
+          {topics && (
+            <>
+              <div className={`academy-card__topics-wrap ${expanded ? 'is-expanded' : ''}`}>
+                <ul className="academy-card__topics">
+                  {topics.map((topic) => (
+                    <li key={topic} className="academy-card__topic">
+                      <span className="academy-card__topic-dot" aria-hidden="true" />
+                      {topic}
                     </li>
                   ))}
                 </ul>

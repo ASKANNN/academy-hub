@@ -1,0 +1,156 @@
+import { Navigate, useParams } from 'react-router-dom';
+import { usePageContext } from '../components/Layout.jsx';
+import { Breadcrumb } from '../components/algorithms/Breadcrumb.jsx';
+import { PrevNextNav } from '../components/algorithms/PrevNextNav.jsx';
+import { AlgorithmCard } from '../components/algorithms/AlgorithmCard.jsx';
+import { AlgorithmVisualizer } from '../components/algorithms/AlgorithmVisualizer.jsx';
+import { CodeBlock } from '../components/ui/CodeBlock.jsx';
+import { Tabs } from '../components/ui/Tabs.jsx';
+import { Quiz } from '../components/ui/Quiz.jsx';
+import { RichText } from '../components/ui/RichText.jsx';
+import { getCategory, getAlgorithm, getAdjacentAlgorithms, getAlgorithmsByCategory } from '../data/algorithms/index.js';
+import { getStrings } from '../i18n/strings.js';
+
+export default function AlgorithmDetailPage() {
+  const { category: categorySlug, slug } = useParams();
+  const { lang, theme } = usePageContext();
+  const t = getStrings(lang).algorithms;
+  const category = getCategory(categorySlug);
+  const algorithm = getAlgorithm(categorySlug, slug);
+
+  if (!category || category.status !== 'live' || !algorithm) {
+    return <Navigate to="/algorithms" replace />;
+  }
+
+  const name = algorithm.name[lang] ?? algorithm.name.ru;
+  const categoryName = category.name[lang] ?? category.name.ru;
+  const { prev, next } = getAdjacentAlgorithms(categorySlug, slug);
+  const related = algorithm.relatedAlgorithms
+    .map((relSlug) => getAlgorithmsByCategory(categorySlug).find((a) => a.slug === relSlug))
+    .filter(Boolean);
+
+  return (
+    <div className="cards-bg">
+      <section className="algorithms-hero container">
+        <Breadcrumb
+          items={[
+            { label: t.breadcrumbHome, to: '/' },
+            { label: t.breadcrumbAlgorithms, to: '/algorithms' },
+            { label: categoryName, to: `/algorithms/${categorySlug}` },
+            { label: name },
+          ]}
+        />
+        <div className="algorithm-detail__head">
+          <h1 className="algorithms-hero__title">{name}</h1>
+          <span className="complexity-pips" aria-hidden="true">
+            {[1, 2, 3].map((n) => (
+              <span key={n} className={`complexity-pip ${n <= algorithm.popularity ? 'is-filled' : ''}`} />
+            ))}
+          </span>
+        </div>
+        <p className="algorithms-hero__subtitle">{algorithm.intent[lang] ?? algorithm.intent.ru}</p>
+        <div className="algorithm-detail__complexity">
+          <span className="algorithm-card__complexity-badge">{t.best}: {algorithm.complexity.time.best}</span>
+          <span className="algorithm-card__complexity-badge">{t.average}: {algorithm.complexity.time.average}</span>
+          <span className="algorithm-card__complexity-badge">{t.worst}: {algorithm.complexity.time.worst}</span>
+          <span className="algorithm-card__complexity-badge">{t.space}: {algorithm.complexity.space}</span>
+        </div>
+      </section>
+
+      <section className="container algorithm-detail__section">
+        <Tabs
+          items={[
+            {
+              key: 'problem',
+              label: t.sectionProblem,
+              content: <p><RichText text={algorithm.problem[lang] ?? algorithm.problem.ru} /></p>,
+            },
+            {
+              key: 'solution',
+              label: t.sectionSolution,
+              content: <p><RichText text={algorithm.solution[lang] ?? algorithm.solution.ru} /></p>,
+            },
+          ]}
+        />
+      </section>
+
+      <section className="container algorithm-detail__section">
+        <h2 className="algorithm-detail__heading">{t.sectionVisualization}</h2>
+        <AlgorithmVisualizer slug={algorithm.slug} t={t} />
+        <ol className="algorithm-steps">
+          {algorithm.steps.map((step, i) => (
+            <li key={i} className="algorithm-steps__item">
+              <h3>{step.title[lang] ?? step.title.ru}</h3>
+              <p><RichText text={step.explanation[lang] ?? step.explanation.ru} /></p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section className="container algorithm-detail__section">
+        <h2 className="algorithm-detail__heading">{t.sectionImplementation}</h2>
+        <CodeBlock code={algorithm.implementation} theme={theme} />
+      </section>
+
+      <section className="container algorithm-detail__section">
+        <h2 className="algorithm-detail__heading">{t.sectionProsCons}</h2>
+        <div className="pros-cons">
+          <div className="pros-cons__col pros-cons__col--pros">
+            <h3>{t.sectionPros}</h3>
+            <ul>
+              {algorithm.pros.map((pro, i) => (
+                <li key={i}><RichText text={pro[lang] ?? pro.ru} /></li>
+              ))}
+            </ul>
+          </div>
+          <div className="pros-cons__col pros-cons__col--cons">
+            <h3>{t.sectionCons}</h3>
+            <ul>
+              {algorithm.cons.map((con, i) => (
+                <li key={i}><RichText text={con[lang] ?? con.ru} /></li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section className="container algorithm-detail__section">
+        <h2 className="algorithm-detail__heading">{t.sectionWhenToUse}</h2>
+        <ul>
+          {algorithm.whenToUse.map((item, i) => (
+            <li key={i}><RichText text={item[lang] ?? item.ru} /></li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="container algorithm-detail__section">
+        <h2 className="algorithm-detail__heading">{t.sectionRealWorld}</h2>
+        <ul>
+          {algorithm.realWorldExamples.map((item, i) => (
+            <li key={i}><RichText text={item[lang] ?? item.ru} /></li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="container algorithm-detail__section">
+        <h2 className="algorithm-detail__heading">{t.sectionQuiz}</h2>
+        <Quiz quiz={algorithm.quiz} lang={lang} t={t} />
+      </section>
+
+      {related.length > 0 && (
+        <section className="container algorithm-detail__section">
+          <h2 className="algorithm-detail__heading">{t.sectionRelated}</h2>
+          <div className="academy-tree">
+            {related.map((rel) => (
+              <AlgorithmCard key={rel.slug} algorithm={rel} lang={lang} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      <section className="container algorithm-detail__section">
+        <PrevNextNav category={categorySlug} prev={prev} next={next} lang={lang} t={t} />
+      </section>
+    </div>
+  );
+}

@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { BrandMark } from './BrandMark.jsx';
 import { getStrings } from '../i18n/strings.js';
 
@@ -26,13 +27,13 @@ export function Header({ theme, onToggleTheme, lang, onToggleLang }) {
   return (
     <header className="header">
       <div className="container header__inner">
-        <a href="#/" className="header__logo" aria-label={t.home}>
+        <Link to="/" className="header__logo" aria-label={t.home}>
           <BrandMark />
           <span className="header__logo-text">
             <span className="header__logo-name">Askan</span>
             <span className="header__logo-suffix">Academy</span>
           </span>
-        </a>
+        </Link>
 
         <div className="header__actions">
           <button

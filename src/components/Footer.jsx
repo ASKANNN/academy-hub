@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { ACADEMIES } from '../data/academies.js';
 import { getStrings } from '../i18n/strings.js';
 
@@ -23,7 +24,11 @@ export function Footer({ lang = 'ru' }) {
           <ul className="footer__nav">
             {ACADEMIES.map((a) => (
               <li key={a.id}>
-                {a.status === 'live' ? (
+                {a.status === 'live' && a.internal ? (
+                  <Link to={a.path} className="footer__nav-link">
+                    {a.name}
+                  </Link>
+                ) : a.status === 'live' ? (
                   <a href={a.url} target="_blank" rel="noreferrer" className="footer__nav-link">
                     {a.name}
                   </a>

@@ -114,6 +114,7 @@ export function PageIntro({onComplete}) {
 
         const t0 = performance.now();
         let stopped = false;
+        let skipped = false;
 
         function draw(now) {
             if (stopped) return;
@@ -262,11 +263,28 @@ export function PageIntro({onComplete}) {
             cancelAnimationFrame(animId);
         }, T_TOTAL);
 
+        function skip(event) {
+            if (skipped) return;
+            skipped = true;
+            stopped = true;
+            event?.preventDefault();
+            cancelAnimationFrame(animId);
+            clearTimeout(revealTimer);
+            clearTimeout(stopTimer);
+            if (overlay) overlay.style.opacity = '0';
+            onComplete();
+        }
+
+        window.addEventListener('pointerdown', skip);
+        window.addEventListener('keydown', skip);
+
         return () => {
             stopped = true;
             cancelAnimationFrame(animId);
             clearTimeout(revealTimer);
             clearTimeout(stopTimer);
+            window.removeEventListener('pointerdown', skip);
+            window.removeEventListener('keydown', skip);
         };
     }, [onComplete]);
 

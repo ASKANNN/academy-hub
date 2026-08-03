@@ -40,10 +40,12 @@ export const ACADEMIES = [
             en: 'Complexity, sorting, search, recursion',
         },
         icon: 'algorithms',
-        status: 'planned',
+        status: 'live',
+        internal: true,
+        path: '/algorithms',
         topics: {
-            ru: ['Big O Notation', 'Сортировки', 'Поиск', 'Рекурсия', 'Динамическое программирование'],
-            en: ['Big O Notation', 'Sorting', 'Search', 'Recursion', 'Dynamic Programming'],
+            ru: ['Сортировки', 'Big O Notation', 'Поиск', 'Рекурсия', 'Динамическое программирование'],
+            en: ['Sorting', 'Big O Notation', 'Searching', 'Recursion', 'Dynamic Programming'],
         },
     },
     {
