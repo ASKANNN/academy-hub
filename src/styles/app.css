@@ -432,6 +432,8 @@
 }
 
 .academy-card__topics-wrap {
+  position: relative;
+  z-index: 2;
   display: grid;
   grid-template-rows: 0fr;
   opacity: 0;
@@ -448,7 +450,9 @@
   height: 180px;
 }
 .academy-card__topics-wrap > ul {
-  overflow: hidden;
+  height: 100%;
+  overflow-y: auto;
+  overscroll-behavior: contain;
 }
 
 .academy-card__topic {
