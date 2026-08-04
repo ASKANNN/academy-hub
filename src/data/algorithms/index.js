@@ -15,6 +15,9 @@ import { timSort } from './sorting/tim-sort.js';
 import { introSort } from './sorting/intro-sort.js';
 import { cycleSort } from './sorting/cycle-sort.js';
 import { smoothSort } from './sorting/smooth-sort.js';
+import { tournamentSort } from './sorting/tournament-sort.js';
+import { patienceSort } from './sorting/patience-sort.js';
+import { blockSort } from './sorting/block-sort.js';
 
 export { ALGORITHM_CATEGORIES, getCategory };
 
@@ -36,6 +39,9 @@ const ALGORITHMS_BY_CATEGORY = {
     introSort,
     cycleSort,
     smoothSort,
+    tournamentSort,
+    patienceSort,
+    blockSort,
   ],
 };
 

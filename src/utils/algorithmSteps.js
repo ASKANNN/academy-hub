@@ -591,6 +591,139 @@ function smoothSortSteps(input) {
   return frames;
 }
 
+function tournamentSortSteps(input) {
+  const orig = [...input];
+  const n = orig.length;
+  const frames = [frame(orig, [], [])];
+  const output = [...orig];
+  if (n <= 1) {
+    frames.push(frame(output, [], rangeFrom(0, n)));
+    return frames;
+  }
+
+  let size = 1;
+  while (size < n) size *= 2;
+  const INF = Infinity;
+  const leaves = new Array(size).fill(INF);
+  const leafOrig = new Array(size).fill(-1);
+  for (let i = 0; i < n; i++) {
+    leaves[i] = orig[i];
+    leafOrig[i] = i;
+  }
+
+  const winner = new Array(2 * size - 1).fill(-1);
+  for (let i = 0; i < size; i++) winner[size - 1 + i] = i;
+
+  function buildFrom(leafSlot) {
+    let node = size - 1 + leafSlot;
+    while (node > 0) {
+      const parent = Math.floor((node - 1) / 2);
+      const leftChild = parent * 2 + 1;
+      const rightChild = parent * 2 + 2;
+      const leftLeaf = winner[leftChild];
+      const rightLeaf = winner[rightChild];
+      const leftVal = leftLeaf === -1 ? INF : leaves[leftLeaf];
+      const rightVal = rightLeaf === -1 ? INF : leaves[rightLeaf];
+      const li = leftLeaf === -1 ? -1 : leafOrig[leftLeaf];
+      const ri = rightLeaf === -1 ? -1 : leafOrig[rightLeaf];
+      const active = [li, ri].filter((x) => x >= 0);
+      if (active.length) frames.push(frame(output, active, []));
+      winner[parent] = leftVal <= rightVal ? leftLeaf : rightLeaf;
+      node = parent;
+    }
+  }
+  for (let leafSlot = 0; leafSlot < size; leafSlot++) buildFrom(leafSlot);
+
+  for (let outPos = 0; outPos < n; outPos++) {
+    const championLeaf = winner[0];
+    output[outPos] = leaves[championLeaf];
+    frames.push(frame(output, [outPos], rangeFrom(0, outPos)));
+    leaves[championLeaf] = INF;
+    leafOrig[championLeaf] = -1;
+    buildFrom(championLeaf);
+  }
+
+  frames.push(frame(output, [], rangeFrom(0, n)));
+  return frames;
+}
+
+function patienceSortSteps(input) {
+  const a = [...input];
+  const n = a.length;
+  const frames = [frame(a, [], [])];
+  if (n === 0) return frames;
+
+  const piles = [];
+  for (let i = 0; i < n; i++) {
+    const value = a[i];
+    let lo = 0;
+    let hi = piles.length;
+    while (lo < hi) {
+      const mid = (lo + hi) >> 1;
+      const top = piles[mid][piles[mid].length - 1];
+      frames.push(frame(a, [i], []));
+      if (top >= value) hi = mid;
+      else lo = mid + 1;
+    }
+    if (lo === piles.length) piles.push([value]);
+    else piles[lo].push(value);
+    frames.push(frame(a, [i], []));
+  }
+
+  const output = [...a];
+  for (let outPos = 0; outPos < n; outPos++) {
+    let bestPile = -1;
+    for (let p = 0; p < piles.length; p++) {
+      if (piles[p].length === 0) continue;
+      const top = piles[p][piles[p].length - 1];
+      if (bestPile === -1 || top < piles[bestPile][piles[bestPile].length - 1]) bestPile = p;
+    }
+    output[outPos] = piles[bestPile].pop();
+    frames.push(frame(output, [outPos], rangeFrom(0, outPos)));
+  }
+
+  frames.push(frame(output, [], rangeFrom(0, n)));
+  return frames;
+}
+
+function blockSortSteps(input) {
+  const a = [...input];
+  const n = a.length;
+  const frames = [frame(a, [], [])];
+
+  function mergeInPlace(lo, mid, hi) {
+    let i = lo;
+    let j = mid;
+    while (i < j && j < hi) {
+      frames.push(frame(a, [i, j], []));
+      if (a[i] <= a[j]) {
+        i++;
+      } else {
+        const value = a[j];
+        for (let k = j; k > i; k--) {
+          a[k] = a[k - 1];
+          frames.push(frame(a, [k, k - 1], []));
+        }
+        a[i] = value;
+        frames.push(frame(a, [i], []));
+        i++;
+        j++;
+      }
+    }
+  }
+
+  for (let width = 1; width < n; width *= 2) {
+    for (let lo = 0; lo < n; lo += 2 * width) {
+      const mid = Math.min(lo + width, n);
+      const hi = Math.min(lo + 2 * width, n);
+      if (mid < hi) mergeInPlace(lo, mid, hi);
+    }
+  }
+
+  frames.push(frame(a, [], rangeFrom(0, n)));
+  return frames;
+}
+
 function rangeFrom(start, end) {
   const out = [];
   for (let i = start; i < end; i++) out.push(i);
@@ -614,6 +747,9 @@ const GENERATORS = {
   'intro-sort': introSortSteps,
   'cycle-sort': cycleSortSteps,
   'smooth-sort': smoothSortSteps,
+  'tournament-sort': tournamentSortSteps,
+  'patience-sort': patienceSortSteps,
+  'block-sort': blockSortSteps,
 };
 
 export function generateSteps(slug, array) {
