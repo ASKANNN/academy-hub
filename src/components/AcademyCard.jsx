@@ -28,6 +28,7 @@ function CardShell({ academy, lang, children, ...rest }) {
 
 export function AcademyCard({ academy, lang = 'ru' }) {
   const [expanded, setExpanded] = useState(false);
+  const onToggle = () => setExpanded((v) => !v);
   const t = getStrings(lang).academyCard;
 
   if (academy.status === 'live') {
@@ -69,7 +70,7 @@ export function AcademyCard({ academy, lang = 'ru' }) {
               <button
                 type="button"
                 className={`academy-card__expand-hint academy-card__expand-hint--button ${expanded ? 'is-expanded' : ''}`}
-                onClick={() => setExpanded((v) => !v)}
+                onClick={onToggle}
                 aria-expanded={expanded}
               >
                 {expanded ? t.collapse : t.expand}
@@ -91,7 +92,7 @@ export function AcademyCard({ academy, lang = 'ru' }) {
               <button
                 type="button"
                 className={`academy-card__expand-hint academy-card__expand-hint--button ${expanded ? 'is-expanded' : ''}`}
-                onClick={() => setExpanded((v) => !v)}
+                onClick={onToggle}
                 aria-expanded={expanded}
               >
                 {expanded ? t.collapse : t.expand}
@@ -109,7 +110,7 @@ export function AcademyCard({ academy, lang = 'ru' }) {
     <button
       type="button"
       className="academy-card-link academy-card-link--button"
-      onClick={() => setExpanded((v) => !v)}
+      onClick={onToggle}
       aria-expanded={expanded}
     >
       <CardShell academy={academy} lang={lang}>

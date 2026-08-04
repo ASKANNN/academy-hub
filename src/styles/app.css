@@ -295,7 +295,7 @@
 .academy-tree {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  align-items: stretch;
+  align-items: start;
   gap: var(--space-6);
   padding-top: var(--space-12);
   padding-bottom: var(--space-20);
