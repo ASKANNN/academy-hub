@@ -21,6 +21,9 @@ import { blockSort } from './sorting/block-sort.js';
 import { librarySort } from './sorting/library-sort.js';
 import { gnomeSort } from './sorting/gnome-sort.js';
 import { oddEvenSort } from './sorting/odd-even-sort.js';
+import { strandSort } from './sorting/strand-sort.js';
+import { pancakeSort } from './sorting/pancake-sort.js';
+import { postmanSort } from './sorting/postman-sort.js';
 
 export { ALGORITHM_CATEGORIES, getCategory };
 
@@ -48,6 +51,9 @@ const ALGORITHMS_BY_CATEGORY = {
     librarySort,
     gnomeSort,
     oddEvenSort,
+    strandSort,
+    pancakeSort,
+    postmanSort,
   ],
 };
 

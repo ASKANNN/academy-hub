@@ -866,6 +866,114 @@ function oddEvenSortSteps(input) {
   return frames;
 }
 
+function strandSortSteps(input) {
+  const n = input.length;
+  const frames = [frame(input, [], [])];
+  if (n === 0) return frames;
+
+  let remaining = [...input];
+  let result = [];
+
+  while (remaining.length) {
+    const strand = [remaining[0]];
+    const rest = [];
+    frames.push(frame([...result, ...remaining], [result.length], rangeFrom(0, result.length)));
+    for (let i = 1; i < remaining.length; i++) {
+      frames.push(frame([...result, ...remaining], [result.length + i, result.length + strand.length - 1], rangeFrom(0, result.length)));
+      if (remaining[i] >= strand[strand.length - 1]) {
+        strand.push(remaining[i]);
+      } else {
+        rest.push(remaining[i]);
+      }
+    }
+    remaining = rest;
+
+    const merged = [];
+    let i = 0, j = 0;
+    while (i < result.length && j < strand.length) {
+      if (result[i] <= strand[j]) merged.push(result[i++]);
+      else merged.push(strand[j++]);
+      frames.push(frame([...merged, ...result.slice(i), ...strand.slice(j), ...remaining], [merged.length - 1], rangeFrom(0, merged.length)));
+    }
+    while (i < result.length) merged.push(result[i++]);
+    while (j < strand.length) merged.push(strand[j++]);
+    result = merged;
+    frames.push(frame([...result, ...remaining], [], rangeFrom(0, result.length)));
+  }
+
+  frames.push(frame(result, [], rangeFrom(0, n)));
+  return frames;
+}
+
+function pancakeSortSteps(input) {
+  const a = [...input];
+  const n = a.length;
+  const frames = [frame(a, [], [])];
+
+  function flip(k, sortedFrom) {
+    let lo = 0, hi = k;
+    while (lo < hi) {
+      [a[lo], a[hi]] = [a[hi], a[lo]];
+      frames.push(frame(a, [lo, hi], rangeFrom(sortedFrom, n)));
+      lo++;
+      hi--;
+    }
+  }
+
+  for (let size = n; size > 1; size--) {
+    let maxIdx = 0;
+    for (let i = 1; i < size; i++) {
+      frames.push(frame(a, [i, maxIdx], rangeFrom(size, n)));
+      if (a[i] > a[maxIdx]) maxIdx = i;
+    }
+    if (maxIdx !== size - 1) {
+      if (maxIdx !== 0) flip(maxIdx, size);
+      flip(size - 1, size);
+    }
+  }
+  frames.push(frame(a, [], rangeFrom(0, n)));
+  return frames;
+}
+
+function postmanSortSteps(input) {
+  const n = input.length;
+  const frames = [frame(input, [], [])];
+  if (n === 0) return frames;
+
+  const a = [...input];
+  const max = Math.max(...a);
+  const maxDigits = max > 0 ? String(Math.abs(max)).length : 1;
+
+  function msdSort(lo, hi, digitIndex) {
+    if (hi - lo <= 1 || digitIndex < 0) return;
+    const exp = 10 ** digitIndex;
+    const buckets = Array.from({ length: 10 }, () => []);
+    for (let i = lo; i < hi; i++) {
+      const digit = Math.floor(a[i] / exp) % 10;
+      buckets[digit].push(a[i]);
+      frames.push(frame(a, [i], []));
+    }
+    let idx = lo;
+    const boundaries = [];
+    for (const bucket of buckets) {
+      boundaries.push(idx);
+      for (const value of bucket) {
+        a[idx] = value;
+        idx++;
+      }
+      frames.push(frame(a, rangeFrom(lo, hi), []));
+    }
+    boundaries.push(hi);
+    for (let b = 0; b < 10; b++) {
+      msdSort(boundaries[b], boundaries[b + 1], digitIndex - 1);
+    }
+  }
+
+  msdSort(0, n, maxDigits - 1);
+  frames.push(frame(a, [], rangeFrom(0, n)));
+  return frames;
+}
+
 function rangeFrom(start, end) {
   const out = [];
   for (let i = start; i < end; i++) out.push(i);
@@ -895,6 +1003,9 @@ const GENERATORS = {
   'library-sort': librarySortSteps,
   'gnome-sort': gnomeSortSteps,
   'odd-even-sort': oddEvenSortSteps,
+  'strand-sort': strandSortSteps,
+  'pancake-sort': pancakeSortSteps,
+  'postman-sort': postmanSortSteps,
 };
 
 export function generateSteps(slug, array) {
