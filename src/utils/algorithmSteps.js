@@ -385,6 +385,212 @@ function timSortSteps(input) {
   return frames;
 }
 
+function introSortSteps(input) {
+  const a = [...input];
+  const n = a.length;
+  const frames = [frame(a, [], [])];
+  const maxDepth = 2 * Math.floor(Math.log2(n || 1));
+
+  function insertionSortRange(low, high) {
+    for (let i = low + 1; i <= high; i++) {
+      const current = a[i];
+      let j = i - 1;
+      frames.push(frame(a, [i], []));
+      while (j >= low && a[j] > current) {
+        a[j + 1] = a[j];
+        j--;
+        frames.push(frame(a, [j + 1], []));
+      }
+      a[j + 1] = current;
+    }
+  }
+
+  function siftDown(low, size, i) {
+    let largest = i;
+    const left = 2 * i + 1;
+    const right = 2 * i + 2;
+    if (left < size) {
+      frames.push(frame(a, [low + largest, low + left], []));
+      if (a[low + left] > a[low + largest]) largest = left;
+    }
+    if (right < size) {
+      frames.push(frame(a, [low + largest, low + right], []));
+      if (a[low + right] > a[low + largest]) largest = right;
+    }
+    if (largest !== i) {
+      [a[low + i], a[low + largest]] = [a[low + largest], a[low + i]];
+      frames.push(frame(a, [low + i, low + largest], []));
+      siftDown(low, size, largest);
+    }
+  }
+
+  function heapSortRange(low, high) {
+    const size = high - low + 1;
+    for (let i = Math.floor(size / 2) - 1; i >= 0; i--) siftDown(low, size, i);
+    for (let end = size - 1; end > 0; end--) {
+      [a[low], a[low + end]] = [a[low + end], a[low]];
+      frames.push(frame(a, [low, low + end], []));
+      siftDown(low, end, 0);
+    }
+  }
+
+  function partition(low, high) {
+    const pivot = a[high];
+    let i = low - 1;
+    for (let j = low; j < high; j++) {
+      frames.push(frame(a, [j, high], []));
+      if (a[j] < pivot) {
+        i++;
+        [a[i], a[j]] = [a[j], a[i]];
+        frames.push(frame(a, [i, j], []));
+      }
+    }
+    [a[i + 1], a[high]] = [a[high], a[i + 1]];
+    frames.push(frame(a, [i + 1, high], []));
+    return i + 1;
+  }
+
+  function introsortRec(low, high, depthLimit) {
+    const size = high - low + 1;
+    if (size < 16) { insertionSortRange(low, high); return; }
+    if (depthLimit === 0) { heapSortRange(low, high); return; }
+    const p = partition(low, high);
+    introsortRec(low, p - 1, depthLimit - 1);
+    introsortRec(p + 1, high, depthLimit - 1);
+  }
+
+  introsortRec(0, n - 1, maxDepth);
+  frames.push(frame(a, [], rangeFrom(0, n)));
+  return frames;
+}
+
+function cycleSortSteps(input) {
+  const a = [...input];
+  const n = a.length;
+  const frames = [frame(a, [], [])];
+
+  for (let cycleStart = 0; cycleStart < n - 1; cycleStart++) {
+    let item = a[cycleStart];
+    let pos = cycleStart;
+
+    for (let i = cycleStart + 1; i < n; i++) {
+      frames.push(frame(a, [cycleStart, i], []));
+      if (a[i] < item) pos++;
+    }
+    if (pos === cycleStart) continue;
+
+    while (item === a[pos]) pos++;
+    [a[pos], item] = [item, a[pos]];
+    frames.push(frame(a, [pos], []));
+
+    while (pos !== cycleStart) {
+      pos = cycleStart;
+      for (let i = cycleStart + 1; i < n; i++) {
+        frames.push(frame(a, [cycleStart, i], []));
+        if (a[i] < item) pos++;
+      }
+      while (item === a[pos]) pos++;
+      [a[pos], item] = [item, a[pos]];
+      frames.push(frame(a, [pos], []));
+    }
+  }
+  frames.push(frame(a, [], rangeFrom(0, n)));
+  return frames;
+}
+
+function smoothSortSteps(input) {
+  const a = [...input];
+  const n = a.length;
+  const frames = [frame(a, [], [])];
+  const LEO = [1, 1];
+  function leonardo(k) {
+    while (LEO.length <= k) LEO.push(LEO[LEO.length - 1] + LEO[LEO.length - 2] + 1);
+    return LEO[k];
+  }
+
+  function siftDown(root, order) {
+    while (order > 1) {
+      const right = root - 1;
+      const left = root - 1 - leonardo(order - 2);
+      let bigger = root;
+      frames.push(frame(a, [root, left, right], []));
+      if (a[left] > a[bigger]) bigger = left;
+      if (a[right] > a[bigger]) bigger = right;
+      if (bigger === root) break;
+      [a[root], a[bigger]] = [a[bigger], a[root]];
+      frames.push(frame(a, [root, bigger], []));
+      if (bigger === right) { root = right; order -= 2; }
+      else { root = left; order -= 1; }
+    }
+  }
+
+  const orders = [];
+  function trinkle(root, idx) {
+    let r = root;
+    let i = idx;
+    while (true) {
+      const order = orders[i];
+      let winner = r;
+      let left = -1;
+      let right = -1;
+      if (order > 1) {
+        right = r - 1;
+        left = r - 1 - leonardo(order - 2);
+        frames.push(frame(a, [r, left, right], []));
+        if (a[left] > a[winner]) winner = left;
+        if (a[right] > a[winner]) winner = right;
+      }
+      const hasStepson = i > 0;
+      const stepson = hasStepson ? r - leonardo(order) : -1;
+      if (hasStepson) {
+        frames.push(frame(a, [r, stepson], []));
+        if (a[stepson] > a[winner]) winner = stepson;
+      }
+      if (winner === r) return;
+      if (winner === stepson) {
+        [a[r], a[stepson]] = [a[stepson], a[r]];
+        frames.push(frame(a, [r, stepson], []));
+        r = stepson;
+        i--;
+        continue;
+      }
+      [a[r], a[winner]] = [a[winner], a[r]];
+      frames.push(frame(a, [r, winner], []));
+      if (winner === right) siftDown(right, order - 2);
+      else siftDown(left, order - 1);
+      return;
+    }
+  }
+
+  for (let i = 0; i < n; i++) {
+    if (orders.length >= 2 && orders[orders.length - 2] === orders[orders.length - 1] + 1) {
+      orders[orders.length - 2] += 1;
+      orders.pop();
+    } else if (orders.length >= 1 && orders[orders.length - 1] === 1) {
+      orders.push(0);
+    } else {
+      orders.push(1);
+    }
+    trinkle(i, orders.length - 1);
+  }
+
+  for (let i = n - 1; i > 0; i--) {
+    if (orders[orders.length - 1] <= 1) {
+      orders.pop();
+    } else {
+      const order = orders.pop();
+      const right = i - 1;
+      const left = i - 1 - leonardo(order - 2);
+      orders.push(order - 1, order - 2);
+      trinkle(left, orders.length - 2);
+      trinkle(right, orders.length - 1);
+    }
+  }
+
+  frames.push(frame(a, [], rangeFrom(0, n)));
+  return frames;
+}
+
 function rangeFrom(start, end) {
   const out = [];
   for (let i = start; i < end; i++) out.push(i);
@@ -405,6 +611,9 @@ const GENERATORS = {
   'radix-sort': radixSortSteps,
   'bucket-sort': bucketSortSteps,
   'tim-sort': timSortSteps,
+  'intro-sort': introSortSteps,
+  'cycle-sort': cycleSortSteps,
+  'smooth-sort': smoothSortSteps,
 };
 
 export function generateSteps(slug, array) {

@@ -12,6 +12,9 @@ import { countingSort } from './sorting/counting-sort.js';
 import { radixSort } from './sorting/radix-sort.js';
 import { bucketSort } from './sorting/bucket-sort.js';
 import { timSort } from './sorting/tim-sort.js';
+import { introSort } from './sorting/intro-sort.js';
+import { cycleSort } from './sorting/cycle-sort.js';
+import { smoothSort } from './sorting/smooth-sort.js';
 
 export { ALGORITHM_CATEGORIES, getCategory };
 
@@ -30,6 +33,9 @@ const ALGORITHMS_BY_CATEGORY = {
     radixSort,
     bucketSort,
     timSort,
+    introSort,
+    cycleSort,
+    smoothSort,
   ],
 };
 
