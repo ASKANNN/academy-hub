@@ -4,6 +4,7 @@ import { Breadcrumb } from '../components/algorithms/Breadcrumb.jsx';
 import { AlgorithmCard } from '../components/algorithms/AlgorithmCard.jsx';
 import { getCategory, getAlgorithmsByCategory } from '../data/algorithms/index.js';
 import { getStrings } from '../i18n/strings.js';
+import { usePageMeta } from '../hooks/usePageMeta.js';
 
 export default function AlgorithmsCategoryPage() {
   const { category: categorySlug } = useParams();
@@ -11,13 +12,20 @@ export default function AlgorithmsCategoryPage() {
   const t = getStrings(lang).algorithms;
   const category = getCategory(categorySlug);
 
+  const name = category ? (category.name[lang] ?? category.name.ru) : '';
+  const tagline = category ? (category.tagline[lang] ?? category.tagline.ru) : '';
+
+  usePageMeta({
+    title: `${name} — Algorithms Academy | Askan Academy`,
+    description: tagline,
+    path: `/algorithms/${categorySlug}`,
+  });
+
   if (!category || category.status !== 'live') {
     return <Navigate to="/algorithms" replace />;
   }
 
   const algorithms = getAlgorithmsByCategory(categorySlug);
-  const name = category.name[lang] ?? category.name.ru;
-  const tagline = category.tagline[lang] ?? category.tagline.ru;
 
   return (
     <div className="cards-bg">

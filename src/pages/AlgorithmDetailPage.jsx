@@ -10,6 +10,7 @@ import { Quiz } from '../components/ui/Quiz.jsx';
 import { RichText } from '../components/ui/RichText.jsx';
 import { getCategory, getAlgorithm, getAdjacentAlgorithms, getAlgorithmsByCategory } from '../data/algorithms/index.js';
 import { getStrings } from '../i18n/strings.js';
+import { usePageMeta } from '../hooks/usePageMeta.js';
 
 export default function AlgorithmDetailPage() {
   const { category: categorySlug, slug } = useParams();
@@ -18,11 +19,19 @@ export default function AlgorithmDetailPage() {
   const category = getCategory(categorySlug);
   const algorithm = getAlgorithm(categorySlug, slug);
 
+  const name = algorithm ? (algorithm.name[lang] ?? algorithm.name.ru) : '';
+  const intent = algorithm ? (algorithm.intent[lang] ?? algorithm.intent.ru) : '';
+
+  usePageMeta({
+    title: `${name} — Algorithms Academy | Askan Academy`,
+    description: intent.slice(0, 155),
+    path: `/algorithms/${categorySlug}/${slug}`,
+  });
+
   if (!category || category.status !== 'live' || !algorithm) {
     return <Navigate to="/algorithms" replace />;
   }
 
-  const name = algorithm.name[lang] ?? algorithm.name.ru;
   const categoryName = category.name[lang] ?? category.name.ru;
   const { prev, next } = getAdjacentAlgorithms(categorySlug, slug);
   const related = algorithm.relatedAlgorithms

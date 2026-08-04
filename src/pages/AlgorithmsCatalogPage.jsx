@@ -2,10 +2,17 @@ import { usePageContext } from '../components/Layout.jsx';
 import { CategoryCard } from '../components/algorithms/CategoryCard.jsx';
 import { ALGORITHM_CATEGORIES, getAlgorithmsByCategory } from '../data/algorithms/index.js';
 import { getStrings } from '../i18n/strings.js';
+import { usePageMeta } from '../hooks/usePageMeta.js';
 
 export default function AlgorithmsCatalogPage() {
   const { lang } = usePageContext();
   const t = getStrings(lang).algorithms;
+
+  usePageMeta({
+    title: 'Algorithms Academy | Askan Academy',
+    description: t.catalogSubtitle,
+    path: '/algorithms',
+  });
 
   return (
     <div className="cards-bg">

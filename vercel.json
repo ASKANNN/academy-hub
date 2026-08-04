@@ -1,4 +1,12 @@
 {
+  "redirects": [
+    {
+      "source": "/:path*",
+      "destination": "https://askanacademy.com/:path*",
+      "permanent": true,
+      "has": [{ "type": "host", "value": "askan-academy.vercel.app" }]
+    }
+  ],
   "rewrites": [
     { "source": "/((?!.*\\.).*)", "destination": "/index.html" }
   ]

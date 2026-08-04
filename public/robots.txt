@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://askan-academy.vercel.app/sitemap.xml
+Sitemap: https://askanacademy.com/sitemap.xml
