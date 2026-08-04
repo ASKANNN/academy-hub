@@ -51,6 +51,13 @@ for (const manifestPath of manifests) {
   html = setContentAttr(html, 'property="og:url"', page.canonical);
   html = html.replace(/(<link rel="canonical" href=")[^"]*(")/, `$1${page.canonical}$2`);
 
+  if (page.jsonLd) {
+    html = html.replace(
+      '</head>',
+      `<script type="application/ld+json" data-page-jsonld>${page.jsonLd}</script></head>`
+    );
+  }
+
   const outDir = relDir ? resolve(root, 'dist', relDir) : resolve(root, 'dist');
   await mkdir(outDir, { recursive: true });
   await writeFile(join(outDir, 'index.html'), html);

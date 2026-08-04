@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 
 const BASE = 'https://askanacademy.com';
 
-export function usePageMeta({ title, description, path }) {
+export function usePageMeta({ title, description, path, jsonLd }) {
   useEffect(() => {
     document.title = title;
 
@@ -31,5 +31,18 @@ export function usePageMeta({ title, description, path }) {
       document.head.appendChild(link);
     }
     link.setAttribute('href', canonical);
-  }, [title, description, path]);
+
+    let script = document.querySelector('script[data-page-jsonld]');
+    if (jsonLd) {
+      if (!script) {
+        script = document.createElement('script');
+        script.type = 'application/ld+json';
+        script.setAttribute('data-page-jsonld', '');
+        document.head.appendChild(script);
+      }
+      script.textContent = JSON.stringify(jsonLd);
+    } else if (script) {
+      script.remove();
+    }
+  }, [title, description, path, jsonLd]);
 }

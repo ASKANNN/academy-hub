@@ -1,5 +1,6 @@
 import { Navigate, useParams } from 'react-router-dom';
 import { usePageContext } from '../components/Layout.jsx';
+import { ErrorBoundary } from '../components/ErrorBoundary.jsx';
 import { Breadcrumb } from '../components/algorithms/Breadcrumb.jsx';
 import { PrevNextNav } from '../components/algorithms/PrevNextNav.jsx';
 import { AlgorithmCard } from '../components/algorithms/AlgorithmCard.jsx';
@@ -21,11 +22,29 @@ export default function AlgorithmDetailPage() {
 
   const name = algorithm ? (algorithm.name[lang] ?? algorithm.name.ru) : '';
   const intent = algorithm ? (algorithm.intent[lang] ?? algorithm.intent.ru) : '';
+  const categoryNameForMeta = category ? (category.name[lang] ?? category.name.ru) : '';
 
   usePageMeta({
     title: `${name} — Algorithms Academy | Askan Academy`,
     description: intent.slice(0, 155),
     path: `/algorithms/${categorySlug}/${slug}`,
+    jsonLd: algorithm
+      ? {
+          '@context': 'https://schema.org',
+          '@type': 'LearningResource',
+          name,
+          description: intent,
+          educationalLevel: 'beginner',
+          teaches: categoryNameForMeta,
+          url: `https://askanacademy.com/algorithms/${categorySlug}/${slug}`,
+          inLanguage: lang,
+          isPartOf: {
+            '@type': 'Course',
+            name: 'Algorithms Academy',
+            url: 'https://askanacademy.com/algorithms',
+          },
+        }
+      : undefined,
   });
 
   if (!category || category.status !== 'live' || !algorithm) {
@@ -39,6 +58,7 @@ export default function AlgorithmDetailPage() {
     .filter(Boolean);
 
   return (
+    <ErrorBoundary>
     <div className="cards-bg">
       <section className="algorithms-hero container">
         <Breadcrumb
@@ -161,5 +181,6 @@ export default function AlgorithmDetailPage() {
         <PrevNextNav category={categorySlug} prev={prev} next={next} lang={lang} t={t} />
       </section>
     </div>
+    </ErrorBoundary>
   );
 }

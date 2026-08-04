@@ -36,6 +36,7 @@ for (const route of routes) {
     title: document.title,
     description: document.querySelector('meta[name="description"]')?.content ?? '',
     canonical: document.querySelector('link[rel="canonical"]')?.href ?? '',
+    jsonLd: document.querySelector('script[data-page-jsonld]')?.textContent ?? null,
   }));
 
   const outDir = resolve(root, 'prerendered', route === '/' ? '.' : route.slice(1));
