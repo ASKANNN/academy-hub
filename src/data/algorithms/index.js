@@ -24,6 +24,9 @@ import { oddEvenSort } from './sorting/odd-even-sort.js';
 import { strandSort } from './sorting/strand-sort.js';
 import { pancakeSort } from './sorting/pancake-sort.js';
 import { postmanSort } from './sorting/postman-sort.js';
+import { bitonicSort } from './sorting/bitonic-sort.js';
+import { sortingNetwork } from './sorting/sorting-network.js';
+import { spreadSort } from './sorting/spread-sort.js';
 
 export { ALGORITHM_CATEGORIES, getCategory };
 
@@ -54,6 +57,9 @@ const ALGORITHMS_BY_CATEGORY = {
     strandSort,
     pancakeSort,
     postmanSort,
+    bitonicSort,
+    sortingNetwork,
+    spreadSort,
   ],
 };
 

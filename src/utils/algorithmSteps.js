@@ -974,6 +974,157 @@ function postmanSortSteps(input) {
   return frames;
 }
 
+function bitonicSortSteps(input) {
+  const n = input.length;
+  const frames = [frame(input, [], [])];
+  if (n === 0) return frames;
+  if (n === 1) {
+    frames.push(frame(input, [], [0]));
+    return frames;
+  }
+
+  let size = 1;
+  while (size < n) size *= 2;
+  const sentinel = Math.max(...input) + 1;
+  const a = [...input, ...new Array(size - n).fill(sentinel)];
+
+  function compareAndSwap(i, j, dir) {
+    frames.push(frame(a, [i, j], []));
+    if ((dir === 1 && a[i] > a[j]) || (dir === 0 && a[i] < a[j])) {
+      [a[i], a[j]] = [a[j], a[i]];
+      frames.push(frame(a, [i, j], []));
+    }
+  }
+  function bitonicMerge(lo, cnt, dir) {
+    if (cnt > 1) {
+      const k = Math.floor(cnt / 2);
+      for (let i = lo; i < lo + k; i++) compareAndSwap(i, i + k, dir);
+      bitonicMerge(lo, k, dir);
+      bitonicMerge(lo + k, cnt - k, dir);
+    }
+  }
+  function bitonicSortRec(lo, cnt, dir) {
+    if (cnt > 1) {
+      const k = Math.floor(cnt / 2);
+      bitonicSortRec(lo, k, 1);
+      bitonicSortRec(lo + k, cnt - k, 0);
+      bitonicMerge(lo, cnt, dir);
+    }
+  }
+
+  bitonicSortRec(0, size, 1);
+  const result = a.slice(0, n);
+  frames.push(frame(result, [], rangeFrom(0, n)));
+  return frames;
+}
+
+function sortingNetworkSteps(input) {
+  const n = input.length;
+  const frames = [frame(input, [], [])];
+  if (n === 0) return frames;
+  if (n === 1) {
+    frames.push(frame(input, [], [0]));
+    return frames;
+  }
+
+  let size = 1;
+  while (size < n) size *= 2;
+  const sentinel = Math.max(...input) + 1;
+  const a = [...input, ...new Array(size - n).fill(sentinel)];
+
+  function compareExchange(i, j) {
+    frames.push(frame(a, [i, j], []));
+    if (a[i] > a[j]) {
+      [a[i], a[j]] = [a[j], a[i]];
+      frames.push(frame(a, [i, j], []));
+    }
+  }
+  function oddEvenMerge(lo, len, r) {
+    const m = r * 2;
+    if (m < len) {
+      oddEvenMerge(lo, len, m);
+      oddEvenMerge(lo + r, len, m);
+      for (let i = lo + r; i + r < lo + len; i += m) {
+        compareExchange(i, i + r);
+      }
+    } else {
+      compareExchange(lo, lo + r);
+    }
+  }
+  function oddEvenMergeSort(lo, len) {
+    if (len > 1) {
+      const m = Math.floor(len / 2);
+      oddEvenMergeSort(lo, m);
+      oddEvenMergeSort(lo + m, len - m);
+      oddEvenMerge(lo, len, 1);
+    }
+  }
+
+  oddEvenMergeSort(0, size);
+  const result = a.slice(0, n);
+  frames.push(frame(result, [], rangeFrom(0, n)));
+  return frames;
+}
+
+function spreadSortSteps(input) {
+  const n = input.length;
+  const a = [...input];
+  const frames = [frame(a, [], [])];
+  if (n === 0) return frames;
+
+  function insertionSort(lo, hi) {
+    for (let i = lo + 1; i < hi; i++) {
+      const cur = a[i];
+      let j = i - 1;
+      frames.push(frame(a, [i], []));
+      while (j >= lo && a[j] > cur) {
+        a[j + 1] = a[j];
+        j--;
+        frames.push(frame(a, [j + 1], []));
+      }
+      a[j + 1] = cur;
+    }
+  }
+
+  function sortRange(lo, hi) {
+    const size = hi - lo;
+    if (size <= 16) {
+      insertionSort(lo, hi);
+      return;
+    }
+    let min = a[lo];
+    let max = a[lo];
+    for (let i = lo + 1; i < hi; i++) {
+      if (a[i] < min) min = a[i];
+      if (a[i] > max) max = a[i];
+    }
+    if (min === max) return;
+    const bucketCount = Math.max(2, Math.floor(Math.sqrt(size)));
+    const span = (max - min + 1) / bucketCount;
+    const buckets = Array.from({ length: bucketCount }, () => []);
+    for (let i = lo; i < hi; i++) {
+      let idx = Math.floor((a[i] - min) / span);
+      if (idx >= bucketCount) idx = bucketCount - 1;
+      buckets[idx].push(a[i]);
+      frames.push(frame(a, [i], []));
+    }
+    let idx = lo;
+    for (const bucket of buckets) {
+      const start = idx;
+      for (const value of bucket) {
+        a[idx] = value;
+        frames.push(frame(a, [idx], []));
+        idx++;
+      }
+      sortRange(start, idx);
+    }
+  }
+
+  sortRange(0, n);
+  frames.push(frame(a, [], rangeFrom(0, n)));
+  return frames;
+}
+
 function rangeFrom(start, end) {
   const out = [];
   for (let i = start; i < end; i++) out.push(i);
@@ -1006,6 +1157,9 @@ const GENERATORS = {
   'strand-sort': strandSortSteps,
   'pancake-sort': pancakeSortSteps,
   'postman-sort': postmanSortSteps,
+  'bitonic-sort': bitonicSortSteps,
+  'sorting-network': sortingNetworkSteps,
+  'spread-sort': spreadSortSteps,
 };
 
 export function generateSteps(slug, array) {

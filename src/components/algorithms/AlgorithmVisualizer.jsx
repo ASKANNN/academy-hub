@@ -40,7 +40,7 @@ export function AlgorithmVisualizer({ slug, t }) {
   }, [playing, frames.length]);
 
   const current = frames[step];
-  const max = Math.max(...array);
+  const max = Math.max(...current.array);
 
   return (
     <div className="visualizer">
