@@ -257,6 +257,87 @@ function combSortSteps(input) {
   return frames;
 }
 
+function countingSortSteps(input) {
+  const a = [...input];
+  const n = a.length;
+  const frames = [frame(a, [], [])];
+  if (n === 0) return frames;
+
+  const min = Math.min(...a);
+  const max = Math.max(...a);
+  const count = new Array(max - min + 1).fill(0);
+
+  for (let i = 0; i < n; i++) {
+    count[a[i] - min]++;
+    frames.push(frame(a, [i], []));
+  }
+  for (let i = 1; i < count.length; i++) count[i] += count[i - 1];
+
+  const output = [...a];
+  for (let i = n - 1; i >= 0; i--) {
+    const value = a[i];
+    count[value - min]--;
+    const pos = count[value - min];
+    output[pos] = value;
+    frames.push(frame(output, [pos], []));
+  }
+  frames.push(frame(output, [], rangeFrom(0, n)));
+  return frames;
+}
+
+function radixSortSteps(input) {
+  const n = input.length;
+  const frames = [frame(input, [], [])];
+  if (n === 0) return frames;
+
+  let working = [...input];
+  const max = Math.max(...working);
+
+  for (let exp = 1; Math.floor(max / exp) > 0; exp *= 10) {
+    const buckets = Array.from({ length: 10 }, () => []);
+    for (let i = 0; i < n; i++) {
+      const digit = Math.floor(working[i] / exp) % 10;
+      buckets[digit].push(working[i]);
+      frames.push(frame(working, [i], []));
+    }
+    working = buckets.flat();
+    frames.push(frame(working, [], []));
+  }
+  frames.push(frame(working, [], rangeFrom(0, n)));
+  return frames;
+}
+
+function bucketSortSteps(input) {
+  const a = [...input];
+  const n = a.length;
+  const frames = [frame(a, [], [])];
+  if (n === 0) return frames;
+
+  const min = Math.min(...a);
+  const max = Math.max(...a);
+  const bucketCount = Math.max(1, Math.ceil(Math.sqrt(n)));
+  const span = (max - min + 1) / bucketCount || 1;
+  const buckets = Array.from({ length: bucketCount }, () => []);
+
+  for (let i = 0; i < n; i++) {
+    let idx = Math.floor((a[i] - min) / span);
+    if (idx >= bucketCount) idx = bucketCount - 1;
+    buckets[idx].push(a[i]);
+    frames.push(frame(a, [i], []));
+  }
+
+  const working = [];
+  for (const bucket of buckets) {
+    bucket.sort((x, y) => x - y);
+    for (const value of bucket) {
+      working.push(value);
+      frames.push(frame([...working, ...a.slice(working.length)], [working.length - 1], rangeFrom(0, working.length)));
+    }
+  }
+  frames.push(frame(working, [], rangeFrom(0, n)));
+  return frames;
+}
+
 function rangeFrom(start, end) {
   const out = [];
   for (let i = start; i < end; i++) out.push(i);
@@ -273,6 +354,9 @@ const GENERATORS = {
   'shell-sort': shellSortSteps,
   'cocktail-shaker-sort': cocktailShakerSortSteps,
   'comb-sort': combSortSteps,
+  'counting-sort': countingSortSteps,
+  'radix-sort': radixSortSteps,
+  'bucket-sort': bucketSortSteps,
 };
 
 export function generateSteps(slug, array) {

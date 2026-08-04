@@ -8,6 +8,9 @@ import { heapSort } from './sorting/heap-sort.js';
 import { shellSort } from './sorting/shell-sort.js';
 import { cocktailShakerSort } from './sorting/cocktail-shaker-sort.js';
 import { combSort } from './sorting/comb-sort.js';
+import { countingSort } from './sorting/counting-sort.js';
+import { radixSort } from './sorting/radix-sort.js';
+import { bucketSort } from './sorting/bucket-sort.js';
 
 export { ALGORITHM_CATEGORIES, getCategory };
 
@@ -22,6 +25,9 @@ const ALGORITHMS_BY_CATEGORY = {
     shellSort,
     cocktailShakerSort,
     combSort,
+    countingSort,
+    radixSort,
+    bucketSort,
   ],
 };
 
