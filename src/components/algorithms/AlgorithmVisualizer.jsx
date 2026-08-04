@@ -2,7 +2,13 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { generateSteps } from '../../utils/algorithmSteps.js';
 
 const SAMPLE_ARRAY = [8, 3, 9, 1, 6, 4, 7, 2, 5];
+const SMALL_SAMPLE_ARRAY = [4, 2, 5, 1, 3];
+const SMALL_SAMPLE_SLUGS = new Set(['bogosort']);
 const PLAY_INTERVAL = 500;
+
+function sampleFor(slug) {
+  return SMALL_SAMPLE_SLUGS.has(slug) ? SMALL_SAMPLE_ARRAY : SAMPLE_ARRAY;
+}
 
 function shuffleArray(base) {
   const arr = [...base];
@@ -14,11 +20,15 @@ function shuffleArray(base) {
 }
 
 export function AlgorithmVisualizer({ slug, t }) {
-  const [array, setArray] = useState(SAMPLE_ARRAY);
+  const [array, setArray] = useState(() => sampleFor(slug));
   const frames = useMemo(() => generateSteps(slug, array), [slug, array]);
   const [step, setStep] = useState(0);
   const [playing, setPlaying] = useState(false);
   const intervalRef = useRef(null);
+
+  useEffect(() => {
+    setArray(sampleFor(slug));
+  }, [slug]);
 
   useEffect(() => {
     setStep(0);
@@ -63,7 +73,7 @@ export function AlgorithmVisualizer({ slug, t }) {
         <button
           type="button"
           className="btn btn--secondary"
-          onClick={() => setArray(shuffleArray(SAMPLE_ARRAY))}
+          onClick={() => setArray(shuffleArray(sampleFor(slug)))}
         >
           {t.visualizerShuffle}
         </button>

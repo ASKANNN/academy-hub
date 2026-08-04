@@ -1125,6 +1125,127 @@ function spreadSortSteps(input) {
   return frames;
 }
 
+function flashSortSteps(input) {
+  const n = input.length;
+  const frames = [frame(input, [], [])];
+  if (n <= 1) {
+    frames.push(frame(input, [], rangeFrom(0, n)));
+    return frames;
+  }
+  const a = [...input];
+  const m = Math.max(2, Math.floor(0.45 * n));
+  const min = Math.min(...a);
+  const max = Math.max(...a);
+  if (min === max) {
+    frames.push(frame(a, [], rangeFrom(0, n)));
+    return frames;
+  }
+  const c1 = (m - 1) / (max - min);
+
+  const L = new Array(m).fill(0);
+  for (let i = 0; i < n; i++) {
+    const k = Math.floor(c1 * (a[i] - min));
+    L[k]++;
+  }
+  for (let i = 1; i < m; i++) L[i] += L[i - 1];
+
+  let move = 0;
+  let j = 0;
+  let k = m - 1;
+  while (move < n - 1) {
+    while (j > L[k] - 1) {
+      j++;
+      k = Math.floor(c1 * (a[j] - min));
+    }
+    let flash = a[j];
+    while (j !== L[k]) {
+      k = Math.floor(c1 * (flash - min));
+      const hold = a[L[k] - 1];
+      a[L[k] - 1] = flash;
+      flash = hold;
+      L[k]--;
+      move++;
+      frames.push(frame(a, [L[k]], []));
+    }
+  }
+
+  for (let i = 1; i < n; i++) {
+    const cur = a[i];
+    let jj = i - 1;
+    frames.push(frame(a, [i], []));
+    while (jj >= 0 && a[jj] > cur) {
+      a[jj + 1] = a[jj];
+      jj--;
+      frames.push(frame(a, [jj + 1], []));
+    }
+    a[jj + 1] = cur;
+  }
+  frames.push(frame(a, [], rangeFrom(0, n)));
+  return frames;
+}
+
+function bogosortSteps(input) {
+  const n = input.length;
+  const frames = [frame(input, [], [])];
+  if (n <= 1) {
+    frames.push(frame(input, [], rangeFrom(0, n)));
+    return frames;
+  }
+  const a = [...input];
+  const CAP = 3000;
+
+  function isSorted(x) {
+    for (let i = 1; i < x.length; i++) {
+      if (x[i - 1] > x[i]) return false;
+    }
+    return true;
+  }
+
+  let attempts = 0;
+  while (!isSorted(a) && attempts < CAP) {
+    for (let i = a.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }
+    frames.push(frame(a, rangeFrom(0, n), []));
+    attempts++;
+  }
+  if (!isSorted(a)) {
+    a.sort((x, y) => x - y);
+  }
+  frames.push(frame(a, [], rangeFrom(0, n)));
+  return frames;
+}
+
+function stoogeSortSteps(input) {
+  const n = input.length;
+  const frames = [frame(input, [], [])];
+  if (n <= 1) {
+    frames.push(frame(input, [], rangeFrom(0, n)));
+    return frames;
+  }
+  const a = [...input];
+
+  function rec(lo, hi) {
+    if (lo >= hi) return;
+    frames.push(frame(a, [lo, hi], []));
+    if (a[lo] > a[hi]) {
+      [a[lo], a[hi]] = [a[hi], a[lo]];
+      frames.push(frame(a, [lo, hi], []));
+    }
+    if (hi - lo + 1 > 2) {
+      const t = Math.floor((hi - lo + 1) / 3);
+      rec(lo, hi - t);
+      rec(lo + t, hi);
+      rec(lo, hi - t);
+    }
+  }
+
+  rec(0, n - 1);
+  frames.push(frame(a, [], rangeFrom(0, n)));
+  return frames;
+}
+
 function rangeFrom(start, end) {
   const out = [];
   for (let i = start; i < end; i++) out.push(i);
@@ -1160,6 +1281,9 @@ const GENERATORS = {
   'bitonic-sort': bitonicSortSteps,
   'sorting-network': sortingNetworkSteps,
   'spread-sort': spreadSortSteps,
+  flashsort: flashSortSteps,
+  bogosort: bogosortSteps,
+  'stooge-sort': stoogeSortSteps,
 };
 
 export function generateSteps(slug, array) {

@@ -27,6 +27,9 @@ import { postmanSort } from './sorting/postman-sort.js';
 import { bitonicSort } from './sorting/bitonic-sort.js';
 import { sortingNetwork } from './sorting/sorting-network.js';
 import { spreadSort } from './sorting/spread-sort.js';
+import { flashSort } from './sorting/flash-sort.js';
+import { bogoSort } from './sorting/bogo-sort.js';
+import { stoogeSort } from './sorting/stooge-sort.js';
 
 export { ALGORITHM_CATEGORIES, getCategory };
 
@@ -60,6 +63,9 @@ const ALGORITHMS_BY_CATEGORY = {
     bitonicSort,
     sortingNetwork,
     spreadSort,
+    flashSort,
+    bogoSort,
+    stoogeSort,
   ],
 };
 
