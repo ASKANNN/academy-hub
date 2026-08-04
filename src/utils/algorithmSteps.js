@@ -724,6 +724,148 @@ function blockSortSteps(input) {
   return frames;
 }
 
+function librarySortSteps(input) {
+  const n = input.length;
+  const frames = [frame(input, [], [])];
+  if (n === 0) return frames;
+
+  let capacity = 2;
+  let a = new Array(capacity).fill(null);
+  let count = 0;
+
+  function displayFrame(active) {
+    const display = a.map((v) => (v === null ? 0 : v));
+    frames.push(frame(display, active, []));
+  }
+
+  function rebalance() {
+    const elems = a.filter((v) => v !== null);
+    const newCapacity = Math.max(elems.length * 2, 2);
+    const newArr = new Array(newCapacity).fill(null);
+    if (elems.length > 0) {
+      const gap = newCapacity / elems.length;
+      for (let k = 0; k < elems.length; k++) {
+        const pos = Math.min(newCapacity - 1, Math.floor(k * gap));
+        newArr[pos] = elems[k];
+      }
+    }
+    a = newArr;
+    capacity = newCapacity;
+  }
+
+  for (let idx = 0; idx < n; idx++) {
+    const value = input[idx];
+    let inserted = false;
+    while (!inserted) {
+      if (count === capacity) {
+        rebalance();
+        continue;
+      }
+      const filledIdx = [];
+      for (let i = 0; i < a.length; i++) if (a[i] !== null) filledIdx.push(i);
+      let lo = 0;
+      let hi = filledIdx.length;
+      while (lo < hi) {
+        const mid = (lo + hi) >> 1;
+        displayFrame([filledIdx[mid]]);
+        if (a[filledIdx[mid]] >= value) hi = mid;
+        else lo = mid + 1;
+      }
+      const insertAt = lo === filledIdx.length
+        ? (filledIdx.length ? filledIdx[filledIdx.length - 1] + 1 : Math.floor(capacity / 2))
+        : filledIdx[lo];
+      if (insertAt >= a.length) {
+        rebalance();
+        continue;
+      }
+      if (a[insertAt] !== null) {
+        let j = insertAt;
+        while (j < a.length && a[j] !== null) j++;
+        if (j < a.length) {
+          for (let k = j; k > insertAt; k--) {
+            a[k] = a[k - 1];
+            displayFrame([k]);
+          }
+          a[insertAt] = value;
+        } else {
+          let j2 = insertAt - 1;
+          while (j2 >= 0 && a[j2] !== null) j2--;
+          if (j2 < 0) {
+            rebalance();
+            continue;
+          }
+          for (let k = j2; k < insertAt - 1; k++) {
+            a[k] = a[k + 1];
+            displayFrame([k]);
+          }
+          a[insertAt - 1] = value;
+        }
+      } else {
+        a[insertAt] = value;
+      }
+      displayFrame([]);
+      count++;
+      inserted = true;
+    }
+  }
+
+  const output = a.filter((v) => v !== null);
+  frames.push(frame(output, [], rangeFrom(0, n)));
+  return frames;
+}
+
+function gnomeSortSteps(input) {
+  const a = [...input];
+  const n = a.length;
+  const frames = [frame(a, [], [])];
+  let i = 0;
+  while (i < n) {
+    if (i === 0) {
+      frames.push(frame(a, [i], []));
+      i++;
+    } else {
+      frames.push(frame(a, [i - 1, i], []));
+      if (a[i - 1] <= a[i]) {
+        i++;
+      } else {
+        [a[i], a[i - 1]] = [a[i - 1], a[i]];
+        frames.push(frame(a, [i - 1, i], []));
+        i--;
+      }
+    }
+  }
+  frames.push(frame(a, [], rangeFrom(0, n)));
+  return frames;
+}
+
+function oddEvenSortSteps(input) {
+  const a = [...input];
+  const n = a.length;
+  const frames = [frame(a, [], [])];
+  let sorted = false;
+  while (!sorted) {
+    sorted = true;
+    for (let i = 1; i + 1 < n; i += 2) {
+      frames.push(frame(a, [i, i + 1], []));
+      if (a[i] > a[i + 1]) {
+        [a[i], a[i + 1]] = [a[i + 1], a[i]];
+        frames.push(frame(a, [i, i + 1], []));
+        sorted = false;
+      }
+    }
+    for (let i = 0; i + 1 < n; i += 2) {
+      frames.push(frame(a, [i, i + 1], []));
+      if (a[i] > a[i + 1]) {
+        [a[i], a[i + 1]] = [a[i + 1], a[i]];
+        frames.push(frame(a, [i, i + 1], []));
+        sorted = false;
+      }
+    }
+  }
+  frames.push(frame(a, [], rangeFrom(0, n)));
+  return frames;
+}
+
 function rangeFrom(start, end) {
   const out = [];
   for (let i = start; i < end; i++) out.push(i);
@@ -750,6 +892,9 @@ const GENERATORS = {
   'tournament-sort': tournamentSortSteps,
   'patience-sort': patienceSortSteps,
   'block-sort': blockSortSteps,
+  'library-sort': librarySortSteps,
+  'gnome-sort': gnomeSortSteps,
+  'odd-even-sort': oddEvenSortSteps,
 };
 
 export function generateSteps(slug, array) {

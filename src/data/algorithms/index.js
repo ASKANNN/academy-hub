@@ -18,6 +18,9 @@ import { smoothSort } from './sorting/smooth-sort.js';
 import { tournamentSort } from './sorting/tournament-sort.js';
 import { patienceSort } from './sorting/patience-sort.js';
 import { blockSort } from './sorting/block-sort.js';
+import { librarySort } from './sorting/library-sort.js';
+import { gnomeSort } from './sorting/gnome-sort.js';
+import { oddEvenSort } from './sorting/odd-even-sort.js';
 
 export { ALGORITHM_CATEGORIES, getCategory };
 
@@ -42,6 +45,9 @@ const ALGORITHMS_BY_CATEGORY = {
     tournamentSort,
     patienceSort,
     blockSort,
+    librarySort,
+    gnomeSort,
+    oddEvenSort,
   ],
 };
 
