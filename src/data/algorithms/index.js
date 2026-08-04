@@ -5,11 +5,24 @@ import { insertionSort } from './sorting/insertion-sort.js';
 import { mergeSort } from './sorting/merge-sort.js';
 import { quickSort } from './sorting/quick-sort.js';
 import { heapSort } from './sorting/heap-sort.js';
+import { shellSort } from './sorting/shell-sort.js';
+import { cocktailShakerSort } from './sorting/cocktail-shaker-sort.js';
+import { combSort } from './sorting/comb-sort.js';
 
 export { ALGORITHM_CATEGORIES, getCategory };
 
 const ALGORITHMS_BY_CATEGORY = {
-  sorting: [bubbleSort, selectionSort, insertionSort, mergeSort, quickSort, heapSort],
+  sorting: [
+    bubbleSort,
+    selectionSort,
+    insertionSort,
+    mergeSort,
+    quickSort,
+    heapSort,
+    shellSort,
+    cocktailShakerSort,
+    combSort,
+  ],
 };
 
 export function getAlgorithmsByCategory(categorySlug) {

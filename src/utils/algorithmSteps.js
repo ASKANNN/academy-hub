@@ -172,6 +172,91 @@ function heapSortSteps(input) {
   return frames;
 }
 
+function shellSortSteps(input) {
+  const a = [...input];
+  const n = a.length;
+  const frames = [frame(a, [], [])];
+
+  for (let gap = Math.floor(n / 2); gap > 0; gap = Math.floor(gap / 2)) {
+    for (let i = gap; i < n; i++) {
+      const current = a[i];
+      let j = i;
+      frames.push(frame(a, [j, j - gap], []));
+      while (j >= gap && a[j - gap] > current) {
+        a[j] = a[j - gap];
+        j -= gap;
+        frames.push(frame(a, [j], []));
+      }
+      a[j] = current;
+    }
+  }
+  frames.push(frame(a, [], rangeFrom(0, n)));
+  return frames;
+}
+
+function cocktailShakerSortSteps(input) {
+  const a = [...input];
+  const n = a.length;
+  const frames = [frame(a, [], [])];
+  let start = 0;
+  let end = n - 1;
+  let swapped = true;
+
+  while (swapped) {
+    swapped = false;
+    for (let i = start; i < end; i++) {
+      frames.push(frame(a, [i, i + 1], [...rangeFrom(0, start), ...rangeFrom(end + 1, n)]));
+      if (a[i] > a[i + 1]) {
+        [a[i], a[i + 1]] = [a[i + 1], a[i]];
+        swapped = true;
+        frames.push(frame(a, [i, i + 1], [...rangeFrom(0, start), ...rangeFrom(end + 1, n)]));
+      }
+    }
+    end--;
+    if (!swapped) break;
+
+    swapped = false;
+    for (let i = end; i > start; i--) {
+      frames.push(frame(a, [i - 1, i], [...rangeFrom(0, start), ...rangeFrom(end + 1, n)]));
+      if (a[i - 1] > a[i]) {
+        [a[i - 1], a[i]] = [a[i], a[i - 1]];
+        swapped = true;
+        frames.push(frame(a, [i - 1, i], [...rangeFrom(0, start), ...rangeFrom(end + 1, n)]));
+      }
+    }
+    start++;
+  }
+  frames.push(frame(a, [], rangeFrom(0, n)));
+  return frames;
+}
+
+function combSortSteps(input) {
+  const a = [...input];
+  const n = a.length;
+  const frames = [frame(a, [], [])];
+  let gap = n;
+  const shrink = 1.3;
+  let sorted = false;
+
+  while (!sorted) {
+    gap = Math.floor(gap / shrink);
+    if (gap <= 1) {
+      gap = 1;
+      sorted = true;
+    }
+    for (let i = 0; i + gap < n; i++) {
+      frames.push(frame(a, [i, i + gap], []));
+      if (a[i] > a[i + gap]) {
+        [a[i], a[i + gap]] = [a[i + gap], a[i]];
+        sorted = false;
+        frames.push(frame(a, [i, i + gap], []));
+      }
+    }
+  }
+  frames.push(frame(a, [], rangeFrom(0, n)));
+  return frames;
+}
+
 function rangeFrom(start, end) {
   const out = [];
   for (let i = start; i < end; i++) out.push(i);
@@ -185,6 +270,9 @@ const GENERATORS = {
   'merge-sort': mergeSortSteps,
   'quick-sort': quickSortSteps,
   'heap-sort': heapSortSteps,
+  'shell-sort': shellSortSteps,
+  'cocktail-shaker-sort': cocktailShakerSortSteps,
+  'comb-sort': combSortSteps,
 };
 
 export function generateSteps(slug, array) {
