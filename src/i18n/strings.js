@@ -1,3 +1,11 @@
+function pluralizeRu(n, one, few, many) {
+  const mod10 = n % 10;
+  const mod100 = n % 100;
+  if (mod10 === 1 && mod100 !== 11) return one;
+  if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) return few;
+  return many;
+}
+
 export const STRINGS = {
   ru: {
     skipLink: 'Перейти к содержимому',
@@ -40,7 +48,7 @@ export const STRINGS = {
       catalogTitle: 'Algorithms Academy',
       catalogSubtitle:
         'Классические алгоритмы на живых визуализациях: как они устроены, зачем нужны и во что обходятся по времени и памяти.',
-      categoryCount: (n) => `${n} ${n === 1 ? 'алгоритм' : n < 5 ? 'алгоритма' : 'алгоритмов'}`,
+      categoryCount: (n) => `${n} ${pluralizeRu(n, 'алгоритм', 'алгоритма', 'алгоритмов')}`,
       comingSoon: 'Скоро',
       comingSoonHint: 'Раздел готовится — темы уже определены',
       categoryOpenHint: 'Открыть раздел',
