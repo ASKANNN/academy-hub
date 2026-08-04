@@ -188,9 +188,18 @@ def merge(left, right):
           ru: 'Массив всегда делится строго пополам, независимо от значений элементов',
           en: 'The array is always split exactly in half, regardless of element values',
         },
-        { ru: 'Она использует хеш-таблицу для быстрого поиска', en: 'It uses a hash table for fast lookups' },
-        { ru: 'Она сортирует на месте без дополнительной памяти', en: 'It sorts in place without extra memory' },
-        { ru: 'Она никогда не сравнивает элементы напрямую', en: 'It never compares elements directly' },
+        {
+          ru: 'Она использует хеш-таблицу для быстрого поиска места вставки каждого элемента',
+          en: 'It uses a hash table to quickly look up the insertion point for each element',
+        },
+        {
+          ru: 'Она сортирует на месте без какой-либо дополнительной памяти на всех этапах',
+          en: 'It sorts in place without needing any extra memory at any stage of the process',
+        },
+        {
+          ru: 'Она никогда не сравнивает элементы напрямую друг с другом на протяжении всего алгоритма',
+          en: 'It never compares elements directly against each other throughout the entire algorithm',
+        },
       ],
       correct: 0,
       explanation: {
@@ -233,9 +242,18 @@ def merge(left, right):
           ru: 'Оставшиеся элементы второй половины просто дописываются в конец результата',
           en: 'The remaining elements of the other half are simply appended to the end of the result',
         },
-        { ru: 'Алгоритм останавливается с ошибкой', en: 'The algorithm stops with an error' },
-        { ru: 'Оставшиеся элементы сортируются заново', en: 'The remaining elements get sorted again' },
-        { ru: 'Слияние перезапускается с начала', en: 'The merge restarts from the beginning' },
+        {
+          ru: 'Алгоритм останавливается с ошибкой, потому что длины половин не совпадают',
+          en: 'The algorithm stops with an error because the two halves have mismatched lengths',
+        },
+        {
+          ru: 'Оставшиеся элементы сортируются заново с самого начала перед добавлением',
+          en: 'The remaining elements get sorted again from scratch before being appended',
+        },
+        {
+          ru: 'Слияние перезапускается с начала обеих половин, теряя уже проделанную работу',
+          en: 'The merge restarts from the beginning of both halves, discarding the work already done',
+        },
       ],
       correct: 0,
       explanation: {
@@ -257,9 +275,18 @@ def merge(left, right):
           ru: 'Merge sort даёт гарантированный O(n log n) и устойчивость, чего нет у квадратичных алгоритмов',
           en: 'Merge sort provides guaranteed O(n log n) and stability, which quadratic algorithms lack',
         },
-        { ru: 'Merge sort проще всего запрограммировать', en: 'Merge sort is the easiest to code' },
-        { ru: 'Пузырьковая сортировка запрещена лицензией Python', en: 'Bubble sort is banned by Python\'s license' },
-        { ru: 'Разницы нет, выбор случаен', en: 'There is no difference, the choice was arbitrary' },
+        {
+          ru: 'Merge sort проще всего запрограммировать среди всех известных алгоритмов сортировки',
+          en: 'Merge sort is the easiest of all known sorting algorithms to implement correctly',
+        },
+        {
+          ru: 'Пузырьковая сортировка официально запрещена условиями лицензии языка Python',
+          en: "Bubble sort is officially banned by the terms of Python's programming language license",
+        },
+        {
+          ru: 'Разницы между этими алгоритмами нет вообще, выбор дизайнеров был совершенно случаен',
+          en: "There is no real difference between these algorithms, the designers' choice was arbitrary",
+        },
       ],
       correct: 0,
       explanation: {
@@ -281,9 +308,18 @@ def merge(left, right):
           ru: 'Левая и правая половины сортируются полностью независимо друг от друга',
           en: 'The left and right halves are sorted completely independently of each other',
         },
-        { ru: 'Он не использует рекурсию', en: 'It doesn\'t use recursion' },
-        { ru: 'Он требует O(1) памяти', en: 'It requires O(1) memory' },
-        { ru: 'Слияние можно пропустить', en: 'The merge step can be skipped' },
+        {
+          ru: 'Он вообще не использует рекурсию ни на одном из этапов сортировки, заменяя её очередями',
+          en: 'It never uses recursion at any stage of the sorting process, replacing it with queues instead',
+        },
+        {
+          ru: 'Он требует всего O(1) памяти на протяжении всего выполнения, включая слияние',
+          en: 'It requires only O(1) memory throughout the entire execution, including the merge step',
+        },
+        {
+          ru: 'Шаг слияния можно полностью пропустить без потери корректности итогового результата',
+          en: 'The merge step can be entirely skipped without any loss of correctness in the final result',
+        },
       ],
       correct: 0,
       explanation: {
@@ -305,9 +341,18 @@ def merge(left, right):
           ru: 'O(n) — сумма размеров всех сливаемых пар на уровне всегда равна размеру исходного массива',
           en: 'O(n) — the combined size of all merged pairs at a level always equals the size of the original array',
         },
-        { ru: 'O(n log n)', en: 'O(n log n)' },
-        { ru: 'O(1) — на каждом уровне обрабатывается фиксированное число элементов', en: 'O(1) — a fixed number of elements per level' },
-        { ru: 'O(log n)', en: 'O(log n)' },
+        {
+          ru: 'O(n log n) — потому что каждый элемент сравнивается со всеми остальными элементами на каждом отдельном уровне',
+          en: 'O(n log n) — because every single element gets compared against all other elements at every single level',
+        },
+        {
+          ru: 'O(1) — на каждом уровне рекурсии обрабатывается одно и то же фиксированное небольшое число элементов',
+          en: 'O(1) — the exact same small fixed number of elements gets processed at every single recursion level',
+        },
+        {
+          ru: 'O(log n) — только ровно по одному слиянию происходит на каждом уровне рекурсии всего дерева',
+          en: 'O(log n) — only exactly a single merge operation happens at each level of the whole recursion tree',
+        },
       ],
       correct: 0,
       explanation: {
@@ -329,9 +374,18 @@ def merge(left, right):
           ru: 'Она избегает накладных расходов на рекурсивные вызовы и использование стека',
           en: 'It avoids the overhead of recursive calls and stack usage',
         },
-        { ru: 'Она меняет асимптотическую сложность на O(n)', en: 'It changes the asymptotic complexity to O(n)' },
-        { ru: 'Она делает сортировку сортировкой на месте с O(1) памяти', en: 'It makes the sort in-place with O(1) memory' },
-        { ru: 'Она делает сортировку неустойчивой', en: 'It makes the sort unstable' },
+        {
+          ru: 'Она меняет асимптотическую сложность всего алгоритма на линейную O(n)',
+          en: 'It changes the asymptotic complexity of the whole algorithm down to linear O(n)',
+        },
+        {
+          ru: 'Она превращает сортировку в сортировку на месте, требующую всего O(1) памяти',
+          en: 'It turns the sort into an in-place sort that requires only O(1) extra memory',
+        },
+        {
+          ru: 'Она делает получившуюся сортировку неустойчивой в отличие от рекурсивной версии',
+          en: 'It makes the resulting sort unstable, unlike the recursive top-down version',
+        },
       ],
       correct: 0,
       explanation: {
@@ -353,9 +407,18 @@ def merge(left, right):
           ru: 'Слияние работает через последовательный доступ и не требует дополнительного массива, а разбиение quicksort выигрывает от произвольного доступа, которого у списков нет',
           en: "Merging works via sequential access and needs no extra array, while quicksort's partitioning benefits from random access, which lists lack",
         },
-        { ru: 'Quicksort вообще не может сортировать связные списки', en: 'Quicksort cannot sort linked lists at all' },
-        { ru: 'Merge sort асимптотически быстрее quicksort', en: 'Merge sort is asymptotically faster than quicksort' },
-        { ru: 'Связные списки всегда уже отсортированы', en: 'Linked lists are always already sorted' },
+        {
+          ru: 'Quicksort вообще технически абсолютно неспособен сортировать связные списки любой длины, структуры или содержимого',
+          en: 'Quicksort is technically and absolutely incapable of sorting linked lists of any length, structure, or content whatsoever',
+        },
+        {
+          ru: 'Merge sort асимптотически строго и всегда быстрее quicksort на любых мыслимых входных данных без единого исключения даже на маленьких массивах',
+          en: 'Merge sort is asymptotically and always strictly faster than quicksort on any conceivable input data, without a single exception even on tiny arrays',
+        },
+        {
+          ru: 'Связные списки во всех известных языках программирования по определению всегда уже отсортированы заранее автоматически',
+          en: 'Linked lists in every known programming language are, by definition, always already sorted beforehand automatically',
+        },
       ],
       correct: 0,
       explanation: {
@@ -377,9 +440,18 @@ def merge(left, right):
           ru: 'При слиянии считать, сколько раз элемент из правой половины забирается раньше, чем закончится левая — это число инверсий',
           en: "During merging, count how many times an element from the right half is taken before the left half is exhausted — that is the inversion count",
         },
-        { ru: 'Сортировка слиянием не умеет считать инверсии', en: 'Merge sort cannot count inversions' },
-        { ru: 'Подсчёт инверсий всегда требует O(n²)', en: 'Counting inversions always requires O(n²)' },
-        { ru: 'Число инверсий равно глубине рекурсии', en: 'The number of inversions equals the recursion depth' },
+        {
+          ru: 'Сортировка слиянием в принципе не умеет считать инверсии ни при каких возможных модификациях алгоритма или реализации',
+          en: 'Merge sort is fundamentally and permanently incapable of counting inversions under any possible modification or implementation',
+        },
+        {
+          ru: 'Подсчёт инверсий математически всегда требует как минимум O(n²) времени независимо от выбранного подхода',
+          en: 'Counting inversions mathematically always requires at least O(n²) time to complete, regardless of the chosen approach',
+        },
+        {
+          ru: 'Число инверсий всегда в точности равно глубине рекурсии сортировки слиянием на абсолютно любом входном массиве без единого исключения из этого правила',
+          en: "The number of inversions always exactly equals merge sort's recursion depth on absolutely any given input array, with no exception to this rule",
+        },
       ],
       correct: 0,
       explanation: {
@@ -401,9 +473,18 @@ def merge(left, right):
           ru: 'При равенстве элементов первым всегда берётся элемент из левой половины',
           en: 'When elements are equal, the element from the left half is always taken first',
         },
-        { ru: 'Оно случайным образом выбирает, какой элемент взять первым', en: 'It randomly picks which element to take first' },
-        { ru: 'Оно сравнивает исходные индексы элементов', en: 'It compares the elements\' original indices' },
-        { ru: 'Устойчивость на самом деле не гарантируется этим условием', en: 'Stability is not actually guaranteed by this condition' },
+        {
+          ru: 'Оно случайным образом выбирает, какой из двух равных элементов взять первым',
+          en: 'It randomly picks which of the two equal elements to take first each time',
+        },
+        {
+          ru: 'Оно явно сравнивает исходные индексы элементов в массиве, а не только их значения',
+          en: "It explicitly compares the elements' original array indices, not just their values",
+        },
+        {
+          ru: 'Устойчивость на самом деле никак не гарантируется этим конкретным условием',
+          en: 'Stability is not actually guaranteed by this particular condition at all',
+        },
       ],
       correct: 0,
       explanation: {

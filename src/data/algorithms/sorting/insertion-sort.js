@@ -197,9 +197,18 @@ export const insertionSort = {
           ru: 'На маленьких n накладные расходы более сложных алгоритмов не окупаются, а вставками быстро и просто',
           en: 'At small n, the overhead of more complex algorithms doesn\'t pay off, while insertion sort is fast and simple',
         },
-        { ru: 'Потому что она работает за O(n log n), как и слияние прогонов в самом Timsort', en: 'Because it runs in O(n log n), same as the run-merging step in Timsort itself' },
-        { ru: 'Потому что она использует меньше памяти, чем любой другой алгоритм, что критично для встроенных систем', en: 'Because it uses less memory than any other algorithm, which matters for embedded systems' },
-        { ru: 'Это не так, Timsort никогда не использует сортировку вставками — это распространённое заблуждение среди новичков', en: 'That\'s not true, Timsort never uses insertion sort — a common misconception among beginners' },
+        {
+          ru: 'Потому что она работает за O(n log n), точно так же как и слияние прогонов в самом Timsort на больших массивах',
+          en: 'Because it runs in O(n log n), exactly the same as the run-merging step in Timsort itself on large arrays',
+        },
+        {
+          ru: 'Потому что она использует заметно меньше памяти, чем любой другой алгоритм сортировки, что критично для встроенных систем',
+          en: 'Because it uses noticeably less memory than any other sorting algorithm, which matters greatly for embedded systems',
+        },
+        {
+          ru: 'Это в корне не так, Timsort никогда не использует сортировку вставками — это распространённое заблуждение среди новичков в программировании',
+          en: "That's fundamentally not true, Timsort never uses insertion sort at all — a common misconception among beginner programmers",
+        },
       ],
       correct: 0,
       explanation: {
@@ -269,9 +278,18 @@ export const insertionSort = {
           ru: 'O(n²) — каждый новый элемент сдвигается через всю уже отсортированную часть',
           en: 'O(n²) — each new element shifts across the entire already-sorted part',
         },
-        { ru: 'O(n log n)', en: 'O(n log n)' },
-        { ru: 'O(n) — как и на отсортированном массиве', en: 'O(n) — same as on a sorted array' },
-        { ru: 'O(1)', en: 'O(1)' },
+        {
+          ru: 'O(n log n) — благодаря бинарному поиску места вставки для каждого элемента',
+          en: 'O(n log n) — thanks to a binary search for the insertion point of each element',
+        },
+        {
+          ru: 'O(n) — точно так же, как и на уже отсортированном по возрастанию массиве',
+          en: 'O(n) — exactly the same as on an already ascending-sorted array',
+        },
+        {
+          ru: 'O(1) — потому что сортировка происходит мгновенно независимо от размера',
+          en: 'O(1) — because the sort completes instantly regardless of array size',
+        },
       ],
       correct: 0,
       explanation: {
@@ -293,9 +311,18 @@ export const insertionSort = {
           ru: 'С числом инверсий — пар элементов, стоящих в неправильном относительном порядке',
           en: 'The number of inversions — pairs of elements standing in the wrong relative order',
         },
-        { ru: 'С длиной массива, и больше ни с чем', en: 'The array length, and nothing else' },
-        { ru: 'С числом простых делителей длины массива', en: 'The number of prime divisors of the array length' },
-        { ru: 'Со значением самого элемента', en: 'The value of the element itself' },
+        {
+          ru: 'Только с длиной всего массива целиком, и больше ни с чем другим',
+          en: 'Only the total length of the whole array, and nothing else at all',
+        },
+        {
+          ru: 'С числом простых делителей длины массива, что довольно необычно для алгоритмов сортировки',
+          en: 'The number of prime divisors of the array length, which is unusual for sorting algorithms',
+        },
+        {
+          ru: 'Только со значением самого вставляемого элемента, а не с его положением',
+          en: 'Only the value of the element being inserted, not its position at all',
+        },
       ],
       correct: 0,
       explanation: {
@@ -317,9 +344,18 @@ export const insertionSort = {
           ru: 'Потому что сдвиг элементов для освобождения места всё равно остаётся O(n) операцией',
           en: 'Because shifting elements to make room is still an O(n) operation',
         },
-        { ru: 'Потому что бинарный поиск не работает на массивах', en: 'Because binary search does not work on arrays' },
-        { ru: 'Потому что это делает алгоритм неустойчивым', en: 'Because it makes the algorithm unstable' },
-        { ru: 'На самом деле это ускоряет алгоритм до O(n log n)', en: 'It actually does speed the algorithm up to O(n log n)' },
+        {
+          ru: 'Потому что бинарный поиск в принципе не работает на обычных индексируемых массивах',
+          en: 'Because binary search does not work on regular indexable arrays at all',
+        },
+        {
+          ru: 'Потому что использование бинарного поиска делает получившийся алгоритм неустойчивым',
+          en: 'Because using binary search makes the resulting algorithm unstable overall',
+        },
+        {
+          ru: 'На самом деле это действительно ускоряет весь алгоритм целиком до O(n log n)',
+          en: 'It actually does speed the whole algorithm up to O(n log n) overall',
+        },
       ],
       correct: 0,
       explanation: {
@@ -341,9 +377,18 @@ export const insertionSort = {
           ru: 'Нет — вставка узла в найденную позицию стоит O(1), сдвигать нечего',
           en: 'No — inserting a node at the found position costs O(1), there is nothing to shift',
         },
-        { ru: 'Да, сдвиг всегда обязателен', en: 'Yes, shifting is always required' },
-        { ru: 'Связные списки нельзя сортировать вставками', en: 'Linked lists cannot be sorted with insertion sort' },
-        { ru: 'Это делает алгоритм неустойчивым', en: 'This makes the algorithm unstable' },
+        {
+          ru: 'Да, сдвиг элементов всегда обязателен независимо от используемой структуры данных',
+          en: 'Yes, shifting elements is always required regardless of which data structure is used',
+        },
+        {
+          ru: 'Связные списки в принципе нельзя сортировать с помощью сортировки вставками',
+          en: 'Linked lists cannot be sorted with insertion sort as a matter of principle',
+        },
+        {
+          ru: 'Применение к связному списку делает получившийся алгоритм сортировки неустойчивым',
+          en: 'Applying it to a linked list makes the resulting sorting algorithm unstable overall',
+        },
       ],
       correct: 0,
       explanation: {
@@ -365,9 +410,18 @@ export const insertionSort = {
           ru: 'Работа вставками масштабируется с числом «беспорядка» в данных, а выбором всегда делает одно и то же число перестановок',
           en: "Insertion sort's work scales with how disordered the data is, while selection sort always performs the same number of swaps",
         },
-        { ru: 'Оба алгоритма всегда выполняют одинаковый фиксированный объём работы', en: 'Both algorithms always do the same fixed amount of work' },
-        { ru: 'Сортировка выбором адаптируется к порядку данных, а вставками — нет', en: 'Selection sort adapts to the data order, insertion sort does not' },
-        { ru: 'Вставками всегда делает больше операций записи, чем выбором, независимо от входных данных', en: 'Insertion sort always writes more than selection sort, regardless of input' },
+        {
+          ru: 'Оба алгоритма всегда выполняют совершенно одинаковый фиксированный объём работы независимо от степени упорядоченности исходных данных',
+          en: 'Both algorithms always do exactly the same fixed amount of work regardless of how ordered the original input data already happens to be',
+        },
+        {
+          ru: 'Сортировка выбором адаптируется к порядку входных данных, а сортировка вставками — совершенно нет',
+          en: 'Selection sort adapts to the order of the input data, while insertion sort absolutely does not',
+        },
+        {
+          ru: 'Сортировка вставками всегда делает больше операций записи, чем выбором, независимо от входных данных и их порядка',
+          en: 'Insertion sort always writes more than selection sort, regardless of the input data and its ordering',
+        },
       ],
       correct: 0,
       explanation: {

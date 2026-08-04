@@ -175,9 +175,18 @@ def partition(arr, low, high):
           ru: 'Он стоит на своей окончательной позиции в отсортированном массиве',
           en: 'It sits at its final position in the sorted array',
         },
-        { ru: 'Он всегда является минимальным элементом', en: 'It is always the minimum element' },
-        { ru: 'Он удаляется из массива', en: 'It is removed from the array' },
-        { ru: 'Он копируется во временный массив', en: 'It is copied into a temporary array' },
+        {
+          ru: 'Он всегда является минимальным элементом во всём исходном массиве, а не только в подмассиве',
+          en: 'It is always the minimum element of the entire original array, not just the subarray',
+        },
+        {
+          ru: 'Он удаляется из массива и хранится отдельно до завершения всей рекурсии',
+          en: 'It is removed from the array and stored separately until the whole recursion finishes',
+        },
+        {
+          ru: 'Он копируется во временный массив вместе с остальной частью подмассива на всякий случай',
+          en: 'It is copied into a temporary array alongside the rest of the subarray for safekeeping',
+        },
       ],
       correct: 0,
       explanation: {
@@ -199,9 +208,18 @@ def partition(arr, low, high):
           ru: 'Когда опорный элемент раз за разом оказывается самым маленьким или самым большим в подмассиве',
           en: 'When the pivot repeatedly ends up being the smallest or largest element in the subarray',
         },
-        { ru: 'Когда массив содержит только уникальные значения', en: 'When the array contains only unique values' },
-        { ru: 'Когда длина массива — степень двойки', en: 'When the array length is a power of two' },
-        { ru: 'Это невозможно, quicksort всегда O(n log n)', en: 'This is impossible, quicksort is always O(n log n)' },
+        {
+          ru: 'Когда массив содержит только уникальные значения, поэтому каждое сравнение при партиционировании оказывается строгим неравенством',
+          en: 'When the array contains only unique values, so every comparison during partitioning is a strict inequality',
+        },
+        {
+          ru: 'Когда длина массива является точной степенью двойки, например 16, 32 или 1024 элемента',
+          en: 'When the array length is an exact power of two, such as 16, 32, or 1024 elements',
+        },
+        {
+          ru: 'Это невозможно — quicksort математически гарантированно всегда работает за O(n log n), независимо от входных данных',
+          en: 'This is impossible — quicksort is mathematically guaranteed to always run in O(n log n) time, regardless of input',
+        },
       ],
       correct: 0,
       explanation: {
@@ -220,9 +238,18 @@ def partition(arr, low, high):
       },
       options: [
         { ru: 'O(log n) — на стек рекурсии', en: 'O(log n) — for the recursion stack' },
-        { ru: 'O(n) — как сортировка слиянием', en: 'O(n) — same as merge sort' },
-        { ru: 'O(1) — рекурсия не занимает память', en: 'O(1) — recursion takes no memory' },
-        { ru: 'O(n log n)', en: 'O(n log n)' },
+        {
+          ru: 'O(n) — столько же дополнительной памяти, сколько требуется сортировке слиянием для слияния',
+          en: 'O(n) — the same amount of extra memory that merge sort needs for merging its subarrays',
+        },
+        {
+          ru: 'O(1) — потому что рекурсивные вызовы полностью оптимизируются компилятором',
+          en: 'O(1) — because recursive calls are optimized away entirely by the compiler',
+        },
+        {
+          ru: 'O(n log n) — по числу сравнений, выполняемых в процессе сортировки',
+          en: 'O(n log n) — matching the number of comparisons made during sorting',
+        },
       ],
       correct: 0,
       explanation: {
@@ -244,9 +271,18 @@ def partition(arr, low, high):
           ru: 'Перестановки во время партиционирования могут изменить относительный порядок равных элементов',
           en: 'Swaps during partitioning can change the relative order of equal elements',
         },
-        { ru: 'Она использует случайные числа для сравнения', en: 'It uses random numbers for comparisons' },
-        { ru: 'Она никогда не завершает работу на дубликатах', en: 'It never finishes on duplicate values' },
-        { ru: 'Она не сортирует на месте', en: 'It doesn\'t sort in place' },
+        {
+          ru: 'Она использует случайные числа, чтобы каждый раз менять порядок выполняемых сравнений',
+          en: 'It uses random numbers to decide the order of comparisons on every single run',
+        },
+        {
+          ru: 'Она никогда не завершает выполнение целиком, если в массиве есть повторяющиеся значения',
+          en: 'It never finishes running at all when the array contains duplicate or repeated values',
+        },
+        {
+          ru: 'Она не сортирует на месте, что требует полной отдельной копии массива заранее',
+          en: 'It doesn\'t sort in place at all, requiring a full separate copy of the array beforehand',
+        },
       ],
       correct: 0,
       explanation: {
@@ -268,9 +304,18 @@ def partition(arr, low, high):
           ru: 'Отслеживает глубину рекурсии и переключается на heapsort, если она становится слишком большой',
           en: 'It tracks recursion depth and switches to heapsort if it gets too large',
         },
-        { ru: 'Полностью отказывается от быстрой сортировки', en: 'It abandons quicksort entirely' },
-        { ru: 'Всегда выбирает опорным первый элемент', en: 'It always picks the first element as pivot' },
-        { ru: 'Использует только чётные индексы для сравнения', en: 'It only uses even indices for comparison' },
+        {
+          ru: 'Полностью отказывается от быстрой сортировки и всегда начинает с сортировки слиянием',
+          en: 'It abandons quicksort entirely and always begins sorting with merge sort instead',
+        },
+        {
+          ru: 'Всегда выбирает опорным самый первый элемент массива при каждом рекурсивном вызове',
+          en: 'It always picks the very first element of the array as the pivot on every call',
+        },
+        {
+          ru: 'Использует для сравнения только элементы с чётными индексами массива',
+          en: 'It only uses elements at even-numbered indices when comparing values',
+        },
       ],
       correct: 0,
       explanation: {
@@ -292,9 +337,18 @@ def partition(arr, low, high):
           ru: 'Такой выбор всегда даёт максимально несбалансированное разбиение на этом входе, приводя к O(n²)',
           en: 'This choice always produces the most unbalanced possible split on this input, leading to O(n²)',
         },
-        { ru: 'Выбор опорного элемента вообще не влияет на производительность', en: 'Pivot choice never affects performance' },
-        { ru: 'Это делает алгоритм неустойчивым именно в этом случае', en: 'It makes the algorithm unstable specifically in this case' },
-        { ru: 'Это влияет на корректность результата, а не только на скорость', en: 'It affects correctness, not just speed' },
+        {
+          ru: 'Выбор опорного элемента вообще никак не влияет на производительность при любом расположении данных',
+          en: 'Pivot choice never affects performance at all, regardless of how the input array is arranged',
+        },
+        {
+          ru: 'Это делает алгоритм неустойчивым именно в этом случае, хотя в остальных случаях он устойчив',
+          en: 'It makes the algorithm unstable specifically in this case, though it stays stable otherwise',
+        },
+        {
+          ru: 'Это влияет на корректность конечного отсортированного результата целиком, а не только на скорость выполнения алгоритма',
+          en: 'It affects the correctness of the final sorted result entirely, not merely how fast the algorithm runs',
+        },
       ],
       correct: 0,
       explanation: {
@@ -316,9 +370,18 @@ def partition(arr, low, high):
           ru: 'Делает маловероятным, чтобы конкретный вход систематически вызывал худший случай, хотя теоретически он всё ещё возможен',
           en: 'It makes it unlikely for any specific input to systematically trigger the worst case, though it remains theoretically possible',
         },
-        { ru: 'Гарантирует O(n log n) в худшем случае всегда', en: 'It guarantees O(n log n) worst case always' },
-        { ru: 'Делает сортировку устойчивой', en: 'It makes the sort stable' },
-        { ru: 'Устраняет необходимость в рекурсии', en: 'It eliminates the need for recursion' },
+        {
+          ru: 'Математически гарантирует, что худший случай O(n log n) будет достигнут для абсолютно любого возможного входного массива, полностью исключая деградацию до O(n²) навсегда',
+          en: 'It mathematically guarantees an O(n log n) worst case on every single possible input array, permanently eliminating any chance of the O(n²) case',
+        },
+        {
+          ru: 'Делает сортировку полностью и необратимо устойчивой, гарантированно сохраняя относительный порядок всех равных элементов на каждом запуске',
+          en: 'It makes the sort fully and permanently stable, guaranteeing the relative order of all equal elements is preserved on every single run',
+        },
+        {
+          ru: 'Полностью устраняет саму необходимость в рекурсии, заменяя её единственным итеративным циклом обхода без стека вызовов',
+          en: 'It eliminates the need for recursion entirely, replacing it with a single iterative loop that uses no call stack whatsoever',
+        },
       ],
       correct: 0,
       explanation: {
@@ -340,9 +403,18 @@ def partition(arr, low, high):
           ru: 'Схема Хоара в среднем делает примерно втрое меньше перестановок',
           en: 'Hoare\'s scheme performs roughly three times fewer swaps on average',
         },
-        { ru: 'Схема Хоара не сортирует на месте', en: "Hoare's scheme doesn't sort in place" },
-        { ru: 'Схема Ломуто асимптотически быстрее', en: "Lomuto's scheme is asymptotically faster" },
-        { ru: 'Разницы между схемами нет', en: 'There is no difference between the schemes' },
+        {
+          ru: 'Схема Хоара не сортирует на месте, требуя отдельный выходной массив целиком',
+          en: "Hoare's scheme doesn't sort in place, requiring a separate output array entirely",
+        },
+        {
+          ru: 'Схема Ломуто асимптотически быстрее, снижая класс сложности алгоритма в целом',
+          en: "Lomuto's scheme is asymptotically faster, reducing the overall complexity class",
+        },
+        {
+          ru: 'Между этими двумя схемами партиционирования нет вообще никакой значимой разницы',
+          en: 'There is no meaningful difference between the schemes in theory or in practice',
+        },
       ],
       correct: 0,
       explanation: {
@@ -364,9 +436,18 @@ def partition(arr, low, high):
           ru: 'Она сортирует на месте с хорошей локальностью кэша, не выделяя временные массивы, в отличие от сортировки слиянием',
           en: "It sorts in place with good cache locality, without allocating temporary arrays, unlike merge sort",
         },
-        { ru: 'У неё асимптотически лучшая сложность, чем у сортировки слиянием', en: 'It has a better big-O complexity than merge sort' },
-        { ru: 'Сортировка слиянием на самом деле не O(n log n)', en: 'Merge sort is not actually O(n log n)' },
-        { ru: 'Быстрая сортировка всегда делает меньше сравнений', en: 'Quicksort always makes fewer comparisons' },
+        {
+          ru: 'У неё строго лучшая асимптотическая сложность по времени, чем у сортировки слиянием, буквально в любом возможном случае без исключений',
+          en: 'It has a strictly better big-O time complexity than merge sort in absolutely every single case, without exception',
+        },
+        {
+          ru: 'Сортировка слиянием на самом деле никогда не является O(n log n) на практике, вопреки тому, что утверждают учебники',
+          en: 'Merge sort is not actually O(n log n) in practice at all, despite what every textbook claims about it',
+        },
+        {
+          ru: 'Быстрая сортировка всегда делает строго меньше сравнений элементов, чем сортировка слиянием на любом входе',
+          en: 'Quicksort always makes strictly fewer element comparisons than merge sort, no matter the input given',
+        },
       ],
       correct: 0,
       explanation: {
@@ -388,9 +469,18 @@ def partition(arr, low, high):
           ru: 'Оно выделяет отдельную область элементов, равных опорному, и исключает её из дальнейшей рекурсии',
           en: 'It carves out a separate region of elements equal to the pivot and excludes it from further recursion',
         },
-        { ru: 'Оно делает сортировку устойчивой', en: 'It makes the sort stable' },
-        { ru: 'Оно устраняет необходимость в опорном элементе', en: 'It eliminates the need for a pivot' },
-        { ru: 'Оно никак не влияет на производительность', en: 'It has no effect on performance' },
+        {
+          ru: 'Оно делает сортировку полностью и необратимо устойчивой, гарантированно сохраняя порядок всех равных элементов навсегда',
+          en: 'It makes the sort fully and permanently stable by guaranteeing the order of all equal elements is preserved forever',
+        },
+        {
+          ru: 'Оно полностью устраняет саму необходимость в опорном элементе, сортируя массив исключительно по числу выполненных сравнений',
+          en: 'It eliminates the need for a pivot element entirely, sorting the array purely by counting comparisons instead',
+        },
+        {
+          ru: 'Оно вообще никак не влияет на производительность, независимо от того, сколько повторяющихся значений содержит массив',
+          en: 'It has no measurable effect on performance whatsoever, regardless of how many duplicate values the array contains',
+        },
       ],
       correct: 0,
       explanation: {

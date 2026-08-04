@@ -297,9 +297,18 @@ def smooth_sort(arr):
           ru: 'Смузсорт строит лес из нескольких деревьев переменного размера по числам Леонардо вместо одной кучи на весь массив',
           en: 'Smoothsort builds a forest of multiple variable-size trees sized by Leonardo numbers instead of one heap over the whole array',
         },
-        { ru: 'Куча Леонардо не поддерживает сравнения', en: 'A Leonardo heap doesn\'t support comparisons' },
-        { ru: 'Куча Леонардо всегда имеет ровно 3 элемента', en: 'A Leonardo heap always has exactly 3 elements' },
-        { ru: 'Разницы нет, это два названия одного и того же', en: 'There\'s no difference, it\'s two names for the same thing' },
+        {
+          ru: 'Куча Леонардо в принципе никогда не поддерживает никакие сравнения элементов друг с другом, только их перестановку местами',
+          en: "A Leonardo heap never supports any comparisons between its own elements at all, only their rearrangement in place",
+        },
+        {
+          ru: 'Куча Леонардо всегда имеет ровно 3 элемента независимо от размера всего исходного сортируемого массива данных',
+          en: 'A Leonardo heap always has exactly 3 elements regardless of the size of the whole original array of data being sorted',
+        },
+        {
+          ru: 'Разницы нет вообще, это просто два разных исторических названия для абсолютно одной и той же структуры данных, хранящейся в памяти',
+          en: "There's no difference at all, it's simply two different historical names for absolutely the same data structure stored in memory",
+        },
       ],
       correct: 0,
       explanation: {
@@ -317,9 +326,18 @@ def smooth_sort(arr):
           ru: 'На уже почти отсортированных данных требуется меньше операций восстановления структуры кучи',
           en: 'On already nearly sorted data, fewer heap-restructuring operations are needed',
         },
-        { ru: 'Он меняет алгоритм сравнения в зависимости от типа данных', en: 'It changes the comparison algorithm depending on data type' },
-        { ru: 'Он использует машинное обучение для предсказания порядка', en: 'It uses machine learning to predict order' },
-        { ru: 'Он всегда работает за одинаковое время независимо от входа', en: 'It always runs in the same time regardless of input' },
+        {
+          ru: 'Он меняет сам алгоритм сравнения элементов в зависимости от типа входных данных',
+          en: 'It changes the comparison algorithm itself depending on the type of input data',
+        },
+        {
+          ru: 'Он использует обученную модель машинного обучения, чтобы заранее предсказать порядок',
+          en: 'It uses a trained machine learning model to predict the order of elements in advance',
+        },
+        {
+          ru: 'Он всегда работает за строго одинаковое время независимо от входных данных',
+          en: 'It always runs in strictly the same amount of time regardless of the input data',
+        },
       ],
       correct: 0,
       explanation: {
@@ -334,9 +352,18 @@ def smooth_sort(arr):
       },
       options: [
         { ru: 'O(1) — сортирует полностью на месте, без временных массивов', en: 'O(1) — sorts entirely in place, with no temporary arrays' },
-        { ru: 'O(n) — как и Timsort', en: 'O(n) — same as Timsort' },
-        { ru: 'O(log n)', en: 'O(log n)' },
-        { ru: 'O(n log n)', en: 'O(n log n)' },
+        {
+          ru: 'O(n) — точно такая же дополнительная память, как требуется и Timsort',
+          en: 'O(n) — exactly the same extra memory as Timsort requires for its runs',
+        },
+        {
+          ru: 'O(log n) — только на стек рекурсии при обходе леса деревьев Леонардо',
+          en: 'O(log n) — only for the recursion stack while traversing the Leonardo tree forest',
+        },
+        {
+          ru: 'O(n log n) — по одному временному элементу на каждый шаг просеивания',
+          en: 'O(n log n) — one temporary element allocated for every sifting step performed',
+        },
       ],
       correct: 0,
       explanation: {
@@ -354,9 +381,18 @@ def smooth_sort(arr):
           ru: 'Эдсгер Дейкстра — чтобы показать, что heap sort может стать адаптивным без потери гарантий и постоянной памяти',
           en: 'Edsger Dijkstra — to show that heap sort could become adaptive without losing its guarantees or constant memory',
         },
-        { ru: 'Дональд Кнут — как часть серии учебников TAOCP', en: 'Donald Knuth — as part of the TAOCP textbook series' },
-        { ru: 'Тони Хоар — как улучшение quicksort', en: 'Tony Hoare — as an improvement on quicksort' },
-        { ru: 'Компания Google — для внутренних библиотек', en: 'Google — for internal libraries' },
+        {
+          ru: 'Дональд Кнут — как один из иллюстративных примеров в своей многотомной серии учебников TAOCP',
+          en: 'Donald Knuth — as one of the illustrative examples in his own multi-volume TAOCP textbook series',
+        },
+        {
+          ru: 'Тони Хоар — как дальнейшее усовершенствование и развитие своего собственного алгоритма быстрой сортировки quicksort в 1970-х',
+          en: 'Tony Hoare — as a further improvement and extension of his own quicksort partitioning algorithm design in the 1970s',
+        },
+        {
+          ru: 'Инженеры компании Google — специально для внутренних высокопроизводительных библиотек сортировки данных',
+          en: "Google's own engineers — specifically for internal high-performance data sorting library code",
+        },
       ],
       correct: 0,
       explanation: {
@@ -374,9 +410,18 @@ def smooth_sort(arr):
           ru: 'Логика построения и разбора леса куч Леонардо (trinkle, rectify) содержит много взаимосвязанных краевых случаев',
           en: 'The logic for building and tearing down the Leonardo heap forest (trinkle, rectify) has many interdependent edge cases',
         },
-        { ru: 'Он требует знания линейной алгебры', en: 'It requires knowledge of linear algebra' },
-        { ru: 'Он не может быть реализован без сборщика мусора', en: 'It cannot be implemented without a garbage collector' },
-        { ru: 'Он работает только с числами с плавающей точкой', en: 'It only works with floating-point numbers' },
+        {
+          ru: 'Он требует глубокого знания линейной алгебры и продвинутых матричных вычислений на практике при его реализации с нуля',
+          en: 'It requires deep knowledge of linear algebra and advanced matrix computations in practice when implementing it from scratch',
+        },
+        {
+          ru: 'Он не может быть реализован ни на одном известном языке программирования без автоматического сборщика мусора',
+          en: 'It cannot be implemented in any known programming language without an automatic garbage collector present',
+        },
+        {
+          ru: 'Он работает только с числами с плавающей точкой, но никогда не работает с обычными целыми числами',
+          en: 'It only works with floating-point numbers, but never works with plain ordinary integers at all',
+        },
       ],
       correct: 0,
       explanation: {

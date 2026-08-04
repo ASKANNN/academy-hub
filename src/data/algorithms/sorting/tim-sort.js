@@ -235,9 +235,18 @@ def tim_sort(arr):
           ru: 'Сортировка вставками (для прогонов) и сортировка слиянием (для их объединения)',
           en: 'Insertion sort (for runs) and merge sort (for combining them)',
         },
-        { ru: 'Быстрая сортировка и пирамидальная сортировка', en: 'Quicksort and heap sort' },
-        { ru: 'Сортировка пузырьком и сортировка подсчётом', en: 'Bubble sort and counting sort' },
-        { ru: 'Только сортировка слиянием, без модификаций', en: 'Just merge sort, unmodified' },
+        {
+          ru: 'Быстрая сортировка для прогонов и пирамидальная сортировка для их окончательного слияния',
+          en: 'Quicksort for the runs and heap sort for their final combination step',
+        },
+        {
+          ru: 'Сортировка пузырьком для маленьких прогонов и сортировка подсчётом для их объединения',
+          en: 'Bubble sort for small runs and counting sort for combining them together',
+        },
+        {
+          ru: 'Только классическая сортировка слиянием без каких-либо модификаций или гибридизации',
+          en: 'Just classic merge sort, completely unmodified and without any hybridization at all',
+        },
       ],
       correct: 0,
       explanation: {
@@ -255,9 +264,18 @@ def tim_sort(arr):
           ru: 'На маленьких размерах низкие константные накладные расходы вставками делают её быстрее асимптотически лучших алгоритмов',
           en: 'At small sizes, insertion sort\'s low constant overhead makes it faster than asymptotically superior algorithms',
         },
-        { ru: 'Потому что сортировка вставками работает за O(log n)', en: 'Because insertion sort runs in O(log n)' },
-        { ru: 'Сортировка слиянием не умеет работать с маленькими массивами', en: 'Merge sort cannot handle small arrays' },
-        { ru: 'Это исторический выбор без технической причины', en: 'It is a historical choice with no technical reason' },
+        {
+          ru: 'Потому что сортировка вставками, вопреки распространённому мнению большинства программистов, на самом деле работает за O(log n)',
+          en: 'Because insertion sort, contrary to what most programmers commonly believe, actually runs in O(log n) time overall',
+        },
+        {
+          ru: 'Сортировка слиянием технически принципиально не умеет обрабатывать маленькие массивы вообще',
+          en: 'Merge sort is technically and fundamentally incapable of handling small arrays at all',
+        },
+        {
+          ru: 'Это чисто исторический выбор разработчиков языка без какой-либо реальной технической причины позади него',
+          en: "It is a purely historical choice made by the language's developers with no real technical reason behind it",
+        },
       ],
       correct: 0,
       explanation: {
@@ -275,9 +293,18 @@ def tim_sort(arr):
           ru: 'Он распознаёт уже существующие отсортированные участки во входных данных и использует их напрямую как готовые прогоны',
           en: 'It detects already-sorted stretches in the input data and uses them directly as ready-made runs',
         },
-        { ru: 'Он меняет язык программирования во время выполнения', en: 'It changes programming language at runtime' },
-        { ru: 'Он всегда работает за O(n) независимо от данных', en: 'It always runs in O(n) regardless of the data' },
-        { ru: 'Он случайным образом выбирает алгоритм сортировки', en: 'It randomly picks a sorting algorithm' },
+        {
+          ru: 'Он способен каким-то загадочным образом менять сам язык программирования, на котором написан, прямо во время выполнения программы',
+          en: 'It is somehow able to change the very programming language it was written in, dynamically at runtime while executing',
+        },
+        {
+          ru: 'Он всегда работает строго за линейное время O(n) для абсолютно любых входных данных без единого исключения',
+          en: 'It always runs in strictly linear O(n) time for absolutely any input data whatsoever, with no exceptions',
+        },
+        {
+          ru: 'Он случайным образом выбирает один из нескольких совершенно разных алгоритмов сортировки на каждом отдельном запуске',
+          en: 'It randomly picks one of several completely different sorting algorithms to use on every single separate run',
+        },
       ],
       correct: 0,
       explanation: {
@@ -292,9 +319,18 @@ def tim_sort(arr):
       },
       options: [
         { ru: 'Устойчивость — равные элементы сохраняют исходный относительный порядок', en: 'Stability — equal elements keep their original relative order' },
-        { ru: 'Сортировку на месте с O(1) памяти', en: 'In-place sorting with O(1) memory' },
-        { ru: 'Отсутствие сравнений элементов', en: 'No element comparisons at all' },
-        { ru: 'Работу только с целыми числами', en: 'Working only with integers' },
+        {
+          ru: 'Сортировку строго на месте, требующую всего O(1) дополнительной памяти',
+          en: 'Strictly in-place sorting that requires only O(1) extra memory to run',
+        },
+        {
+          ru: 'Полное отсутствие каких-либо сравнений элементов друг с другом вообще',
+          en: 'A complete absence of any comparisons between elements whatsoever',
+        },
+        {
+          ru: 'Возможность работать исключительно с целыми числами, а не с объектами',
+          en: 'The ability to work exclusively with integers, rather than with objects',
+        },
       ],
       correct: 0,
       explanation: {
@@ -312,9 +348,18 @@ def tim_sort(arr):
           ru: 'Реальные данные приложений часто частично упорядочены, а устойчивость критична при сортировке объектов по полям',
           en: 'Real application data is often partially ordered, and stability is critical when sorting objects by fields',
         },
-        { ru: 'Timsort — самый простой алгоритм для реализации', en: 'Timsort is the simplest algorithm to implement' },
-        { ru: 'Timsort требует меньше всего памяти среди всех сортировок', en: 'Timsort requires the least memory of all sorting algorithms' },
-        { ru: 'Это было произвольное решение без анализа', en: 'It was an arbitrary decision with no analysis' },
+        {
+          ru: 'Timsort считается самым простым из всех известных алгоритмов сортировки для практической реализации с нуля',
+          en: 'Timsort is widely considered the simplest of all known sorting algorithms to implement from scratch in practice',
+        },
+        {
+          ru: 'Timsort требует меньше всего дополнительной памяти среди абсолютно всех существующих алгоритмов сортировки без исключения',
+          en: 'Timsort requires the least extra memory among absolutely all existing sorting algorithms without exception',
+        },
+        {
+          ru: 'Это было полностью произвольное решение разработчиков языка, принятое без какого-либо предварительного анализа или тестирования',
+          en: "It was a completely arbitrary decision made by the language's developers without any prior analysis or testing",
+        },
       ],
       correct: 0,
       explanation: {

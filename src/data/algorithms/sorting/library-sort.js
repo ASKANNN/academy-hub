@@ -296,9 +296,9 @@ export const librarySort = {
       },
       options: [
         { ru: 'Выполняется rebalance() — элементы перераспределяются в массиве большей ёмкости', en: 'A rebalance() runs — elements are redistributed into a larger-capacity array' },
-        { ru: 'Вставка элемента просто отменяется', en: 'The insertion is simply cancelled' },
-        { ru: 'Массив сортируется заново с нуля пузырьковой сортировкой', en: 'The array is re-sorted from scratch with bubble sort' },
-        { ru: 'Элемент добавляется в отдельный, несвязанный массив', en: 'The element is added to a separate, unrelated array' },
+        { ru: 'Вставка данного элемента просто отменяется и полностью пропускается без каких-либо последствий', en: 'The insertion of that element is simply cancelled and skipped entirely without consequence' },
+        { ru: 'Весь массив целиком пересортировывается заново с нуля обычной пузырьковой сортировкой', en: 'The entire array is completely re-sorted from scratch using plain bubble sort' },
+        { ru: 'Элемент вместо этого добавляется в отдельный, никак не связанный вспомогательный массив', en: 'The element is instead added to a separate, entirely unrelated auxiliary array' },
       ],
       correct: 0,
       explanation: {
@@ -347,9 +347,9 @@ export const librarySort = {
       },
       options: [
         { ru: 'Да, O(n) — массив с зазорами больше исходного числа элементов', en: 'Yes, O(n) — the gapped array is larger than the original element count' },
-        { ru: 'Нет, сортирует строго на месте', en: 'No, it sorts strictly in place' },
-        { ru: 'Да, но только O(log n)', en: 'Yes, but only O(log n)' },
-        { ru: 'Нет, использует только регистры процессора', en: 'No, it only uses CPU registers' },
+        { ru: 'Нет, сортирует строго на месте, не выделяя вообще ни одной дополнительной ячейки', en: 'No, it sorts strictly in place without allocating a single extra cell at all' },
+        { ru: 'Да, но требуется лишь незначительный логарифмический объём O(log n)', en: 'Yes, but it only ever requires a small logarithmic amount, O(log n)' },
+        { ru: 'Нет, вся работа выполняется исключительно в регистрах процессора', en: 'No, all of the work is performed exclusively within CPU registers' },
       ],
       correct: 0,
       explanation: {

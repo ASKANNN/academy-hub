@@ -174,9 +174,18 @@ export const selectionSort = {
           ru: 'Перестановка минимума с границей может «перепрыгнуть» через равный элемент и изменить его относительный порядок',
           en: 'Swapping the minimum with the boundary can "jump over" an equal element and change its relative order',
         },
-        { ru: 'Алгоритм использует случайные числа', en: 'The algorithm uses random numbers' },
-        { ru: 'Он не сортирует на месте', en: 'It does not sort in place' },
-        { ru: 'Он работает только с целыми числами', en: 'It only works with integers' },
+        {
+          ru: 'Алгоритм использует случайные числа для выбора следующего элемента на каждом шаге, что делает результат непредсказуемым',
+          en: 'The algorithm uses random numbers to decide the next element to process at every step, making the result unpredictable',
+        },
+        {
+          ru: 'Он не сортирует на месте, требуя отдельного вспомогательного массива для результата размером с исходный',
+          en: 'It does not sort in place, requiring a separate auxiliary array the same size as the original for the result',
+        },
+        {
+          ru: 'Он работает только с целыми числами и не может обрабатывать строки или объекты',
+          en: 'It only works with integers and cannot handle strings or arbitrary objects',
+        },
       ],
       correct: 0,
       explanation: {
@@ -198,9 +207,18 @@ export const selectionSort = {
           ru: 'Сортировка выбором делает намного меньше перестановок, но столько же сравнений',
           en: 'Selection sort makes far fewer swaps but the same number of comparisons',
         },
-        { ru: 'Сортировка выбором работает за O(n log n)', en: 'Selection sort runs in O(n log n)' },
-        { ru: 'Сортировка выбором требует O(n) дополнительной памяти', en: 'Selection sort needs O(n) extra memory' },
-        { ru: 'Разницы нет — оба алгоритма идентичны по производительности', en: 'There is no difference — both algorithms perform identically' },
+        {
+          ru: 'Сортировка выбором работает за O(n log n) благодаря более умному поиску минимума',
+          en: 'Selection sort runs in O(n log n) thanks to a smarter way of locating the minimum',
+        },
+        {
+          ru: 'Сортировка выбором требует O(n) дополнительной памяти для хранения промежуточных результатов',
+          en: 'Selection sort needs O(n) extra memory to store intermediate results during sorting',
+        },
+        {
+          ru: 'Разницы нет — оба алгоритма идентичны по производительности в любых сценариях',
+          en: 'There is no difference — both algorithms perform identically in every scenario',
+        },
       ],
       correct: 0,
       explanation: {
@@ -222,9 +240,18 @@ export const selectionSort = {
           ru: 'Нет — она всегда просматривает всю неотсортированную часть на каждом шаге',
           en: 'No — it always scans the entire unsorted part on every step',
         },
-        { ru: 'Да, O(n) на уже отсортированном массиве', en: 'Yes, O(n) on an already sorted array' },
-        { ru: 'Да, O(log n) на случайных данных', en: 'Yes, O(log n) on random data' },
-        { ru: 'Да, но только для строк', en: 'Yes, but only for strings' },
+        {
+          ru: 'Да, O(n) на уже отсортированном массиве благодаря раннему выходу из цикла',
+          en: 'Yes, O(n) on an already sorted array thanks to an early exit from the loop',
+        },
+        {
+          ru: 'Да, O(log n) на случайных данных за счёт бинарного поиска минимума',
+          en: 'Yes, O(log n) on random data thanks to a binary search for the minimum',
+        },
+        {
+          ru: 'Да, но только для строк благодаря лексикографическому сравнению символов',
+          en: 'Yes, but only for strings thanks to lexicographic character comparison',
+        },
       ],
       correct: 0,
       explanation: {
@@ -246,9 +273,18 @@ export const selectionSort = {
           ru: 'Когда операция записи заметно дороже операции сравнения',
           en: 'When a write operation is noticeably more expensive than a comparison',
         },
-        { ru: 'Для сортировки многогигабайтных файлов на диске', en: 'For sorting multi-gigabyte files on disk' },
-        { ru: 'Когда данные почти отсортированы', en: 'When the data is nearly sorted' },
-        { ru: 'Для сортировки связных списков', en: 'For sorting linked lists' },
+        {
+          ru: 'Для сортировки многогигабайтных файлов на диске с ограниченной оперативной памятью',
+          en: 'For sorting multi-gigabyte files on disk with limited available memory',
+        },
+        {
+          ru: 'Когда данные почти отсортированы и нужен алгоритм с ранним завершением',
+          en: 'When the data is nearly sorted and an early-exit algorithm is desired',
+        },
+        {
+          ru: 'Для сортировки связных списков, где произвольный доступ к элементам недоступен',
+          en: 'For sorting linked lists, where random access to elements is unavailable',
+        },
       ],
       correct: 0,
       explanation: {
@@ -267,9 +303,18 @@ export const selectionSort = {
       },
       options: [
         { ru: 'n(n − 1) / 2', en: 'n(n − 1) / 2' },
-        { ru: 'n log n', en: 'n log n' },
-        { ru: 'n − 1', en: 'n − 1' },
-        { ru: 'Зависит от исходного порядка данных', en: 'It depends on the initial order of the data' },
+        {
+          ru: 'n log n — как у оптимальных алгоритмов сравнения',
+          en: 'n log n — matching the optimal comparison-based algorithms',
+        },
+        {
+          ru: 'n − 1 — столько же, сколько и максимальное число перестановок',
+          en: 'n − 1 — the same as the maximum number of swaps',
+        },
+        {
+          ru: 'Зависит от исходного порядка расположения элементов в массиве',
+          en: 'It depends on the initial order in which the elements are arranged',
+        },
       ],
       correct: 0,
       explanation: {
@@ -291,9 +336,18 @@ export const selectionSort = {
           ru: 'Пирамидальная сортировка (heap sort) — находит минимум/максимум за O(log n) вместо O(n)',
           en: 'Heap sort — it finds the minimum/maximum in O(log n) instead of O(n)',
         },
-        { ru: 'Сортировка слиянием', en: 'Merge sort' },
-        { ru: 'Сортировка подсчётом', en: 'Counting sort' },
-        { ru: 'Пузырьковая сортировка', en: 'Bubble sort' },
+        {
+          ru: 'Сортировка слиянием — делит массив пополам и сливает отсортированные половины обратно',
+          en: 'Merge sort — splits the array in half and merges the sorted halves back together',
+        },
+        {
+          ru: 'Сортировка подсчётом — считает частоту каждого значения вместо сравнения элементов',
+          en: 'Counting sort — tallies the frequency of each value instead of comparing elements',
+        },
+        {
+          ru: 'Пузырьковая сортировка — многократно меняет местами соседние элементы не по порядку',
+          en: 'Bubble sort — repeatedly swaps adjacent elements that are out of order with each other',
+        },
       ],
       correct: 0,
       explanation: {
@@ -315,9 +369,18 @@ export const selectionSort = {
           ru: 'Вставлять найденный минимум на место сдвигом элементов, а не прямым обменом с границей',
           en: 'Insert the found minimum into place by shifting elements over, instead of directly swapping with the boundary',
         },
-        { ru: 'Сортировать в обратном порядке, а затем развернуть результат', en: 'Sort in reverse and then reverse the result' },
-        { ru: 'Использовать два отдельных массива', en: 'Use two separate arrays' },
-        { ru: 'Это принципиально невозможно', en: 'It is fundamentally impossible' },
+        {
+          ru: 'Сортировать в обратном порядке, а затем полностью развернуть весь итоговый результат целиком в самом конце работы',
+          en: 'Sort in reverse order and then completely reverse the entire final result afterward at the very end of the run',
+        },
+        {
+          ru: 'Использовать два отдельных массива и постоянно копировать элементы туда и обратно между ними на каждом шаге',
+          en: 'Use two separate arrays and constantly copy elements back and forth between them at every single step',
+        },
+        {
+          ru: 'Это принципиально невозможно сделать для данного конкретного алгоритма никаким известным способом',
+          en: 'It is fundamentally impossible to do for this particular algorithm by any known method whatsoever',
+        },
       ],
       correct: 0,
       explanation: {
@@ -339,9 +402,18 @@ export const selectionSort = {
           ru: 'Всё слева от границы уже находится на своём окончательном отсортированном месте',
           en: 'Everything left of the boundary is already in its final sorted position',
         },
-        { ru: 'Весь массив является корректной кучей', en: 'The whole array is a valid heap' },
-        { ru: 'Элементы отсортированы по модулю значения', en: 'Elements are sorted by absolute value' },
-        { ru: 'Массив разбит на две отсортированные половины', en: 'The array is split into two sorted halves' },
+        {
+          ru: 'Весь массив в любой момент является корректной кучей относительно значений',
+          en: 'The whole array is a valid heap with respect to values at every moment',
+        },
+        {
+          ru: 'Элементы отсортированы по модулю значения, а не по самому значению',
+          en: 'Elements are sorted by absolute value rather than by their actual value',
+        },
+        {
+          ru: 'Массив в любой момент разбит на две уже независимо отсортированные половины',
+          en: 'The array is split into two already independently sorted halves at all times',
+        },
       ],
       correct: 0,
       explanation: {
@@ -363,9 +435,18 @@ export const selectionSort = {
           ru: 'Нет — число сравнений всегда одинаково, меняется лишь число реальных перестановок',
           en: 'No — the number of comparisons is always the same; only the number of actual swaps can change',
         },
-        { ru: 'Да — на отсортированном массиве сравнений O(n)', en: 'Yes — on a sorted array comparisons drop to O(n)' },
-        { ru: 'Да — на массиве в обратном порядке сравнений меньше', en: 'Yes — a reverse-sorted array needs fewer comparisons' },
-        { ru: 'Да — на случайных данных алгоритм всегда быстрее всего', en: 'Yes — random data is always the fastest case' },
+        {
+          ru: 'Да — на уже отсортированном массиве число сравнений падает до линейного O(n)',
+          en: 'Yes — on an already sorted array the number of comparisons drops down to linear O(n)',
+        },
+        {
+          ru: 'Да — на массиве в обратном порядке требуется заметно меньше сравнений подряд на каждом шаге алгоритма',
+          en: 'Yes — a reverse-sorted array needs noticeably fewer comparisons performed in sequence at every step',
+        },
+        {
+          ru: 'Да — на полностью случайных данных этот алгоритм всегда оказывается быстрее всего',
+          en: 'Yes — on completely random data this algorithm always turns out to be the fastest',
+        },
       ],
       correct: 0,
       explanation: {

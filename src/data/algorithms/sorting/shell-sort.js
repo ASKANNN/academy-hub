@@ -156,9 +156,9 @@ export const shellSort = {
       },
       options: [
         { ru: 'Сравнение элементов на расстоянии gap друг от друга вместо соседних', en: 'Comparing elements gap positions apart instead of adjacent ones' },
-        { ru: 'Использование дополнительного массива для слияния', en: 'Using an extra array for merging' },
-        { ru: 'Рекурсивное разбиение массива пополам', en: 'Recursively splitting the array in half' },
-        { ru: 'Подсчёт количества каждого значения', en: 'Counting occurrences of each value' },
+        { ru: 'Использование дополнительного массива такого же размера для слияния отсортированных половин', en: 'Using an extra array the same size as the input for merging sorted halves' },
+        { ru: 'Рекурсивное разбиение массива пополам до тех пор, пока не останутся единичные элементы', en: 'Recursively splitting the array in half until only single elements remain' },
+        { ru: 'Подсчёт количества вхождений каждого отдельного значения во всём массиве', en: 'Counting the number of occurrences of each individual value across the whole array' },
       ],
       correct: 0,
       explanation: {
@@ -173,9 +173,9 @@ export const shellSort = {
       },
       options: [
         { ru: 'Выполняется обычная сортировка вставками по почти упорядоченному массиву', en: 'A plain insertion sort runs over an already nearly sorted array' },
-        { ru: 'Алгоритм завершается без финального прохода', en: 'The algorithm finishes without a final pass' },
-        { ru: 'Массив сортируется слиянием', en: 'The array is sorted via merging' },
-        { ru: 'Начинается подсчёт частот элементов', en: 'Element frequency counting begins' },
+        { ru: 'Алгоритм полностью завершается, вообще пропуская последний финальный проход', en: 'The algorithm finishes entirely, completely skipping the very last final pass' },
+        { ru: 'Оставшийся массив досортировывается путём слияния двух его отсортированных половин', en: 'The remaining array gets sorted by merging its two already-sorted halves together' },
+        { ru: 'Начинается отдельный подсчёт частот встречаемости каждого элемента массива', en: 'A separate count of each array element\'s frequency of occurrence begins' },
       ],
       correct: 0,
       explanation: {
@@ -190,8 +190,8 @@ export const shellSort = {
       },
       options: [
         { ru: 'Нет — сравнения через gap могут поменять порядок равных элементов', en: 'No — gapped comparisons can change the order of equal elements' },
-        { ru: 'Да — как и обычная сортировка вставками', en: 'Yes — same as plain insertion sort' },
-        { ru: 'Зависит от размера массива', en: 'It depends on the array size' },
+        { ru: 'Да — она устойчива точно так же, как и обычная сортировка вставками', en: 'Yes — it\'s stable in exactly the same way plain insertion sort is' },
+        { ru: 'Зависит от конкретного размера сортируемого входного массива', en: 'It depends on the specific size of the input array being sorted' },
         { ru: 'Устойчивость к сортировкам на месте неприменима', en: 'Stability doesn\'t apply to in-place sorts' },
       ],
       correct: 0,

@@ -205,9 +205,9 @@ export const postmanSort = {
           ru: 'Обрабатывает цифры от старшей к младшей (MSD), а не от младшей к старшей (LSD)',
           en: 'It processes digits from most to least significant (MSD) rather than least to most (LSD)',
         },
-        { ru: 'Не использует корзины вообще, полагаясь только на сравнения элементов', en: 'It doesn\'t use buckets at all, relying only on element comparisons' },
-        { ru: 'Работает только с отрицательными числами и не поддерживает положительные', en: 'It only works with negative numbers and doesn\'t support positive ones' },
-        { ru: 'Требует предварительной сортировки входных данных перед первым проходом', en: 'It requires the input to already be pre-sorted before the first pass' },
+        { ru: 'Она вообще не использует никакие корзины, полагаясь исключительно на прямые попарные сравнения элементов', en: 'It doesn\'t use any buckets at all, relying exclusively on direct pairwise comparisons of elements' },
+        { ru: 'Она работает исключительно с отрицательными числами и совершенно не поддерживает положительные значения', en: 'It only works with negative numbers and doesn\'t support positive values whatsoever' },
+        { ru: 'Она требует, чтобы входные данные были уже полностью отсортированы заранее перед самым первым проходом', en: 'It requires that the input already be fully pre-sorted well before the very first pass begins' },
       ],
       correct: 0,
       explanation: {
@@ -259,9 +259,9 @@ export const postmanSort = {
       },
       options: [
         { ru: 'Нет — она распределяет элементы по цифрам, не сравнивая их напрямую друг с другом', en: 'No — it distributes elements by digit value, without directly comparing them to each other' },
-        { ru: 'Да, как быстрая сортировка, сравнивающая пары элементов между собой', en: 'Yes, like quicksort, which compares pairs of elements against each other' },
-        { ru: 'Да, но только для отрицательных чисел, где сравнение неизбежно', en: 'Yes, but only for negative numbers, where comparison is unavoidable' },
-        { ru: 'Зависит от языка реализации и используемой платформы', en: 'It depends on the implementation language and platform used' },
+        { ru: 'Да, точно так же, как быстрая сортировка, постоянно сравнивающая пары элементов друг с другом', en: 'Yes, exactly like quicksort, which constantly compares pairs of elements against each other' },
+        { ru: 'Да, но исключительно для отрицательных чисел, где прямое сравнение оказывается совершенно неизбежным', en: 'Yes, but only for negative numbers, where direct comparison turns out to be completely unavoidable' },
+        { ru: 'Это полностью зависит от конкретного языка реализации и используемой аппаратной платформы', en: 'It entirely depends on the specific implementation language and the hardware platform being used' },
       ],
       correct: 0,
       explanation: {

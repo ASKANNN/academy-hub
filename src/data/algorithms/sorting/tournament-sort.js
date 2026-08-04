@@ -201,9 +201,9 @@ export const tournamentSort = {
           ru: 'Минимум находится за O(log n) с помощью дерева турнира вместо линейного прохода O(n)',
           en: 'The minimum is found in O(log n) via a tournament tree instead of a linear O(n) scan',
         },
-        { ru: 'Она сортирует только чётные числа', en: 'It only sorts even numbers' },
-        { ru: 'Она не использует сравнения вообще', en: 'It doesn\'t use comparisons at all' },
-        { ru: 'Разницы нет, это два названия одного алгоритма', en: 'There\'s no difference, it\'s two names for the same algorithm' },
+        { ru: 'Она сортирует только чётные числа, полностью игнорируя все нечётные значения массива', en: 'It only sorts even numbers, completely ignoring every odd value found in the array' },
+        { ru: 'Она вообще не использует сравнения элементов, а полагается исключительно на хеширование', en: 'It doesn\'t use element comparisons at all, relying exclusively on hashing instead' },
+        { ru: 'Разницы вообще нет, это просто два разных исторических названия одного и того же алгоритма', en: 'There\'s no difference whatsoever, it\'s just two different historical names for the exact same algorithm' },
       ],
       correct: 0,
       explanation: {
@@ -218,9 +218,9 @@ export const tournamentSort = {
       },
       options: [
         { ru: 'Оно заменяется на +∞, чтобы больше не побеждать в сравнениях', en: 'It is replaced with +∞ so it can never win a comparison again' },
-        { ru: 'Лист удаляется из дерева физически', en: 'The leaf is physically removed from the tree' },
-        { ru: 'Всё дерево строится заново с нуля', en: 'The whole tree is rebuilt from scratch' },
-        { ru: 'Значение переносится в корень', en: 'The value is moved into the root' },
+        { ru: 'Лист физически удаляется из дерева, и все узлы ниже него смещаются вверх', en: 'The leaf is physically removed from the tree, and every node below it shifts upward' },
+        { ru: 'Всё дерево турнира каждый раз перестраивается заново с нуля целиком', en: 'The entire tournament tree is rebuilt completely from scratch every single time' },
+        { ru: 'Извлечённое значение переносится и постоянно хранится в корне дерева', en: 'The extracted value is moved into and permanently stored at the root of the tree' },
       ],
       correct: 0,
       explanation: {
@@ -235,9 +235,9 @@ export const tournamentSort = {
       },
       options: [
         { ru: 'O(log n)', en: 'O(log n)' },
-        { ru: 'O(n)', en: 'O(n)' },
-        { ru: 'O(1)', en: 'O(1)' },
-        { ru: 'O(n²)', en: 'O(n²)' },
+        { ru: 'O(n), как и в обычной сортировке выбором', en: 'O(n), the same as plain selection sort' },
+        { ru: 'O(1), это происходит мгновенно', en: 'O(1), it happens instantly' },
+        { ru: 'O(n²), как при полной пересборке', en: 'O(n²), as with a full rebuild' },
       ],
       correct: 0,
       explanation: {
@@ -252,9 +252,9 @@ export const tournamentSort = {
       },
       options: [
         { ru: 'O(n) — для хранения дерева турнира', en: 'O(n) — to store the tournament tree' },
-        { ru: 'O(1) — сортирует полностью на месте', en: 'O(1) — sorts entirely in place' },
-        { ru: 'O(log n)', en: 'O(log n)' },
-        { ru: 'O(n²)', en: 'O(n²)' },
+        { ru: 'O(1) — сортирует полностью на месте, без единого дополнительного узла', en: 'O(1) — sorts entirely in place, without a single extra node' },
+        { ru: 'O(log n), потому что хранится только один путь дерева', en: 'O(log n), because only a single tree path is kept in memory' },
+        { ru: 'O(n²), из-за постоянной полной пересборки дерева', en: 'O(n²), due to constantly rebuilding the whole tree completely' },
       ],
       correct: 0,
       explanation: {
@@ -272,9 +272,9 @@ export const tournamentSort = {
           ru: 'В k-путевом слиянии при внешней сортировке больших файлов',
           en: 'In k-way merging during external sorting of large files',
         },
-        { ru: 'В сжатии изображений', en: 'In image compression' },
-        { ru: 'В хешировании строк', en: 'In string hashing' },
-        { ru: 'В шифровании с открытым ключом', en: 'In public-key encryption' },
+        { ru: 'В сжатии изображений и видео на лету во время потоковой передачи', en: 'In real-time image and video compression during streaming playback' },
+        { ru: 'В хешировании строк для распределённых таблиц соответствия', en: 'In string hashing for distributed lookup and mapping tables' },
+        { ru: 'В шифровании с открытым ключом для обмена секретными сессионными ключами', en: 'In public-key encryption for exchanging secret session keys' },
       ],
       correct: 0,
       explanation: {

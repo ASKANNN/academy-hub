@@ -202,9 +202,9 @@ export const patienceSort = {
           ru: 'Длину самой длинной строго убывающей (сверху вниз) подпоследовательности значений',
           en: 'The length of the longest strictly decreasing (top-to-bottom) subsequence of values',
         },
-        { ru: 'Количество перестановок, нужных для сортировки всего массива целиком', en: 'The number of swaps needed to sort the entire array' },
-        { ru: 'Число уже отсортированных элементов, обнаруженных до начала раскладки', en: 'The number of already-sorted elements found before dealing began' },
-        { ru: 'Ничего — это просто побочный эффект без какого-либо смысла или применения', en: 'Nothing — it\'s just a meaningless side effect with no application' },
+        { ru: 'Количество отдельных перестановок элементов, нужных для полной сортировки всего массива целиком', en: 'The number of individual element swaps needed to fully sort the entire array from start to finish' },
+        { ru: 'Число элементов, которые уже были отсортированы заранее до самого начала процесса раскладки', en: 'The number of elements that were already sorted beforehand, well before the dealing process even began' },
+        { ru: 'Совершенно ничего — это просто бессмысленный побочный эффект без какого-либо практического применения', en: 'Absolutely nothing — it\'s just a meaningless side effect with no practical application whatsoever' },
       ],
       correct: 0,
       explanation: {

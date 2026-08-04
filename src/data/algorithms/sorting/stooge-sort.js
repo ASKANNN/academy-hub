@@ -176,9 +176,9 @@ export const stoogeSort = {
       },
       options: [
         { ru: 'На три перекрывающихся вызова: первые 2/3, последние 2/3, снова первые 2/3', en: 'Three overlapping calls: the first 2/3, the last 2/3, the first 2/3 again' },
-        { ru: 'На две непересекающиеся половины, которые затем сливаются в отсортированном порядке', en: 'Two non-overlapping halves, which are then merged back in sorted order' },
-        { ru: 'На n непересекающихся частей по одному элементу, как в корзинной сортировке', en: 'n non-overlapping single-element parts, as in bucket sort' },
-        { ru: 'На случайно выбранные подмассивы, размер которых меняется при каждом вызове', en: 'Randomly chosen subarrays whose size changes on every call' },
+        { ru: 'На две полностью непересекающиеся половины, которые впоследствии сливаются между собой в отсортированном порядке', en: 'Two entirely non-overlapping halves, which are subsequently merged back together in sorted order' },
+        { ru: 'На n полностью непересекающихся частей по одному элементу в каждой, точно как в корзинной сортировке', en: 'n entirely non-overlapping single-element parts, each on its own, exactly as in bucket sort' },
+        { ru: 'На случайно выбираемые подмассивы произвольного размера, который каждый раз меняется при новом вызове', en: 'Randomly chosen subarrays of arbitrary size, which changes anew on every single call' },
       ],
       correct: 0,
       explanation: {
@@ -213,9 +213,9 @@ export const stoogeSort = {
           ru: 'Тройное перекрывающееся применение к двум третям диапазона доказуемо гарантирует правильный порядок',
           en: 'The triple overlapping application to two-thirds of the range provably guarantees correct ordering',
         },
-        { ru: 'Она на самом деле не гарантирует корректность в общем случае и иногда оставляет массив неотсортированным', en: 'It actually does not guarantee correctness in general and sometimes leaves the array unsorted' },
-        { ru: 'Потому что сначала выполняется отдельный скрытый проход сортировки вставками по всему массиву', en: 'Because a separate hidden insertion sort pass runs first over the whole array' },
-        { ru: 'Только для чётного числа элементов, а для нечётного требуется отдельная обработка', en: 'Only for an even number of elements, with odd counts requiring separate handling' },
+        { ru: 'На самом деле она вообще не гарантирует корректность в общем случае и иногда оставляет часть массива неотсортированной', en: 'It actually does not guarantee correctness in the general case at all and sometimes leaves part of the array unsorted' },
+        { ru: 'Потому что перед этим сначала незаметно выполняется отдельный скрытый проход сортировки вставками по всему массиву целиком', en: 'Because a separate hidden insertion sort pass silently runs first over the entire array beforehand' },
+        { ru: 'Это работает только для чётного числа элементов, тогда как для нечётного числа требуется совершенно отдельная обработка', en: 'This only works for an even number of elements, while an odd count requires completely separate handling' },
       ],
       correct: 0,
       explanation: {

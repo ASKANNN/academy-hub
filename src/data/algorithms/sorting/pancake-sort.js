@@ -192,9 +192,9 @@ export const pancakeSort = {
           ru: 'Первый переворот доставляет максимум в начало, второй — переносит его на нужное место в конце префикса',
           en: 'The first flip brings the maximum to the start, the second carries it to its correct place at the end of the prefix',
         },
-        { ru: 'Один переворот всегда сортирует массив полностью, поэтому второй нужен лишь для проверки результата', en: 'A single flip always sorts the array completely, so the second is only needed to verify the result' },
-        { ru: 'Второй переворот отменяет действие первого, возвращая массив в исходное состояние перед следующим шагом', en: 'The second flip undoes the first, returning the array to its original state before the next step' },
-        { ru: 'Это требование только для чётных размеров массива, а для нечётных достаточно одного переворота', en: 'This is only required for even array sizes, while odd sizes need just one flip' },
+        { ru: 'Один-единственный переворот всегда сортирует весь массив полностью, поэтому второй переворот выполняется лишь для дополнительной проверки итогового результата', en: 'A single flip always sorts the entire array completely on its own, so the second flip is only ever performed to double-check the final result' },
+        { ru: 'Второй переворот полностью отменяет действие первого, возвращая массив ровно в то же исходное состояние, в котором он находился перед началом текущего шага', en: 'The second flip completely undoes the effect of the first one, returning the array to exactly the same original state it was in before the current step began' },
+        { ru: 'Такая пара переворотов требуется исключительно для массивов с чётным числом элементов, тогда как для массивов с нечётным числом элементов достаточно всего одного переворота', en: 'This pair of flips is only ever required for arrays with an even number of elements, while arrays with an odd count need just a single flip' },
       ],
       correct: 0,
       explanation: {
@@ -226,9 +226,9 @@ export const pancakeSort = {
       },
       options: [
         { ru: 'Нет — переворот префикса меняет относительный порядок равных элементов', en: 'No — flipping a prefix changes the relative order of equal elements' },
-        { ru: 'Да, всегда сохраняет порядок равных элементов', en: 'Yes, it always preserves the order of equal elements' },
-        { ru: 'Только для массивов без повторов', en: 'Only for arrays with no duplicates' },
-        { ru: 'Устойчивость здесь не определена', en: 'Stability isn\'t defined for this algorithm' },
+        { ru: 'Да, она всегда полностью сохраняет исходный относительный порядок равных элементов', en: 'Yes, it always fully preserves the original relative order of equal elements' },
+        { ru: 'Только в частном случае массивов, вообще не содержащих никаких повторяющихся значений', en: 'Only in the special case of arrays containing no duplicate values whatsoever' },
+        { ru: 'Понятие устойчивости вообще не определено и неприменимо для данного конкретного алгоритма', en: 'The concept of stability isn\'t defined or applicable for this particular algorithm at all' },
       ],
       correct: 0,
       explanation: {
