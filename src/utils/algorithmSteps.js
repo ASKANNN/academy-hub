@@ -338,6 +338,53 @@ function bucketSortSteps(input) {
   return frames;
 }
 
+function timSortSteps(input) {
+  const a = [...input];
+  const n = a.length;
+  const frames = [frame(a, [], [])];
+  const MIN_RUN = 4;
+
+  for (let start = 0; start < n; start += MIN_RUN) {
+    const end = Math.min(start + MIN_RUN - 1, n - 1);
+    for (let i = start + 1; i <= end; i++) {
+      const current = a[i];
+      let j = i - 1;
+      frames.push(frame(a, [i], []));
+      while (j >= start && a[j] > current) {
+        a[j + 1] = a[j];
+        j--;
+        frames.push(frame(a, [j + 1], []));
+      }
+      a[j + 1] = current;
+    }
+    frames.push(frame(a, [], rangeFrom(start, end + 1)));
+  }
+
+  for (let size = MIN_RUN; size < n; size *= 2) {
+    for (let left = 0; left < n; left += size * 2) {
+      const mid = Math.min(left + size - 1, n - 1);
+      const right = Math.min(left + size * 2 - 1, n - 1);
+      if (mid >= right) continue;
+
+      const leftPart = a.slice(left, mid + 1);
+      const rightPart = a.slice(mid + 1, right + 1);
+      let i = 0, j = 0, k = left;
+      while (i < leftPart.length && j < rightPart.length) {
+        frames.push(frame(a, [k], []));
+        if (leftPart[i] <= rightPart[j]) a[k++] = leftPart[i++];
+        else a[k++] = rightPart[j++];
+        frames.push(frame(a, [k - 1], []));
+      }
+      while (i < leftPart.length) { a[k++] = leftPart[i++]; frames.push(frame(a, [k - 1], [])); }
+      while (j < rightPart.length) { a[k++] = rightPart[j++]; frames.push(frame(a, [k - 1], [])); }
+      frames.push(frame(a, [], rangeFrom(left, right + 1)));
+    }
+  }
+
+  frames.push(frame(a, [], rangeFrom(0, n)));
+  return frames;
+}
+
 function rangeFrom(start, end) {
   const out = [];
   for (let i = start; i < end; i++) out.push(i);
@@ -357,6 +404,7 @@ const GENERATORS = {
   'counting-sort': countingSortSteps,
   'radix-sort': radixSortSteps,
   'bucket-sort': bucketSortSteps,
+  'tim-sort': timSortSteps,
 };
 
 export function generateSteps(slug, array) {
