@@ -1,7 +1,7 @@
 export const selectionSort = {
   slug: 'selection-sort',
   category: 'sorting',
-  name: { ru: 'Сортировка выбором', en: 'Selection Sort' },
+  name: { ru: 'Selection Sort', en: 'Selection Sort' },
   complexity: {
     time: { best: 'O(n²)', average: 'O(n²)', worst: 'O(n²)' },
     space: 'O(1)',
@@ -159,6 +159,10 @@ export const selectionSort = {
         ru: 'На каждом из n−1 шагов происходит не более одной перестановки — минимум обменивается с элементом на границе.',
         en: 'Each of the n−1 steps performs at most one swap — the minimum is exchanged with the boundary element.',
       },
+      hint: {
+        ru: 'Подумай, сколько перестановок происходит за один шаг, и сколько всего таких шагов в алгоритме.',
+        en: 'Think about how many swaps happen per step, and how many steps the algorithm takes in total.',
+      },
     },
     {
       question: {
@@ -178,6 +182,10 @@ export const selectionSort = {
       explanation: {
         ru: 'Если минимум находится дальше в массиве, чем равный ему по значению элемент ближе к границе, обмен местами меняет их исходный порядок.',
         en: 'If the minimum is found further in the array than an equal-valued element closer to the boundary, the swap changes their original order.',
+      },
+      hint: {
+        ru: 'Подумай, что происходит с равным по значению элементом, стоящим между границей и найденным минимумом, когда происходит обмен.',
+        en: 'Think about what happens to an equal-valued element sitting between the boundary and the found minimum when the swap happens.',
       },
     },
     {
@@ -199,6 +207,10 @@ export const selectionSort = {
         ru: 'Оба алгоритма делают O(n²) сравнений, но сортировка выбором ограничивает число перестановок до n−1, тогда как пузырьковая может переставлять элементы почти при каждом сравнении.',
         en: 'Both make O(n²) comparisons, but selection sort caps swaps at n−1, while bubble sort can swap on almost every comparison.',
       },
+      hint: {
+        ru: 'Раздели вопрос на два отдельных счётчика: сколько сравнений и сколько перестановок делает каждый алгоритм.',
+        en: 'Split the question into two separate counters: how many comparisons and how many swaps each algorithm performs.',
+      },
     },
     {
       question: {
@@ -219,6 +231,10 @@ export const selectionSort = {
         ru: 'В отличие от пузырьковой сортировки с ранним выходом, сортировка выбором всегда ищет минимум по всей оставшейся части — сравнения не зависят от исходного порядка.',
         en: 'Unlike bubble sort with early exit, selection sort always searches for the minimum across the whole remaining part — comparisons don\'t depend on the initial order.',
       },
+      hint: {
+        ru: 'Подумай, может ли внутренний цикл поиска минимума когда-нибудь пропустить часть неотсортированного участка.',
+        en: 'Think about whether the inner minimum-search loop can ever skip part of the unsorted range.',
+      },
     },
     {
       question: {
@@ -238,6 +254,127 @@ export const selectionSort = {
       explanation: {
         ru: 'Минимизация количества перестановок — главное преимущество алгоритма, поэтому он оправдан там, где запись стоит дороже, чем чтение и сравнение.',
         en: 'Minimizing the number of swaps is the algorithm\'s main advantage, so it pays off where writing costs more than reading and comparing.',
+      },
+      hint: {
+        ru: 'Вспомни главное преимущество алгоритма из его описания — что именно он минимизирует ценой большего числа сравнений.',
+        en: "Recall the algorithm's main advantage from its description — what exactly it minimizes at the cost of more comparisons.",
+      },
+    },
+    {
+      question: {
+        ru: 'Сколько всего сравнений выполнит сортировка выбором на массиве из n элементов, независимо от исходного порядка?',
+        en: 'How many total comparisons does selection sort perform on an array of n elements, regardless of the initial order?',
+      },
+      options: [
+        { ru: 'n(n − 1) / 2', en: 'n(n − 1) / 2' },
+        { ru: 'n log n', en: 'n log n' },
+        { ru: 'n − 1', en: 'n − 1' },
+        { ru: 'Зависит от исходного порядка данных', en: 'It depends on the initial order of the data' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'На каждом из n−1 шагов алгоритм просматривает весь оставшийся неотсортированный участок: (n−1) + (n−2) + … + 1 = n(n − 1) / 2 сравнений — эта сумма не зависит от того, как расположены элементы.',
+        en: 'Each of the n−1 steps scans the entire remaining unsorted range: (n−1) + (n−2) + … + 1 = n(n − 1) / 2 comparisons — this sum does not depend on how the elements are arranged.',
+      },
+      hint: {
+        ru: 'Просуммируй, сколько элементов просматривается на каждом из n−1 шагов.',
+        en: 'Sum up how many elements get scanned on each of the n−1 steps.',
+      },
+    },
+    {
+      question: {
+        ru: 'Какой классический алгоритм можно рассматривать как ускоренную версию шага «найти минимум» из сортировки выбором?',
+        en: "Which classic algorithm can be seen as a sped-up version of selection sort's 'find the minimum' step?",
+      },
+      options: [
+        {
+          ru: 'Пирамидальная сортировка (heap sort) — находит минимум/максимум за O(log n) вместо O(n)',
+          en: 'Heap sort — it finds the minimum/maximum in O(log n) instead of O(n)',
+        },
+        { ru: 'Сортировка слиянием', en: 'Merge sort' },
+        { ru: 'Сортировка подсчётом', en: 'Counting sort' },
+        { ru: 'Пузырьковая сортировка', en: 'Bubble sort' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Пирамидальная сортировка хранит неотсортированную часть в виде кучи, поэтому извлечение следующего экстремального элемента стоит O(log n) вместо полного линейного просмотра — это и снижает общую сложность до O(n log n).',
+        en: 'Heap sort keeps the unsorted part as a heap, so extracting the next extreme element costs O(log n) instead of a full linear scan — this is exactly what brings the total complexity down to O(n log n).',
+      },
+      hint: {
+        ru: 'Подумай, какая структура данных позволяет находить минимум быстрее, чем перебором всех элементов подряд.',
+        en: 'Think about what data structure lets you find a minimum faster than scanning every element one by one.',
+      },
+    },
+    {
+      question: {
+        ru: 'Как можно сделать сортировку выбором устойчивой (stable), пожертвовав числом операций записи?',
+        en: 'How can selection sort be made stable, at the cost of extra writes?',
+      },
+      options: [
+        {
+          ru: 'Вставлять найденный минимум на место сдвигом элементов, а не прямым обменом с границей',
+          en: 'Insert the found minimum into place by shifting elements over, instead of directly swapping with the boundary',
+        },
+        { ru: 'Сортировать в обратном порядке, а затем развернуть результат', en: 'Sort in reverse and then reverse the result' },
+        { ru: 'Использовать два отдельных массива', en: 'Use two separate arrays' },
+        { ru: 'Это принципиально невозможно', en: 'It is fundamentally impossible' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Устойчивость ломается именно из-за прямого обмена, который «перепрыгивает» через равный элемент. Если вместо обмена сдвигать элементы, освобождая место для минимума (как в сортировке вставками), относительный порядок равных элементов сохранится — ценой до O(n) записей за шаг вместо одной.',
+        en: 'Stability breaks specifically because of the direct swap, which "jumps over" an equal element. If, instead of swapping, elements are shifted to make room for the minimum (like in insertion sort), the relative order of equal elements is preserved — at the cost of up to O(n) writes per step instead of one.',
+      },
+      hint: {
+        ru: 'Подумай, что именно ломает устойчивость — сам обмен местами — и как избежать этого «перепрыгивания».',
+        en: 'Think about what specifically breaks stability — the swap itself — and how you would avoid that "jump".',
+      },
+    },
+    {
+      question: {
+        ru: 'Какой инвариант сортировка выбором поддерживает в начале каждого шага?',
+        en: 'What invariant does selection sort maintain at the start of every step?',
+      },
+      options: [
+        {
+          ru: 'Всё слева от границы уже находится на своём окончательном отсортированном месте',
+          en: 'Everything left of the boundary is already in its final sorted position',
+        },
+        { ru: 'Весь массив является корректной кучей', en: 'The whole array is a valid heap' },
+        { ru: 'Элементы отсортированы по модулю значения', en: 'Elements are sorted by absolute value' },
+        { ru: 'Массив разбит на две отсортированные половины', en: 'The array is split into two sorted halves' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Это инвариант цикла, который делает алгоритм корректным: как только элемент поставлен на границу и граница сдвинута, этот элемент больше никогда не трогается.',
+        en: "This is the loop invariant that makes the algorithm correct: once an element is placed at the boundary and the boundary advances, that element is never touched again.",
+      },
+      hint: {
+        ru: 'Подумай, что остаётся неизменным для элементов, уже оказавшихся слева от текущей границы шага.',
+        en: "Think about what stays unchanged for elements that already ended up left of the current step's boundary.",
+      },
+    },
+    {
+      question: {
+        ru: 'Влияет ли исходный порядок массива (отсортирован, в обратном порядке, случайный) на число сравнений сортировки выбором?',
+        en: 'Does the initial order of the array (sorted, reverse-sorted, random) affect the number of comparisons in selection sort?',
+      },
+      options: [
+        {
+          ru: 'Нет — число сравнений всегда одинаково, меняется лишь число реальных перестановок',
+          en: 'No — the number of comparisons is always the same; only the number of actual swaps can change',
+        },
+        { ru: 'Да — на отсортированном массиве сравнений O(n)', en: 'Yes — on a sorted array comparisons drop to O(n)' },
+        { ru: 'Да — на массиве в обратном порядке сравнений меньше', en: 'Yes — a reverse-sorted array needs fewer comparisons' },
+        { ru: 'Да — на случайных данных алгоритм всегда быстрее всего', en: 'Yes — random data is always the fastest case' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Поскольку каждый шаг просматривает весь оставшийся неотсортированный участок целиком в поисках минимума, число сравнений фиксировано и не зависит от порядка входных данных — сократиться до нуля может только число перестановок, если минимум уже стоит на границе.',
+        en: 'Because every step scans the entire remaining unsorted range in full to find the minimum, the number of comparisons is fixed and independent of input order — only the number of swaps can shrink to zero if the minimum already sits at the boundary.',
+      },
+      hint: {
+        ru: 'Вспомни, какая часть алгоритма — сравнения или перестановки — зависит от того, как именно расположены элементы.',
+        en: 'Recall which part of the algorithm — comparisons or swaps — depends on how the elements happen to be arranged.',
       },
     },
   ],

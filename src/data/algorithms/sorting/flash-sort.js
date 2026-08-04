@@ -1,7 +1,7 @@
 export const flashSort = {
   slug: 'flashsort',
   category: 'sorting',
-  name: { ru: 'Флэш-сортировка', en: 'Flashsort' },
+  name: { ru: 'Flashsort', en: 'Flashsort' },
   complexity: {
     time: { best: 'O(n)', average: 'O(n)', worst: 'O(n²)' },
     space: 'O(n)',
@@ -213,9 +213,9 @@ export const flashSort = {
       },
       options: [
         { ru: 'Вычисляет границы классов по значению для каждого элемента', en: 'Computes value-based class boundaries for the elements' },
-        { ru: 'Строит бинарное дерево поиска', en: 'Builds a binary search tree' },
-        { ru: 'Рекурсивно делит массив пополам', en: 'Recursively splits the array in half' },
-        { ru: 'Сортирует массив сравнениями', en: 'Sorts the array with comparisons' },
+        { ru: 'Строит бинарное дерево поиска по всем элементам массива', en: 'Builds a binary search tree over all the array elements' },
+        { ru: 'Рекурсивно делит массив пополам, как быстрая сортировка', en: 'Recursively splits the array in half, the way quicksort does' },
+        { ru: 'Сортирует массив сравнениями перед основным проходом', en: 'Sorts the array with comparisons before the main pass' },
       ],
       correct: 0,
       explanation: {
@@ -230,9 +230,9 @@ export const flashSort = {
       },
       options: [
         { ru: 'Цепочкой циклических перестановок на границы классов', en: 'By a chain of cyclic permutations onto class boundaries' },
-        { ru: 'Попарными обменами соседних элементов', en: 'By pairwise swaps of adjacent elements' },
-        { ru: 'Слиянием двух отсортированных половин', en: 'By merging two sorted halves' },
-        { ru: 'Извлечением минимума на каждом шаге', en: 'By extracting the minimum at each step' },
+        { ru: 'Попарными обменами соседних элементов, как в пузырьковой сортировке', en: 'By pairwise swaps of adjacent elements, as in bubble sort' },
+        { ru: 'Слиянием двух отдельно отсортированных половин массива', en: 'By merging two separately sorted halves of the array' },
+        { ru: 'Извлечением минимума на каждом шаге, как в сортировке выбором', en: 'By extracting the minimum at each step, as in selection sort' },
       ],
       correct: 0,
       explanation: {
@@ -250,9 +250,9 @@ export const flashSort = {
           ru: 'Чтобы устранить небольшой беспорядок, оставшийся внутри каждого класса после классификации',
           en: 'To remove the small disorder remaining within each class after classification',
         },
-        { ru: 'Потому что классификация вообще не меняет порядок элементов', en: 'Because classification does not change the element order at all' },
-        { ru: 'Чтобы освободить память, занятую классами', en: 'To free the memory used by the classes' },
-        { ru: 'Он не нужен, это опциональная оптимизация', en: 'It is not needed, it is an optional optimization' },
+        { ru: 'Потому что этап классификации вообще никак не меняет порядок элементов в массиве', en: 'Because the classification step does not change the element order in the array at all' },
+        { ru: 'Чтобы освободить память, занятую вспомогательным массивом классов после сортировки', en: 'To free up the memory used by the auxiliary class array once sorting finishes' },
+        { ru: 'Он вообще не нужен, это чисто опциональная оптимизация исключительно ради скорости', en: 'It is not needed at all, it is a purely optional optimization purely for extra speed' },
       ],
       correct: 0,
       explanation: {
@@ -287,9 +287,9 @@ export const flashSort = {
           ru: 'Числовые ключи, поддерживающие вычитание и умножение на константу',
           en: 'Numeric keys supporting subtraction and multiplication by a constant',
         },
-        { ru: 'Только целые числа без знака', en: 'Only unsigned integers' },
-        { ru: 'Любые объекты, сравнимые оператором «меньше»', en: 'Any objects comparable with "less than"' },
-        { ru: 'Только строки фиксированной длины', en: 'Only fixed-length strings' },
+        { ru: 'Только целые числа без знака, укладывающиеся в фиксированный заранее известный диапазон', en: 'Only unsigned integers that fit within a fixed, known-in-advance range of values' },
+        { ru: 'Любые объекты, сравнимые исключительно оператором «меньше», числа не требуются вовсе', en: 'Any objects comparable only with "less than", no numeric values required at all' },
+        { ru: 'Только строки строго фиксированной длины, сравниваемые посимвольно слева направо', en: 'Only strictly fixed-length strings, compared character by character from left to right' },
       ],
       correct: 0,
       explanation: {

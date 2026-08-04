@@ -1,7 +1,7 @@
 export const combSort = {
   slug: 'comb-sort',
   category: 'sorting',
-  name: { ru: 'Сортировка расчёской', en: 'Comb Sort' },
+  name: { ru: 'Comb Sort', en: 'Comb Sort' },
   complexity: {
     time: { best: 'O(n log n)', average: 'O(n² / 2^p)', worst: 'O(n²)' },
     space: 'O(1)',
@@ -163,9 +163,9 @@ export const combSort = {
       },
       options: [
         { ru: '«Черепах» — маленькие элементы, застревающие в конце массива', en: '"Turtles" — small elements getting stuck near the end of the array' },
-        { ru: 'Избыточное использование памяти', en: 'Excessive memory usage' },
-        { ru: 'Отсутствие поддержки отрицательных чисел', en: 'Lack of support for negative numbers' },
-        { ru: 'Невозможность сортировки строк', en: 'Inability to sort strings' },
+        { ru: 'Избыточное использование памяти, как в сортировке слиянием', en: 'Excessive memory usage, similar to what merge sort requires' },
+        { ru: 'Отсутствие поддержки отрицательных чисел без дополнительной обработки знака', en: 'Lack of support for negative numbers without extra sign handling' },
+        { ru: 'Невозможность сортировки строк без предварительного преобразования в числа', en: 'Inability to sort strings without first converting them to numbers' },
       ],
       correct: 0,
       explanation: {
@@ -180,9 +180,9 @@ export const combSort = {
       },
       options: [
         { ru: 'Делится на коэффициент сжатия (обычно 1.3)', en: 'Divided by a shrink factor (typically 1.3)' },
-        { ru: 'Увеличивается вдвое каждый проход', en: 'Doubles every pass' },
-        { ru: 'Остаётся фиксированным весь алгоритм', en: 'Stays fixed for the whole algorithm' },
-        { ru: 'Устанавливается случайно на каждом проходе', en: 'Is set randomly on each pass' },
+        { ru: 'Увеличивается вдвое каждый проход, как в бинарном поиске', en: 'Doubles every pass, similar to how binary search halves its range' },
+        { ru: 'Остаётся фиксированным весь алгоритм, как размер блока в блочной сортировке', en: 'Stays fixed for the whole algorithm, like the block size in block sort' },
+        { ru: 'Устанавливается случайно на каждом проходе для избежания худшего случая', en: 'Is set randomly on each pass to avoid worst-case inputs' },
       ],
       correct: 0,
       explanation: {
@@ -214,9 +214,9 @@ export const combSort = {
       },
       options: [
         { ru: 'Нет — перестановки через gap могут изменить порядок равных элементов', en: 'No — gapped swaps can change the order of equal elements' },
-        { ru: 'Да, как обычный bubble sort', en: 'Yes, same as plain bubble sort' },
-        { ru: 'Только при чётном значении gap', en: 'Only when the gap is even' },
-        { ru: 'Только на финальном проходе с gap=1', en: 'Only during the final gap=1 pass' },
+        { ru: 'Да, как обычный bubble sort, ведь оба используют только обмены соседей', en: 'Yes, same as plain bubble sort, since both only ever swap adjacent-looking pairs' },
+        { ru: 'Только при чётном значении gap, из-за симметрии сравнений', en: 'Only when the gap is even, due to the symmetry of the comparisons' },
+        { ru: 'Только на финальном проходе с gap=1, когда сравниваются соседи', en: 'Only during the final gap=1 pass, when neighbors are compared' },
       ],
       correct: 0,
       explanation: {

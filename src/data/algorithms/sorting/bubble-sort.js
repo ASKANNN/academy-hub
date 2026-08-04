@@ -1,7 +1,7 @@
 export const bubbleSort = {
   slug: 'bubble-sort',
   category: 'sorting',
-  name: { ru: 'Пузырьковая сортировка', en: 'Bubble Sort' },
+  name: { ru: 'Bubble Sort', en: 'Bubble Sort' },
   complexity: {
     time: { best: 'O(n)', average: 'O(n²)', worst: 'O(n²)' },
     space: 'O(1)',
@@ -165,6 +165,10 @@ export const bubbleSort = {
         ru: 'Сравнивая соседей слева направо и переставляя большие элементы правее, алгоритм гарантированно «выталкивает» наибольший элемент в конец за один проход.',
         en: 'By comparing left-to-right and pushing larger elements rightward, the algorithm guarantees the largest element gets pushed to the end in a single pass.',
       },
+      hint: {
+        ru: 'Подумай, что происходит с элементом, когда он оказывается больше своего соседа при каждом сравнении — куда он «двигается»?',
+        en: "Think about what happens to an element whenever it's bigger than its neighbor at each comparison — which direction does it keep moving?",
+      },
     },
     {
       question: {
@@ -173,14 +177,18 @@ export const bubbleSort = {
       },
       options: [
         { ru: 'Чтобы досрочно завершить сортировку, если массив уже упорядочен', en: 'To exit early once the array is already sorted' },
-        { ru: 'Чтобы посчитать количество инверсий', en: 'To count the number of inversions' },
-        { ru: 'Чтобы гарантировать устойчивость сортировки', en: 'To guarantee sort stability' },
-        { ru: 'Он не влияет на поведение алгоритма', en: 'It has no effect on the algorithm behavior' },
+        { ru: 'Чтобы посчитать общее количество инверсий за все проходы', en: 'To count the total number of inversions across all passes' },
+        { ru: 'Чтобы гарантировать устойчивость сортировки между проходами', en: 'To guarantee sort stability between passes' },
+        { ru: 'Он ни на что не влияет и оставлен по ошибке', en: 'It has no effect and was left in by mistake' },
       ],
       correct: 0,
       explanation: {
         ru: 'Если за целый проход не было перестановок, значит массив уже отсортирован — алгоритм может выйти из цикла раньше, доводя лучший случай до O(n).',
         en: 'If a full pass makes no swaps, the array is already sorted — the algorithm can break out early, bringing the best case down to O(n).',
+      },
+      hint: {
+        ru: 'Что означает отсутствие перестановок за целый проход с точки зрения порядка массива?',
+        en: "What does zero swaps during an entire pass tell you about the array's order?",
       },
     },
     {
@@ -199,6 +207,10 @@ export const bubbleSort = {
         ru: 'В худшем случае (массив отсортирован в обратном порядке) требуется полное количество проходов и сравнений — квадратичное от размера массива.',
         en: 'In the worst case (reverse-sorted array), the algorithm needs the full number of passes and comparisons — quadratic in the array size.',
       },
+      hint: {
+        ru: 'Посчитай, сколько сравнений потребуется, если после каждого прохода массив остаётся в обратном порядке.',
+        en: 'Count how many comparisons are needed if the array stays reverse-ordered after every pass.',
+      },
     },
     {
       question: {
@@ -216,6 +228,10 @@ export const bubbleSort = {
         ru: 'Все перестановки происходят прямо в исходном массиве, дополнительно нужна лишь пара временных переменных для обмена значениями.',
         en: 'All swaps happen directly in the original array; only a couple of temporary variables are needed to exchange values.',
       },
+      hint: {
+        ru: 'Обрати внимание, используется ли отдельная структура данных для хранения промежуточных результатов, или всё происходит прямо в исходном массиве.',
+        en: 'Notice whether any separate data structure holds intermediate results, or whether everything happens directly in the original array.',
+      },
     },
     {
       question: {
@@ -227,14 +243,132 @@ export const bubbleSort = {
           ru: 'Равные по значению элементы сохраняют исходный относительный порядок',
           en: 'Elements with equal values keep their original relative order',
         },
-        { ru: 'Алгоритм никогда не падает на пустом массиве', en: 'The algorithm never crashes on an empty array' },
-        { ru: 'Время выполнения не зависит от входных данных', en: 'Runtime does not depend on the input data' },
-        { ru: 'Сортировка всегда завершается за O(n)', en: 'The sort always finishes in O(n)' },
+        { ru: 'Алгоритм никогда не падает на пустом или однотонном массиве', en: 'The algorithm never crashes on an empty or single-element array' },
+        { ru: 'Время выполнения не зависит от порядка входных данных', en: 'Runtime does not depend on the order of the input data' },
+        { ru: 'Сортировка всегда завершается ровно за O(n) шагов', en: 'The sort always finishes in exactly O(n) steps' },
       ],
       correct: 0,
       explanation: {
         ru: 'Алгоритм меняет местами только строго больший элемент со следующим — равные элементы никогда не переставляются друг с другом, порядок между ними сохраняется.',
         en: 'The algorithm only swaps a strictly greater element with the next one — equal elements never swap with each other, so their order is preserved.',
+      },
+      hint: {
+        ru: 'Подумай, могут ли вообще поменяться местами два равных элемента при сравнении «строго больше».',
+        en: 'Think about whether two equal elements can ever swap under a strictly-greater comparison.',
+      },
+    },
+    {
+      question: {
+        ru: 'При каких условиях пузырьковая сортировка с флагом `swapped` достигает лучшего случая O(n)?',
+        en: 'Under what condition does bubble sort with the `swapped` flag hit its best case of O(n)?',
+      },
+      options: [
+        { ru: 'Когда массив уже отсортирован', en: 'When the array is already sorted' },
+        { ru: 'Когда массив отсортирован в обратном порядке', en: 'When the array is reverse-sorted' },
+        { ru: 'Когда все элементы одинаковы, но флаг отключён', en: 'When all elements are equal but the flag is disabled' },
+        { ru: 'Лучший случай всегда O(n²), флаг ничего не меняет', en: 'The best case is always O(n²); the flag changes nothing' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Если массив уже упорядочен, первый же проход не находит ни одной пары для перестановки, флаг остаётся `false`, и алгоритм завершается за один линейный проход.',
+        en: 'If the array is already sorted, the very first pass finds no pair to swap, the flag stays `false`, and the algorithm finishes after a single linear pass.',
+      },
+      hint: {
+        ru: 'Подумай, что покажет самый первый проход, если сравнивать уже упорядоченные соседние элементы.',
+        en: 'Think about what the very first pass finds when comparing neighbors that are already in order.',
+      },
+    },
+    {
+      question: {
+        ru: 'Сколько проходов нужно пузырьковой сортировке в худшем случае для массива из n элементов?',
+        en: 'How many passes does bubble sort need in the worst case for an array of n elements?',
+      },
+      options: [
+        { ru: 'n − 1', en: 'n − 1' },
+        { ru: 'n', en: 'n' },
+        { ru: 'log₂ n', en: 'log₂ n' },
+        { ru: 'n / 2', en: 'n / 2' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Каждый полный проход гарантированно ставит на место ещё один элемент с конца, поэтому после n − 1 проходов оставшийся единственный элемент уже обязан быть на своём месте.',
+        en: 'Each full pass is guaranteed to place one more element correctly at the end, so after n − 1 passes the single remaining element must already be in its place.',
+      },
+      hint: {
+        ru: 'Подумай, сколько элементов остаётся «непроверенными», если каждый проход фиксирует ровно один элемент справа.',
+        en: 'Think about how many elements remain unchecked if each pass locks exactly one more element on the right.',
+      },
+    },
+    {
+      question: {
+        ru: 'Почему пузырьковую сортировку с флагом `swapped` называют адаптивной?',
+        en: 'Why is bubble sort with the `swapped` flag called adaptive?',
+      },
+      options: [
+        {
+          ru: 'Она выполняет меньше работы на частично отсортированных данных',
+          en: 'It does less work on partially sorted data',
+        },
+        { ru: 'Она подстраивается под размер массива, меняя алгоритм', en: 'It swaps its algorithm depending on array size' },
+        { ru: 'Она автоматически выбирает язык программирования', en: 'It picks the programming language automatically' },
+        { ru: 'Она не является адаптивной', en: 'It is not actually adaptive' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Адаптивность алгоритма означает, что его производительность улучшается на «почти готовых» входных данных. Флаг `swapped` даёт именно это: чем ближе массив к отсортированному, тем меньше проходов и перестановок потребуется.',
+        en: "An algorithm is adaptive when its performance improves on 'almost sorted' input. The `swapped` flag delivers exactly that: the closer the array is to sorted, the fewer passes and swaps it takes.",
+      },
+      hint: {
+        ru: 'Вспомни, как флаг `swapped` использует уже существующий порядок в массиве, а не игнорирует его.',
+        en: 'Recall how the `swapped` flag takes advantage of existing order in the array instead of ignoring it.',
+      },
+    },
+    {
+      question: {
+        ru: 'Чем отличается число перестановок (swaps) у пузырьковой сортировки от сортировки выбором в худшем случае?',
+        en: 'How does the number of swaps in bubble sort compare to selection sort in the worst case?',
+      },
+      options: [
+        {
+          ru: 'Пузырьковая делает до O(n²) перестановок, сортировка выбором — не больше O(n)',
+          en: 'Bubble sort makes up to O(n²) swaps, selection sort makes at most O(n)',
+        },
+        { ru: 'Обе делают одинаковое число перестановок независимо от размера и порядка входа', en: 'Both make the exact same number of swaps regardless of the input size or order' },
+        { ru: 'Пузырьковая делает меньше перестановок за проход, чем сортировка выбором', en: 'Bubble sort makes fewer swaps per pass than selection sort does' },
+        { ru: 'Сортировка выбором делает больше перестановок в сумме, чем пузырьковая', en: 'Selection sort makes more swaps in total than bubble sort does' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Пузырьковая сортировка меняет местами любую соседнюю пару, стоящую в неправильном порядке, — таких перестановок может быть до O(n²). Сортировка выбором делает не более одной перестановки за проход — всего до n перестановок, что важно для дорогих операций записи (например, во флеш-память).',
+        en: "Bubble sort swaps any adjacent out-of-order pair — up to O(n²) swaps total. Selection sort does at most one swap per pass — up to n swaps total, which matters when writes are expensive (e.g. flash memory).",
+      },
+      hint: {
+        ru: 'Подумай, сколько перестановок каждый алгоритм делает за один проход по непросортированной части массива.',
+        en: 'Think about how many swaps each algorithm makes during a single pass over the unsorted portion.',
+      },
+    },
+    {
+      question: {
+        ru: 'Что делает вариант «шейкерной» (cocktail shaker) сортировки лучше обычной пузырьковой на практике?',
+        en: "What makes the cocktail shaker sort variant faster than plain bubble sort in practice?",
+      },
+      options: [
+        {
+          ru: 'Она чередует проходы вперёд и назад, быстрее поднимая маленькие элементы у конца массива',
+          en: 'It alternates forward and backward passes, lifting small elements near the end faster',
+        },
+        { ru: 'Она использует дополнительный массив для хранения промежуточных копий элементов', en: 'It uses an extra array to hold intermediate copies of the elements' },
+        { ru: 'Она параллелит все сравнения элементов одновременно на нескольких ядрах', en: 'It parallelizes all element comparisons at once across multiple cores' },
+        { ru: 'Она снижает асимптотику худшего случая до O(n log n), как в сортировке слиянием', en: 'It lowers the worst-case asymptotic complexity all the way down to O(n log n), like merge sort' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'В обычной пузырьковой сортировке маленький элемент («черепаха»), застрявший у конца массива, продвигается только на одну позицию за проход. Шейкерная сортировка чередует направление прохода, поднимая такие элементы значительно быстрее — при той же асимптотике O(n²) в худшем случае.',
+        en: "In plain bubble sort, a small element (a 'turtle') stuck near the end only moves one position per pass. Cocktail shaker sort alternates the pass direction, lifting such elements much faster — while keeping the same O(n²) worst case.",
+      },
+      hint: {
+        ru: 'Представь маленький элемент в самом конце массива в обычной пузырьковой сортировке — сколько проходов ему нужно, чтобы добраться до начала?',
+        en: 'Picture a small element sitting at the very end of the array in plain bubble sort — how many passes does it take to reach the front?',
       },
     },
   ],

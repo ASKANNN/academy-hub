@@ -1,7 +1,7 @@
 export const strandSort = {
   slug: 'strand-sort',
   category: 'sorting',
-  name: { ru: 'Сортировка прядями', en: 'Strand Sort' },
+  name: { ru: 'Strand Sort', en: 'Strand Sort' },
   complexity: {
     time: { best: 'O(n)', average: 'O(n²)', worst: 'O(n²)' },
     space: 'O(n)',

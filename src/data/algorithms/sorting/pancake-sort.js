@@ -1,7 +1,7 @@
 export const pancakeSort = {
   slug: 'pancake-sort',
   category: 'sorting',
-  name: { ru: 'Блинная сортировка', en: 'Pancake Sort' },
+  name: { ru: 'Pancake Sort', en: 'Pancake Sort' },
   complexity: {
     time: { best: 'O(n)', average: 'O(n²)', worst: 'O(n²)' },
     space: 'O(1)',
@@ -192,9 +192,9 @@ export const pancakeSort = {
           ru: 'Первый переворот доставляет максимум в начало, второй — переносит его на нужное место в конце префикса',
           en: 'The first flip brings the maximum to the start, the second carries it to its correct place at the end of the prefix',
         },
-        { ru: 'Один переворот всегда сортирует массив полностью', en: 'A single flip always sorts the array completely' },
-        { ru: 'Второй переворот отменяет действие первого', en: 'The second flip undoes the first' },
-        { ru: 'Это требование только для чётных размеров массива', en: 'This is only required for even array sizes' },
+        { ru: 'Один переворот всегда сортирует массив полностью, поэтому второй нужен лишь для проверки результата', en: 'A single flip always sorts the array completely, so the second is only needed to verify the result' },
+        { ru: 'Второй переворот отменяет действие первого, возвращая массив в исходное состояние перед следующим шагом', en: 'The second flip undoes the first, returning the array to its original state before the next step' },
+        { ru: 'Это требование только для чётных размеров массива, а для нечётных достаточно одного переворота', en: 'This is only required for even array sizes, while odd sizes need just one flip' },
       ],
       correct: 0,
       explanation: {
@@ -243,9 +243,9 @@ export const pancakeSort = {
       },
       options: [
         { ru: 'O(n²)', en: 'O(n²)' },
-        { ru: 'O(n log n)', en: 'O(n log n)' },
-        { ru: 'O(n)', en: 'O(n)' },
-        { ru: 'O(2^n)', en: 'O(2^n)' },
+        { ru: 'O(n log n), как у большинства эффективных сортировок сравнением', en: 'O(n log n), like most efficient comparison sorts' },
+        { ru: 'O(n), поскольку каждый элемент перемещается не более одного раза', en: 'O(n), since each element is moved at most once' },
+        { ru: 'O(2^n), из-за экспоненциального роста числа возможных переворотов', en: 'O(2^n), due to the exponential growth in the number of possible flips' },
       ],
       correct: 0,
       explanation: {

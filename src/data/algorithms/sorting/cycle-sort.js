@@ -1,7 +1,7 @@
 export const cycleSort = {
   slug: 'cycle-sort',
   category: 'sorting',
-  name: { ru: 'Циклическая сортировка', en: 'Cycle Sort' },
+  name: { ru: 'Cycle Sort', en: 'Cycle Sort' },
   complexity: {
     time: { best: 'O(n²)', average: 'O(n²)', worst: 'O(n²)' },
     space: 'O(1)',
@@ -181,9 +181,9 @@ export const cycleSort = {
       },
       options: [
         { ru: 'Число записей в массив', en: 'The number of array writes' },
-        { ru: 'Число сравнений', en: 'The number of comparisons' },
-        { ru: 'Используемую память', en: 'Memory usage' },
-        { ru: 'Глубину рекурсии', en: 'Recursion depth' },
+        { ru: 'Число сравнений между элементами массива', en: 'The number of comparisons between array elements' },
+        { ru: 'Используемую дополнительную память сверх исходного массива', en: 'The extra memory used beyond the original array' },
+        { ru: 'Глубину рекурсии при вызовах функции', en: 'The recursion depth across function calls' },
       ],
       correct: 0,
       explanation: {
@@ -201,9 +201,9 @@ export const cycleSort = {
           ru: 'Флеш-память имеет ограниченный ресурс циклов перезаписи, а запись физически дороже чтения',
           en: 'Flash memory has limited write-cycle endurance, and writes are physically more expensive than reads',
         },
-        { ru: 'Флеш-память не поддерживает чтение произвольного доступа', en: 'Flash memory doesn\'t support random-access reads' },
-        { ru: 'Циклическая сортировка не использует сравнения вообще', en: 'Cycle sort doesn\'t use comparisons at all' },
-        { ru: 'Это единственный алгоритм, который умеет сортировать байты', en: 'It\'s the only algorithm that can sort bytes' },
+        { ru: 'Флеш-память в принципе не поддерживает чтение произвольного доступа, а только строго последовательное чтение данных', en: 'Flash memory doesn\'t support random-access reads at all, only strictly sequential reads of the data' },
+        { ru: 'Циклическая сортировка вообще не использует сравнения, полагаясь только на хеширование значений', en: 'Cycle sort doesn\'t use comparisons at all, relying only on hashing the values instead' },
+        { ru: 'Это единственный известный человечеству алгоритм, который вообще умеет сортировать отдельные байты', en: 'It\'s the only algorithm known to humanity that can sort individual bytes at all' },
       ],
       correct: 0,
       explanation: {
@@ -221,9 +221,9 @@ export const cycleSort = {
           ru: 'Подсчитывает, сколько элементов в массиве меньше данного',
           en: 'It counts how many elements in the array are smaller than the given one',
         },
-        { ru: 'Использует бинарный поиск по отсортированной копии', en: 'It uses binary search on a sorted copy' },
-        { ru: 'Строит хеш-таблицу значений', en: 'It builds a hash table of values' },
-        { ru: 'Запрашивает позицию у пользователя', en: 'It asks the user for the position' },
+        { ru: 'Использует бинарный поиск по заранее отсортированной вспомогательной копии массива', en: 'It uses binary search on a pre-sorted auxiliary copy of the array' },
+        { ru: 'Строит хеш-таблицу значений и их будущих индексов заранее', en: 'It builds a hash table mapping values to their future indices in advance' },
+        { ru: 'Запрашивает правильную позицию у пользователя через ввод данных', en: 'It asks the user for the correct position via input' },
       ],
       correct: 0,
       explanation: {
@@ -241,9 +241,9 @@ export const cycleSort = {
           ru: 'На обычном железе вычисления дешевле записи, а O(n²) сравнений делает её медленнее quicksort/mergesort',
           en: 'On typical hardware, computation is cheaper than writes, and O(n²) comparisons make it slower than quicksort/merge sort',
         },
-        { ru: 'Она требует O(n) дополнительной памяти', en: 'It requires O(n) extra memory' },
-        { ru: 'Она не работает с целыми числами', en: 'It doesn\'t work with integers' },
-        { ru: 'Она не была опубликована в открытом доступе', en: 'It was never published openly' },
+        { ru: 'Она требует O(n) дополнительной памяти на каждый отдельный вызов функции сортировки, что делает её совершенно непрактичной для встраиваемых систем', en: 'It requires O(n) extra memory on every single call to the sort function, which makes it completely impractical for embedded systems' },
+        { ru: 'Она в принципе не умеет работать с целыми числами и требует исключительно чисел с плавающей точкой для всего', en: 'It fundamentally can\'t work with integers and requires floating-point numbers exclusively for everything' },
+        { ru: 'Она никогда не была опубликована в открытом доступе и известна лишь очень узкому кругу специалистов по алгоритмам', en: 'It was never published openly and is known only to a very small circle of algorithm specialists' },
       ],
       correct: 0,
       explanation: {
@@ -258,9 +258,9 @@ export const cycleSort = {
       },
       options: [
         { ru: 'Цикл завершается, алгоритм переходит к следующей начальной позиции', en: 'The cycle closes and the algorithm moves to the next starting position' },
-        { ru: 'Алгоритм останавливается с ошибкой', en: 'The algorithm stops with an error' },
-        { ru: 'Начинается новый проход по всему массиву', en: 'A new pass over the whole array begins' },
-        { ru: 'Массив сортируется заново с нуля', en: 'The array is re-sorted from scratch' },
+        { ru: 'Алгоритм немедленно останавливается с ошибкой переполнения индекса массива, что требует перезапуска всей сортировки', en: 'The algorithm immediately stops with an array index overflow error, requiring the whole sort to be restarted' },
+        { ru: 'Начинается совершенно новый проход по всему массиву с самого первого элемента, игнорируя уже сделанную работу', en: 'A brand new pass over the whole array begins again from the very first element, ignoring the work already done' },
+        { ru: 'Весь массив сортируется заново с нуля с использованием совершенно другого запасного алгоритма', en: 'The entire array is re-sorted from scratch using a completely different fallback algorithm instead' },
       ],
       correct: 0,
       explanation: {

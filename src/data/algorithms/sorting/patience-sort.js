@@ -1,7 +1,7 @@
 export const patienceSort = {
   slug: 'patience-sort',
   category: 'sorting',
-  name: { ru: 'Пасьянсная сортировка', en: 'Patience Sort' },
+  name: { ru: 'Patience Sort', en: 'Patience Sort' },
   complexity: {
     time: { best: 'O(n log n)', average: 'O(n log n)', worst: 'O(n log n)' },
     space: 'O(n)',
@@ -182,9 +182,9 @@ export const patienceSort = {
           ru: 'На самую левую стопку, чей верхний элемент больше либо равен этой карте',
           en: 'The leftmost pile whose top element is greater than or equal to that card',
         },
-        { ru: 'Всегда на последнюю созданную стопку', en: 'Always onto the most recently created pile' },
-        { ru: 'На случайно выбранную стопку', en: 'Onto a randomly chosen pile' },
-        { ru: 'На стопку с наибольшим числом карт', en: 'Onto the pile with the most cards' },
+        { ru: 'Всегда на последнюю созданную стопку, независимо от значения её верхней карты', en: 'Always onto the most recently created pile, regardless of its top card value' },
+        { ru: 'На случайно выбранную стопку среди всех, что уже существуют', en: 'Onto a randomly chosen pile among all that already exist' },
+        { ru: 'На стопку с наибольшим числом карт, чтобы стопки оставались сбалансированными', en: 'Onto the pile with the most cards, to keep the piles balanced' },
       ],
       correct: 0,
       explanation: {
@@ -202,9 +202,9 @@ export const patienceSort = {
           ru: 'Длину самой длинной строго убывающей (сверху вниз) подпоследовательности значений',
           en: 'The length of the longest strictly decreasing (top-to-bottom) subsequence of values',
         },
-        { ru: 'Количество перестановок, нужных для сортировки', en: 'The number of swaps needed to sort' },
-        { ru: 'Число уже отсортированных элементов', en: 'The number of already-sorted elements' },
-        { ru: 'Ничего — это просто побочный эффект без смысла', en: 'Nothing — it\'s just a meaningless side effect' },
+        { ru: 'Количество перестановок, нужных для сортировки всего массива целиком', en: 'The number of swaps needed to sort the entire array' },
+        { ru: 'Число уже отсортированных элементов, обнаруженных до начала раскладки', en: 'The number of already-sorted elements found before dealing began' },
+        { ru: 'Ничего — это просто побочный эффект без какого-либо смысла или применения', en: 'Nothing — it\'s just a meaningless side effect with no application' },
       ],
       correct: 0,
       explanation: {
@@ -222,9 +222,9 @@ export const patienceSort = {
           ru: 'Многократно забирать минимальный верхний элемент среди всех стопок',
           en: 'Repeatedly take the minimum top element across all piles',
         },
-        { ru: 'Просто склеить стопки одну за другой', en: 'Just concatenate the piles one after another' },
-        { ru: 'Развернуть каждую стопку и склеить их', en: 'Reverse each pile and concatenate them' },
-        { ru: 'Отсортировать каждую стопку заново', en: 'Re-sort each pile from scratch' },
+        { ru: 'Просто склеить стопки одну за другой в порядке их создания', en: 'Just concatenate the piles one after another in the order they were created' },
+        { ru: 'Развернуть каждую стопку и склеить их слева направо', en: 'Reverse each pile and concatenate them left to right' },
+        { ru: 'Отсортировать каждую стопку заново стандартной сортировкой сравнением', en: 'Re-sort each pile from scratch using a standard comparison sort' },
       ],
       correct: 0,
       explanation: {
@@ -239,9 +239,9 @@ export const patienceSort = {
       },
       options: [
         { ru: 'Нет — требует O(n) дополнительной памяти под стопки', en: 'No — it needs O(n) extra memory for the piles' },
-        { ru: 'Да, всегда работает без дополнительной памяти', en: 'Yes, it always works with no extra memory' },
-        { ru: 'Только если во входном массиве нет дубликатов', en: 'Only if the input array has no duplicates' },
-        { ru: 'Только для массивов длиной меньше 100', en: 'Only for arrays shorter than 100' },
+        { ru: 'Да, всегда работает без дополнительной памяти, как quicksort', en: 'Yes, it always works with no extra memory, like quicksort' },
+        { ru: 'Только если во входном массиве нет дубликатов значений', en: 'Only if the input array has no duplicate values' },
+        { ru: 'Только для массивов длиной меньше 100 элементов', en: 'Only for arrays shorter than 100 elements' },
       ],
       correct: 0,
       explanation: {
@@ -259,9 +259,9 @@ export const patienceSort = {
           ru: 'Она моделирует раскладывание карт по стопкам, как в карточном пасьянсе (solitaire)',
           en: 'It models dealing cards into piles, as in the solitaire card game',
         },
-        { ru: 'Она требует терпеливого ожидания O(n²) времени', en: 'It requires patiently waiting O(n²) time' },
-        { ru: 'Её придумал программист по фамилии Пасьянс', en: 'It was invented by a programmer named Patience' },
-        { ru: 'Название никак не связано с сутью алгоритма', en: 'The name has nothing to do with how the algorithm works' },
+        { ru: 'Она требует терпеливого ожидания O(n²) времени на больших массивах', en: 'It requires patiently waiting through O(n²) time on large arrays' },
+        { ru: 'Её придумал программист по фамилии Пасьянс в начале XX века', en: 'It was invented by a programmer named Patience in the early 20th century' },
+        { ru: 'Название никак не связано с сутью алгоритма и выбрано случайно', en: 'The name has nothing to do with how the algorithm works and was chosen arbitrarily' },
       ],
       correct: 0,
       explanation: {

@@ -1,7 +1,7 @@
 export const countingSort = {
   slug: 'counting-sort',
   category: 'sorting',
-  name: { ru: 'Сортировка подсчётом', en: 'Counting Sort' },
+  name: { ru: 'Counting Sort', en: 'Counting Sort' },
   complexity: {
     time: { best: 'O(n + k)', average: 'O(n + k)', worst: 'O(n + k)' },
     space: 'O(n + k)',
@@ -163,9 +163,9 @@ export const countingSort = {
       },
       options: [
         { ru: 'Она вообще не сравнивает элементы друг с другом', en: 'It never compares elements against each other at all' },
-        { ru: 'Она использует несколько потоков одновременно', en: 'It uses multiple threads at once' },
-        { ru: 'Она сортирует только первую половину массива', en: 'It only sorts the first half of the array' },
-        { ru: 'Предел O(n log n) относится только к строкам', en: 'The O(n log n) limit only applies to strings' },
+        { ru: 'Она использует несколько потоков одновременно, распределяя работу по ядрам', en: 'It uses multiple threads at once, spreading the work across CPU cores' },
+        { ru: 'Она сортирует только первую половину массива, а вторую копирует как есть', en: 'It only sorts the first half of the array and copies the rest as-is' },
+        { ru: 'Предел O(n log n) относится только к строкам, а не к числам', en: 'The O(n log n) limit only applies to strings, not to numbers' },
       ],
       correct: 0,
       explanation: {
@@ -180,9 +180,9 @@ export const countingSort = {
       },
       options: [
         { ru: 'Диапазон возможных значений элементов', en: 'The range of possible element values' },
-        { ru: 'Количество проходов по массиву', en: 'The number of passes over the array' },
-        { ru: 'Глубину рекурсии', en: 'The recursion depth' },
-        { ru: 'Число потоков выполнения', en: 'The number of execution threads' },
+        { ru: 'Количество проходов по массиву за весь алгоритм', en: 'The number of passes made over the array during the whole algorithm' },
+        { ru: 'Глубину рекурсии, как в сортировке слиянием', en: 'The recursion depth, similar to merge sort' },
+        { ru: 'Число потоков выполнения, задействованных при сортировке', en: 'The number of execution threads used while sorting' },
       ],
       correct: 0,
       explanation: {
@@ -197,9 +197,9 @@ export const countingSort = {
       },
       options: [
         { ru: 'Чтобы сохранить устойчивость сортировки — относительный порядок равных элементов', en: 'To preserve stability — the relative order of equal elements' },
-        { ru: 'Это ускоряет выполнение алгоритма', en: 'It makes the algorithm run faster' },
+        { ru: 'Это ускоряет выполнение алгоритма за счёт лучшей локальности кэша', en: 'It speeds up execution thanks to better cache locality' },
         { ru: 'Иначе алгоритм не сможет обработать отрицательные числа', en: 'Otherwise the algorithm can\'t handle negative numbers' },
-        { ru: 'Это требование языка программирования', en: 'It\'s a requirement of the programming language' },
+        { ru: 'Это требование языка программирования при работе с массивами', en: 'It\'s a requirement of the programming language when working with arrays' },
       ],
       correct: 0,
       explanation: {
@@ -214,9 +214,9 @@ export const countingSort = {
       },
       options: [
         { ru: 'Когда диапазон значений k намного больше числа элементов n', en: 'When the value range k is much larger than the element count n' },
-        { ru: 'Когда массив уже почти отсортирован', en: 'When the array is already nearly sorted' },
-        { ru: 'Когда все элементы одинаковы', en: 'When all elements are identical' },
-        { ru: 'Когда n — чётное число', en: 'When n is an even number' },
+        { ru: 'Когда массив уже почти отсортирован перед запуском', en: 'When the array is already nearly sorted before the run starts' },
+        { ru: 'Когда все элементы одинаковы и сравнивать нечего', en: 'When all elements are identical and there is nothing to compare' },
+        { ru: 'Когда n — чётное число, что усложняет разбиение на пары', en: 'When n is an even number, which complicates pairing elements' },
       ],
       correct: 0,
       explanation: {
@@ -231,9 +231,9 @@ export const countingSort = {
       },
       options: [
         { ru: 'Только если их можно свести к целочисленным ключам известного диапазона', en: 'Only if they can be reduced to integer keys within a known range' },
-        { ru: 'Да, без каких-либо изменений алгоритма', en: 'Yes, with no changes to the algorithm at all' },
-        { ru: 'Нет, алгоритм работает только с числами с плавающей точкой', en: 'No, the algorithm only works with floating-point numbers' },
-        { ru: 'Да, но только для строк одинаковой длины', en: 'Yes, but only for strings of equal length' },
+        { ru: 'Да, без каких-либо изменений алгоритма, поскольку сравнения не используются', en: 'Yes, with no changes to the algorithm at all, since it never compares values' },
+        { ru: 'Нет, алгоритм работает только с числами с плавающей точкой в диапазоне [0, 1]', en: 'No, the algorithm only works with floating-point numbers in the range [0, 1]' },
+        { ru: 'Да, но только для строк одинаковой длины из-за особенностей индексации', en: 'Yes, but only for strings of equal length, due to how indexing works' },
       ],
       correct: 0,
       explanation: {

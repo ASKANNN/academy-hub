@@ -1,7 +1,7 @@
 export const oddEvenSort = {
   slug: 'odd-even-sort',
   category: 'sorting',
-  name: { ru: 'Чётно-нечётная сортировка', en: 'Odd-Even Sort' },
+  name: { ru: 'Odd-Even Sort', en: 'Odd-Even Sort' },
   complexity: {
     time: { best: 'O(n)', average: 'O(n²)', worst: 'O(n²)' },
     space: 'O(1)',
@@ -184,9 +184,9 @@ export const oddEvenSort = {
           ru: 'Ни один индекс не участвует в двух парах одновременно внутри одной фазы',
           en: 'No index participates in two pairs at once within a single phase',
         },
-        { ru: 'Потому что массив уже почти отсортирован', en: 'Because the array is already nearly sorted' },
-        { ru: 'Потому что используется случайный выбор пар', en: 'Because pairs are chosen randomly' },
-        { ru: 'Параллельность здесь невозможна в принципе', en: 'Parallelism isn\'t actually possible here' },
+        { ru: 'Потому что массив уже почти отсортирован, как это часто предполагается перед последним проходом', en: 'Because the array is already nearly sorted, as is often assumed right before the final pass' },
+        { ru: 'Потому что используется случайный выбор пар на каждой итерации, как в рандомизированной сортировке', en: 'Because pairs are chosen randomly on every iteration, as in a randomized sort' },
+        { ru: 'Параллельность здесь невозможна в принципе, так как сравнения всегда зависят друг от друга', en: 'Parallelism isn\'t actually possible here, since comparisons always depend on one another' },
       ],
       correct: 0,
       explanation: {
@@ -204,9 +204,9 @@ export const oddEvenSort = {
           ru: 'Когда полный проход (обе фазы) не произвёл ни одной перестановки',
           en: 'When a full pass (both phases) produces no swaps',
         },
-        { ru: 'После ровно n/2 проходов', en: 'After exactly n/2 passes' },
-        { ru: 'Когда встречается первый уже отсортированный элемент', en: 'When the first already-sorted element is found' },
-        { ru: 'Никогда — алгоритм не имеет условия остановки', en: 'Never — the algorithm has no stopping condition' },
+        { ru: 'После ровно n/2 проходов, независимо от того, как расположены элементы', en: 'After exactly n/2 passes, regardless of how the elements are arranged' },
+        { ru: 'Когда встречается первый уже отсортированный элемент где-то в середине массива', en: 'When the first already-sorted element is found somewhere in the middle of the array' },
+        { ru: 'Никогда — алгоритм не имеет условия остановки и должен прерываться извне', en: 'Never — the algorithm has no stopping condition and must be interrupted externally' },
       ],
       correct: 0,
       explanation: {
@@ -221,9 +221,9 @@ export const oddEvenSort = {
       },
       options: [
         { ru: 'O(n²), как у обычной пузырьковой сортировки', en: 'O(n²), same as plain bubble sort' },
-        { ru: 'O(n log n)', en: 'O(n log n)' },
-        { ru: 'O(n), благодаря параллельности', en: 'O(n), thanks to the parallelism' },
-        { ru: 'O(log n)', en: 'O(log n)' },
+        { ru: 'O(n log n), как у merge sort благодаря чередованию фаз', en: 'O(n log n), same as merge sort thanks to the alternating phases' },
+        { ru: 'O(n), благодаря параллельности, доступной даже на одном ядре', en: 'O(n), thanks to the parallelism, even available on a single core' },
+        { ru: 'O(log n), поскольку число фаз растёт логарифмически', en: 'O(log n), since the number of phases grows logarithmically' },
       ],
       correct: 0,
       explanation: {
@@ -241,9 +241,9 @@ export const oddEvenSort = {
           ru: 'В сортирующих сетях и параллельных/аппаратных архитектурах',
           en: 'In sorting networks and parallel/hardware architectures',
         },
-        { ru: 'В сортировке больших текстовых файлов на диске', en: 'In sorting large text files on disk' },
-        { ru: 'В базах данных с одним потоком выполнения', en: 'In single-threaded databases' },
-        { ru: 'В сжатии видео', en: 'In video compression' },
+        { ru: 'В сортировке больших текстовых файлов на диске, где важна последовательность операций', en: 'In sorting large text files on disk, where sequential operation order matters' },
+        { ru: 'В базах данных с одним потоком выполнения и без параллельных операций', en: 'In single-threaded databases with no parallel operations' },
+        { ru: 'В сжатии видео, где нужна быстрая последовательная обработка кадров', en: 'In video compression, where fast sequential frame processing is needed' },
       ],
       correct: 0,
       explanation: {

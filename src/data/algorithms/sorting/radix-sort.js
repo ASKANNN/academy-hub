@@ -1,7 +1,7 @@
 export const radixSort = {
   slug: 'radix-sort',
   category: 'sorting',
-  name: { ru: 'Поразрядная сортировка', en: 'Radix Sort' },
+  name: { ru: 'Radix Sort', en: 'Radix Sort' },
   complexity: {
     time: { best: 'O(d · (n + k))', average: 'O(d · (n + k))', worst: 'O(d · (n + k))' },
     space: 'O(n + k)',
@@ -173,9 +173,9 @@ export const radixSort = {
       },
       options: [
         { ru: 'Без неё порядок, установленный предыдущими разрядами, был бы разрушен', en: 'Without it, the ordering established by earlier digits would be destroyed' },
-        { ru: 'Она ускоряет каждый отдельный проход', en: 'It speeds up each individual pass' },
-        { ru: 'Она уменьшает объём используемой памяти', en: 'It reduces the memory used' },
-        { ru: 'Она нужна только для отрицательных чисел', en: 'It\'s only needed for negative numbers' },
+        { ru: 'Она ускоряет каждый отдельный проход, так как позволяет пропускать сравнения', en: 'It speeds up each individual pass, since it lets the pass skip comparisons' },
+        { ru: 'Она уменьшает объём используемой памяти, как и при сортировке слиянием', en: 'It reduces the memory used, the same way merge sort does' },
+        { ru: 'Она нужна только для отрицательных чисел, из-за особенностей их представления', en: 'It\'s only needed for negative numbers, because of how they\'re represented' },
       ],
       correct: 0,
       explanation: {
@@ -190,9 +190,9 @@ export const radixSort = {
       },
       options: [
         { ru: 'От количества разрядов в наибольшем числе массива', en: 'The number of digits in the largest value in the array' },
-        { ru: 'От количества элементов в массиве', en: 'The number of elements in the array' },
-        { ru: 'От того, отсортирован ли массив изначально', en: 'Whether the array is already sorted' },
-        { ru: 'Всегда фиксировано и равно 10', en: 'It\'s always fixed at 10' },
+        { ru: 'От количества элементов в массиве, поскольку каждый проход обрабатывает их все', en: 'The number of elements in the array, since every pass has to process each one' },
+        { ru: 'От того, отсортирован ли массив изначально, как и в сортировке вставками', en: 'Whether the array is already sorted, similar to insertion sort' },
+        { ru: 'Всегда фиксировано и равно 10, независимо от входных данных', en: 'It\'s always fixed at 10, regardless of the input data' },
       ],
       correct: 0,
       explanation: {
@@ -207,9 +207,9 @@ export const radixSort = {
       },
       options: [
         { ru: 'Когда одно число в массиве намного длиннее остальных', en: 'When one number in the array is far longer than the rest' },
-        { ru: 'Когда массив уже отсортирован', en: 'When the array is already sorted' },
-        { ru: 'Когда все элементы различны', en: 'When all elements are distinct' },
-        { ru: 'Когда массив содержит менее 10 элементов', en: 'When the array has fewer than 10 elements' },
+        { ru: 'Когда массив уже отсортирован, ведь тогда сравнения становятся бесполезными', en: 'When the array is already sorted, since comparisons become pointless at that point' },
+        { ru: 'Когда все элементы различны, потому что дубликаты ускоряют проходы', en: 'When all elements are distinct, because duplicates would otherwise speed up the passes' },
+        { ru: 'Когда массив содержит менее 10 элементов, как и для большинства простых сортировок', en: 'When the array has fewer than 10 elements, as with most simple sorts' },
       ],
       correct: 0,
       explanation: {

@@ -1,7 +1,7 @@
 export const spreadSort = {
   slug: 'spread-sort',
   category: 'sorting',
-  name: { ru: 'Спред-сортировка', en: 'Spreadsort' },
+  name: { ru: 'Spreadsort', en: 'Spreadsort' },
   complexity: {
     time: { best: 'O(n)', average: 'O(n log(k/s))', worst: 'O(n log n)' },
     space: 'O(n)',
@@ -224,9 +224,9 @@ export const spreadSort = {
           ru: 'Распределение по корзинам и сортировка вставками для маленьких групп',
           en: 'Distributing into buckets and insertion sort for small groups',
         },
-        { ru: 'Быстрая сортировка и сортировка слиянием', en: 'Quicksort and merge sort' },
-        { ru: 'Поразрядная сортировка по младшему и по старшему разряду', en: 'LSD radix sort and MSD radix sort' },
-        { ru: 'Параллельное и последовательное выполнение', en: 'Parallel and sequential execution' },
+        { ru: 'Быстрая сортировка и сортировка слиянием, переключение между которыми происходит по размеру массива, как в интроспективной сортировке', en: 'Quicksort and merge sort, switching between them based on array size, as introspective sort does' },
+        { ru: 'Поразрядная сортировка по младшему и по старшему разряду, выбор которой определяется диапазоном значений ключа', en: 'LSD radix sort and MSD radix sort, the choice of which depends on the key value range' },
+        { ru: 'Параллельное и последовательное выполнение в зависимости от числа доступных ядер процессора', en: 'Parallel and sequential execution depending on the number of available processor cores' },
       ],
       correct: 0,
       explanation: {
@@ -244,9 +244,9 @@ export const spreadSort = {
           ru: 'Накладные расходы на организацию корзин не окупаются для маленьких групп элементов',
           en: 'The overhead of setting up buckets isn\'t worth it for small groups of elements',
         },
-        { ru: 'Сортировка вставками единственная работает с отрицательными числами', en: 'Insertion sort is the only one that works with negative numbers' },
-        { ru: 'Без порога алгоритм даёт неверный результат', en: 'Without the threshold the algorithm produces an incorrect result' },
-        { ru: 'Порог нужен только для строк', en: 'The threshold is only needed for strings' },
+        { ru: 'Сортировка вставками единственная из всех сортировок сравнениями работает с отрицательными числами', en: 'Insertion sort is the only comparison sort of all of them that works with negative numbers' },
+        { ru: 'Без порога алгоритм даёт неверный результат, так как рекурсия никогда не завершается', en: 'Without the threshold the algorithm produces an incorrect result because the recursion never terminates' },
+        { ru: 'Порог нужен только для строк, а для чисел его можно всегда опустить', en: 'The threshold is only needed for strings, and can always be omitted for numbers' },
       ],
       correct: 0,
       explanation: {
@@ -264,9 +264,9 @@ export const spreadSort = {
           ru: 'Эта перегруженная корзина рекурсивно обрабатывается тем же алгоритмом заново',
           en: 'That overloaded bucket is recursively processed by the same algorithm again',
         },
-        { ru: 'Алгоритм сразу завершается с ошибкой', en: 'The algorithm immediately fails with an error' },
-        { ru: 'Перегруженная корзина просто отбрасывается', en: 'The overloaded bucket is simply discarded' },
-        { ru: 'Все корзины объединяются обратно без сортировки', en: 'All buckets are merged back without sorting' },
+        { ru: 'Алгоритм сразу завершается с ошибкой, потому что не может выбрать число корзин', en: 'The algorithm immediately fails with an error because it cannot choose a bucket count' },
+        { ru: 'Перегруженная корзина просто отбрасывается, а её элементы теряются безвозвратно', en: 'The overloaded bucket is simply discarded, and its elements are lost permanently' },
+        { ru: 'Все корзины объединяются обратно без сортировки, как в поразрядной сортировке', en: 'All buckets are merged back without sorting, as in radix sort' },
       ],
       correct: 0,
       explanation: {
@@ -281,9 +281,9 @@ export const spreadSort = {
       },
       options: [
         { ru: 'O(n log n)', en: 'O(n log n)' },
-        { ru: 'O(n²)', en: 'O(n²)' },
-        { ru: 'O(n)', en: 'O(n)' },
-        { ru: 'O(log n)', en: 'O(log n)' },
+        { ru: 'O(n²), как у пузырьковой сортировки на почти отсортированных данных', en: 'O(n²), same as bubble sort on nearly sorted data' },
+        { ru: 'O(n), потому что корзины всегда распределяют элементы идеально равномерно', en: 'O(n), because buckets always distribute elements perfectly evenly' },
+        { ru: 'O(log n), поскольку рекурсия делит диапазон пополам на каждом шаге', en: 'O(log n), since the recursion halves the range at every step' },
       ],
       correct: 0,
       explanation: {

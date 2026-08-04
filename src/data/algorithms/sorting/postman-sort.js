@@ -1,7 +1,7 @@
 export const postmanSort = {
   slug: 'postman-sort',
   category: 'sorting',
-  name: { ru: 'Почтовая сортировка', en: 'Postman Sort' },
+  name: { ru: 'Postman Sort', en: 'Postman Sort' },
   complexity: {
     time: { best: 'O(n·k)', average: 'O(n·k)', worst: 'O(n·k)' },
     space: 'O(n + k)',
@@ -185,9 +185,9 @@ export const postmanSort = {
       },
       options: [
         { ru: 'С самой значимой (старшей)', en: 'The most significant (leading) one' },
-        { ru: 'С самой младшей', en: 'The least significant one' },
-        { ru: 'С произвольной, выбранной случайно', en: 'A randomly chosen one' },
-        { ru: 'Со средней цифры числа', en: 'The middle digit of the number' },
+        { ru: 'С самой младшей, как в классическом LSD radix sort', en: 'The least significant one, as in classic LSD radix sort' },
+        { ru: 'С произвольной, выбранной случайно на каждом проходе', en: 'A randomly chosen one on each pass' },
+        { ru: 'Со средней цифры числа, чтобы разбить его на две симметричные половины', en: 'The middle digit of the number, to split it into two symmetric halves' },
       ],
       correct: 0,
       explanation: {
@@ -205,9 +205,9 @@ export const postmanSort = {
           ru: 'Обрабатывает цифры от старшей к младшей (MSD), а не от младшей к старшей (LSD)',
           en: 'It processes digits from most to least significant (MSD) rather than least to most (LSD)',
         },
-        { ru: 'Не использует корзины вообще', en: 'It doesn\'t use buckets at all' },
-        { ru: 'Работает только с отрицательными числами', en: 'It only works with negative numbers' },
-        { ru: 'Требует предварительной сортировки входных данных', en: 'It requires the input to already be pre-sorted' },
+        { ru: 'Не использует корзины вообще, полагаясь только на сравнения элементов', en: 'It doesn\'t use buckets at all, relying only on element comparisons' },
+        { ru: 'Работает только с отрицательными числами и не поддерживает положительные', en: 'It only works with negative numbers and doesn\'t support positive ones' },
+        { ru: 'Требует предварительной сортировки входных данных перед первым проходом', en: 'It requires the input to already be pre-sorted before the first pass' },
       ],
       correct: 0,
       explanation: {
@@ -225,9 +225,9 @@ export const postmanSort = {
           ru: 'Когда разряды закончились или в корзине не более одного элемента',
           en: 'When digits run out or the bucket has at most one element',
         },
-        { ru: 'После ровно трёх уровней рекурсии', en: 'After exactly three levels of recursion' },
-        { ru: 'Когда сумма элементов корзины становится чётной', en: 'When the sum of the bucket\'s elements becomes even' },
-        { ru: 'Никогда — рекурсия продолжается бесконечно', en: 'Never — the recursion continues indefinitely' },
+        { ru: 'После ровно трёх уровней рекурсии, независимо от числа разрядов', en: 'After exactly three levels of recursion, regardless of the digit count' },
+        { ru: 'Когда сумма элементов корзины становится чётной по значению', en: 'When the sum of the bucket\'s elements becomes even-valued' },
+        { ru: 'Никогда — рекурсия продолжается бесконечно на любом входе', en: 'Never — the recursion continues indefinitely on any input' },
       ],
       correct: 0,
       explanation: {
@@ -242,9 +242,9 @@ export const postmanSort = {
       },
       options: [
         { ru: 'O(n·k), где k — число разрядов', en: 'O(n·k), where k is the digit count' },
-        { ru: 'O(n²)', en: 'O(n²)' },
-        { ru: 'O(log n)', en: 'O(log n)' },
-        { ru: 'O(1)', en: 'O(1)' },
+        { ru: 'O(n²), как у простых сортировок сравнением', en: 'O(n²), same as simple comparison sorts' },
+        { ru: 'O(log n), благодаря бинарному делению корзин', en: 'O(log n), thanks to the binary division of buckets' },
+        { ru: 'O(1), поскольку разряды обрабатываются параллельно', en: 'O(1), since digit positions are processed in parallel' },
       ],
       correct: 0,
       explanation: {
@@ -259,9 +259,9 @@ export const postmanSort = {
       },
       options: [
         { ru: 'Нет — она распределяет элементы по цифрам, не сравнивая их напрямую друг с другом', en: 'No — it distributes elements by digit value, without directly comparing them to each other' },
-        { ru: 'Да, как быстрая сортировка', en: 'Yes, like quicksort' },
-        { ru: 'Да, но только для отрицательных чисел', en: 'Yes, but only for negative numbers' },
-        { ru: 'Зависит от языка реализации', en: 'It depends on the implementation language' },
+        { ru: 'Да, как быстрая сортировка, сравнивающая пары элементов между собой', en: 'Yes, like quicksort, which compares pairs of elements against each other' },
+        { ru: 'Да, но только для отрицательных чисел, где сравнение неизбежно', en: 'Yes, but only for negative numbers, where comparison is unavoidable' },
+        { ru: 'Зависит от языка реализации и используемой платформы', en: 'It depends on the implementation language and platform used' },
       ],
       correct: 0,
       explanation: {

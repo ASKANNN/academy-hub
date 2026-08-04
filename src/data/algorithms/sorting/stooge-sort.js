@@ -1,7 +1,7 @@
 export const stoogeSort = {
   slug: 'stooge-sort',
   category: 'sorting',
-  name: { ru: 'Стуз-сортировка', en: 'Stooge Sort' },
+  name: { ru: 'Stooge Sort', en: 'Stooge Sort' },
   complexity: {
     time: { best: 'O(n^2.7095)', average: 'O(n^2.7095)', worst: 'O(n^2.7095)' },
     space: 'O(log n)',
@@ -159,9 +159,9 @@ export const stoogeSort = {
       },
       options: [
         { ru: 'Первый и последний элементы текущего диапазона', en: "The first and last elements of the current range" },
-        { ru: 'Два соседних элемента', en: 'Two adjacent elements' },
-        { ru: 'Средний элемент с первым', en: 'The middle element with the first' },
-        { ru: 'Максимум и минимум всего массива', en: 'The maximum and minimum of the whole array' },
+        { ru: 'Два соседних элемента, как в пузырьковой сортировке на каждом проходе', en: 'Two adjacent elements, as bubble sort does on every pass' },
+        { ru: 'Средний элемент с первым, чтобы выбрать опорное значение для разбиения', en: 'The middle element with the first, to pick a pivot value for partitioning' },
+        { ru: 'Максимум и минимум всего массива, чтобы определить границы диапазона значений', en: 'The maximum and minimum of the whole array, to determine the range of values' },
       ],
       correct: 0,
       explanation: {
@@ -176,9 +176,9 @@ export const stoogeSort = {
       },
       options: [
         { ru: 'На три перекрывающихся вызова: первые 2/3, последние 2/3, снова первые 2/3', en: 'Three overlapping calls: the first 2/3, the last 2/3, the first 2/3 again' },
-        { ru: 'На две непересекающиеся половины', en: 'Two non-overlapping halves' },
-        { ru: 'На n непересекающихся частей по одному элементу', en: 'n non-overlapping single-element parts' },
-        { ru: 'На случайно выбранные подмассивы', en: 'Randomly chosen subarrays' },
+        { ru: 'На две непересекающиеся половины, которые затем сливаются в отсортированном порядке', en: 'Two non-overlapping halves, which are then merged back in sorted order' },
+        { ru: 'На n непересекающихся частей по одному элементу, как в корзинной сортировке', en: 'n non-overlapping single-element parts, as in bucket sort' },
+        { ru: 'На случайно выбранные подмассивы, размер которых меняется при каждом вызове', en: 'Randomly chosen subarrays whose size changes on every call' },
       ],
       correct: 0,
       explanation: {
@@ -193,9 +193,9 @@ export const stoogeSort = {
       },
       options: [
         { ru: 'O(n^2.71), хуже, чем у пузырьковой сортировки', en: 'O(n^2.71), worse than bubble sort' },
-        { ru: 'O(n log n), как у сортировки слиянием', en: 'O(n log n), like merge sort' },
-        { ru: 'O(n), линейная', en: 'O(n), linear' },
-        { ru: 'O(n²), точно как у пузырьковой сортировки', en: 'O(n²), exactly like bubble sort' },
+        { ru: 'O(n log n), как у сортировки слиянием, поскольку рекурсия делит диапазон на части', en: 'O(n log n), like merge sort, since the recursion splits the range into parts' },
+        { ru: 'O(n), линейная, потому что каждый элемент сравнивается лишь один раз за весь процесс', en: 'O(n), linear, because each element is compared only once during the whole process' },
+        { ru: 'O(n²), точно как у пузырьковой сортировки в её типичной реализации', en: "O(n²), exactly like bubble sort in its typical implementation" },
       ],
       correct: 0,
       explanation: {
@@ -213,9 +213,9 @@ export const stoogeSort = {
           ru: 'Тройное перекрывающееся применение к двум третям диапазона доказуемо гарантирует правильный порядок',
           en: 'The triple overlapping application to two-thirds of the range provably guarantees correct ordering',
         },
-        { ru: 'Она на самом деле не гарантирует корректность в общем случае', en: 'It actually does not guarantee correctness in general' },
-        { ru: 'Потому что сначала выполняется отдельный проход сортировки вставками', en: 'Because a separate insertion sort pass runs first' },
-        { ru: 'Только для чётного числа элементов', en: 'Only for an even number of elements' },
+        { ru: 'Она на самом деле не гарантирует корректность в общем случае и иногда оставляет массив неотсортированным', en: 'It actually does not guarantee correctness in general and sometimes leaves the array unsorted' },
+        { ru: 'Потому что сначала выполняется отдельный скрытый проход сортировки вставками по всему массиву', en: 'Because a separate hidden insertion sort pass runs first over the whole array' },
+        { ru: 'Только для чётного числа элементов, а для нечётного требуется отдельная обработка', en: 'Only for an even number of elements, with odd counts requiring separate handling' },
       ],
       correct: 0,
       explanation: {
@@ -230,9 +230,9 @@ export const stoogeSort = {
       },
       options: [
         { ru: 'O(log n) на стек рекурсии', en: 'O(log n) for the recursion stack' },
-        { ru: 'O(n) на вспомогательный массив', en: 'O(n) for an auxiliary array' },
-        { ru: 'O(n²) на матрицу сравнений', en: 'O(n²) for a comparison matrix' },
-        { ru: 'O(1), рекурсия не используется', en: 'O(1), no recursion is used' },
+        { ru: 'O(n) на вспомогательный массив, в который копируются все элементы перед сортировкой', en: 'O(n) for an auxiliary array into which all elements are copied before sorting' },
+        { ru: 'O(n²) на матрицу сравнений, хранящую результат каждого попарного сравнения', en: 'O(n²) for a comparison matrix storing the result of every pairwise comparison' },
+        { ru: 'O(1), рекурсия не используется, так как весь алгоритм реализован через простой цикл', en: 'O(1), no recursion is used, since the whole algorithm is implemented with a simple loop' },
       ],
       correct: 0,
       explanation: {

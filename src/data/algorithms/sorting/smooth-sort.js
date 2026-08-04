@@ -1,7 +1,7 @@
 export const smoothSort = {
   slug: 'smooth-sort',
   category: 'sorting',
-  name: { ru: 'Плавная сортировка', en: 'Smoothsort' },
+  name: { ru: 'Smoothsort', en: 'Smoothsort' },
   complexity: {
     time: { best: 'O(n)', average: 'O(n log n)', worst: 'O(n log n)' },
     space: 'O(1)',

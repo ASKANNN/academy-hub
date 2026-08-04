@@ -1,7 +1,7 @@
 export const heapSort = {
   slug: 'heap-sort',
   category: 'sorting',
-  name: { ru: 'Пирамидальная сортировка', en: 'Heap Sort' },
+  name: { ru: 'Heap Sort', en: 'Heap Sort' },
   complexity: {
     time: { best: 'O(n log n)', average: 'O(n log n)', worst: 'O(n log n)' },
     space: 'O(1)',
@@ -182,14 +182,18 @@ def sift_down(a, size, i):
       },
       options: [
         { ru: '(i - 1) / 2 (целочисленное деление)', en: '(i - 1) / 2 (integer division)' },
-        { ru: 'i / 2 + 1', en: 'i / 2 + 1' },
-        { ru: 'i * 2', en: 'i * 2' },
-        { ru: 'i - 2', en: 'i - 2' },
+        { ru: 'i / 2 + 1, как в некоторых 1-индексированных реализациях кучи', en: 'i / 2 + 1, as used in some 1-indexed heap implementations' },
+        { ru: 'i * 2, поскольку это обратная операция к вычислению левого ребёнка', en: 'i * 2, since it inverts the left-child formula' },
+        { ru: 'i - 2, потому что родитель всегда на два индекса раньше', en: 'i - 2, because the parent is always two indices earlier' },
       ],
       correct: 0,
       explanation: {
         ru: 'Дети элемента `i` находятся по индексам `2i+1` и `2i+2`, поэтому обратное преобразование к родителю — `(i-1)/2` с целочисленным делением.',
         en: 'The children of element `i` sit at indices `2i+1` and `2i+2`, so inverting that to find the parent gives `(i-1)/2` with integer division.',
+      },
+      hint: {
+        ru: 'Попробуй обратить формулы для детей `2i+1` и `2i+2` — какое действие возвращает обратно к `i`?',
+        en: 'Try inverting the children formulas `2i+1` and `2i+2` — what operation gets you back to `i`?',
       },
     },
     {
@@ -202,14 +206,18 @@ def sift_down(a, size, i):
           ru: 'Корень кучи меняется местами с последним элементом кучи, куча сжимается, и новый корень просеивается вниз',
           en: 'The heap root is swapped with the last heap element, the heap shrinks, and the new root is sifted down',
         },
-        { ru: 'Массив разбивается на две равные половины', en: 'The array is split into two equal halves' },
-        { ru: 'Выбирается случайный опорный элемент', en: 'A random pivot element is chosen' },
-        { ru: 'Куча полностью перестраивается заново', en: 'The heap is fully rebuilt from scratch' },
+        { ru: 'Массив разбивается на две равные половины, которые затем сортируются и сливаются обратно', en: 'The array is split into two equal halves, which are then sorted and merged back together' },
+        { ru: 'Выбирается случайный опорный элемент, вокруг которого партиционируются остальные', en: 'A random pivot element is chosen, and the rest are partitioned around it' },
+        { ru: 'Куча полностью перестраивается заново из оставшихся элементов на каждой итерации', en: 'The heap is fully rebuilt from scratch out of the remaining elements on every iteration' },
       ],
       correct: 0,
       explanation: {
         ru: 'Именно эта пара операций — swap с концом кучи и sift down нового корня — превращает max-heap в отсортированный массив за n шагов.',
         en: 'This pair of operations — swapping with the end of the heap and sifting the new root down — is exactly what turns a max-heap into a sorted array over n steps.',
+      },
+      hint: {
+        ru: 'Подумай, какая пара операций постепенно превращает max-heap в отсортированный по возрастанию массив, шаг за шагом.',
+        en: 'Think about which pair of operations gradually turns a max-heap into an ascending sorted array, one step at a time.',
       },
     },
     {
@@ -222,14 +230,18 @@ def sift_down(a, size, i):
           ru: 'Просеивание всегда обрабатывает сбалансированное бинарное дерево высотой log n, независимо от исходных данных',
           en: 'Sift-down always operates on a balanced binary tree of height log n, regardless of the input data',
         },
-        { ru: 'Она использует случайные числа для балансировки', en: 'It uses random numbers to balance itself' },
-        { ru: 'Она всегда сортирует уже почти отсортированные данные', en: 'It only ever sorts nearly-sorted data' },
-        { ru: 'Куча не зависит от количества элементов', en: 'The heap does not depend on the number of elements' },
+        { ru: 'Она использует случайные числа для балансировки дерева, как рандомизированный quicksort выбирает опорный элемент', en: 'It uses random numbers to balance the tree, the same way randomized quicksort picks its pivot' },
+        { ru: 'Она всегда сортирует уже почти отсортированные данные благодаря начальному построению кучи', en: 'It only ever sorts nearly-sorted data thanks to the initial heap construction step' },
+        { ru: 'Куча не зависит от количества элементов, так как её высота фиксирована для любого входа', en: 'The heap does not depend on the number of elements, since its height is fixed for any input' },
       ],
       correct: 0,
       explanation: {
         ru: 'В отличие от партиционирования в quicksort, структура кучи как полного бинарного дерева всегда сбалансирована по построению, поэтому просеивание всегда стоит O(log n) независимо от порядка входных данных.',
         en: 'Unlike quicksort\'s partitioning, a heap is a complete binary tree that is balanced by construction, so sift-down always costs O(log n) regardless of the input order.',
+      },
+      hint: {
+        ru: 'Подумай о структурном свойстве полного бинарного дерева, которое никогда не меняется независимо от входных данных.',
+        en: 'Think about the structural property of a complete binary tree that never changes regardless of the input data.',
       },
     },
     {
@@ -239,14 +251,18 @@ def sift_down(a, size, i):
       },
       options: [
         { ru: 'O(1) — сортирует на месте, куча хранится в исходном массиве', en: 'O(1) — it sorts in place, the heap lives in the original array' },
-        { ru: 'O(n) — как сортировка слиянием', en: 'O(n) — same as merge sort' },
-        { ru: 'O(n log n)', en: 'O(n log n)' },
-        { ru: 'O(log n) — на стек рекурсии, как у quicksort', en: 'O(log n) — for a recursion stack, like quicksort' },
+        { ru: 'O(n) — как сортировка слиянием, потому что тоже нужен временный буфер для слияния уровней кучи', en: 'O(n) — same as merge sort, because it also needs a temporary buffer to merge heap levels' },
+        { ru: 'O(n log n) — по одному дополнительному элементу на каждый шаг просеивания', en: 'O(n log n) — one extra element allocated for every sift-down step' },
+        { ru: 'O(log n) — на стек рекурсии, как у quicksort, поскольку siftDown вызывает себя рекурсивно', en: 'O(log n) — for a recursion stack, like quicksort, since siftDown calls itself recursively' },
       ],
       correct: 0,
       explanation: {
         ru: 'Куча — это просто способ интерпретировать существующий массив как дерево через индексную арифметику, отдельная структура данных не создаётся.',
         en: 'A heap is just a way of interpreting the existing array as a tree via index arithmetic — no separate data structure is allocated.',
+      },
+      hint: {
+        ru: 'Подумай, создаётся ли куча как отдельная структура данных или это просто другой взгляд на тот же массив.',
+        en: 'Think about whether the heap is a separate data structure, or just another way of looking at the same array.',
       },
     },
     {
@@ -259,14 +275,138 @@ def sift_down(a, size, i):
           ru: 'Глубокая рекурсия — признак плохого партиционирования, и heapsort даёт гарантию O(n log n), избегая квадратичного срыва',
           en: 'Deep recursion signals bad partitioning, and heapsort guarantees O(n log n), avoiding the quadratic blowup',
         },
-        { ru: 'Heapsort быстрее quicksort на любых данных', en: 'Heapsort is faster than quicksort on any data' },
-        { ru: 'Heapsort требует меньше сравнений', en: 'Heapsort requires fewer comparisons' },
-        { ru: 'Это чисто историческое решение без технической причины', en: 'It is a purely historical decision with no technical reason' },
+        { ru: 'Heapsort быстрее quicksort на любых данных, поэтому его выгодно использовать при любой возможности', en: 'Heapsort is faster than quicksort on any data, so it pays to switch to it whenever possible' },
+        { ru: 'Heapsort требует меньше сравнений благодаря структуре кучи, что компенсирует издержки переключения', en: 'Heapsort requires fewer comparisons thanks to the heap structure, offsetting the cost of switching' },
+        { ru: 'Это чисто историческое решение без технической причины, унаследованное от ранних реализаций std::sort', en: 'It is a purely historical decision with no technical reason, inherited from early std::sort implementations' },
       ],
       correct: 0,
       explanation: {
         ru: 'Introsort использует глубину рекурсии как сигнал тревоги: если она превышает ожидаемый порог `O(log n)`, это значит, что разбиения несбалансированы, и алгоритм подстраховывается гарантированным heapsort.',
         en: 'Introsort treats recursion depth as a warning sign: if it exceeds the expected `O(log n)` threshold, partitions are unbalanced, and the algorithm falls back to guaranteed-safe heapsort.',
+      },
+      hint: {
+        ru: 'Подумай, о чём сигнализирует слишком глубокая рекурсия относительно качества разбиений quicksort.',
+        en: 'Think about what unusually deep recursion signals about the quality of quicksort\'s partitions.',
+      },
+    },
+    {
+      question: {
+        ru: 'Почему построение max-heap (`build-heap`) занимает O(n), а не O(n log n), хотя просеивание каждого узла стоит O(log n)?',
+        en: 'Why does building a max-heap (`build-heap`) take O(n), not O(n log n), even though sifting each node costs O(log n)?',
+      },
+      options: [
+        {
+          ru: 'Большинство узлов находится ближе к листьям, где просеивание короткое, и сумма по всем уровням сходится к O(n)',
+          en: 'Most nodes sit near the leaves, where sifting is short, and the sum across all levels converges to O(n)',
+        },
+        { ru: 'На самом деле это O(n log n), а O(n) — распространённое заблуждение', en: 'It is actually O(n log n) — the O(n) claim is a common misconception' },
+        { ru: 'Просеивание стоит O(1), а не O(log n)', en: 'Sift-down costs O(1), not O(log n)' },
+        { ru: 'Это зависит от исходного порядка элементов', en: 'It depends on the initial order of the elements' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Грубая оценка n/2 * O(log n) даёт O(n log n), но точный анализ учитывает, что узлов на нижних уровнях экспоненциально больше, а просеивание там короче — сумма вклада по уровням образует сходящийся геометрический ряд, дающий в итоге O(n).',
+        en: 'A naive bound of n/2 * O(log n) gives O(n log n), but a tighter analysis accounts for exponentially more nodes near the bottom, where sift-down is short — the per-level contribution forms a converging geometric series that sums to O(n).',
+      },
+      hint: {
+        ru: 'Подумай, сколько узлов лежит близко к низу дерева (где просеивание дешёвое) по сравнению с корнем (где оно дорогое).',
+        en: 'Think about how many nodes sit near the bottom of the tree (where sift-down is cheap) compared to the root (where it is expensive).',
+      },
+    },
+    {
+      question: {
+        ru: 'Почему пирамидальная сортировка на практике обычно медленнее быстрой сортировки, несмотря на такую же или лучшую гарантию худшего случая?',
+        en: 'Why is heap sort typically slower than quicksort in practice, despite matching or beating its worst-case guarantee?',
+      },
+      options: [
+        {
+          ru: 'Обращения к куче прыгают по несмежным индексам, что даёт худшую локальность обращений к кэшу, чем у последовательных проходов quicksort',
+          en: 'Heap access jumps between non-contiguous indices, giving worse cache locality than quicksort\'s mostly sequential scans',
+        },
+        { ru: 'У heapsort хуже асимптотическая сложность', en: 'Heap sort has worse asymptotic complexity' },
+        { ru: 'Heapsort всегда использует больше памяти', en: 'Heap sort always uses more memory' },
+        { ru: 'Heapsort на самом деле не O(n log n) в среднем случае', en: 'Heap sort is not actually O(n log n) on average' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Просеивание постоянно перескакивает между родителем и детьми, которые в массиве могут быть далеко друг от друга, вызывая больше промахов кэша, чем в целом локальные проходы партиционирования quicksort — реальный проигрыш по константе, несмотря на асимптотическое преимущество.',
+        en: 'Sift-down repeatedly jumps between parent and child indices that can be far apart in memory, causing more cache misses than quicksort\'s largely local partitioning scans — a real constant-factor disadvantage despite the asymptotic edge.',
+      },
+      hint: {
+        ru: 'Подумай, насколько далеко друг от друга в памяти обычно находятся родитель и его дети в куче на основе массива, и как это влияет на кэш процессора.',
+        en: 'Think about how far apart in memory a parent and its children usually sit in an array-backed heap, and what that means for CPU cache access.',
+      },
+    },
+    {
+      question: {
+        ru: 'Почему пирамидальная сортировка неустойчива, хотя явно не «пропускает» сравнение равных элементов?',
+        en: 'Why is heap sort unstable even though it never explicitly "skips" comparing equal elements?',
+      },
+      options: [
+        {
+          ru: 'Просеивание переставляет элементы по свойству кучи без какого-либо правила сохранения порядка равных элементов',
+          en: 'Sift-down reorders elements based on the heap property with no tie-breaking rule that preserves the original order of equal elements',
+        },
+        { ru: 'На самом деле она устойчива — это заблуждение', en: 'It is actually stable, this is a misconception' },
+        { ru: 'Неустойчивость возникает только при дубликатах больше половины массива', en: 'Instability only occurs with duplicates larger than half the array' },
+        { ru: 'Неустойчивость возникает только на этапе построения кучи, но не при извлечении', en: 'Instability only happens during heap construction, not extraction' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Когда просеивание или обмен при извлечении перемещает элемент мимо равного ему соседа или корня, ничто в алгоритме не отслеживает и не сохраняет их исходный относительный порядок — в отличие от явного правила `<=` в сортировке слиянием.',
+        en: 'Whenever sift-down or the extraction swap moves an element past an equal-valued sibling or root, nothing in the algorithm tracks or preserves their original relative order — unlike merge sort\'s explicit `<=` tie-break.',
+      },
+      hint: {
+        ru: 'Подумай, отслеживает ли что-нибудь в просеивании или извлечении, какой из двух равных элементов был раньше в исходном массиве.',
+        en: 'Think about whether anything in sift-down or extraction specifically tracks which of two equal elements came first in the original array.',
+      },
+    },
+    {
+      question: {
+        ru: 'Как операция «извлечь максимум и просеять корень вниз» в heapsort связана с очередью с приоритетом в алгоритме Дейкстры?',
+        en: 'How does heap sort\'s "extract the max, then sift the root down" operation relate to the priority queue used in Dijkstra\'s algorithm?',
+      },
+      options: [
+        {
+          ru: 'Это одна и та же операция «извлечь корень за O(log n), восстановить свойство кучи» — Дейкстра просто вызывает её многократно во время обхода графа, а не только в конце статичной сортировки',
+          en: 'Both rely on the same "extract the root in O(log n), restore the heap property" operation — Dijkstra just calls it repeatedly during graph traversal instead of once at the end of a static sort',
+        },
+        { ru: 'Алгоритм Дейкстры вообще не использует кучи', en: 'Dijkstra\'s algorithm does not use heaps at all' },
+        { ru: 'Реализации heapsort и очереди с приоритетом никак не связаны', en: 'Heap sort and priority queue implementations are unrelated' },
+        { ru: 'Дейкстре нужно перестраивать кучу с нуля при каждом извлечении', en: 'Dijkstra\'s algorithm must rebuild the heap from scratch on every extraction' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Внутренний механизм heapsort — извлечь корень, просеять вниз — это ровно та операция очереди с приоритетом, которую алгоритм Дейкстры вызывает снова и снова, чтобы всегда обрабатывать ближайшую непосещённую вершину за O(log n) вместо O(n) при линейном переборе.',
+        en: 'Heap sort\'s inner mechanism — extract the root, sift it down — is exactly the priority-queue operation Dijkstra\'s algorithm calls repeatedly to always process the next-closest unvisited node in O(log n) instead of O(n) with a linear scan.',
+      },
+      hint: {
+        ru: 'Подумай, чем в более общих терминах структур данных является шаг heapsort «извлечь максимум, затем просеять вниз».',
+        en: 'Think about what heap sort\'s "extract the maximum, then sift down" step actually is, in more general data-structure terms.',
+      },
+    },
+    {
+      question: {
+        ru: 'Что нужно изменить в heapsort, чтобы он сразу давал массив, отсортированный по убыванию?',
+        en: 'What would you change in heap sort to make it directly produce a descending-order array?',
+      },
+      options: [
+        {
+          ru: 'Строить min-heap вместо max-heap, чтобы наименьший элемент извлекался первым и попадал в конец массива',
+          en: 'Build a min-heap instead of a max-heap, so the smallest element is extracted first and placed at the end each time',
+        },
+        { ru: 'Ничего не изменится — heapsort не может давать убывающий порядок', en: 'Nothing changes — heap sort cannot produce descending order' },
+        { ru: 'Развернуть итоговый массив после сортировки — тип кучи не влияет', en: 'Reverse the final array after sorting; the heap type has no effect' },
+        { ru: 'Изменить направление просеивания, оставив max-heap', en: 'Change the sift-down direction but keep a max-heap' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Поскольку извлечённый корень каждый раз помещается в текущий конец массива, использование min-heap вместо max-heap отправляет наименьшие элементы к концу, а наибольшие — к началу, напрямую давая убывающий порядок без отдельного разворота.',
+        en: 'Since the extracted root is placed at the current end of the array each pass, using a min-heap instead of a max-heap sends the smallest elements toward the end and the largest toward the front, directly producing descending order without a separate reversal pass.',
+      },
+      hint: {
+        ru: 'Подумай, в какой конец массива попадает каждый извлечённый корень, и какая куча отправила бы туда наименьшие элементы первыми.',
+        en: 'Think about which end of the array receives each extracted root, and what kind of heap would send the smallest elements there first.',
       },
     },
   ],

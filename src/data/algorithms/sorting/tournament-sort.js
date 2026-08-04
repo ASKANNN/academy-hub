@@ -1,7 +1,7 @@
 export const tournamentSort = {
   slug: 'tournament-sort',
   category: 'sorting',
-  name: { ru: 'Турнирная сортировка', en: 'Tournament Sort' },
+  name: { ru: 'Tournament Sort', en: 'Tournament Sort' },
   complexity: {
     time: { best: 'O(n log n)', average: 'O(n log n)', worst: 'O(n log n)' },
     space: 'O(n)',

@@ -1,7 +1,7 @@
 export const bitonicSort = {
   slug: 'bitonic-sort',
   category: 'sorting',
-  name: { ru: 'Битоническая сортировка', en: 'Bitonic Sort' },
+  name: { ru: 'Bitonic Sort', en: 'Bitonic Sort' },
   complexity: {
     time: { best: 'O(n log² n)', average: 'O(n log² n)', worst: 'O(n log² n)' },
     space: 'O(n)',
@@ -197,9 +197,9 @@ export const bitonicSort = {
           ru: 'Последовательность, сначала монотонно возрастающая, а затем монотонно убывающая (или наоборот)',
           en: 'A sequence that first monotonically increases, then monotonically decreases (or vice versa)',
         },
-        { ru: 'Последовательность из ровно двух элементов', en: 'A sequence of exactly two elements' },
-        { ru: 'Последовательность, отсортированная в случайном порядке', en: 'A sequence sorted in random order' },
-        { ru: 'Последовательность, состоящая только из чётных чисел', en: 'A sequence consisting only of even numbers' },
+        { ru: 'Последовательность из ровно двух элементов, которые сравниваются напрямую друг с другом на каждом шаге сети', en: 'A sequence of exactly two elements, which are compared directly against each other at every step of the network' },
+        { ru: 'Последовательность, отсортированная в случайном порядке на каждом отдельном шаге рекурсивного построения сети', en: 'A sequence sorted in random order at every individual step of the network\'s recursive construction' },
+        { ru: 'Последовательность, состоящая только из чётных чисел, поскольку так того требует классическая сеть сравнений', en: 'A sequence consisting only of even numbers, since that is what the classic comparison network requires' },
       ],
       correct: 0,
       explanation: {
@@ -214,9 +214,9 @@ export const bitonicSort = {
       },
       options: [
         { ru: 'Классическая сеть сравнений битонической сортировки построена рекурсивным делением пополам и требует этого размера', en: 'The classic bitonic comparison network is built by recursive halving and requires this size' },
-        { ru: 'Иначе сортировка даёт неверный результат для отрицательных чисел', en: 'Otherwise the sort gives an incorrect result for negative numbers' },
-        { ru: 'Это ускоряет работу на обычном процессоре с одним потоком', en: 'It speeds up execution on an ordinary single-threaded processor' },
-        { ru: 'Дополнение не нужно, это архитектурная особенность конкретной реализации', en: 'Padding isn\'t actually needed — it\'s an implementation quirk' },
+        { ru: 'Иначе сортировка даёт неверный результат для отрицательных чисел из-за переполнения при сравнении', en: 'Otherwise the sort gives an incorrect result for negative numbers due to comparison overflow' },
+        { ru: 'Это ускоряет работу на обычном процессоре с одним потоком, как и в случае с merge sort', en: 'It speeds up execution on an ordinary single-threaded processor, the same way it does for merge sort' },
+        { ru: 'Дополнение не нужно, это просто архитектурная особенность конкретной, не самой удачной реализации', en: 'Padding isn\'t actually needed — it\'s just an implementation quirk of one particular, suboptimal version' },
       ],
       correct: 0,
       explanation: {
@@ -234,9 +234,9 @@ export const bitonicSort = {
           ru: 'Все пары сравнений известны заранее и не зависят от значений элементов',
           en: 'All comparison pairs are known in advance and don\'t depend on element values',
         },
-        { ru: 'Она использует меньше сравнений, чем любой другой алгоритм', en: 'It uses fewer comparisons than any other algorithm' },
-        { ru: 'Она никогда не переставляет элементы местами', en: 'It never swaps elements' },
-        { ru: 'Она работает только с уже отсортированными данными', en: 'It only works on already-sorted data' },
+        { ru: 'Она использует меньше сравнений, чем любой другой известный алгоритм сортировки, включая quicksort и merge sort', en: 'It uses fewer comparisons than any other known sorting algorithm, including quicksort and merge sort' },
+        { ru: 'Она никогда не переставляет элементы местами, что экономит время на записи в память при каждом сравнении', en: 'It never swaps elements, which saves time on memory writes during every comparison' },
+        { ru: 'Она работает только с уже отсортированными данными, как и большинство других сетей сравнений', en: 'It only works on already-sorted data, like most other comparison networks' },
       ],
       correct: 0,
       explanation: {
@@ -251,9 +251,9 @@ export const bitonicSort = {
       },
       options: [
         { ru: 'O(n log² n)', en: 'O(n log² n)' },
-        { ru: 'O(n log n)', en: 'O(n log n)' },
-        { ru: 'O(n)', en: 'O(n)' },
-        { ru: 'O(n²)', en: 'O(n²)' },
+        { ru: 'O(n log n), как у сортировки слиянием', en: 'O(n log n), same as merge sort' },
+        { ru: 'O(n), поскольку сеть строится заранее', en: 'O(n), since the network is built in advance' },
+        { ru: 'O(n²), как у пузырьковой сортировки', en: 'O(n²), same as bubble sort' },
       ],
       correct: 0,
       explanation: {
@@ -268,9 +268,9 @@ export const bitonicSort = {
       },
       options: [
         { ru: 'Нет — фиксированная сеть сравнений не сохраняет исходный порядок равных элементов', en: 'No — the fixed comparison network doesn\'t preserve the original order of equal elements' },
-        { ru: 'Да, всегда сохраняет порядок равных элементов', en: 'Yes, it always preserves the order of equal elements' },
-        { ru: 'Только если массив уже отсортирован', en: 'Only if the array is already sorted' },
-        { ru: 'Устойчивость не определена для сетей сравнений', en: 'Stability is undefined for comparison networks' },
+        { ru: 'Да, всегда сохраняет порядок равных элементов, точно так же, как это делает merge sort', en: 'Yes, it always preserves the order of equal elements, exactly the way merge sort does' },
+        { ru: 'Только если массив уже отсортирован перед началом работы алгоритма сравнения', en: 'Only if the array is already sorted before the comparison algorithm starts running' },
+        { ru: 'Устойчивость не определена для сетей сравнений вообще, поскольку это чисто аппаратное понятие', en: 'Stability is undefined for comparison networks in general, since it\'s a purely hardware-level notion' },
       ],
       correct: 0,
       explanation: {

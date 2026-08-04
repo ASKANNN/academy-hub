@@ -1,7 +1,7 @@
 export const shellSort = {
   slug: 'shell-sort',
   category: 'sorting',
-  name: { ru: 'Сортировка Шелла', en: 'Shell Sort' },
+  name: { ru: 'Shell Sort', en: 'Shell Sort' },
   complexity: {
     time: { best: 'O(n log n)', average: 'O(n^1.3)', worst: 'O(n²)' },
     space: 'O(1)',

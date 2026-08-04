@@ -1,7 +1,7 @@
 export const librarySort = {
   slug: 'library-sort',
   category: 'sorting',
-  name: { ru: 'Библиотечная сортировка', en: 'Library Sort' },
+  name: { ru: 'Library Sort', en: 'Library Sort' },
   complexity: {
     time: { best: 'O(n)', average: 'O(n log n)', worst: 'O(n²)' },
     space: 'O(n)',
@@ -279,9 +279,9 @@ export const librarySort = {
           ru: 'Оставлять пустые зазоры между элементами, чтобы вставка требовала меньше сдвигов',
           en: 'Leave empty gaps between elements so insertion needs fewer shifts',
         },
-        { ru: 'Сортировать элементы по алфавиту названий', en: 'Sort elements by the alphabetical order of their names' },
-        { ru: 'Делить массив на страницы фиксированного размера', en: 'Split the array into fixed-size pages' },
-        { ru: 'Использовать хеш-таблицу вместо массива', en: 'Use a hash table instead of an array' },
+        { ru: 'Сортировать элементы по алфавиту названий, как это делают некоторые табличные редакторы при сравнении строк', en: 'Sort elements by the alphabetical order of their names, similar to how some spreadsheet tools compare strings' },
+        { ru: 'Делить массив на страницы фиксированного размера и сортировать каждую страницу по отдельности перед слиянием', en: 'Split the array into fixed-size pages and sort each page separately before merging them back' },
+        { ru: 'Использовать хеш-таблицу вместо массива, чтобы вставка происходила за постоянное время без сравнений', en: 'Use a hash table instead of an array so insertion happens in constant time without comparisons' },
       ],
       correct: 0,
       explanation: {

@@ -1,7 +1,7 @@
 export const gnomeSort = {
   slug: 'gnome-sort',
   category: 'sorting',
-  name: { ru: 'Гномья сортировка', en: 'Gnome Sort' },
+  name: { ru: 'Gnome Sort', en: 'Gnome Sort' },
   complexity: {
     time: { best: 'O(n)', average: 'O(n²)', worst: 'O(n²)' },
     space: 'O(1)',
@@ -168,9 +168,9 @@ export const gnomeSort = {
       },
       options: [
         { ru: 'Элементы меняются местами, указатель отступает на шаг назад', en: 'The elements are swapped, and the pointer steps back one position' },
-        { ru: 'Массив пересортировывается с самого начала', en: 'The array is re-sorted from the very beginning' },
-        { ru: 'Элемент удаляется из массива', en: 'The element is removed from the array' },
-        { ru: 'Указатель прыгает в конец массива', en: 'The pointer jumps to the end of the array' },
+        { ru: 'Весь массив полностью пересортировывается заново с самого начала', en: 'The whole array is completely re-sorted from the very beginning again' },
+        { ru: 'Проблемный элемент насовсем удаляется из массива и отбрасывается', en: 'The problematic element is permanently removed from the array and discarded' },
+        { ru: 'Указатель немедленно прыгает в самый конец массива', en: 'The pointer immediately jumps all the way to the end of the array' },
       ],
       correct: 0,
       explanation: {
@@ -202,9 +202,9 @@ export const gnomeSort = {
       },
       options: [
         { ru: 'Да — своп происходит только при строгом нарушении порядка', en: 'Yes — a swap only happens on a strict order violation' },
-        { ru: 'Нет, как quicksort', en: 'No, like quicksort' },
-        { ru: 'Только для отрицательных чисел', en: 'Only for negative numbers' },
-        { ru: 'Зависит от длины массива', en: 'It depends on the array\'s length' },
+        { ru: 'Нет, она нестабильна точно так же, как и quicksort', en: 'No, it is unstable, just the same way quicksort is' },
+        { ru: 'Только для отрицательных чисел, для положительных всё иначе', en: 'Only for negative numbers, positive ones behave differently' },
+        { ru: 'Это зависит от конкретной длины сортируемого массива', en: 'It depends on the specific length of the array being sorted' },
       ],
       correct: 0,
       explanation: {
@@ -219,9 +219,9 @@ export const gnomeSort = {
       },
       options: [
         { ru: 'На сортировку вставками, но без вложенного цикла', en: 'Insertion sort, but without an inner loop' },
-        { ru: 'На быструю сортировку', en: 'Quicksort' },
-        { ru: 'На сортировку слиянием', en: 'Merge sort' },
-        { ru: 'На поразрядную сортировку', en: 'Radix sort' },
+        { ru: 'На быструю сортировку и её стратегию выбора опорного элемента', en: 'Quicksort and its overall pivot-selection strategy' },
+        { ru: 'На сортировку слиянием и её принцип разделения массива пополам', en: 'Merge sort and its principle of splitting the array in half' },
+        { ru: 'На поразрядную сортировку и обработку чисел по разрядам', en: 'Radix sort and its digit-by-digit processing of numbers' },
       ],
       correct: 0,
       explanation: {

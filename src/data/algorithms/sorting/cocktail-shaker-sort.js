@@ -1,7 +1,7 @@
 export const cocktailShakerSort = {
   slug: 'cocktail-shaker-sort',
   category: 'sorting',
-  name: { ru: 'Шейкерная сортировка', en: 'Cocktail Shaker Sort' },
+  name: { ru: 'Cocktail Shaker Sort', en: 'Cocktail Shaker Sort' },
   complexity: {
     time: { best: 'O(n)', average: 'O(n²)', worst: 'O(n²)' },
     space: 'O(1)',
@@ -180,9 +180,9 @@ export const cocktailShakerSort = {
       },
       options: [
         { ru: 'Она чередует направление прохода: слева направо и справа налево', en: 'It alternates pass direction: left-to-right and right-to-left' },
-        { ru: 'Она использует дополнительный массив для слияния результатов', en: 'It uses an extra array to merge results' },
-        { ru: 'Она сравнивает элементы через фиксированный gap', en: 'It compares elements through a fixed gap' },
-        { ru: 'Она выбирает случайный опорный элемент', en: 'It picks a random pivot element' },
+        { ru: 'Она использует дополнительный временный массив для слияния промежуточных результатов', en: 'It uses an extra temporary array to merge intermediate results together' },
+        { ru: 'Она сравнивает элементы через постепенно сокращающийся фиксированный gap', en: 'It compares elements through a gradually shrinking fixed gap' },
+        { ru: 'Она каждый раз выбирает случайный опорный элемент для сравнения', en: 'It picks a random pivot element for comparison on every pass' },
       ],
       correct: 0,
       explanation: {
@@ -197,9 +197,9 @@ export const cocktailShakerSort = {
       },
       options: [
         { ru: 'Медленное перемещение маленьких элементов («черепах»), застрявших в конце массива', en: 'Slow movement of small elements ("turtles") stuck at the end of the array' },
-        { ru: 'Излишний расход памяти', en: 'Excessive memory usage' },
-        { ru: 'Нестабильность сортировки', en: 'Sort instability' },
-        { ru: 'Невозможность сортировать по убыванию', en: 'Inability to sort in descending order' },
+        { ru: 'Излишний расход дополнительной памяти на каждый проход по массиву', en: 'Excessive extra memory usage on every single pass through the array' },
+        { ru: 'Нестабильность сортировки, когда в массиве встречаются равные элементы', en: 'Sort instability whenever equal elements happen to appear in the array' },
+        { ru: 'Принципиальная невозможность вообще сортировать массив по убыванию', en: 'A fundamental inability to ever sort the array in descending order at all' },
       ],
       correct: 0,
       explanation: {

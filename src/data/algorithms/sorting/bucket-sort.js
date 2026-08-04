@@ -1,7 +1,7 @@
 export const bucketSort = {
   slug: 'bucket-sort',
   category: 'sorting',
-  name: { ru: 'Блочная сортировка', en: 'Bucket Sort' },
+  name: { ru: 'Bucket Sort', en: 'Bucket Sort' },
   complexity: {
     time: { best: 'O(n + k)', average: 'O(n + k)', worst: 'O(n²)' },
     space: 'O(n + k)',
@@ -157,9 +157,9 @@ export const bucketSort = {
       },
       options: [
         { ru: 'От того, насколько равномерно распределены входные данные', en: 'How uniformly the input data is distributed' },
-        { ru: 'От того, отсортирован ли массив изначально', en: 'Whether the array is already sorted' },
-        { ru: 'От выбора языка программирования', en: 'The choice of programming language' },
-        { ru: 'От чётности количества элементов', en: 'Whether the element count is even' },
+        { ru: 'От того, отсортирован ли массив изначально перед запуском алгоритма', en: 'Whether the array is already sorted before the algorithm starts running' },
+        { ru: 'От выбора конкретного языка программирования для реализации', en: 'The choice of programming language used for the implementation' },
+        { ru: 'От того, чётное или нечётное количество элементов в массиве', en: 'Whether the number of elements in the array is even or odd' },
       ],
       correct: 0,
       explanation: {
@@ -174,9 +174,9 @@ export const bucketSort = {
       },
       options: [
         { ru: 'Сложность деградирует до O(n²) — как у сортировки одной большой корзины', en: 'Complexity degrades to O(n²) — like sorting one large bucket' },
-        { ru: 'Алгоритм завершается с ошибкой', en: 'The algorithm crashes' },
-        { ru: 'Ничего не меняется, сложность остаётся O(n + k)', en: 'Nothing changes, complexity stays O(n + k)' },
-        { ru: 'Сложность становится O(log n)', en: 'Complexity becomes O(log n)' },
+        { ru: 'Алгоритм завершается с ошибкой переполнения буфера корзины', en: 'The algorithm crashes with a bucket buffer overflow error' },
+        { ru: 'Ничего не меняется, сложность так и остаётся линейной O(n + k)', en: 'Nothing changes, complexity stays exactly linear at O(n + k)' },
+        { ru: 'Сложность неожиданно улучшается до O(log n)', en: 'Complexity unexpectedly improves down to O(log n)' },
       ],
       correct: 0,
       explanation: {
@@ -191,9 +191,9 @@ export const bucketSort = {
       },
       options: [
         { ru: 'Простой алгоритм вроде insertion sort — корзины обычно маленькие', en: 'A simple algorithm like insertion sort — buckets are usually small' },
-        { ru: 'Обязательно merge sort', en: 'Merge sort, mandatorily' },
-        { ru: 'Ещё один вызов bucket sort рекурсивно', en: 'Another recursive call to bucket sort' },
-        { ru: 'Сортировка вообще не нужна внутри корзины', en: 'No sorting is needed inside a bucket at all' },
+        { ru: 'Обязательно merge sort, независимо от размера отдельной корзины', en: 'Merge sort, mandatorily, no matter how small the individual bucket is' },
+        { ru: 'Ещё один рекурсивный вызов самой блочной сортировки заново', en: 'Another recursive call back into bucket sort itself, applied again' },
+        { ru: 'Сортировка вообще не нужна — все корзины уже гарантированно упорядочены', en: 'No sorting is needed inside a bucket, they are already guaranteed ordered' },
       ],
       correct: 0,
       explanation: {
@@ -208,9 +208,9 @@ export const bucketSort = {
       },
       options: [
         { ru: 'Корзины независимы друг от друга и могут сортироваться одновременно', en: 'Buckets are independent of each other and can be sorted simultaneously' },
-        { ru: 'Алгоритм не использует память', en: 'The algorithm uses no memory' },
-        { ru: 'Он не содержит циклов', en: 'It contains no loops' },
-        { ru: 'Он работает только с одним элементом за раз', en: 'It only works on one element at a time' },
+        { ru: 'Алгоритм в принципе не использует никакой дополнительной памяти вообще', en: 'The algorithm uses no extra memory whatsoever in any implementation at all' },
+        { ru: 'Он полностью реализован без единого цикла в коде', en: 'It contains no loops at all anywhere in its implementation' },
+        { ru: 'Он способен обрабатывать только один элемент за один проход', en: 'It only works on one element at a time during any given pass' },
       ],
       correct: 0,
       explanation: {
@@ -225,9 +225,9 @@ export const bucketSort = {
       },
       options: [
         { ru: 'Корзина представляет диапазон значений, а не одно конкретное значение', en: 'A bucket represents a range of values, not one specific value' },
-        { ru: 'Блочная сортировка работает только с отрицательными числами', en: 'Bucket sort only works with negative numbers' },
-        { ru: 'Блочная сортировка не требует дополнительной памяти', en: 'Bucket sort needs no extra memory' },
-        { ru: 'Между ними нет никакой разницы', en: 'There is no difference between them' },
+        { ru: 'Блочная сортировка работает исключительно с отрицательными числами и ничем иным', en: 'Bucket sort only works with negative numbers and nothing else at all' },
+        { ru: 'Блочная сортировка вообще не требует никакой дополнительной памяти для работы', en: 'Bucket sort needs no extra memory at all to run, unlike counting sort does' },
+        { ru: 'Между ними по сути нет никакой значимой разницы вообще', en: 'There is essentially no meaningful difference between them at all' },
       ],
       correct: 0,
       explanation: {

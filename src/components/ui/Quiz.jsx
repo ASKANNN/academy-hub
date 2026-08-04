@@ -19,11 +19,22 @@ function shuffleQuestion(question) {
   };
 }
 
+function HintIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+      <path d="M9 18h6" />
+      <path d="M10 22h4" />
+      <path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2Z" />
+    </svg>
+  );
+}
+
 export function Quiz({ quiz, lang, t }) {
   const questions = useMemo(() => shuffle(quiz).map(shuffleQuestion), [quiz]);
   const [step, setStep] = useState(-1);
   const [selected, setSelected] = useState(null);
   const [score, setScore] = useState(0);
+  const [hintOpen, setHintOpen] = useState(false);
 
   if (step === -1) {
     return (
@@ -68,13 +79,33 @@ export function Quiz({ quiz, lang, t }) {
 
   function handleNext() {
     setSelected(null);
+    setHintOpen(false);
     setStep((s) => s + 1);
   }
 
   return (
     <div className="quiz">
       <p className="quiz__progress">{step + 1} / {questions.length}</p>
-      <p className="quiz__question">{question.question[lang] ?? question.question.ru}</p>
+      <div className="quiz__prompt-row">
+        <p className="quiz__question">{question.question[lang] ?? question.question.ru}</p>
+        {question.hint && (
+          <button
+            type="button"
+            className="quiz__hint-btn"
+            onClick={() => setHintOpen((open) => !open)}
+            aria-expanded={hintOpen}
+            aria-label={hintOpen ? t.quizHintHide : t.quizHintShow}
+            title={hintOpen ? t.quizHintHide : t.quizHintShow}
+          >
+            <HintIcon />
+          </button>
+        )}
+      </div>
+      {question.hint && (
+        <div className={`quiz__hint-wrap ${hintOpen ? 'is-open' : ''}`}>
+          <p className="quiz__hint">{question.hint[lang] ?? question.hint.ru}</p>
+        </div>
+      )}
       <ul className="quiz__options">
         {question.options.map((opt, index) => {
           const isCorrect = index === question.correct;

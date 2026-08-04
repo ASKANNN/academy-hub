@@ -1,7 +1,7 @@
 export const sortingNetwork = {
   slug: 'sorting-network',
   category: 'sorting',
-  name: { ru: 'Сортирующая сеть (Батчера)', en: "Sorting Network (Batcher's)" },
+  name: { ru: "Sorting Network (Batcher's)", en: "Sorting Network (Batcher's)" },
   complexity: {
     time: { best: 'O(n log² n)', average: 'O(n log² n)', worst: 'O(n log² n)' },
     space: 'O(n)',

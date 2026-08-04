@@ -1,7 +1,7 @@
 export const introSort = {
   slug: 'intro-sort',
   category: 'sorting',
-  name: { ru: 'Интроспективная сортировка', en: 'Introsort' },
+  name: { ru: 'Introsort', en: 'Introsort' },
   complexity: {
     time: { best: 'O(n log n)', average: 'O(n log n)', worst: 'O(n log n)' },
     space: 'O(log n)',
@@ -268,9 +268,18 @@ def _heap_sort_range(a, low, high):
           ru: 'Глубина рекурсии превышает порог 2·log₂(n)',
           en: 'Recursion depth exceeds the threshold of 2·log₂(n)',
         },
-        { ru: 'Массив содержит дубликаты', en: 'The array contains duplicates' },
-        { ru: 'Пользователь явно указывает флаг', en: 'The user explicitly sets a flag' },
-        { ru: 'Массив больше 1000 элементов', en: 'The array is larger than 1000 elements' },
+        {
+          ru: 'Массив содержит дубликаты, из-за которых партиционирование quicksort начинает работать некорректно',
+          en: 'The array contains duplicates, which cause quicksort\'s partitioning step to start behaving incorrectly',
+        },
+        {
+          ru: 'Пользователь явно указывает флаг конфигурации перед вызовом функции сортировки',
+          en: 'The user explicitly sets a configuration flag before calling the sort function',
+        },
+        {
+          ru: 'Массив больше 1000 элементов, что превышает внутренний лимит библиотеки сортировки',
+          en: 'The array is larger than 1000 elements, exceeding the sort library\'s internal size limit',
+        },
       ],
       correct: 0,
       explanation: {
@@ -288,9 +297,9 @@ def _heap_sort_range(a, low, high):
           ru: 'На маленьком размере низкие константные затраты insertion sort делают её практически быстрее рекурсии quicksort',
           en: 'At small sizes, insertion sort\'s low constant overhead makes it practically faster than quicksort recursion',
         },
-        { ru: 'Quicksort не умеет работать с маленькими массивами', en: 'Quicksort cannot handle small arrays' },
-        { ru: 'Это требование стандарта C++', en: 'It\'s a C++ standard requirement' },
-        { ru: 'Insertion sort работает за O(log n) на любых данных', en: 'Insertion sort runs in O(log n) on any data' },
+        { ru: 'Quicksort в принципе не умеет корректно работать с маленькими массивами вообще, независимо от реализации', en: 'Quicksort fundamentally cannot handle small arrays correctly at all, regardless of implementation details' },
+        { ru: 'Это прямое требование, явно прописанное словом в словах текста официального стандарта языка C++', en: 'It\'s a hard requirement explicitly spelled out word-for-word in the text of the official C++ language standard' },
+        { ru: 'Insertion sort работает за гарантированное O(log n) на абсолютно любых входных данных без исключений', en: 'Insertion sort runs in a guaranteed O(log n) on absolutely any kind of input data with no exceptions' },
       ],
       correct: 0,
       explanation: {
@@ -325,9 +334,9 @@ def _heap_sort_range(a, low, high):
           ru: 'Она наследует неустойчивость от quicksort и heap sort, которые могут менять порядок равных элементов при обмене',
           en: 'It inherits instability from quicksort and heap sort, which can reorder equal elements during swaps',
         },
-        { ru: 'Она использует случайные числа', en: 'It uses random numbers' },
-        { ru: 'Она никогда не сравнивает равные элементы', en: 'It never compares equal elements' },
-        { ru: 'На самом деле она устойчива', en: 'It is actually stable' },
+        { ru: 'Она использует случайные числа при выборе опорного элемента абсолютно на каждом отдельном шаге рекурсии', en: 'It uses random numbers when picking the pivot element at every single step of the recursion process' },
+        { ru: 'Она в принципе никогда не сравнивает друг с другом равные элементы ни на одном из этапов работы', en: 'It fundamentally never compares equal elements against each other at any stage of the entire algorithm' },
+        { ru: 'На самом деле она полностью устойчива, а обратное — это очень распространённое заблуждение среди программистов', en: 'It is actually fully stable, and the opposite claim is simply a very common misconception among programmers' },
       ],
       correct: 0,
       explanation: {
@@ -345,9 +354,9 @@ def _heap_sort_range(a, low, high):
           ru: 'Он сочетает среднюю скорость quicksort с гарантией худшего случая, не требуя O(n) доп. памяти, как merge sort',
           en: 'It combines quicksort\'s average speed with a worst-case guarantee, without needing O(n) extra memory like merge sort',
         },
-        { ru: 'Он единственный устойчивый алгоритм из всех', en: 'It\'s the only stable algorithm among all of them' },
-        { ru: 'Стандарт C++ requires минимум памяти O(n)', en: 'The C++ standard requires O(n) minimum memory' },
-        { ru: 'Merge sort не поддерживается компиляторами', en: 'Merge sort isn\'t supported by compilers' },
+        { ru: 'Он единственный по-настоящему устойчивый алгоритм среди всех трёх рассматриваемых вариантов сортировки данных', en: 'It\'s the only genuinely stable algorithm among all three of the sorting candidates being considered here today' },
+        { ru: 'Стандарт языка C++ официально требует минимум O(n) дополнительной памяти для реализации абсолютно любой сортировки', en: 'The official C++ language standard requires a minimum of O(n) extra memory for implementing absolutely any sort at all' },
+        { ru: 'Merge sort в принципе не поддерживается подавляющим большинством современных компиляторов и языковых рантаймов', en: 'Merge sort fundamentally isn\'t supported by the vast majority of modern compilers and language runtimes at all today' },
       ],
       correct: 0,
       explanation: {

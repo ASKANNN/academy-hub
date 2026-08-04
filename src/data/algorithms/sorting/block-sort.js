@@ -1,7 +1,7 @@
 export const blockSort = {
   slug: 'block-sort',
   category: 'sorting',
-  name: { ru: 'Блочная сортировка (WikiSort)', en: 'Block Sort (WikiSort)' },
+  name: { ru: 'Block Sort (WikiSort)', en: 'Block Sort (WikiSort)' },
   complexity: {
     time: { best: 'O(n)', average: 'O(n log n)', worst: 'O(n log n)' },
     space: 'O(1)',
@@ -188,9 +188,9 @@ def block_sort(arr):
           ru: 'Необходимость O(n) дополнительной памяти для буфера слияния',
           en: 'The need for O(n) extra memory for the merge buffer',
         },
-        { ru: 'Отсутствие устойчивости', en: 'Lack of stability' },
-        { ru: 'Плохую производительность на строках', en: 'Poor performance on strings' },
-        { ru: 'Невозможность сортировать по убыванию', en: 'Inability to sort in descending order' },
+        { ru: 'Отсутствие устойчивости при сортировке записей с одинаковыми ключами', en: 'Lack of stability when sorting records with equal keys' },
+        { ru: 'Плохую производительность на строках переменной длины и юникод-символах', en: 'Poor performance on variable-length strings and Unicode characters' },
+        { ru: 'Невозможность сортировать по убыванию без дополнительного прохода', en: 'Inability to sort in descending order without an extra pass' },
       ],
       correct: 0,
       explanation: {
@@ -205,12 +205,12 @@ def block_sort(arr):
       },
       options: [
         {
-          ru: 'Сдвигая (поворачивая) блок элементов внутри массива, когда элемент из правого участка меньше текущего из левого',
-          en: 'By shifting (rotating) a block of elements within the array whenever a right-run element is smaller than the current left-run one',
+          ru: 'Сдвигая (поворачивая) блок элементов внутри массива на месте, когда элемент из правого участка меньше текущего из левого',
+          en: 'By shifting (rotating) a block of elements within the array in place whenever a right-run element is smaller than the current left-run one',
         },
-        { ru: 'Создавая копию всего массива', en: 'By creating a copy of the whole array' },
-        { ru: 'Удаляя дубликаты перед слиянием', en: 'By removing duplicates before merging' },
-        { ru: 'Сортируя оба участка заново вместе', en: 'By re-sorting both runs together from scratch' },
+        { ru: 'Создавая полную копию всего массива в отдельном временном буфере заранее, перед началом аккуратного слияния двух отсортированных участков', en: 'By creating a full copy of the whole array in a separate temporary buffer ahead of time, before starting to carefully merge the two sorted runs' },
+        { ru: 'Удаляя дубликаты перед слиянием, чтобы существенно сократить общий объём работы алгоритма при слиянии двух участков', en: 'By removing duplicates before merging, to significantly reduce the algorithm\'s overall amount of work when merging the two runs' },
+        { ru: 'Сортируя оба участка заново вместе с самого начала обычным алгоритмом quicksort, как это делают некоторые гибридные реализации на практике сегодня', en: 'By re-sorting both runs together from scratch using plain quicksort, the way some hybrid implementations do in practice today' },
       ],
       correct: 0,
       explanation: {
@@ -228,9 +228,9 @@ def block_sort(arr):
           ru: 'Он переставляет блоки размера примерно √n за раз вместо отдельных элементов, что даёт полную гарантию O(n log n)',
           en: 'It rearranges blocks of roughly √n elements at a time instead of individual elements, giving the full O(n log n) guarantee',
         },
-        { ru: 'Он не является устойчивым', en: 'It isn\'t stable' },
-        { ru: 'Он использует O(n) дополнительной памяти', en: 'It uses O(n) extra memory' },
-        { ru: 'Он не умеет сортировать массивы с повторами', en: 'It can\'t sort arrays with duplicates' },
+        { ru: 'Он не является устойчивым, в отличие от упрощённой версии, показанной здесь в этом уроке, и требует отдельной пометки исходных индексов элементов', en: 'It isn\'t stable, unlike the simplified version shown here in this lesson, and needs separate index tagging of elements to fix' },
+        { ru: 'Он использует O(n) дополнительной памяти, точно так же, как классический merge sort, вместо работы почти на месте', en: 'It uses O(n) extra memory, exactly the same way classic merge sort does, instead of working nearly in place' },
+        { ru: 'Он не умеет сортировать массивы с повторяющимися элементами или значениями вообще, в отличие от упрощённой версии', en: 'It can\'t sort arrays with duplicate elements or repeated values at all, unlike the simplified version' },
       ],
       correct: 0,
       explanation: {
@@ -245,9 +245,9 @@ def block_sort(arr):
       },
       options: [
         { ru: 'Да — равные элементы из левого участка всегда остаются перед равными из правого', en: 'Yes — equal elements from the left run always stay before equal ones from the right' },
-        { ru: 'Нет, как heap sort', en: 'No, like heap sort' },
-        { ru: 'Только для чисел, но не для строк', en: 'Only for numbers, not for strings' },
-        { ru: 'Зависит от размера входного массива', en: 'It depends on the input array\'s size' },
+        { ru: 'Нет, как и heap sort, из-за постоянных перестановок элементов внутри кучи', en: 'No, like heap sort, because of how elements are constantly rearranged inside the heap' },
+        { ru: 'Только для чисел, но не для строк или более сложных составных объектов', en: 'Only for numbers, not for strings or more complex composite objects' },
+        { ru: 'Зависит от размера входного массива и выбранного заранее размера блока', en: 'It depends on the input array\'s size and the block size chosen beforehand' },
       ],
       correct: 0,
       explanation: {
@@ -265,9 +265,9 @@ def block_sort(arr):
           ru: 'Устойчивость + гарантия O(n log n) в худшем случае + O(1) дополнительной памяти',
           en: 'Stability + a guaranteed O(n log n) worst case + O(1) extra memory',
         },
-        { ru: 'O(n) время в лучшем случае для любых данных', en: 'O(n) best-case time for any data' },
-        { ru: 'Полное отсутствие сравнений элементов', en: 'No element comparisons at all' },
-        { ru: 'Параллельное выполнение без потоков', en: 'Parallel execution without threads' },
+        { ru: 'O(n) время выполнения в лучшем случае для абсолютно любых входных данных без исключений', en: 'O(n) best-case time for absolutely any input data, no exceptions' },
+        { ru: 'Полное отсутствие сравнений элементов благодаря особой блочной структуре алгоритма', en: 'No element comparisons at all, thanks to the algorithm\'s special block structure' },
+        { ru: 'Параллельное выполнение без потоков за счёт блочного слияния на месте', en: 'Parallel execution without threads, thanks to in-place block merging' },
       ],
       correct: 0,
       explanation: {

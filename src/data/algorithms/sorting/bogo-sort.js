@@ -1,7 +1,7 @@
 export const bogoSort = {
   slug: 'bogosort',
   category: 'sorting',
-  name: { ru: 'Бого-сортировка', en: 'Bogosort' },
+  name: { ru: 'Bogosort', en: 'Bogosort' },
   complexity: {
     time: { best: 'O(n)', average: 'O(n · n!)', worst: 'O(∞)' },
     space: 'O(1)',
@@ -193,9 +193,9 @@ def bogo_sort(arr):
       },
       options: [
         { ru: 'Нет — теоретически процесс может продолжаться бесконечно', en: 'No — in theory the process could continue forever' },
-        { ru: 'Да, ровно n попыток', en: 'Yes, exactly n attempts' },
-        { ru: 'Да, ровно n! попыток', en: 'Yes, exactly n! attempts' },
-        { ru: 'Да, ровно log n попыток', en: 'Yes, exactly log n attempts' },
+        { ru: 'Да, гарантированно не больше n попыток в худшем случае', en: 'Yes, guaranteed at most n attempts in the worst case' },
+        { ru: 'Да, гарантированно не больше n! попыток в худшем случае', en: 'Yes, guaranteed at most n! attempts in the worst case' },
+        { ru: 'Да, гарантированно не больше log n попыток в худшем случае', en: 'Yes, guaranteed at most log n attempts in the worst case' },
       ],
       correct: 0,
       explanation: {
@@ -213,9 +213,9 @@ def bogo_sort(arr):
           ru: 'Как наглядный учебный пример «наихудшего разумного» подхода к сортировке',
           en: 'As a vivid teaching example of the "worst sane" approach to sorting',
         },
-        { ru: 'Потому что она самая быстрая на маленьких массивах', en: 'Because it is the fastest on small arrays' },
-        { ru: 'Потому что она единственная сортирует на месте', en: 'Because it is the only one that sorts in place' },
-        { ru: 'Потому что она устойчива (stable)', en: 'Because it is a stable sort' },
+        { ru: 'Потому что на практике она оказывается самой быстрой на маленьких массивах', en: 'Because it turns out to be the fastest option on small arrays in practice' },
+        { ru: 'Потому что среди всех алгоритмов сортировки только она сортирует на месте', en: 'Because among all sorting algorithms it is the only one that sorts in place' },
+        { ru: 'Потому что она устойчива (stable) и сохраняет порядок равных элементов', en: 'Because it is a stable sort that preserves the order of equal elements' },
       ],
       correct: 0,
       explanation: {
@@ -229,7 +229,7 @@ def bogo_sort(arr):
         en: 'How much extra memory does bogosort require beyond the original array?',
       },
       options: [
-        { ru: 'O(1) — только массив и служебные переменные', en: 'O(1) — just the array and a few local variables' },
+        { ru: 'O(1)', en: 'O(1)' },
         { ru: 'O(n)', en: 'O(n)' },
         { ru: 'O(n log n)', en: 'O(n log n)' },
         { ru: 'O(n!)', en: 'O(n!)' },
