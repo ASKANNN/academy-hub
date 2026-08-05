@@ -126,14 +126,28 @@ export function Quiz({ quiz, lang, t }) {
           );
         })}
       </ul>
-      {selected !== null && (
-        <div className="quiz__feedback">
-          <p>{question.explanation[lang] ?? question.explanation.ru}</p>
-          <button type="button" className="btn btn--primary" onClick={handleNext}>
-            {isLast ? t.quizFinish : t.quizNext}
-          </button>
-        </div>
-      )}
+      {selected !== null && (() => {
+        const isCorrect = selected === question.correct;
+        return (
+          <div className="quiz__feedback">
+            <p className={`quiz__feedback-text quiz__feedback-text--${isCorrect ? 'correct' : 'incorrect'}`}>
+              {isCorrect ? (
+                <svg className="quiz__feedback-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><polyline points="2 8 6 12 14 4" /></svg>
+              ) : (
+                <svg className="quiz__feedback-icon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><line x1="3" y1="3" x2="13" y2="13" /><line x1="13" y1="3" x2="3" y2="13" /></svg>
+              )}
+              <span>
+                <strong className="quiz__feedback-label">{isCorrect ? t.quizCorrect : t.quizIncorrect}</strong>
+                {' '}
+                {question.explanation[lang] ?? question.explanation.ru}
+              </span>
+            </p>
+            <button type="button" className="btn btn--primary" onClick={handleNext}>
+              {isLast ? t.quizFinish : t.quizNext}
+            </button>
+          </div>
+        );
+      })()}
     </div>
   );
 }

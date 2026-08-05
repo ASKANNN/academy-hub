@@ -27,6 +27,7 @@
   --palette-gray-950: #0A0C10;
 
   --palette-green-500:  #22C55E;
+  --palette-green-600:  #16A34A;
   --palette-yellow-500: #EAB308;
   --palette-red-500:    #EF4444;
   --palette-blue-500:   #3B82F6;
@@ -233,9 +234,11 @@
   --color-accent-subtle:  var(--palette-accent-50);
   --color-accent-text:    var(--palette-gray-0);
 
-  --color-success: var(--palette-green-500);
+  --color-success:        var(--palette-green-600);
+  --color-success-subtle: rgba(22, 163, 74, 0.16);
   --color-warning: var(--palette-yellow-500);
   --color-error:   var(--palette-red-500);
+  --color-error-subtle: rgba(239, 68, 68, 0.10);
   --color-info:    var(--palette-blue-500);
 }
 
@@ -266,9 +269,11 @@
   --color-accent-subtle:  rgba(99, 102, 241, 0.12);
   --color-accent-text:    var(--palette-gray-0);
 
-  --color-success: var(--palette-green-500);
+  --color-success:        var(--palette-green-500);
+  --color-success-subtle: rgba(34, 197, 94, 0.14);
   --color-warning: var(--palette-yellow-500);
   --color-error:   var(--palette-red-500);
+  --color-error-subtle: rgba(239, 68, 68, 0.12);
   --color-info:    var(--palette-blue-500);
 
   --shadow-sm:  0 1px 3px rgba(0, 0, 0, 0.40), 0 1px 2px rgba(0, 0, 0, 0.30);
