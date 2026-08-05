@@ -125,10 +125,11 @@ export default function AlgorithmDetailPage() {
               ),
             },
             {
-              key: 'structure',
-              label: t.sectionSteps,
+              key: 'visualization',
+              label: t.sectionVisualization,
               content: (
                 <div className="detail-section">
+                  <AlgorithmVisualizer slug={algorithm.slug} t={t} />
                   <ol className="algorithm-steps">
                     {algorithm.steps.map((step, i) => (
                       <li key={i} className="algorithm-steps__item">
@@ -144,11 +145,6 @@ export default function AlgorithmDetailPage() {
               key: 'implementation',
               label: t.sectionImplementation,
               content: <CodeBlock code={algorithm.implementation} theme={theme} />,
-            },
-            {
-              key: 'playground',
-              label: t.sectionPlayground,
-              content: <AlgorithmVisualizer slug={algorithm.slug} t={t} />,
             },
             {
               key: 'prosCons',
