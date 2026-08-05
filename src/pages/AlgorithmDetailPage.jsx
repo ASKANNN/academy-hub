@@ -175,7 +175,7 @@ export default function AlgorithmDetailPage() {
             {
               key: 'quiz',
               label: t.sectionQuiz,
-              content: <Quiz quiz={algorithm.quiz} lang={lang} t={t} />,
+              content: <Quiz quiz={algorithm.quiz} lang={lang} t={t} reportUrl="https://github.com/ASKANNN/academy-hub/issues/new" />,
             },
           ]}
         />
