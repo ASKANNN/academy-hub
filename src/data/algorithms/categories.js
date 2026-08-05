@@ -4,8 +4,8 @@ export const ALGORITHM_CATEGORIES = [
     icon: 'sorting',
     name: { ru: 'Сортировки', en: 'Sorting' },
     tagline: {
-      ru: 'Как превратить хаотичный массив в упорядоченный — и какой ценой',
-      en: 'How to turn a chaotic array into an ordered one — and at what cost',
+      ru: '31 алгоритм с визуализацией: от пузырька до тима, с Big O, сравнением подходов и разбором того, когда каждый из них имеет смысл',
+      en: '31 algorithms with visualizations: from bubble to tim, with Big O, approach comparisons, and a breakdown of when each one makes sense',
     },
     status: 'live',
   },

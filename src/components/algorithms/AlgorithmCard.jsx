@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { AlgorithmIcon } from './AlgorithmIcon.jsx';
 
 export function AlgorithmCard({ algorithm, lang = 'ru', index = 0 }) {
   const name = algorithm.name[lang] ?? algorithm.name.ru;
@@ -13,7 +14,10 @@ export function AlgorithmCard({ algorithm, lang = 'ru', index = 0 }) {
       <div className="academy-card academy-card--live algorithm-card">
         <div className="academy-card__body">
           <div className="academy-card__head">
-            <h3 className="academy-card__title">{name}</h3>
+            <h3 className="academy-card__title">
+              <AlgorithmIcon slug={algorithm.slug} size="md" />
+              {name}
+            </h3>
             <span className="complexity-pips" aria-hidden="true">
               {[1, 2, 3].map((n) => (
                 <span key={n} className={`complexity-pip ${n <= algorithm.popularity ? 'is-filled' : ''}`} />

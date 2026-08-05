@@ -10,6 +10,10 @@ import { useLocale } from '../hooks/useLocale.js';
 import { useIntro } from '../hooks/useIntro.js';
 import { getStrings } from '../i18n/strings.js';
 
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
 export function Layout() {
   const { theme, toggleTheme } = useTheme();
   const { lang, toggleLang } = useLocale();

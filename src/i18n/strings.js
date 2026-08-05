@@ -101,6 +101,78 @@ export const STRINGS = {
             notFoundTitle: 'Страница не найдена',
             notFoundSubtitle: 'Такого раздела не существует.',
             notFoundCta: 'Вернуться на главную',
+            sortingAccordion: [
+                {
+                    title: 'Что такое сортировка',
+                    blocks: [
+                        { type: 'p', html: '<strong>Сортировка</strong> — фундаментальная операция в информатике: расположить набор элементов в заданном порядке. Двоичный поиск, построение B-деревьев, работа с индексами баз данных, объединение множеств — всё это либо требует отсортированных данных на входе, либо неявно упорядочивает их внутри. Поэтому алгоритмы сортировки входят в базовый словарь любого инженера.' },
+                        { type: 'p', html: '<strong>Устойчивость (stability)</strong> — гарантия того, что элементы с одинаковым ключом сохраняют исходный относительный порядок. Пример: сортируем список сотрудников по отделу — устойчивый алгоритм сохранит исходный порядок внутри каждого отдела. <strong>Merge Sort, Tim Sort, Counting Sort, Radix Sort, Insertion Sort</strong> — устойчивы. <strong>Quick Sort, Heap Sort, Selection Sort</strong> — нет (при стандартной реализации).' },
+                        { type: 'p', html: '<strong>In-place</strong> означает: алгоритм использует не более O(log n) дополнительной памяти (стек рекурсии не в счёт). <strong>Quick Sort, Heap Sort, Insertion Sort</strong> — in-place. <strong>Merge Sort</strong> требует O(n) дополнительной памяти — это плата за устойчивость и гарантированный O(n log n) в худшем случае.' },
+                        { type: 'ul', items: [
+                            '<strong>Адаптивность:</strong> алгоритм использует уже существующий порядок. Insertion Sort и Tim Sort работают за O(n) на почти отсортированных данных — они «замечают» натуральные упорядоченные блоки (runs) и обрабатывают их эффективнее.',
+                            '<strong>Онлайн-сортировка:</strong> Insertion Sort обрабатывает элементы по одному по мере поступления, не требуя полного набора данных заранее. Это важно в потоковых системах.',
+                            '<strong>Внешняя сортировка:</strong> когда данные не помещаются в RAM, нужны алгоритмы, минимизирующие обращения к диску. Классика — External Merge Sort: разбить на отсортированные куски, слить их серией merge-проходов.',
+                            '<strong>Параллельные сети:</strong> Bitonic Sort и Sorting Networks построены как фиксированные схемы сравнений — независимо от данных, поэтому естественно ложатся на GPU и FPGA.',
+                        ]},
+                    ],
+                },
+                {
+                    title: 'Как выбрать алгоритм',
+                    blocks: [
+                        { type: 'p', html: 'Нет универсально лучшего алгоритма сортировки — каждый оптимален в своей нише. Выбор определяется <strong>четырьмя ключевыми факторами</strong>: размер данных, степень упорядоченности, допустимый расход памяти и тип ключей.' },
+                        { type: 'ul', items: [
+                            '<strong>Маленькие данные (n &lt; 50):</strong> Insertion Sort выигрывает у «умных» алгоритмов за счёт минимального overhead — никаких рекурсий, никаких разбиений. Именно поэтому Tim Sort и Intro Sort переключаются на Insertion Sort для малых подмассивов.',
+                            '<strong>Почти отсортированные данные:</strong> Insertion Sort (O(n) инверсий → O(n) шагов) или Tim Sort — они обнаруживают натуральные runs и объединяют их, не трогая уже упорядоченные части. Shell Sort тоже адаптивен, хотя и без строгих гарантий.',
+                            '<strong>Нужна устойчивость:</strong> Merge Sort (O(n log n) гарантированно, O(n) памяти), Tim Sort (стандарт в Python и Java), Counting Sort (O(n + k), только для целых чисел), Radix Sort (O(d·n) для чисел и строк). Quick Sort и Heap Sort — неустойчивы без специальных ухищрений.',
+                            '<strong>Минимум памяти (in-place):</strong> Heap Sort — O(n log n) всегда, O(1) памяти. Quick Sort — O(n log n) в среднем, O(log n) стек, легко реализуется без лишних аллокаций. Intro Sort добавляет Heap Sort как fallback при глубокой рекурсии.',
+                            '<strong>Целые числа в диапазоне [0, k):</strong> Counting Sort за O(n + k) — при малом k абсолютно неразбиваемо быстро. Для больших ключей — Radix Sort: O(d·n), где d — число разрядов. Bucket Sort — при равномерном распределении.',
+                            '<strong>Дорогие сравнения (сложные объекты, строки):</strong> минимизируйте число сравнений. Merge Sort делает fewer сравнений, чем Quick Sort. Tim Sort ещё умнее — использует двоичный поиск при вставке в run.',
+                        ]},
+                        { type: 'p', html: 'Практическое правило: в большинстве задач <strong>Tim Sort</strong> (Python, Java, Android) или <strong>pdqsort / Intro Sort</strong> (C++ STL, Rust) — правильный выбор по умолчанию. Они адаптивны, дают worst-case гарантии и хорошо оптимизированы в рантайме.' },
+                    ],
+                },
+                {
+                    title: 'О сложности',
+                    blocks: [
+                        { type: 'p', html: '<strong>Нижняя граница для сравнительных алгоритмов — Ω(n log n).</strong> Доказательство: любой алгоритм, основанный исключительно на попарных сравнениях, порождает дерево решений с n! листьями (по числу возможных перестановок). Высота такого дерева — log₂(n!) ≈ n log₂ n по формуле Стирлинга. Следовательно, в худшем случае потребуется не менее ⌈log₂(n!)⌉ сравнений — обойти это теоретически невозможно.' },
+                        { type: 'ul', items: [
+                            '<strong>O(n²) — квадратичные:</strong> Bubble Sort, Insertion Sort, Selection Sort. Просты в реализации, без overhead. Эффективны при n &lt; 50 или почти отсортированных данных (Insertion Sort: O(n) при O(n) инверсиях).',
+                            '<strong>O(n log n) — оптимальные сравнительные:</strong> Merge Sort и Heap Sort — всегда. Quick Sort — в среднем; O(n²) при вырожденных данных, устраняется рандомизацией или выбором медианы трёх. Tim Sort и Intro Sort комбинируют несколько алгоритмов для worst-case гарантий.',
+                            '<strong>O(n log² n) — субоптимальные гибриды:</strong> Shell Sort — исторически важен, на практике быстрее O(n²), но без строгих O(n log n) гарантий. Используется в нишевых embedded-системах.',
+                            '<strong>O(n + k) — линейные (не-сравнительные):</strong> Counting Sort (k — диапазон значений), Bucket Sort (равномерное распределение), Radix Sort (O(d·(n + k))). Они обходят нижнюю границу, работая с ключами напрямую, а не попарно сравнивая.',
+                            '<strong>O(n²) учебные исключения:</strong> Bogosort — O((n+1)!) в среднем; Stooge Sort — O(n^(log 3 / log 1.5)) ≈ O(n^2.7). Включены как контрпримеры: они намеренно неэффективны и показывают, что «работает правильно» и «работает эффективно» — разные вещи.',
+                        ]},
+                        { type: 'p', html: 'Важно разделять <strong>амортизированную</strong> и <strong>worst-case</strong> сложность. Quick Sort имеет O(n log n) в среднем, но O(n²) в худшем случае — что можно вызвать заранее подготовленными данными. Именно поэтому production-стандарт — Intro Sort: Quick Sort, переключающийся на Heap Sort при глубине рекурсии &gt; 2 log n.' },
+                    ],
+                },
+                {
+                    title: 'Классификация',
+                    blocks: [
+                        { type: 'p', html: 'Алгоритмы сортировки классифицируются по нескольким независимым осям. Понимание этих осей помогает быстро выбирать и комбинировать алгоритмы под конкретную задачу.' },
+                        { type: 'ul', items: [
+                            '<strong>Сравнительные</strong> — работают с любыми элементами, у которых определён порядок: Bubble Sort, Insertion Sort, Selection Sort, Merge Sort, Quick Sort, Heap Sort, Shell Sort, Tim Sort, Intro Sort. Нижний предел: Ω(n log n).',
+                            '<strong>Не-сравнительные</strong> — используют структуру ключей напрямую: Counting Sort (целые числа), Radix Sort (поразрядно для чисел и строк), Bucket Sort (равномерное распределение), Flash Sort (обобщённый Bucket). Могут работать за O(n).',
+                        ]},
+                        { type: 'ul', items: [
+                            '<strong>Устойчивые:</strong> Insertion Sort, Merge Sort, Tim Sort, Counting Sort, Radix Sort, Bucket Sort — равные элементы сохраняют исходный относительный порядок.',
+                            '<strong>Неустойчивые:</strong> Selection Sort, Quick Sort (стандартный), Heap Sort, Shell Sort, Intro Sort — при стандартной реализации порядок равных элементов не гарантирован.',
+                        ]},
+                        { type: 'ul', items: [
+                            '<strong>In-place O(1) памяти:</strong> Selection Sort, Bubble Sort, Heap Sort.',
+                            '<strong>In-place O(log n) стек:</strong> Quick Sort (глубина рекурсии), Shell Sort.',
+                            '<strong>O(n) дополнительной памяти:</strong> Merge Sort, Tim Sort — плата за устойчивость.',
+                            '<strong>O(n + k) памяти:</strong> Counting Sort, Radix Sort, Bucket Sort — дополнительные массивы для счётчиков и корзин.',
+                        ]},
+                        { type: 'ul', items: [
+                            '<strong>Divide &amp; Conquer:</strong> Merge Sort, Quick Sort — рекурсивное разбиение на подзадачи.',
+                            '<strong>Heap-based:</strong> Heap Sort — структура данных «куча» позволяет извлекать максимум за O(log n).',
+                            '<strong>Гибридные адаптивные:</strong> Tim Sort (Insertion Sort + Merge Sort), Intro Sort (Quick Sort + Heap Sort + Insertion Sort) — комбинируют сильные стороны нескольких алгоритмов.',
+                            '<strong>Специализированные:</strong> Radix Sort, Counting Sort, Bucket Sort, Flash Sort — оптимизированы под конкретный тип данных.',
+                            '<strong>Сети сортировки:</strong> Bitonic Sort, Sorting Networks — фиксированная схема сравнений, не зависящая от данных; эффективны для параллельных вычислений на GPU и FPGA.',
+                        ]},
+                    ],
+                },
+            ],
         },
         error: {
             title: 'Что-то пошло не так',
@@ -220,6 +292,78 @@ export const STRINGS = {
             notFoundTitle: 'Page not found',
             notFoundSubtitle: "This section doesn't exist yet.",
             notFoundCta: 'Back to home',
+            sortingAccordion: [
+                {
+                    title: 'What is sorting',
+                    blocks: [
+                        { type: 'p', html: '<strong>Sorting</strong> is one of the most fundamental operations in computer science: arranging a collection of elements in a defined order. Binary search, B-tree construction, database indexing, set union and intersection — all either require sorted input or implicitly sort data internally. That is why sorting algorithms are part of every engineer\'s core vocabulary.' },
+                        { type: 'p', html: '<strong>Stability</strong> guarantees that elements with equal keys preserve their original relative order. Example: sorting a list of employees by department — a stable algorithm preserves the existing order within each department. <strong>Merge Sort, Tim Sort, Counting Sort, Radix Sort, and Insertion Sort</strong> are stable. <strong>Quick Sort, Heap Sort, and Selection Sort</strong> are not (in standard implementations).' },
+                        { type: 'p', html: '<strong>In-place</strong> means the algorithm uses at most O(log n) auxiliary memory (call stack not counted). <strong>Quick Sort, Heap Sort, and Insertion Sort</strong> are in-place. <strong>Merge Sort</strong> requires O(n) extra memory — the cost of guaranteeing both stability and a worst-case O(n log n) bound.' },
+                        { type: 'ul', items: [
+                            '<strong>Adaptivity:</strong> the algorithm exploits existing order. Insertion Sort and Tim Sort run in O(n) on nearly-sorted data by detecting natural ordered blocks (runs) and processing them efficiently.',
+                            '<strong>Online sorting:</strong> Insertion Sort processes elements one at a time as they arrive, without requiring the full dataset upfront. This matters in streaming systems.',
+                            '<strong>External sorting:</strong> when data does not fit in RAM, algorithms must minimize disk I/O. The classic approach is External Merge Sort: split into sorted chunks on disk, then merge them in a series of passes.',
+                            '<strong>Sorting networks:</strong> Bitonic Sort and Sorting Networks use a fixed comparison scheme independent of the data — making them ideal for GPU and FPGA implementations.',
+                        ]},
+                    ],
+                },
+                {
+                    title: 'How to choose an algorithm',
+                    blocks: [
+                        { type: 'p', html: 'There is no universally best sorting algorithm — each is optimal in its own niche. The choice is driven by <strong>four key factors</strong>: data size, degree of existing order, memory budget, and key type.' },
+                        { type: 'ul', items: [
+                            '<strong>Small data (n &lt; 50):</strong> Insertion Sort beats "smart" algorithms due to minimal overhead — no recursion, no pivots. That is why Tim Sort and Intro Sort switch to Insertion Sort for small subarrays.',
+                            '<strong>Nearly sorted data:</strong> Insertion Sort (O(n) inversions → O(n) steps) or Tim Sort — they detect natural runs and merge them without touching already-ordered sections. Shell Sort is also adaptive, though without strict guarantees.',
+                            '<strong>Need stability:</strong> Merge Sort (O(n log n) guaranteed, O(n) memory), Tim Sort (the default in Python and Java), Counting Sort (O(n + k), integers only), Radix Sort (O(d·n) for numbers and strings). Quick Sort and Heap Sort are not stable without extra work.',
+                            '<strong>Minimal memory (in-place):</strong> Heap Sort — O(n log n) always, O(1) memory. Quick Sort — O(n log n) on average, O(log n) stack, easy to implement allocation-free. Intro Sort adds Heap Sort as a fallback for deep recursion.',
+                            '<strong>Integers in a bounded range [0, k):</strong> Counting Sort in O(n + k) — unbeatable when k is small. For large keys — Radix Sort: O(d·n) where d is the number of digits. Bucket Sort for uniform distributions.',
+                            '<strong>Expensive comparisons (complex objects, strings):</strong> minimize the number of comparisons. Merge Sort makes fewer comparisons than Quick Sort. Tim Sort is smarter still — it uses binary search when inserting into a run.',
+                        ]},
+                        { type: 'p', html: 'Practical rule: in most cases <strong>Tim Sort</strong> (Python, Java, Android) or <strong>pdqsort / Intro Sort</strong> (C++ STL, Rust) is the right default. They are adaptive, provide worst-case guarantees, and are well-optimized in their runtimes.' },
+                    ],
+                },
+                {
+                    title: 'About complexity',
+                    blocks: [
+                        { type: 'p', html: '<strong>The lower bound for comparison-based algorithms is Ω(n log n).</strong> Proof: any algorithm relying solely on pairwise comparisons induces a decision tree with n! leaves (one per possible permutation). The height of that tree is log₂(n!) ≈ n log₂ n by Stirling\'s approximation. Therefore at least ⌈log₂(n!)⌉ comparisons are required in the worst case — this is a mathematical ceiling, not an engineering limitation.' },
+                        { type: 'ul', items: [
+                            '<strong>O(n²) — quadratic:</strong> Bubble Sort, Insertion Sort, Selection Sort. Simple to implement, zero overhead. Effective for n &lt; 50 or nearly-sorted data (Insertion Sort: O(n) with O(n) inversions).',
+                            '<strong>O(n log n) — optimal comparison-based:</strong> Merge Sort and Heap Sort always. Quick Sort on average; O(n²) on degenerate input, mitigated by randomization or median-of-three. Tim Sort and Intro Sort combine multiple algorithms for worst-case guarantees.',
+                            '<strong>O(n log² n) — suboptimal hybrids:</strong> Shell Sort — historically significant, faster than O(n²) in practice, but below the O(n log n) theoretical optimum. Used in niche embedded systems.',
+                            '<strong>O(n + k) — linear (non-comparison):</strong> Counting Sort (k is value range), Bucket Sort (uniform distribution), Radix Sort (O(d·(n + k))). They bypass the lower bound by working on keys directly, not pairwise comparisons.',
+                            '<strong>Educational worst-cases:</strong> Bogosort — O((n+1)!) on average; Stooge Sort — O(n^(log 3 / log 1.5)) ≈ O(n^2.7). Included as pedagogical counterexamples: they are intentionally inefficient to show that "correct" and "efficient" are separate properties.',
+                        ]},
+                        { type: 'p', html: 'It is important to distinguish <strong>average-case</strong> from <strong>worst-case</strong> complexity. Quick Sort runs in O(n log n) on average but O(n²) in the worst case — which can be triggered by adversarially crafted input. That is why the production standard is Intro Sort: Quick Sort that switches to Heap Sort when recursion depth exceeds 2 log n.' },
+                    ],
+                },
+                {
+                    title: 'Classification',
+                    blocks: [
+                        { type: 'p', html: 'Sorting algorithms are classified along several independent axes. Understanding these axes lets you quickly select and combine algorithms for any given task.' },
+                        { type: 'ul', items: [
+                            '<strong>Comparison-based</strong> — work with any elements that have a defined order: Bubble Sort, Insertion Sort, Selection Sort, Merge Sort, Quick Sort, Heap Sort, Shell Sort, Tim Sort, Intro Sort. Lower bound: Ω(n log n).',
+                            '<strong>Non-comparison</strong> — exploit key structure directly: Counting Sort (integers), Radix Sort (digit-by-digit for numbers and strings), Bucket Sort (uniform distribution), Flash Sort (generalized Bucket). Can run in O(n).',
+                        ]},
+                        { type: 'ul', items: [
+                            '<strong>Stable:</strong> Insertion Sort, Merge Sort, Tim Sort, Counting Sort, Radix Sort, Bucket Sort — equal elements preserve their original relative order.',
+                            '<strong>Unstable:</strong> Selection Sort, Quick Sort (standard), Heap Sort, Shell Sort, Intro Sort — in standard implementations, the order of equal elements is not preserved.',
+                        ]},
+                        { type: 'ul', items: [
+                            '<strong>In-place O(1) memory:</strong> Selection Sort, Bubble Sort, Heap Sort.',
+                            '<strong>In-place O(log n) stack:</strong> Quick Sort (recursion depth), Shell Sort.',
+                            '<strong>Require O(n) extra memory:</strong> Merge Sort, Tim Sort — the price of stability.',
+                            '<strong>Require O(n + k) memory:</strong> Counting Sort, Radix Sort, Bucket Sort — extra arrays for counters and buckets.',
+                        ]},
+                        { type: 'ul', items: [
+                            '<strong>Divide &amp; Conquer:</strong> Merge Sort, Quick Sort — recursive problem decomposition.',
+                            '<strong>Heap-based:</strong> Heap Sort — uses a heap to extract the maximum in O(log n).',
+                            '<strong>Hybrid adaptive:</strong> Tim Sort (Insertion Sort + Merge Sort), Intro Sort (Quick Sort + Heap Sort + Insertion Sort) — combine the strengths of multiple algorithms.',
+                            '<strong>Specialized (non-comparison):</strong> Radix Sort, Counting Sort, Bucket Sort, Flash Sort — optimized for specific data types.',
+                            '<strong>Sorting networks:</strong> Bitonic Sort, Sorting Networks — a fixed comparison scheme independent of data; efficient for parallel computation on GPUs and FPGAs.',
+                        ]},
+                    ],
+                },
+            ],
         },
         error: {
             title: 'Something went wrong',

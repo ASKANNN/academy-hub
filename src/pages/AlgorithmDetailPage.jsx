@@ -4,6 +4,7 @@ import { ErrorBoundary } from '../components/ErrorBoundary.jsx';
 import { Breadcrumb } from '../components/algorithms/Breadcrumb.jsx';
 import { PrevNextNav } from '../components/algorithms/PrevNextNav.jsx';
 import { AlgorithmCard } from '../components/algorithms/AlgorithmCard.jsx';
+import { AlgorithmIcon } from '../components/algorithms/AlgorithmIcon.jsx';
 import { AlgorithmVisualizer } from '../components/algorithms/AlgorithmVisualizer.jsx';
 import { CodeBlock } from '../components/ui/CodeBlock.jsx';
 import { Tabs } from '../components/ui/Tabs.jsx';
@@ -70,6 +71,7 @@ export default function AlgorithmDetailPage() {
           ]}
         />
         <div className="algorithm-detail__head">
+          <AlgorithmIcon slug={slug} size="lg" />
           <h1 className="algorithms-hero__title">{name}</h1>
           <span className="complexity-pips" aria-hidden="true">
             {[1, 2, 3].map((n) => (
