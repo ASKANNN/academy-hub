@@ -267,7 +267,7 @@ export const combSort = {
         en: 'Why is the initial gap chosen to be roughly equal to the array length?',
       },
       options: [
-        { ru: 'Чтобы с первого же прохода перемещать элементы на максимально большое расстояние', en: 'To move elements the largest possible distance right from the first pass' },
+        { ru: 'Перемещать элементы с первого прохода на максимально большое расстояние', en: 'To move elements the largest possible distance right from the first pass' },
         { ru: 'Чтобы сразу сравнивать только соседей и не делать лишних итераций', en: 'To compare only neighbors immediately and skip extra iterations' },
         { ru: 'Потому что меньший начальный gap гарантированно приводит к O(n log n) сложности', en: 'Because a smaller initial gap guarantees O(n log n) complexity' },
         { ru: 'Из-за ограничений на размер стека при рекурсивных вызовах функции', en: 'Due to call-stack size constraints when the function is called recursively' },
@@ -288,7 +288,7 @@ export const combSort = {
         en: 'How does comb sort relate to Shell sort?',
       },
       options: [
-        { ru: 'Оба используют убывающий gap, но comb sort применяет его к обменам (как bubble), а Shell sort — к вставкам', en: 'Both use a shrinking gap, but comb sort applies it to swaps (like bubble), while Shell sort applies it to insertions' },
+        { ru: 'Оба применяют убывающий gap: comb sort обменивает соседей, Shell sort вставляет', en: 'Both use a shrinking gap, but comb sort applies it to swaps (like bubble), while Shell sort applies it to insertions' },
         { ru: 'Это один и тот же алгоритм с разными названиями и идентичной реализацией', en: 'They are the same algorithm with different names and an identical implementation' },
         { ru: 'Shell sort является частным случаем comb sort только при коэффициенте сжатия ровно 2.0', en: 'Shell sort is a special case of comb sort only when the shrink factor is exactly 2.0 regardless of input size or order' },
         { ru: 'Comb sort всегда медленнее Shell sort на любых возможных входных данных', en: 'Comb sort is always slower than Shell sort on any possible input data' },
@@ -309,7 +309,7 @@ export const combSort = {
         en: 'What happens if the gap is not clamped to a minimum of 1?',
       },
       options: [
-        { ru: 'Gap может стать нулём или меньше, что вызовет ошибку при обращении к элементам массива', en: 'The gap can reach zero or below, causing an error when accessing array elements' },
+        { ru: 'Gap может стать нулём или меньше, вызвав ошибку при обращении к элементам', en: 'The gap can reach zero or below, causing an error when accessing array elements' },
         { ru: 'Алгоритм станет быстрее, так как пропустит неэффективный финальный проход при gap=1', en: 'The algorithm becomes faster by skipping the inefficient final pass at gap=1 always' },
         { ru: 'Gap автоматически обнуляется языком программирования при делении на 1.3', en: 'The gap is automatically zeroed out by the language when divided by 1.3' },
         { ru: 'Сортировка станет устойчивой, так как перестанет совершать сравнения через промежуток', en: 'The sort becomes stable since it stops making gapped comparisons altogether' },
@@ -330,7 +330,7 @@ export const combSort = {
         en: 'Why does the algorithm stop only after gap equals 1 AND a pass makes no swaps?',
       },
       options: [
-        { ru: 'Потому что gap=1 сам по себе не гарантирует отсортированность — нужно убедиться, что при gap=1 больше нечего менять', en: 'Because gap=1 alone does not guarantee sorted order — it must be confirmed that nothing needs swapping at gap=1' },
+        { ru: 'Gap=1 не гарантирует результат — нужно убедиться, что при gap=1 больше нечего менять', en: 'Because gap=1 alone does not guarantee sorted order — it must be confirmed that nothing needs swapping at gap=1' },
         { ru: 'Потому что каждый проход с gap=1 сортирует ровно один дополнительный элемент на своём месте', en: 'Because each gap=1 pass puts exactly one additional element into its correct place regardless of input size or order' },
         { ru: 'Из-за ограничений языка: цикл должен выполниться хотя бы один раз при gap=1', en: 'Due to a language constraint: the loop must execute at least once at gap=1' },
         { ru: 'Потому что массив всегда полностью отсортирован уже после первого прохода с gap=1', en: 'Because the array is always fully sorted after the very first gap=1 pass' },

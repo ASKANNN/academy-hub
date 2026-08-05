@@ -333,7 +333,7 @@ export const selectionSort = {
       },
       options: [
         {
-          ru: 'Пирамидальная сортировка (heap sort) — находит минимум/максимум за O(log n) вместо O(n)',
+          ru: 'Пирамидальная сортировка — находит минимум/максимум за O(log n) вместо O(n)',
           en: 'Heap sort — it finds the minimum/maximum in O(log n) instead of O(n)',
         },
         {
@@ -399,7 +399,7 @@ export const selectionSort = {
       },
       options: [
         {
-          ru: 'Всё слева от границы уже находится на своём окончательном отсортированном месте',
+          ru: 'Слева от границы всё уже на своём окончательном отсортированном месте',
           en: 'Everything left of the boundary is already in its final sorted position',
         },
         {

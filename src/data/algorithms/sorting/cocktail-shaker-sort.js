@@ -200,7 +200,7 @@ export const cocktailShakerSort = {
         en: 'What problem of plain bubble sort does cocktail shaker sort solve?',
       },
       options: [
-        { ru: 'Медленное перемещение маленьких элементов («черепах»), застрявших в конце массива', en: 'Slow movement of small elements ("turtles") stuck at the end of the array' },
+        { ru: 'Медленный ход маленьких элементов («черепах») в конце массива', en: 'Slow movement of small elements ("turtles") stuck at the end of the array' },
         { ru: 'Излишний расход дополнительной памяти на каждый проход по массиву', en: 'Excessive extra memory usage on every single pass through the array' },
         { ru: 'Нестабильность сортировки, когда в массиве встречаются равные элементы', en: 'Sort instability whenever equal elements happen to appear in the array' },
         { ru: 'Принципиальная невозможность вообще сортировать массив по убыванию', en: 'A fundamental inability to ever sort the array in descending order at all' },
@@ -284,7 +284,7 @@ export const cocktailShakerSort = {
         en: 'What is the best case of cocktail shaker sort and when does it occur?',
       },
       options: [
-        { ru: 'O(n) — когда массив уже отсортирован и первый двойной проход не даёт перестановок', en: 'O(n) — when the array is already sorted and the first round trip makes no swaps' },
+        { ru: 'O(n) — массив уже упорядочен, первый проход не даёт перестановок', en: 'O(n) — when the array is already sorted and the first round trip makes no swaps' },
         { ru: 'O(1) — когда массив из одного элемента', en: 'O(1) — when the array has exactly one element' },
         { ru: 'O(n log n) — когда данные случайные, но близкие к нормальному распределению', en: 'O(n log n) — when data is random but close to a normal distribution in all cases' },
         { ru: 'O(n²) — лучший случай не отличается от среднего', en: 'O(n²) — the best case is no different from the average case' },
@@ -305,7 +305,7 @@ export const cocktailShakerSort = {
         en: 'Why doesn\'t cocktail shaker sort improve the asymptotic complexity over bubble sort?',
       },
       options: [
-        { ru: 'Она по-прежнему делает O(n²) сравнений на случайных данных в среднем', en: 'It still makes O(n²) comparisons on random data on average' },
+        { ru: 'По-прежнему O(n²) сравнений на случайных данных в среднем', en: 'It still makes O(n²) comparisons on random data on average' },
         { ru: 'Она добавляет лишние проходы справа налево, удваивая работу', en: 'It adds extra right-to-left passes that double the work' },
         { ru: 'Она устойчива, а устойчивые алгоритмы не могут быть лучше O(n²)', en: 'It is stable, and stable algorithms cannot be better than O(n²)' },
         { ru: 'Она не использует рекурсию, а без неё нельзя достичь O(n log n)', en: 'It uses no recursion, and without recursion O(n log n) is impossible' },
@@ -368,7 +368,7 @@ export const cocktailShakerSort = {
         en: 'Which algorithm uses a similar "shrinking gap" idea but more aggressively?',
       },
       options: [
-        { ru: 'Comb sort — уменьшает зазор между сравниваемыми элементами быстрее', en: 'Comb sort — it shrinks the gap between compared elements faster' },
+        { ru: 'Comb sort — быстрее уменьшает зазор между элементами', en: 'Comb sort — it shrinks the gap between compared elements faster' },
         { ru: 'Merge sort — рекурсивно уменьшает размер подзадачи вдвое', en: 'Merge sort — it recursively halves the subproblem size' },
         { ru: 'Radix sort — уменьшает диапазон ключей поразрядно', en: 'Radix sort — it reduces the key range digit by digit' },
         { ru: 'Heap sort — уменьшает кучу после каждого извлечения максимума', en: 'Heap sort — it shrinks the heap after each maximum extraction always' },

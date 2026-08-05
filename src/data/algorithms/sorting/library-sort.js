@@ -383,7 +383,7 @@ export const librarySort = {
         en: 'Is library sort stable?',
       },
       options: [
-        { ru: 'Да, равные элементы сохраняют исходный относительный порядок благодаря левостороннему бинарному поиску', en: 'Yes, equal elements keep their original relative order thanks to left-biased binary search' },
+        { ru: 'Да, равные элементы сохраняют исходный порядок благодаря левостороннему бинарному поиску', en: 'Yes, equal elements keep their original relative order thanks to left-biased binary search' },
         { ru: 'Нет, зазоры перемешивают равные элементы непредсказуемым образом при каждой перебалансировке', en: 'No, gaps shuffle equal elements unpredictably during every rebalance, so the original order is lost' },
         { ru: 'Нет, библиотечная сортировка устойчива только для целочисленных массивов без повторений', en: 'No, library sort is stable only for integer arrays with no repeated values' },
         { ru: 'Это зависит от реализации и не гарантируется стандартом алгоритма', en: 'It depends on the implementation and isn\'t guaranteed by the algorithm\'s specification' },
@@ -467,7 +467,7 @@ export const librarySort = {
         en: 'Which usage scenario suits library sort best?',
       },
       options: [
-        { ru: 'Онлайн-сортировка, когда элементы поступают по одному и массив должен оставаться отсортированным', en: 'Online sorting where elements arrive one at a time and the array must stay sorted' },
+        { ru: 'Онлайн-сортировка: элементы поступают по одному и массив должен оставаться отсортированным', en: 'Online sorting where elements arrive one at a time and the array must stay sorted' },
         { ru: 'Параллельная сортировка больших массивов на многоядерном процессоре без дополнительной памяти', en: 'Parallel sorting of large arrays on a multicore processor, distributing work without any extra shared memory' },
         { ru: 'Сортировка массивов с очень большим числом дубликатов методом подсчёта их частот', en: 'Sorting arrays with many duplicates by counting their frequencies' },
         { ru: 'Внешняя сортировка данных, не умещающихся в оперативной памяти, с помощью диска', en: 'External sorting of data that doesn\'t fit in RAM, using disk storage' },

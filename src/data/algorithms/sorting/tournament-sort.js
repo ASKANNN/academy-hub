@@ -307,7 +307,7 @@ export const tournamentSort = {
         en: 'Is tournament sort stable?',
       },
       options: [
-        { ru: 'Нет — при равенстве значений победитель определяется структурой дерева, а не порядком элементов', en: 'No — on equal values the winner is determined by tree structure, not element order' },
+        { ru: 'Нет — победитель при равенстве задаётся позицией в дереве, не порядком', en: 'No — on equal values the winner is determined by tree structure, not element order' },
         { ru: 'Да — слияние в дереве всегда берёт из левого поддерева при равенстве', en: 'Yes — the tree merge always takes from the left subtree on ties' },
         { ru: 'Зависит от реализации — устойчивость можно обеспечить дополнительной логикой', en: 'Depends on the implementation — stability can be ensured with extra logic in all cases' },
         { ru: 'Да — дерево турнира гарантирует исходный порядок равных значений', en: 'Yes — the tournament tree guarantees the original order of equal values' },
@@ -349,7 +349,7 @@ export const tournamentSort = {
         en: 'Why is tournament sort slower than heap sort in practice despite the same asymptotic complexity?',
       },
       options: [
-        { ru: 'Дерево турнира хранится отдельно от массива, что ухудшает локальность кэша', en: 'The tournament tree is stored separately from the array, worsening cache locality' },
+        { ru: 'Дерево турнира хранится отдельно, что ухудшает локальность кэша', en: 'The tournament tree is stored separately from the array, worsening cache locality' },
         { ru: 'Турнирная сортировка использует больше сравнений, чем пирамидальная', en: 'Tournament sort uses more comparisons than heap sort' },
         { ru: 'Пирамидальная сортировка работает за O(n), а турнирная — за O(n log n)', en: 'Heap sort runs in O(n) while tournament sort runs in O(n log n) regardless of input' },
         { ru: 'Турнирная сортировка несовместима с современными процессорами', en: 'Tournament sort is incompatible with modern processors' },
@@ -370,7 +370,7 @@ export const tournamentSort = {
         en: 'How is the tournament tree built at the start of the algorithm?',
       },
       options: [
-        { ru: 'Элементы помещаются в листья, затем победители вычисляются снизу вверх за O(n)', en: 'Elements are placed in leaves, then winners are computed bottom-up in O(n)' },
+        { ru: 'Элементы в листья, победители вычисляются снизу вверх за O(n)', en: 'Elements are placed in leaves, then winners are computed bottom-up in O(n)' },
         { ru: 'Элементы сортируются сначала, потом помещаются в дерево сверху вниз', en: 'Elements are sorted first, then placed into the tree top-down' },
         { ru: 'Дерево строится вставками по одному элементу за O(log n) каждый', en: 'The tree is built by inserting one element at a time in O(log n) each always' },
         { ru: 'Все элементы помещаются в корень, затем распределяются по листьям', en: 'All elements are placed at the root, then distributed to the leaves' },

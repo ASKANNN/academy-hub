@@ -330,7 +330,7 @@ def tim_sort(arr):
         en: 'What guarantee does Timsort retain from its merge component?',
       },
       options: [
-        { ru: 'Устойчивость — равные элементы сохраняют исходный относительный порядок', en: 'Stability — equal elements keep their original relative order' },
+        { ru: 'Устойчивость — равные элементы сохраняют относительный порядок', en: 'Stability — equal elements keep their original relative order' },
         {
           ru: 'Сортировку строго на месте, требующую всего O(1) дополнительной памяти',
           en: 'Strictly in-place sorting that requires only O(1) extra memory to run',
@@ -393,7 +393,7 @@ def tim_sort(arr):
         en: 'What is the typical run size (minrun) in Timsort and why that value?',
       },
       options: [
-        { ru: '32–64 элемента — это диапазон, где сортировка вставками быстрее из-за низких констант', en: '32–64 elements — the range where insertion sort wins on constant factors' },
+        { ru: '32–64 элемента: вставки тут быстрее из-за малых констант', en: '32–64 elements — the range where insertion sort wins on constant factors' },
         { ru: '2 элемента — минимально возможная единица для слияния пар', en: '2 elements — the smallest possible unit for pairwise merging' },
         { ru: '1000 элементов — достаточно большой блок, чтобы избежать рекурсии', en: '1000 elements — large enough to avoid recursion altogether' },
         { ru: 'Всегда n/2 — ровно половина массива, как в классическом merge sort', en: 'Always n/2 — exactly half the array, just like classic merge sort in all cases' },
@@ -435,7 +435,7 @@ def tim_sort(arr):
         en: 'What is the space complexity of Timsort?',
       },
       options: [
-        { ru: 'O(n) — временные буферы при слиянии занимают линейную память', en: 'O(n) — merge buffers occupy linear extra memory' },
+        { ru: 'O(n) — буферы при слиянии занимают линейную память', en: 'O(n) — merge buffers occupy linear extra memory' },
         { ru: 'O(1) — Timsort сортирует полностью на месте', en: 'O(1) — Timsort sorts entirely in place' },
         { ru: 'O(log n) — только стек вызовов без дополнительных массивов', en: 'O(log n) — only the call stack without extra arrays' },
         { ru: 'O(n²) — каждый прогон создаёт копию всего массива', en: 'O(n²) — each run creates a copy of the whole array' },

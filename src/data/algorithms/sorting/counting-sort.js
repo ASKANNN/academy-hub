@@ -204,7 +204,7 @@ export const countingSort = {
         en: 'Why is the output array filled by walking the input right to left?',
       },
       options: [
-        { ru: 'Чтобы сохранить устойчивость сортировки — относительный порядок равных элементов', en: 'To preserve stability — the relative order of equal elements' },
+        { ru: 'Сохранить устойчивость — относительный порядок равных элементов', en: 'To preserve stability — the relative order of equal elements' },
         { ru: 'Это ускоряет выполнение алгоритма за счёт лучшей локальности кэша', en: 'It speeds up execution thanks to better cache locality' },
         { ru: 'Иначе алгоритм не сможет обработать отрицательные числа', en: 'Otherwise the algorithm can\'t handle negative numbers' },
         { ru: 'Это требование языка программирования при работе с массивами', en: 'It\'s a requirement of the programming language when working with arrays' },
@@ -225,7 +225,7 @@ export const countingSort = {
         en: 'When does counting sort stop being worthwhile?',
       },
       options: [
-        { ru: 'Когда диапазон значений k намного больше числа элементов n', en: 'When the value range k is much larger than the element count n' },
+        { ru: 'Когда диапазон k намного больше числа элементов n', en: 'When the value range k is much larger than the element count n' },
         { ru: 'Когда массив уже почти отсортирован перед запуском', en: 'When the array is already nearly sorted before the run starts' },
         { ru: 'Когда все элементы одинаковы и сравнивать нечего', en: 'When all elements are identical and there is nothing to compare' },
         { ru: 'Когда n — чётное число, что усложняет разбиение на пары', en: 'When n is an even number, which complicates pairing elements' },
@@ -267,7 +267,7 @@ export const countingSort = {
         en: 'What is the purpose of the prefix-sum step on the count array?',
       },
       options: [
-        { ru: 'Чтобы каждый элемент count хранил, сколько элементов входного массива не превышает данное значение', en: 'So each count entry stores how many input elements are no greater than that value' },
+        { ru: 'Чтобы count[i] хранил, сколько элементов не превышает i', en: 'So each count entry stores how many input elements are no greater than that value' },
         { ru: 'Чтобы отсортировать сам массив count по возрастанию перед финальным проходом', en: 'To sort the count array itself in ascending order before the final pass' },
         { ru: 'Чтобы подсчитать суммарное количество элементов в массиве и проверить целостность данных', en: 'To compute the total number of elements in the array and verify data integrity always' },
         { ru: 'Чтобы уменьшить размер массива count вдвое и сэкономить память', en: 'To halve the size of the count array and save memory' },
@@ -351,7 +351,7 @@ export const countingSort = {
         en: 'Why is the minimum value subtracted from each element when indexing into the count array?',
       },
       options: [
-        { ru: 'Чтобы сдвинуть диапазон значений к нулю и не выделять лишнюю память для значений ниже минимума', en: 'To shift the value range to start at zero and avoid allocating memory for values below the minimum' },
+        { ru: 'Сдвинуть диапазон к нулю — не выделять память под значения ниже минимума', en: 'To shift the value range to start at zero and avoid allocating memory for values below the minimum' },
         { ru: 'Чтобы ускорить вычисление индекса при помощи битового сдвига вместо деления', en: 'To speed up index computation using a bit shift instead of division regardless of input size or order' },
         { ru: 'Потому что отрицательные индексы массива требуют коррекции знака', en: 'Because negative array indices require a sign correction' },
         { ru: 'Чтобы гарантировать, что максимальный элемент всегда попадёт в последнюю ячейку', en: 'To guarantee the maximum element always lands in the last cell' },

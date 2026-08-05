@@ -41,8 +41,8 @@ export default function AlgorithmsCategoryPage() {
         <p className="algorithms-hero__subtitle">{tagline}</p>
       </section>
       <section className="academy-tree container" aria-label={name}>
-        {algorithms.map((algorithm) => (
-          <AlgorithmCard key={algorithm.slug} algorithm={algorithm} lang={lang} />
+        {algorithms.map((algorithm, index) => (
+          <AlgorithmCard key={algorithm.slug} algorithm={algorithm} lang={lang} index={index} />
         ))}
       </section>
     </div>

@@ -239,7 +239,7 @@ export const shellSort = {
         en: 'Why is the exact time complexity analysis of Shell sort difficult?',
       },
       options: [
-        { ru: 'Она сильно зависит от выбранной последовательности значений gap', en: 'It depends heavily on the chosen gap sequence' },
+        { ru: 'Сильно зависит от выбранной последовательности gap', en: 'It depends heavily on the chosen gap sequence' },
         { ru: 'Алгоритм использует случайный выбор опорного элемента', en: 'The algorithm uses a random pivot choice' },
         { ru: 'Сложность меняется в зависимости от языка реализации', en: 'Complexity changes depending on the implementation language' },
         { ru: 'Она никогда не была измерена эмпирически', en: 'It has never been measured empirically' },
@@ -260,7 +260,7 @@ export const shellSort = {
         en: 'What does Knuth\'s sequence (1, 4, 13, 40, ...) represent in the context of Shell sort?',
       },
       options: [
-        { ru: 'Это одна из возможных убывающих последовательностей gap, дающая сложность O(n^1.5)', en: 'It is one of the possible decreasing gap sequences, giving O(n^1.5) complexity' },
+        { ru: 'Убывающая последовательность gap, дающая сложность O(n^1.5)', en: 'It is one of the possible decreasing gap sequences, giving O(n^1.5) complexity' },
         { ru: 'Это числа Фибоначчи, используемые для определения размера временного буфера', en: 'These are Fibonacci numbers used to determine the size of a temporary auxiliary buffer' },
         { ru: 'Это индексы элементов, которые нужно поменять местами на первом проходе', en: 'These are the indices of elements to be swapped during the first pass' },
         { ru: 'Это количество сравнений, выполняемых на каждом из проходов алгоритма', en: 'These are the comparison counts performed during each pass of the algorithm' },
@@ -281,7 +281,7 @@ export const shellSort = {
         en: 'Why is Shell sort preferred over merge sort in embedded systems?',
       },
       options: [
-        { ru: 'Она сортирует на месте без рекурсии, не требуя выделения дополнительной памяти', en: 'It sorts in place without recursion, requiring no extra memory allocation' },
+        { ru: 'Сортирует на месте без рекурсии, не требуя дополнительной памяти', en: 'It sorts in place without recursion, requiring no extra memory allocation' },
         { ru: 'Она всегда быстрее merge sort на любых входных данных любого размера', en: 'It is always faster than merge sort on any input data of any size' },
         { ru: 'Она устойчива, что важно при сортировке структур с несколькими полями', en: 'It is stable, which matters when sorting structs with multiple fields always' },
         { ru: 'Она использует меньше сравнений, чем сортировка пузырьком, при любом gap', en: 'It uses fewer comparisons than bubble sort for any gap value at all' },
@@ -302,7 +302,7 @@ export const shellSort = {
         en: 'How is Shell sort similar to comb sort?',
       },
       options: [
-        { ru: 'Обе начинают с большого расстояния между сравниваемыми элементами и постепенно его уменьшают', en: 'Both start with a large gap between compared elements and gradually shrink it' },
+        { ru: 'Обе работают с большим расстоянием между элементами, постепенно его уменьшая', en: 'Both start with a large gap between compared elements and gradually shrink it' },
         { ru: 'Обе используют числа Фибоначчи для формирования последовательности gap', en: 'Both use Fibonacci numbers to form the gap sequence' },
         { ru: 'Обе устойчивы и сохраняют порядок равных элементов при любом gap', en: 'Both are stable and preserve equal element order for any gap value in all cases' },
         { ru: 'Обе являются нерекурсивными вариантами быстрой сортировки с опорным элементом', en: 'Both are non-recursive variants of quicksort with a pivot element' },
@@ -323,7 +323,7 @@ export const shellSort = {
         en: 'What is the best-case time complexity of Shell sort and when is it achieved?',
       },
       options: [
-        { ru: 'O(n log n) — при хорошей последовательности gap на уже почти отсортированном массиве', en: 'O(n log n) — with a good gap sequence on an already nearly sorted array' },
+        { ru: 'O(n log n) — лучший случай при правильной последовательности gap', en: 'O(n log n) — with a good gap sequence on an already nearly sorted array' },
         { ru: 'O(n) — когда массив уже полностью отсортирован и gap не нужен вовсе', en: 'O(n) — when the array is already fully sorted and no gap is needed at all' },
         { ru: 'O(n²) — лучший и худший случаи у сортировки Шелла одинаковы', en: 'O(n²) — Shell sort\'s best and worst cases are the same' },
         { ru: 'O(1) — если все элементы массива одинаковы и перестановок не требуется', en: 'O(1) — if all array elements are equal and no swaps are required at all' },

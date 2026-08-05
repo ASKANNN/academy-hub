@@ -176,7 +176,7 @@ export const bubbleSort = {
         en: 'Why does the implementation track a `swapped` flag?',
       },
       options: [
-        { ru: 'Чтобы досрочно завершить сортировку, если массив уже упорядочен', en: 'To exit early once the array is already sorted' },
+        { ru: 'Досрочно завершить сортировку, если массив уже упорядочен', en: 'To exit early once the array is already sorted' },
         { ru: 'Чтобы посчитать общее количество инверсий за все проходы', en: 'To count the total number of inversions across all passes' },
         { ru: 'Чтобы гарантировать устойчивость сортировки между проходами', en: 'To guarantee sort stability between passes' },
         { ru: 'Он ни на что не влияет и оставлен по ошибке', en: 'It has no effect and was left in by mistake' },
@@ -240,7 +240,7 @@ export const bubbleSort = {
       },
       options: [
         {
-          ru: 'Равные по значению элементы сохраняют исходный относительный порядок',
+          ru: 'Равные элементы сохраняют исходный относительный порядок',
           en: 'Elements with equal values keep their original relative order',
         },
         { ru: 'Алгоритм никогда не падает на пустом или однотонном массиве', en: 'The algorithm never crashes on an empty or single-element array' },
@@ -306,7 +306,7 @@ export const bubbleSort = {
       },
       options: [
         {
-          ru: 'Она выполняет меньше работы на частично отсортированных данных',
+          ru: 'Меньше работы на частично отсортированных данных',
           en: 'It does less work on partially sorted data',
         },
         { ru: 'Она подстраивается под размер массива, меняя алгоритм', en: 'It swaps its algorithm depending on array size' },
@@ -354,7 +354,7 @@ export const bubbleSort = {
       },
       options: [
         {
-          ru: 'Она чередует проходы вперёд и назад, быстрее поднимая маленькие элементы у конца массива',
+          ru: 'Чередует проходы вперёд и назад, быстрее поднимая малые элементы к началу',
           en: 'It alternates forward and backward passes, lifting small elements near the end faster',
         },
         { ru: 'Она использует дополнительный массив для хранения промежуточных копий элементов', en: 'It uses an extra array to hold intermediate copies of the elements' },

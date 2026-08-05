@@ -275,7 +275,7 @@ export const insertionSort = {
       },
       options: [
         {
-          ru: 'O(n²) — каждый новый элемент сдвигается через всю уже отсортированную часть',
+          ru: 'O(n²) — каждый новый элемент сдвигается через всю отсортированную часть',
           en: 'O(n²) — each new element shifts across the entire already-sorted part',
         },
         {

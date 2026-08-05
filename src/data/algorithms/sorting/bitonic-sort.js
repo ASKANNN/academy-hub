@@ -217,7 +217,7 @@ export const bitonicSort = {
         en: 'Why is the array padded to a power-of-two size?',
       },
       options: [
-        { ru: 'Классическая сеть сравнений битонической сортировки построена рекурсивным делением пополам и требует этого размера', en: 'The classic bitonic comparison network is built by recursive halving and requires this size' },
+        { ru: 'Классическая сеть построена рекурсивным делением пополам и требует этого размера входа', en: 'The classic bitonic comparison network is built by recursive halving and requires this size' },
         { ru: 'Иначе сортировка даёт неверный результат для отрицательных чисел из-за переполнения при сравнении', en: 'Otherwise the sort gives an incorrect result for negative numbers due to comparison overflow' },
         { ru: 'Это ускоряет работу на обычном процессоре с одним потоком, как и в случае с merge sort', en: 'It speeds up execution on an ordinary single-threaded processor, the same way it does for merge sort' },
         { ru: 'Дополнение не нужно, это просто архитектурная особенность конкретной, не самой удачной реализации', en: 'Padding isn\'t actually needed — it\'s just an implementation quirk of one particular, suboptimal version' },
@@ -304,7 +304,7 @@ export const bitonicSort = {
         en: 'Where does bitonic sort outperform merge sort on parallel hardware?',
       },
       options: [
-        { ru: 'Параллельная глубина сети O(log² n) против O(n log n) последовательных шагов merge sort', en: 'Network depth O(log² n) versus O(n log n) sequential steps in merge sort' },
+        { ru: 'Глубина O(log² n) вместо O(n log n) у merge sort', en: 'Network depth O(log² n) versus O(n log n) sequential steps in merge sort' },
         { ru: 'Меньше сравнений в сумме, что всегда быстрее на любом железе', en: 'Fewer total comparisons overall, making it always faster on any hardware platform' },
         { ru: 'Устойчивость, которой нет у merge sort в параллельной реализации', en: 'Stability that merge sort lacks in a parallel implementation' },
         { ru: 'Отсутствие необходимости в дополнительной памяти для слияния', en: 'No need for any extra memory during the merge phase' },
@@ -325,7 +325,7 @@ export const bitonicSort = {
         en: 'What is a "comparison network" in the context of bitonic sort?',
       },
       options: [
-        { ru: 'Фиксированная заранее схема пар элементов для сравнения, не зависящая от значений', en: 'A fixed pre-determined scheme of element pairs to compare, independent of their values' },
+        { ru: 'Фиксированная схема пар для сравнения, не зависящая от значений элементов', en: 'A fixed pre-determined scheme of element pairs to compare, independent of their values' },
         { ru: 'Граф соседних элементов, по которому строится порядок обходов во время работы', en: 'A graph of neighboring elements used to determine the full traversal order dynamically at runtime' },
         { ru: 'Нейронная сеть, обученная предсказывать результат сравнения двух элементов', en: 'A neural network trained to predict the result of comparing two elements' },
         { ru: 'Компьютерная сеть из нескольких машин, каждая из которых сравнивает свою пару', en: 'A computer network of several machines, each comparing its assigned pair' },

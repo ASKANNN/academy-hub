@@ -298,7 +298,7 @@ def _heap_sort_range(a, low, high):
       },
       options: [
         {
-          ru: 'На маленьком размере низкие константные затраты insertion sort делают её практически быстрее рекурсии quicksort',
+          ru: 'На малом n константные затраты insertion sort делают её практически быстрее рекурсии quicksort',
           en: 'At small sizes, insertion sort\'s low constant overhead makes it practically faster than quicksort recursion',
         },
         { ru: 'Quicksort в принципе не умеет корректно работать с маленькими массивами вообще, независимо от реализации', en: 'Quicksort fundamentally cannot handle small arrays correctly at all, regardless of implementation details' },
@@ -343,7 +343,7 @@ def _heap_sort_range(a, low, high):
       },
       options: [
         {
-          ru: 'Она наследует неустойчивость от quicksort и heap sort, которые могут менять порядок равных элементов при обмене',
+          ru: 'Она наследует неустойчивость от quicksort и heap sort, которые меняют порядок равных элементов при обмене',
           en: 'It inherits instability from quicksort and heap sort, which can reorder equal elements during swaps',
         },
         { ru: 'Она использует случайные числа при выборе опорного элемента абсолютно на каждом отдельном шаге рекурсии', en: 'It uses random numbers when picking the pivot element at every single step of the recursion process' },

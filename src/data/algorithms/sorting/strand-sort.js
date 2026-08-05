@@ -229,7 +229,7 @@ def merge(a, b):
       },
       options: [
         {
-          ru: 'На данных с длинными естественными возрастающими участками',
+          ru: 'На данных с длинными возрастающими участками',
           en: 'On data with long natural increasing runs',
         },
         { ru: 'На полностью случайных данных', en: 'On fully random data' },
@@ -253,7 +253,7 @@ def merge(a, b):
       },
       options: [
         {
-          ru: 'Извлечение пряди и слияние можно выполнить перестановкой ссылок, без произвольного доступа по индексу',
+          ru: 'Извлечение пряди и слияние выполняются перестановкой ссылок, без доступа по индексу',
           en: 'Extracting a strand and merging can be done by relinking pointers, without random index access',
         },
         { ru: 'Потому что связные списки в принципе нельзя отсортировать никаким другим известным способом', en: 'Because linked lists fundamentally cannot be sorted by any other known method whatsoever' },
@@ -339,7 +339,7 @@ def merge(a, b):
         en: 'What happens to elements that did not join the current strand?',
       },
       options: [
-        { ru: 'Они остаются в списке оставшихся для следующей итерации', en: 'They stay in the remaining list for the next iteration' },
+        { ru: 'Остаются в списке для следующей итерации', en: 'They stay in the remaining list for the next iteration' },
         { ru: 'Они отбрасываются и не попадают в результат', en: 'They are discarded and never appear in the result' },
         { ru: 'Они немедленно добавляются в конец результата', en: 'They are immediately appended to the end of the result' },
         { ru: 'Они вставляются в текущую прядь в случайном порядке', en: 'They are inserted into the current strand in random order' },
@@ -381,7 +381,7 @@ def merge(a, b):
         en: 'What is the space complexity of strand sort?',
       },
       options: [
-        { ru: 'O(n) — промежуточные пряди и результат занимают линейную память', en: 'O(n) — intermediate strands and the result occupy linear memory' },
+        { ru: 'O(n) — промежуточные пряди и результат занимают O(n) памяти', en: 'O(n) — intermediate strands and the result occupy linear memory' },
         { ru: 'O(1) — сортировка выполняется полностью на месте', en: 'O(1) — the sort runs entirely in place' },
         { ru: 'O(log n) — только стек рекурсии без вспомогательных массивов', en: 'O(log n) — only the recursion stack without auxiliary arrays' },
         { ru: 'O(n²) — каждая прядь хранит копию всего оставшегося массива', en: 'O(n²) — each strand stores a copy of the whole remaining array always' },

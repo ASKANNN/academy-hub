@@ -239,7 +239,7 @@ export const radixSort = {
         en: 'How many "buckets" are used per pass when sorting by decimal digits?',
       },
       options: [
-        { ru: '10 — по одной на каждое значение цифры от 0 до 9', en: '10 — one for each digit value from 0 to 9' },
+        { ru: '10 — по одной корзине на каждую цифру', en: '10 — one for each digit value from 0 to 9' },
         { ru: 'Столько же, сколько элементов в массиве', en: 'As many as there are elements in the array' },
         { ru: '2 — чётные и нечётные значения', en: '2 — even and odd values' },
         { ru: 'Диапазон значений всего массива', en: 'The value range of the whole array' },
@@ -260,7 +260,7 @@ export const radixSort = {
         en: 'Why is radix sort better than counting sort for large numbers?',
       },
       options: [
-        { ru: 'Она использует только 10 счётчиков на проход, а не счётчик для каждого возможного значения', en: 'It uses only 10 counters per pass, not a counter for every possible value' },
+        { ru: 'Только 10 счётчиков на проход, а не счётчик для каждого возможного значения', en: 'It uses only 10 counters per pass, not a counter for every possible value' },
         { ru: 'Она работает быстрее, потому что делает меньше проходов, чем сортировка подсчётом', en: 'It runs faster because it makes fewer passes than counting sort always does' },
         { ru: 'Она не требует дополнительной памяти, сортируя элементы полностью на месте', en: 'It needs no extra memory, sorting elements entirely in place without any buffers' },
         { ru: 'Она может сортировать отрицательные числа, а сортировка подсчётом — никогда', en: 'It can sort negative numbers while counting sort can never handle them at all' },
@@ -281,7 +281,7 @@ export const radixSort = {
         en: 'Can radix sort be applied to strings?',
       },
       options: [
-        { ru: 'Да — если строки одной длины, «разрядом» служит символ на определённой позиции', en: 'Yes — for equal-length strings, each character position serves as a digit' },
+        { ru: 'Да — для строк одной длины «разрядом» служит символ в заданной позиции', en: 'Yes — for equal-length strings, each character position serves as a digit' },
         { ru: 'Нет — строки невозможно сортировать без попарного сравнения символов', en: 'No — strings cannot be sorted without pairwise character comparisons' },
         { ru: 'Да, но только для строк, содержащих исключительно цифровые символы от 0 до 9', en: 'Yes, but only for strings containing exclusively digit characters from 0 to 9' },
         { ru: 'Нет — алгоритм требует числового типа данных и не работает с символами', en: 'No — the algorithm requires a numeric data type and cannot handle characters at all' },
@@ -302,7 +302,7 @@ export const radixSort = {
         en: 'What numeral base is most often used in practical radix sort implementations, and why?',
       },
       options: [
-        { ru: '256 — совпадает с размером байта, что удобно при работе с битовыми представлениями чисел', en: '256 — matches the byte size, which is convenient for working with bit representations of numbers' },
+        { ru: '256 — равно размеру байта, удобно для работы с числами в битовом представлении', en: '256 — matches the byte size, which is convenient for working with bit representations of numbers' },
         { ru: '10 — десятичная система наиболее привычна людям и самая быстрая для процессора', en: '10 — the decimal system is most natural for humans and is the fastest base for the processor to use' },
         { ru: '2 — двоичная арифметика всегда быстрее любого другого основания на любом процессоре', en: '2 — binary arithmetic is always faster than any other base on any processor' },
         { ru: '16 — шестнадцатеричное основание минимизирует число проходов для любых данных', en: '16 — hexadecimal base minimizes the number of passes for any possible data' },
@@ -344,7 +344,7 @@ export const radixSort = {
         en: 'Is radix sort a comparison-based algorithm?',
       },
       options: [
-        { ru: 'Нет — она распределяет элементы по значению разряда, а не сравнивает пары элементов', en: 'No — it distributes elements by digit value rather than comparing pairs of elements' },
+        { ru: 'Нет — она раскладывает по значению разряда, а не сравнивает пары элементов', en: 'No — it distributes elements by digit value rather than comparing pairs of elements' },
         { ru: 'Да — каждый проход сравнивает соседние элементы, как в сортировке пузырьком', en: 'Yes — each pass compares neighboring elements just like bubble sort does' },
         { ru: 'Да, но только в первом проходе, когда определяется максимальный элемент', en: 'Yes, but only in the very first pass when the maximum element is being determined always' },
         { ru: 'Зависит от основания: при base=2 это сортировка сравнением, при base=10 — нет', en: 'It depends on the base: at base=2 it is a comparison sort, at base=10 it is not' },

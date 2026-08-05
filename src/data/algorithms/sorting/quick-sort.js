@@ -268,7 +268,7 @@ def partition(arr, low, high):
       },
       options: [
         {
-          ru: 'Перестановки во время партиционирования могут изменить относительный порядок равных элементов',
+          ru: 'Перестановки при разбиении могут изменить относительный порядок равных элементов',
           en: 'Swaps during partitioning can change the relative order of equal elements',
         },
         {
@@ -301,7 +301,7 @@ def partition(arr, low, high):
       },
       options: [
         {
-          ru: 'Отслеживает глубину рекурсии и переключается на heapsort, если она становится слишком большой',
+          ru: 'Отслеживает глубину рекурсии и переключается на heapsort при её чрезмерном росте',
           en: 'It tracks recursion depth and switches to heapsort if it gets too large',
         },
         {

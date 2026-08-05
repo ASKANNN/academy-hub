@@ -158,7 +158,7 @@ def bogo_sort(arr):
         en: 'How does bogosort work?',
       },
       options: [
-        { ru: 'Случайно перемешивает массив, пока он не окажется отсортированным', en: 'Randomly shuffles the array until it happens to be sorted' },
+        { ru: 'Случайно перемешивает, пока массив не отсортирован', en: 'Randomly shuffles the array until it happens to be sorted' },
         { ru: 'Рекурсивно делит массив пополам и сливает половины', en: 'Recursively splits the array in half and merges the halves' },
         { ru: 'Строит кучу и извлекает минимум', en: 'Builds a heap and extracts the minimum' },
         { ru: 'Сравнивает только соседние элементы по одному разу', en: 'Compares only adjacent elements, once each' },
@@ -287,7 +287,7 @@ def bogo_sort(arr):
         en: 'Why is bogosort considered an algorithm rather than just random enumeration?',
       },
       options: [
-        { ru: 'Она гарантированно завершается с вероятностью 1 при бесконечном числе попыток', en: 'It terminates with probability 1 given an unlimited number of attempts' },
+        { ru: 'Гарантированно завершается с вероятностью 1 при бесконечном числе попыток', en: 'It terminates with probability 1 given an unlimited number of attempts' },
         { ru: 'Она детерминированна и всегда завершается за конечное число шагов', en: 'It is deterministic and always finishes in a finite number of steps always' },
         { ru: 'Она используется в стандартных библиотеках некоторых языков программирования', en: 'It is used in standard libraries of some programming languages' },
         { ru: 'Она упорядочивает элементы, используя структуру данных типа куча', en: 'It orders elements using a heap data structure internally' },
@@ -329,7 +329,7 @@ def bogo_sort(arr):
         en: 'Is bogosort deterministic?',
       },
       options: [
-        { ru: 'Нет — результат каждой попытки случаен и зависит от генератора случайных чисел', en: 'No — each attempt\'s outcome is random and depends on the random number generator' },
+        { ru: 'Нет — каждая попытка случайна и зависит от генератора случайных чисел', en: 'No — each attempt\'s outcome is random and depends on the random number generator' },
         { ru: 'Да — порядок проверяемых перестановок строго фиксирован заранее', en: 'Yes — the order of checked permutations is strictly fixed in advance in all cases' },
         { ru: 'Да — он сортирует один и тот же массив за одинаковое число шагов', en: 'Yes — it sorts the same array in the same number of steps every time' },
         { ru: 'Нет — он использует другой алгоритм сортировки для первоначальной проверки', en: 'No — it uses a different sorting algorithm for the initial check' },

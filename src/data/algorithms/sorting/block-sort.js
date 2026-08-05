@@ -252,7 +252,7 @@ def block_sort(arr):
         en: 'Is block sort stable?',
       },
       options: [
-        { ru: 'Да — равные элементы из левого участка всегда остаются перед равными из правого', en: 'Yes — equal elements from the left run always stay before equal ones from the right' },
+        { ru: 'Да — равные из левого участка остаются перед равными из правого', en: 'Yes — equal elements from the left run always stay before equal ones from the right' },
         { ru: 'Нет, как и heap sort, из-за постоянных перестановок элементов внутри кучи', en: 'No, like heap sort, because of how elements are constantly rearranged inside the heap' },
         { ru: 'Только для чисел, но не для строк или более сложных составных объектов', en: 'Only for numbers, not for strings or more complex composite objects' },
         { ru: 'Зависит от размера входного массива и выбранного заранее размера блока', en: 'It depends on the input array\'s size and the block size chosen beforehand' },
@@ -381,7 +381,7 @@ def block_sort(arr):
         en: 'How does the full WikiSort improve the time guarantee over the simplified version?',
       },
       options: [
-        { ru: 'Переставляет целые блоки размера √n за один шаг вместо отдельных элементов', en: 'Rearranges whole blocks of size √n in one step instead of individual elements' },
+        { ru: 'Переставляет блоки √n за один шаг вместо отдельных элементов', en: 'Rearranges whole blocks of size √n in one step instead of individual elements' },
         { ru: 'Использует хэш-таблицу для мгновенного поиска нужной позиции вставки', en: 'Uses a hash table for instant lookup of the target insertion position in all cases' },
         { ru: 'Запускает несколько потоков для параллельного слияния отдельных прогонов', en: 'Spawns multiple threads to merge separate runs in parallel' },
         { ru: 'Копирует данные в буфер размером O(log n) вместо O(n)', en: 'Copies data into a buffer of size O(log n) instead of O(n)' },

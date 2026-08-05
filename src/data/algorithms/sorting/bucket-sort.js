@@ -177,7 +177,7 @@ export const bucketSort = {
         en: 'What happens to performance if nearly all elements land in one bucket?',
       },
       options: [
-        { ru: 'Сложность деградирует до O(n²) — как у сортировки одной большой корзины', en: 'Complexity degrades to O(n²) — like sorting one large bucket' },
+        { ru: 'Сложность деградирует до O(n²) — вся нагрузка в одной корзине', en: 'Complexity degrades to O(n²) — like sorting one large bucket' },
         { ru: 'Алгоритм завершается с ошибкой переполнения буфера корзины', en: 'The algorithm crashes with a bucket buffer overflow error' },
         { ru: 'Ничего не меняется, сложность так и остаётся линейной O(n + k)', en: 'Nothing changes, complexity stays exactly linear at O(n + k)' },
         { ru: 'Сложность неожиданно улучшается до O(log n)', en: 'Complexity unexpectedly improves down to O(log n)' },
@@ -282,7 +282,7 @@ export const bucketSort = {
         en: 'Why can bucket sort run faster than O(n log n)?',
       },
       options: [
-        { ru: 'Она не является сортировкой сравнением и использует знание о диапазоне значений', en: 'It is not a comparison sort and exploits knowledge of the value range' },
+        { ru: 'Она не сравнивает попарно — использует знание о диапазоне значений', en: 'It is not a comparison sort and exploits knowledge of the value range' },
         { ru: 'Она нарушает теорему об информационной нижней оценке для сортировок', en: 'It violates the information-theoretic lower bound for sorting in all cases' },
         { ru: 'Она всегда делает меньше сравнений, чем любой другой алгоритм', en: 'It always makes fewer comparisons than any other algorithm' },
         { ru: 'Она использует аппаратные инструкции, недоступные другим алгоритмам', en: 'It uses hardware instructions unavailable to other algorithms' },

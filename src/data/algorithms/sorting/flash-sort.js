@@ -212,7 +212,7 @@ export const flashSort = {
         en: 'What does flashsort do in the first stage, before the main permutation of elements?',
       },
       options: [
-        { ru: 'Вычисляет границы классов по значению для каждого элемента', en: 'Computes value-based class boundaries for the elements' },
+        { ru: 'Вычисляет границы классов по значению элементов', en: 'Computes value-based class boundaries for the elements' },
         { ru: 'Строит бинарное дерево поиска по всем элементам массива', en: 'Builds a binary search tree over all the array elements' },
         { ru: 'Рекурсивно делит массив пополам, как быстрая сортировка', en: 'Recursively splits the array in half, the way quicksort does' },
         { ru: 'Сортирует массив сравнениями перед основным проходом', en: 'Sorts the array with comparisons before the main pass' },
@@ -255,7 +255,7 @@ export const flashSort = {
       },
       options: [
         {
-          ru: 'Чтобы устранить небольшой беспорядок, оставшийся внутри каждого класса после классификации',
+          ru: 'Устранить небольшой беспорядок внутри каждого класса после классификации',
           en: 'To remove the small disorder remaining within each class after classification',
         },
         { ru: 'Потому что этап классификации вообще никак не меняет порядок элементов в массиве', en: 'Because the classification step does not change the element order in the array at all' },
@@ -323,7 +323,7 @@ export const flashSort = {
         en: 'How does flashsort differ from bucket sort in memory usage?',
       },
       options: [
-        { ru: 'Флэш-сортировка переставляет элементы прямо в исходном массиве; корзинная сортировка выделяет отдельные списки для каждой корзины', en: 'Flashsort permutes elements within the original array; bucket sort allocates separate lists for each bucket' },
+        { ru: 'Флэш-сортировка работает на исходном массиве; корзинная создаёт отдельные списки', en: 'Flashsort permutes elements within the original array; bucket sort allocates separate lists for each bucket' },
         { ru: 'Флэш-сортировка требует O(n²) памяти, а корзинная сортировка всегда работает в O(1)', en: 'Flashsort requires O(n²) memory, while bucket sort always works in O(1)' },
         { ru: 'Оба алгоритма используют абсолютно одинаковый объём памяти на любых входных данных', en: 'Both algorithms use exactly the same amount of memory on any input data' },
         { ru: 'Флэш-сортировка требует памяти O(n log n) из-за рекурсии сортировки вставками', en: 'Flashsort requires O(n log n) memory due to the recursion of the insertion sort step regardless of input size' },
@@ -344,7 +344,7 @@ export const flashSort = {
         en: 'Under what condition does flashsort achieve linear O(n) time?',
       },
       options: [
-        { ru: 'Когда данные равномерно распределены и элементы равномерно расходятся по классам', en: 'When data is uniformly distributed and elements spread evenly across classes' },
+        { ru: 'Когда данные равномерно распределены, элементы равномерно попадают в классы', en: 'When data is uniformly distributed and elements spread evenly across classes' },
         { ru: 'Когда массив уже полностью отсортирован и перестановок не требуется', en: 'When the array is already fully sorted and no permutations are needed' },
         { ru: 'Когда все элементы одинаковы и ни один класс не содержит более одного элемента', en: 'When all elements are identical and no class contains more than one element' },
         { ru: 'Когда число классов m равно числу элементов n без исключений', en: 'When the number of classes m equals the number of elements n without exception' },
@@ -365,7 +365,7 @@ export const flashSort = {
         en: 'Why is flashsort not suitable for sorting strings without extra processing?',
       },
       options: [
-        { ru: 'Формула вычисления класса требует арифметических операций над значением, которые не определены для строк', en: 'The class formula requires arithmetic operations on the value that are not defined for strings' },
+        { ru: 'Формула классификации требует арифметики над значением, которая строкам недоступна', en: 'The class formula requires arithmetic operations on the value that are not defined for strings' },
         { ru: 'Строки занимают слишком много памяти и не помещаются в вспомогательный массив классов', en: 'Strings take too much memory and do not fit in the auxiliary class array regardless of input size' },
         { ru: 'Сортировка вставками, используемая финально, не работает со строками', en: 'The insertion sort used in the final step does not work with strings' },
         { ru: 'Строки всегда равномерно распределены, что делает Флэш-сортировку излишней', en: 'Strings are always uniformly distributed, making flashsort unnecessary' },
@@ -386,7 +386,7 @@ export const flashSort = {
         en: 'How is the number of classes m typically chosen in flashsort?',
       },
       options: [
-        { ru: 'Примерно 0.45·n — эмпирически найденное значение, дающее хороший баланс', en: 'Roughly 0.45·n — an empirically found value giving a good balance' },
+        { ru: 'Около 0.45·n — эмпирически найденный баланс скорости и памяти', en: 'Roughly 0.45·n — an empirically found value giving a good balance' },
         { ru: 'Всегда ровно 2, чтобы разделить массив на нижнюю и верхнюю половины', en: 'Always exactly 2, to split the array into a lower and upper half' },
         { ru: 'Равно log₂(n), аналогично глубине дерева при сортировке слиянием', en: 'Equal to log₂(n), analogous to the tree depth in merge sort' },
         { ru: 'Равно квадратному корню из n для минимизации суммы сравнений и памяти', en: 'Equal to the square root of n to minimize the sum of comparisons and memory' },
@@ -407,7 +407,7 @@ export const flashSort = {
         en: 'What happens if the minimum and maximum of the input array are equal?',
       },
       options: [
-        { ru: 'Алгоритм сразу возвращает массив без изменений, так как все элементы одинаковы', en: 'The algorithm returns the array immediately without changes, since all elements are equal' },
+        { ru: 'Алгоритм возвращает массив сразу, так как все элементы одинаковы', en: 'The algorithm returns the array immediately without changes, since all elements are equal' },
         { ru: 'Деление на ноль происходит при вычислении коэффициента c1, вызывая ошибку', en: 'Division by zero occurs when computing coefficient c1, causing an error' },
         { ru: 'Все элементы помещаются в класс 0, и выполняется только сортировка вставками', en: 'All elements go into class 0 and only insertion sort runs' },
         { ru: 'Число классов автоматически увеличивается до максимально возможного значения', en: 'The number of classes is automatically increased to the maximum possible value in all cases' },

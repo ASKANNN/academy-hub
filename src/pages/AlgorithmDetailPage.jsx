@@ -88,90 +88,105 @@ export default function AlgorithmDetailPage() {
 
       <section className="container algorithm-detail__section">
         <Tabs
+          label={t.tabsAriaLabel}
           items={[
             {
-              key: 'problem',
-              label: t.sectionProblem,
-              content: <p><RichText text={algorithm.problem[lang] ?? algorithm.problem.ru} /></p>,
+              key: 'intent',
+              label: t.sectionIntent,
+              content: (
+                <div className="detail-section">
+                  <div>
+                    <h3 className="detail-section__title">{t.sectionProblem}</h3>
+                    <p><RichText text={algorithm.problem[lang] ?? algorithm.problem.ru} /></p>
+                  </div>
+                  <div>
+                    <h3 className="detail-section__title">{t.sectionSolution}</h3>
+                    <p><RichText text={algorithm.solution[lang] ?? algorithm.solution.ru} /></p>
+                  </div>
+                  <div>
+                    <h3 className="detail-section__title">{t.sectionWhenToUse}</h3>
+                    <ul className="detail-list">
+                      {algorithm.whenToUse.map((item, i) => (
+                        <li key={i} className="detail-list__item"><RichText text={item[lang] ?? item.ru} /></li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div>
+                    <h3 className="detail-section__title">{t.sectionRealWorld}</h3>
+                    <ul className="detail-list">
+                      {algorithm.realWorldExamples.map((item, i) => (
+                        <li key={i} className="detail-list__item"><RichText text={item[lang] ?? item.ru} /></li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ),
             },
             {
-              key: 'solution',
-              label: t.sectionSolution,
-              content: <p><RichText text={algorithm.solution[lang] ?? algorithm.solution.ru} /></p>,
+              key: 'structure',
+              label: t.sectionSteps,
+              content: (
+                <div className="detail-section">
+                  <ol className="algorithm-steps">
+                    {algorithm.steps.map((step, i) => (
+                      <li key={i} className="algorithm-steps__item">
+                        <h3>{step.title[lang] ?? step.title.ru}</h3>
+                        <p><RichText text={step.explanation[lang] ?? step.explanation.ru} /></p>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              ),
+            },
+            {
+              key: 'implementation',
+              label: t.sectionImplementation,
+              content: <CodeBlock code={algorithm.implementation} theme={theme} />,
+            },
+            {
+              key: 'playground',
+              label: t.sectionPlayground,
+              content: <AlgorithmVisualizer slug={algorithm.slug} t={t} />,
+            },
+            {
+              key: 'prosCons',
+              label: t.sectionProsCons,
+              content: (
+                <div className="pros-cons">
+                  <div className="pros-cons__col pros-cons__col--pros">
+                    <h3>{t.sectionPros}</h3>
+                    <ul>
+                      {algorithm.pros.map((pro, i) => (
+                        <li key={i}><RichText text={pro[lang] ?? pro.ru} /></li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="pros-cons__col pros-cons__col--cons">
+                    <h3>{t.sectionCons}</h3>
+                    <ul>
+                      {algorithm.cons.map((con, i) => (
+                        <li key={i}><RichText text={con[lang] ?? con.ru} /></li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              ),
+            },
+            {
+              key: 'quiz',
+              label: t.sectionQuiz,
+              content: <Quiz quiz={algorithm.quiz} lang={lang} t={t} />,
             },
           ]}
         />
-      </section>
-
-      <section className="container algorithm-detail__section">
-        <h2 className="algorithm-detail__heading">{t.sectionVisualization}</h2>
-        <AlgorithmVisualizer slug={algorithm.slug} t={t} />
-        <ol className="algorithm-steps">
-          {algorithm.steps.map((step, i) => (
-            <li key={i} className="algorithm-steps__item">
-              <h3>{step.title[lang] ?? step.title.ru}</h3>
-              <p><RichText text={step.explanation[lang] ?? step.explanation.ru} /></p>
-            </li>
-          ))}
-        </ol>
-      </section>
-
-      <section className="container algorithm-detail__section">
-        <h2 className="algorithm-detail__heading">{t.sectionImplementation}</h2>
-        <CodeBlock code={algorithm.implementation} theme={theme} />
-      </section>
-
-      <section className="container algorithm-detail__section">
-        <h2 className="algorithm-detail__heading">{t.sectionProsCons}</h2>
-        <div className="pros-cons">
-          <div className="pros-cons__col pros-cons__col--pros">
-            <h3>{t.sectionPros}</h3>
-            <ul>
-              {algorithm.pros.map((pro, i) => (
-                <li key={i}><RichText text={pro[lang] ?? pro.ru} /></li>
-              ))}
-            </ul>
-          </div>
-          <div className="pros-cons__col pros-cons__col--cons">
-            <h3>{t.sectionCons}</h3>
-            <ul>
-              {algorithm.cons.map((con, i) => (
-                <li key={i}><RichText text={con[lang] ?? con.ru} /></li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      <section className="container algorithm-detail__section">
-        <h2 className="algorithm-detail__heading">{t.sectionWhenToUse}</h2>
-        <ul>
-          {algorithm.whenToUse.map((item, i) => (
-            <li key={i}><RichText text={item[lang] ?? item.ru} /></li>
-          ))}
-        </ul>
-      </section>
-
-      <section className="container algorithm-detail__section">
-        <h2 className="algorithm-detail__heading">{t.sectionRealWorld}</h2>
-        <ul>
-          {algorithm.realWorldExamples.map((item, i) => (
-            <li key={i}><RichText text={item[lang] ?? item.ru} /></li>
-          ))}
-        </ul>
-      </section>
-
-      <section className="container algorithm-detail__section">
-        <h2 className="algorithm-detail__heading">{t.sectionQuiz}</h2>
-        <Quiz quiz={algorithm.quiz} lang={lang} t={t} />
       </section>
 
       {related.length > 0 && (
         <section className="container algorithm-detail__section">
           <h2 className="algorithm-detail__heading">{t.sectionRelated}</h2>
           <div className="academy-tree">
-            {related.map((rel) => (
-              <AlgorithmCard key={rel.slug} algorithm={rel} lang={lang} />
+            {related.map((rel, index) => (
+              <AlgorithmCard key={rel.slug} algorithm={rel} lang={lang} index={index} />
             ))}
           </div>
         </section>

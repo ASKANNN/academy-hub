@@ -272,7 +272,7 @@ def merge(left, right):
       },
       options: [
         {
-          ru: 'Merge sort даёт гарантированный O(n log n) и устойчивость, чего нет у квадратичных алгоритмов',
+          ru: 'Merge sort даёт O(n log n) и устойчивость, которых нет у квадратичных алгоритмов',
           en: 'Merge sort provides guaranteed O(n log n) and stability, which quadratic algorithms lack',
         },
         {
@@ -404,7 +404,7 @@ def merge(left, right):
       },
       options: [
         {
-          ru: 'Слияние работает через последовательный доступ и не требует дополнительного массива, а разбиение quicksort выигрывает от произвольного доступа, которого у списков нет',
+          ru: 'Слияние работает через последовательный доступ, а разбиение quicksort требует произвольного доступа, которого у связных списков нет',
           en: "Merging works via sequential access and needs no extra array, while quicksort's partitioning benefits from random access, which lists lack",
         },
         {

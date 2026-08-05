@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-export function AlgorithmCard({ algorithm, lang = 'ru' }) {
+export function AlgorithmCard({ algorithm, lang = 'ru', index = 0 }) {
   const name = algorithm.name[lang] ?? algorithm.name.ru;
   const intent = algorithm.intent[lang] ?? algorithm.intent.ru;
 
@@ -8,6 +8,7 @@ export function AlgorithmCard({ algorithm, lang = 'ru' }) {
     <Link
       to={`/algorithms/${algorithm.category}/${algorithm.slug}`}
       className="academy-card-link algorithm-card-link"
+      style={{ '--card-index': index }}
     >
       <div className="academy-card academy-card--live algorithm-card">
         <div className="academy-card__body">

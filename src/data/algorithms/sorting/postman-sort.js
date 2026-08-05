@@ -230,7 +230,7 @@ export const postmanSort = {
       },
       options: [
         {
-          ru: 'Когда разряды закончились или в корзине не более одного элемента',
+          ru: 'Когда разряды кончились или в корзине не более одного элемента',
           en: 'When digits run out or the bucket has at most one element',
         },
         { ru: 'После ровно трёх уровней рекурсии, независимо от числа разрядов', en: 'After exactly three levels of recursion, regardless of the digit count' },
@@ -358,7 +358,7 @@ export const postmanSort = {
         en: 'Why is postman sort not directly applicable to sorting floating-point numbers?',
       },
       options: [
-        { ru: 'У вещественных чисел нет чёткой позиционной разрядной структуры, пригодной для раскладки по корзинам', en: 'Floating-point numbers lack a clear positional digit structure suitable for bucket distribution' },
+        { ru: 'У вещественных чисел нет чёткой разрядной структуры для раскладки по корзинам', en: 'Floating-point numbers lack a clear positional digit structure suitable for bucket distribution' },
         { ru: 'Алгоритм выдаёт неверный результат при наличии хотя бы одного числа меньше нуля', en: 'The algorithm produces wrong results whenever any number is less than zero' },
         { ru: 'Вещественные числа всегда имеют бесконечное число значимых разрядов, делая k = ∞', en: 'Floating-point numbers always have infinitely many significant decimal digits, making k = ∞ always' },
         { ru: 'Алгоритм требует, чтобы все числа имели одинаковое количество разрядов до запятой', en: 'The algorithm requires all numbers to have the same digit count before the decimal point' },
@@ -379,7 +379,7 @@ export const postmanSort = {
         en: 'What happens if all numbers in the array are identical?',
       },
       options: [
-        { ru: 'После первого прохода все элементы попадут в одну корзину, и рекурсия быстро остановится', en: 'After the first pass all elements land in one bucket, and the recursion stops quickly' },
+        { ru: 'Все элементы попадут в одну корзину, и рекурсия быстро остановится', en: 'After the first pass all elements land in one bucket, and the recursion stops quickly' },
         { ru: 'Алгоритм зациклится, так как корзина никогда не сократится до одного элемента', en: 'The algorithm loops forever because the bucket never shrinks to one element' },
         { ru: 'Все корзины заполнятся равномерно, по одному элементу на корзину', en: 'All ten buckets fill evenly, with exactly one element landing in each bucket in all cases' },
         { ru: 'Алгоритм автоматически переключится на LSD-вариант для однородных данных', en: 'The algorithm automatically switches to the LSD variant for uniform data' },

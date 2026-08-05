@@ -272,7 +272,7 @@ export const patienceSort = {
       },
       options: [
         {
-          ru: 'Она моделирует раскладывание карт по стопкам, как в карточном пасьянсе (solitaire)',
+          ru: 'Она моделирует карточный пасьянс: раскладывание карт по стопкам',
           en: 'It models dealing cards into piles, as in the solitaire card game',
         },
         { ru: 'Она требует терпеливого ожидания O(n²) времени на больших массивах', en: 'It requires patiently waiting through O(n²) time on large arrays' },
@@ -295,7 +295,7 @@ export const patienceSort = {
         en: 'How is the number of piles in patience sort connected to the LIS problem?',
       },
       options: [
-        { ru: 'Число стопок равно длине наидлиннейшей возрастающей подпоследовательности (LIS) входа', en: 'The number of piles equals the length of the longest increasing subsequence (LIS) of the input' },
+        { ru: 'Число стопок равно длине LIS (возрастающей подпоследовательности) входа', en: 'The number of piles equals the length of the longest increasing subsequence (LIS) of the input' },
         { ru: 'Число стопок равно числу инверсий в исходном массиве', en: 'The number of piles equals the number of inversions in the original array' },
         { ru: 'LIS никак не связана с пасьянсной сортировкой — это совпадение терминов', en: 'LIS has nothing to do with patience sort — the apparent connection is merely a coincidence of terminology' },
         { ru: 'Число стопок равно квадрату длины LIS входного массива', en: 'The number of piles equals the square of the LIS length of the input array' },

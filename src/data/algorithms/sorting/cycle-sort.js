@@ -294,7 +294,7 @@ export const cycleSort = {
         en: 'What is the best-case time complexity of cycle sort?',
       },
       options: [
-        { ru: 'O(n²) — подсчёт правильных позиций всегда требует прохода по оставшейся части массива', en: 'O(n²) — counting correct positions always requires scanning the remaining portion of the array' },
+        { ru: 'O(n²) — подсчёт позиций всегда требует прохода по оставшейся части массива', en: 'O(n²) — counting correct positions always requires scanning the remaining portion of the array' },
         { ru: 'O(n) — когда массив уже отсортирован и запись не нужна ни разу', en: 'O(n) — when the array is already sorted and no writes are needed at all' },
         { ru: 'O(n log n) — благодаря структуре циклов, аналогичной куче', en: 'O(n log n) — due to the cycle structure similar to a heap' },
         { ru: 'O(1) — если все элементы уже стоят на своих местах без каких-либо перемещений', en: 'O(1) — if all elements are already in place with no movements needed whatsoever regardless of input' },
@@ -336,7 +336,7 @@ export const cycleSort = {
         en: 'Why does the algorithm shift pos forward when `item === a[pos]`?',
       },
       options: [
-        { ru: 'Чтобы не перезаписывать равный элемент, когда тот уже стоит на правильной позиции', en: 'To avoid overwriting an equal element that is already in its correct position' },
+        { ru: 'Не перезаписывать равный элемент, когда тот уже стоит на правильной позиции', en: 'To avoid overwriting an equal element that is already in its correct position' },
         { ru: 'Чтобы ускорить поиск позиции с помощью пропуска уже обработанных элементов', en: 'To speed up position search by skipping already processed elements' },
         { ru: 'Потому что сравнение на равенство работает медленнее, чем сравнение на меньше', en: 'Because equality comparison runs slower than less-than comparison' },
         { ru: 'Это баг в стандартной реализации, который никто не удосужился исправить', en: 'This is a bug in the standard implementation that nobody bothered to fix always' },
@@ -357,7 +357,7 @@ export const cycleSort = {
         en: 'How does cycle sort fundamentally differ from selection sort in terms of write count?',
       },
       options: [
-        { ru: 'Cycle sort делает O(n) записей, тогда как selection sort делает O(n) обменов, каждый из которых включает 2–3 записи', en: 'Cycle sort makes O(n) writes, while selection sort makes O(n) swaps each involving 2–3 writes' },
+        { ru: 'Cycle sort: O(n) записей; selection sort: O(n) обменов ≈ 2–3 записи каждый', en: 'Cycle sort makes O(n) writes, while selection sort makes O(n) swaps each involving 2–3 writes' },
         { ru: 'Cycle sort делает O(n²) записей, а selection sort — O(n log n) обменов', en: 'Cycle sort makes O(n²) writes, while selection sort makes O(n log n) swaps regardless of input' },
         { ru: 'Оба алгоритма делают абсолютно одинаковое число записей на любых входных данных', en: 'Both algorithms make the exact same number of writes on any input data' },
         { ru: 'Selection sort вообще не делает записей, поскольку использует только сравнения', en: 'Selection sort makes no writes at all since it only uses comparisons' },

@@ -216,7 +216,7 @@ export const pancakeSort = {
         en: 'What is the problem of finding the minimum number of flips to sort an arbitrary permutation called?',
       },
       options: [
-        { ru: 'Блинная задача (pancake problem)', en: 'The pancake problem' },
+        { ru: 'Блинная задача', en: 'The pancake problem' },
         { ru: 'Задача о рюкзаке', en: 'The knapsack problem' },
         { ru: 'Задача коммивояжёра', en: 'The traveling salesman problem' },
         { ru: 'Задача о раскраске графа', en: 'The graph coloring problem' },
@@ -321,7 +321,7 @@ export const pancakeSort = {
         en: 'How is pancake sort related to problems in bioinformatics?',
       },
       options: [
-        { ru: 'Переупорядочивание сегментов ДНК реверсиями формально аналогично сортировке переворотами', en: 'DNA segment rearrangement by reversals is formally analogous to sorting by flips' },
+        { ru: 'Реверсии сегментов ДНК формально аналогичны сортировке переворотами', en: 'DNA segment rearrangement by reversals is formally analogous to sorting by flips' },
         { ru: 'Алгоритм используется для выравнивания белковых последовательностей в базах данных', en: 'The algorithm is used to align protein sequences in databases' },
         { ru: 'Блинная сортировка применяется для сжатия геномных данных перед хранением', en: 'Pancake sort is applied to compress genomic data before storage' },
         { ru: 'Никакой реальной связи нет — это просто отдалённая метафора без практического значения', en: 'There is no real connection — it is merely a distant metaphor without practical significance' },
@@ -342,7 +342,7 @@ export const pancakeSort = {
         en: 'How is pancake sort conceptually similar to selection sort?',
       },
       options: [
-        { ru: 'Оба на каждом шаге находят максимум в неотсортированной части и ставят его на нужное место', en: 'Both find the maximum in the unsorted part at each step and place it in its correct position' },
+        { ru: 'Оба находят максимум в неотсортированной части и помещают его на нужное место', en: 'Both find the maximum in the unsorted part at each step and place it in its correct position' },
         { ru: 'Оба используют переворот префикса как единственную разрешённую операцию над массивом', en: 'Both use a prefix flip as the only allowed operation on the array, never swapping arbitrary elements' },
         { ru: 'Оба устойчивы и сортируют за O(n log n) в лучшем случае на упорядоченных данных', en: 'Both are stable and sort in O(n log n) in the best case on ordered data' },
         { ru: 'Оба используют случайный выбор опорного элемента для ускорения сортировки', en: 'Both use random pivot selection to speed up the sort' },

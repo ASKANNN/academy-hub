@@ -287,7 +287,7 @@ export const stoogeSort = {
         en: 'In what way is stooge sort worse than bubble sort in terms of asymptotics?',
       },
       options: [
-        { ru: 'Стуз-сортировка имеет показатель степени ~2.71, тогда как пузырьковая — ровно 2', en: 'Stooge sort has exponent ~2.71, while bubble sort has exactly 2' },
+        { ru: 'Стуз: степень ~2.71, пузырьковая — ровно 2', en: 'Stooge sort has exponent ~2.71, while bubble sort has exactly 2' },
         { ru: 'Стуз-сортировка использует O(n) памяти, а пузырьковая — только O(1)', en: 'Stooge sort uses O(n) memory for its recursion, while bubble sort uses only O(1)' },
         { ru: 'Пузырьковая сортировка нестабильна, а Стуз-сортировка — устойчива', en: 'Bubble sort is unstable, while stooge sort is stable' },
         { ru: 'Никакой разницы — обе сортировки имеют одинаковую асимптотику O(n²)', en: 'No difference — both sorts have the same O(n²) asymptotics' },
@@ -308,7 +308,7 @@ export const stoogeSort = {
         en: 'Why does the algorithm make a third recursive call on the first two-thirds after the previous two calls?',
       },
       options: [
-        { ru: 'Чтобы гарантировать, что элементы, перемещённые последними двумя вызовами, оказались на правильных позициях', en: 'To guarantee that elements shifted by the last two calls are in their correct positions' },
+        { ru: 'Гарантировать правильные позиции элементов после двух предыдущих вызовов', en: 'To guarantee that elements shifted by the last two calls are in their correct positions' },
         { ru: 'Только для симметрии кода — третий вызов не влияет на результат', en: 'Only for code symmetry — the third call has no effect on the result' },
         { ru: 'Чтобы выполнить итоговую проверку на отсортированность без изменений', en: 'To perform a final check for sortedness without making changes' },
         { ru: 'Потому что два вызова обрабатывают только половину элементов, а третий — оставшиеся', en: 'Because the first two calls together only cover half the elements, and the third handles the rest' },
@@ -329,7 +329,7 @@ export const stoogeSort = {
         en: 'What practical application does stooge sort have beyond educational purposes?',
       },
       options: [
-        { ru: 'Никакого — алгоритм намеренно неэффективен и используется только как учебный пример', en: 'None — the algorithm is deliberately inefficient and used only as a teaching example' },
+        { ru: 'Никакого — намеренно неэффективен, только учебный пример', en: 'None — the algorithm is deliberately inefficient and used only as a teaching example' },
         { ru: 'Сортировка строк в базах данных, где требуется лексикографический порядок', en: 'Sorting strings in databases where lexicographic order is required regardless of input' },
         { ru: 'Параллельная сортировка на GPU благодаря простой структуре рекурсии', en: 'Parallel sorting on GPUs thanks to the simple recursion structure' },
         { ru: 'Внешняя сортировка файлов, не помещающихся в оперативную память', en: 'External sorting of files that do not fit in RAM' },
@@ -350,7 +350,7 @@ export const stoogeSort = {
         en: 'What happens to a two-element range in stooge sort?',
       },
       options: [
-        { ru: 'Элементы сравниваются и при необходимости меняются местами, рекурсия не вызывается', en: 'The elements are compared and swapped if needed, no recursion is called' },
+        { ru: 'Элементы сравниваются и меняются местами, рекурсии нет', en: 'The elements are compared and swapped if needed, no recursion is called' },
         { ru: 'Рекурсия вызывается ещё три раза, каждый раз на всём том же диапазоне', en: 'Recursion is called three more times, each time on the same full range' },
         { ru: 'Диапазон из двух элементов считается уже отсортированным без проверки', en: 'A two-element range is considered already sorted without any check' },
         { ru: 'Два элемента сортируются встроенной функцией сравнения платформы', en: 'The two elements are sorted by the platform\'s built-in comparison function' },

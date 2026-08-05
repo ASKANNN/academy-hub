@@ -110,11 +110,14 @@ for (const { file, data } of allData) {
         q.correct >= 0 &&
         q.correct <= 3
       ) {
-        const lens = q.options.map((o) => (typeof o?.en === 'string' ? o.en.length : 0));
-        const correctLen = lens[q.correct];
-        const maxOtherLen = Math.max(...lens.filter((_, idx) => idx !== q.correct));
-        if (correctLen > maxOtherLen) {
-          errs.push(`${qp}: length-tell — correct .en (${correctLen}) is longer than all distractors (max ${maxOtherLen})`);
+        for (const lang of ['en', 'ru']) {
+          const lens = q.options.map((o) => (typeof o?.[lang] === 'string' ? o[lang].length : 0));
+          const correctLen = lens[q.correct];
+          const maxOtherLen = Math.max(...lens.filter((_, idx) => idx !== q.correct));
+          if (correctLen > maxOtherLen) {
+            errs.push(`${qp}: length-tell — correct .${lang} (${correctLen}) is longer than all distractors (max ${maxOtherLen})`);
+            break;
+          }
         }
       }
     });

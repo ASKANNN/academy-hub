@@ -221,7 +221,7 @@ export const sortingNetwork = {
       },
       options: [
         {
-          ru: 'Использует другую (нечётно-чётную) схему слияния двух отсортированных половин с меньшим числом сравнений',
+          ru: 'Применяет нечётно-чётную схему слияния отсортированных половин с меньшим числом сравнений',
           en: 'It uses a different (odd-even) scheme for merging two sorted halves, with fewer comparisons',
         },
         { ru: 'Она вообще никогда не использует рекурсию ни на каком этапе построения', en: 'It never uses recursion at all at any stage of the network construction' },
@@ -245,7 +245,7 @@ export const sortingNetwork = {
       },
       options: [
         {
-          ru: 'Он исправляет немногочисленные оставшиеся нарушения порядка между соседними элементами',
+          ru: 'Исправляет немногочисленные нарушения порядка между соседними элементами',
           en: 'It fixes the few remaining order violations between neighboring elements',
         },
         { ru: 'Он полностью отменяет абсолютно все ранее сделанные сравнения в сети', en: 'It completely undoes absolutely all of the previously made comparisons in the network' },
@@ -313,7 +313,7 @@ export const sortingNetwork = {
         en: 'Why do sorting networks (including Batcher\'s) require padding the array to a power of two?',
       },
       options: [
-        { ru: 'Рекурсивное разбиение на равные половины требует чётного числа элементов на каждом уровне', en: 'Recursive splitting into equal halves requires an even element count at every level' },
+        { ru: 'Рекурсивное деление пополам требует чётного числа элементов на каждом уровне', en: 'Recursive splitting into equal halves requires an even element count at every level' },
         { ru: 'Степень двойки минимизирует число сравнений по сравнению с любым другим размером', en: 'A power of two minimizes the comparison count compared to any other size' },
         { ru: 'Аппаратные реализации не могут работать с нечётным числом элементов физически', en: 'Hardware implementations physically cannot process an odd number of elements' },
         { ru: 'Это требование языка программирования, а не самого алгоритма', en: 'This is a programming language requirement, not a property of the algorithm itself always' },
@@ -355,7 +355,7 @@ export const sortingNetwork = {
         en: 'Why are sorting networks efficient on FPGAs and ASICs?',
       },
       options: [
-        { ru: 'Все компараторы известны заранее и могут быть реализованы параллельными аппаратными блоками', en: 'All comparators are known in advance and can be implemented as parallel hardware units' },
+        { ru: 'Компараторы известны заранее и реализуются параллельными аппаратными блоками', en: 'All comparators are known in advance and can be implemented as parallel hardware units' },
         { ru: 'FPGA автоматически оптимизирует любой алгоритм до линейного времени при компиляции', en: 'FPGAs automatically optimize any algorithm to linear time at compile time' },
         { ru: 'Аппаратные сортировщики работают только с сетями, но не с программными алгоритмами', en: 'Hardware sorters only work with networks and never with software algorithms in all cases' },
         { ru: 'Сортирующие сети не требуют никакого тактового сигнала для синхронизации этапов', en: 'Sorting networks require no clock signal to synchronize their stages at all' },
@@ -376,7 +376,7 @@ export const sortingNetwork = {
         en: 'How does a sorting network differ from an ordinary sorting algorithm in terms of data dependency?',
       },
       options: [
-        { ru: 'Последовательность сравнений в сети фиксирована и не меняется в зависимости от входных данных', en: 'The comparison sequence in the network is fixed and does not change based on the input data' },
+        { ru: 'Последовательность сравнений фиксирована и не зависит от входных данных', en: 'The comparison sequence in the network is fixed and does not change based on the input data' },
         { ru: 'Сортирующая сеть всегда выбирает следующее сравнение случайным образом', en: 'A sorting network always selects the next comparison at random' },
         { ru: 'Обычный алгоритм выполняет больше сравнений, чем сортирующая сеть, при любом входе', en: 'An ordinary algorithm always performs more comparisons than a sorting network on any input always' },
         { ru: 'Никакой разницы нет — оба подхода принимают одинаковые решения при одинаковых данных', en: 'There is no difference — both approaches make the same decisions given the same data' },
@@ -397,7 +397,7 @@ export const sortingNetwork = {
         en: 'How many comparison levels (network depth) does odd-even sort use for n elements?',
       },
       options: [
-        { ru: 'O(log² n) уровней — что совпадает с асимптотикой битонической сети', en: 'O(log² n) levels — matching the asymptotic depth of the bitonic network' },
+        { ru: 'O(log² n) уровней — как у битонической сети', en: 'O(log² n) levels — matching the asymptotic depth of the bitonic network' },
         { ru: 'O(n) уровней — по одному уровню на каждый элемент массива', en: 'O(n) levels — one level for each element in the array' },
         { ru: 'O(log n) уровней — как и у оптимальной сортирующей сети', en: 'O(log n) levels — the same as an optimal sorting network regardless of input' },
         { ru: 'Ровно n/2 уровней независимо от содержания массива', en: 'Exactly n/2 levels regardless of the array contents' },

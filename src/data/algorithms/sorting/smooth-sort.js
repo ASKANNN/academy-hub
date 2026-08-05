@@ -327,7 +327,7 @@ def smooth_sort(arr):
       },
       options: [
         {
-          ru: 'На уже почти отсортированных данных требуется меньше операций восстановления структуры кучи',
+          ru: 'На почти отсортированных данных требуется меньше операций восстановления кучи',
           en: 'On already nearly sorted data, fewer heap-restructuring operations are needed',
         },
         {
@@ -476,7 +476,7 @@ def smooth_sort(arr):
         en: 'What are Leonardo numbers and how are they related to smoothsort?',
       },
       options: [
-        { ru: 'Последовательность, похожая на Фибоначчи (L(k) = L(k-1) + L(k-2) + 1), задающая допустимые размеры деревьев леса', en: 'A Fibonacci-like sequence (L(k) = L(k-1) + L(k-2) + 1) defining valid tree sizes in the forest' },
+        { ru: 'Последовательность L(k)=L(k-1)+L(k-2)+1, задающая допустимые размеры деревьев-куч', en: 'A Fibonacci-like sequence (L(k) = L(k-1) + L(k-2) + 1) defining valid tree sizes in the forest' },
         { ru: 'Простые числа, используемые для выбора опорного элемента при разбиении леса', en: 'Prime numbers used to select the pivot element when partitioning the forest' },
         { ru: 'Степени двойки, определяющие, на каком уровне дерева находится каждый элемент', en: 'Powers of two determining at which tree level each element is located' },
         { ru: 'Индексы элементов, которые гарантированно стоят на правильных позициях после каждого прохода', en: 'Indices of elements guaranteed to be in the correct position after each pass regardless of input' },
@@ -497,7 +497,7 @@ def smooth_sort(arr):
         en: 'Is smoothsort a stable algorithm?',
       },
       options: [
-        { ru: 'Нет — как и обычный heap sort, он не сохраняет относительный порядок равных элементов', en: 'No — like regular heap sort, it does not preserve the relative order of equal elements' },
+        { ru: 'Нет — как heap sort, не сохраняет относительный порядок равных элементов', en: 'No — like regular heap sort, it does not preserve the relative order of equal elements' },
         { ru: 'Да — лес куч Леонардо специально спроектирован для сохранения порядка вставки', en: 'Yes — the Leonardo heap forest is specifically designed to preserve insertion order always' },
         { ru: 'Зависит от размера массива: при n < 100 устойчив, при больших n — нет', en: 'It depends on array size: stable for n < 100, unstable for larger n' },
         { ru: 'Да, но только если все элементы массива уникальны и не имеют дубликатов', en: 'Yes, but only if all array elements are unique with no duplicates at all' },
@@ -518,7 +518,7 @@ def smooth_sort(arr):
         en: 'Why is smoothsort preferable to Timsort in systems with strict memory constraints?',
       },
       options: [
-        { ru: 'Смузсорт использует O(1) памяти, тогда как Timsort требует O(n) для слияния прогонов', en: 'Smoothsort uses O(1) memory, whereas Timsort requires O(n) to merge runs' },
+        { ru: 'Смузсорт — O(1) памяти; Timsort требует O(n) для слияния прогонов', en: 'Smoothsort uses O(1) memory, whereas Timsort requires O(n) to merge runs' },
         { ru: 'Смузсорт всегда быстрее Timsort на любом входе, включая случайные данные', en: 'Smoothsort is always faster than Timsort on any input, including random data' },
         { ru: 'Timsort нестабилен в отличие от смузсорта, что важно при сортировке по ключу', en: 'Timsort is unstable unlike smoothsort, which matters when sorting by key' },
         { ru: 'Timsort не может работать на данных с повторяющимися значениями', en: 'Timsort cannot handle data with repeating values at all' },

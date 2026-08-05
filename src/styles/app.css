@@ -58,13 +58,8 @@
 
 .page-content.is-revealed .academy-card-link {
   animation: revealUp 0.60s cubic-bezier(0, 0, 0.2, 1) both;
+  animation-delay: calc(0.52s + min(var(--card-index, 0) * 0.045s, 0.9s));
 }
-.page-content.is-revealed .academy-card-link:nth-child(1) { animation-delay: 0.52s; }
-.page-content.is-revealed .academy-card-link:nth-child(2) { animation-delay: 0.63s; }
-.page-content.is-revealed .academy-card-link:nth-child(3) { animation-delay: 0.74s; }
-.page-content.is-revealed .academy-card-link:nth-child(4) { animation-delay: 0.85s; }
-.page-content.is-revealed .academy-card-link:nth-child(5) { animation-delay: 0.96s; }
-.page-content.is-revealed .academy-card-link:nth-child(6) { animation-delay: 1.07s; }
 
 .page-content.is-revealed .footer {
   animation: revealUp 0.60s 1.16s cubic-bezier(0, 0, 0.2, 1) both;
@@ -223,8 +218,12 @@
   font-weight: var(--font-weight-semibold);
   text-transform: uppercase;
   letter-spacing: var(--tracking-wider);
-  color: rgba(196, 181, 253, 0.9);
+  color: var(--color-text-link);
   margin-bottom: var(--space-4);
+}
+
+.hero-wrapper .hero__eyebrow {
+  color: rgba(196, 181, 253, 0.9);
 }
 
 .hero__title {
@@ -413,7 +412,7 @@
 }
 .status-badge--live {
   color: var(--color-success);
-  background-color: rgba(34, 197, 94, 0.14);
+  background-color: var(--color-success-subtle);
 }
 .status-badge--planned {
   color: var(--color-text-tertiary);

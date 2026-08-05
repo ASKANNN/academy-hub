@@ -297,7 +297,7 @@ export const gnomeSort = {
         en: 'How does gnome sort perform worse than insertion sort in operation count on random data?',
       },
       options: [
-        { ru: 'Гномья сортировка делает больше обменов, тогда как сортировка вставками сдвигает элементы без обмена', en: 'Gnome sort performs more swaps, while insertion sort shifts elements without swapping' },
+        { ru: 'Гномья сортировка делает больше обменов, а сортировка вставками сдвигает элементы без обмена', en: 'Gnome sort performs more swaps, while insertion sort shifts elements without swapping' },
         { ru: 'Гномья сортировка требует дополнительного прохода в конце для проверки результата', en: 'Gnome sort requires an extra pass at the end to verify the result' },
         { ru: 'Сортировка вставками использует рекурсию и поэтому быстрее при большом n', en: 'Insertion sort uses recursion and is therefore faster at large n' },
         { ru: 'Гномья сортировка не поддерживает параллельное выполнение, а сортировка вставками поддерживает', en: 'Gnome sort does not support parallel execution while insertion sort does at every step' },
@@ -318,7 +318,7 @@ export const gnomeSort = {
         en: 'What is the space complexity of gnome sort?',
       },
       options: [
-        { ru: 'O(1) — только переменная-указатель и временная переменная для обмена', en: 'O(1) — only a pointer variable and a temporary variable for swapping' },
+        { ru: 'O(1) — переменная-указатель и временная переменная для обмена', en: 'O(1) — only a pointer variable and a temporary variable for swapping' },
         { ru: 'O(n) — для хранения исходного массива во время сортировки', en: 'O(n) — to store the original array during sorting' },
         { ru: 'O(log n) — из-за глубины стека рекурсии при откатах указателя', en: 'O(log n) — due to the recursion stack depth during pointer rollbacks' },
         { ru: 'O(n²) — потому что хранится история всех позиций указателя', en: 'O(n²) — because the history of all pointer positions is stored' },
@@ -339,7 +339,7 @@ export const gnomeSort = {
         en: 'Why is gnome sort almost never used in production code?',
       },
       options: [
-        { ru: 'Она не даёт никаких практических преимуществ перед сортировкой вставками, которая делает то же самое быстрее', en: 'It offers no practical advantage over insertion sort, which does the same thing faster' },
+        { ru: 'Нет практических преимуществ перед сортировкой вставками, которая делает то же быстрее', en: 'It offers no practical advantage over insertion sort, which does the same thing faster' },
         { ru: 'Она нестабильна, что делает её непригодной для большинства реальных задач сортировки', en: 'It is unstable, which makes it unsuitable for most real-world sorting tasks' },
         { ru: 'Её патент запрещает коммерческое использование без лицензии правообладателя', en: 'Its patent prohibits commercial use without a license from the rights holder' },
         { ru: 'Большинство компиляторов не умеют оптимизировать код с одним указателем без вложенных циклов', en: 'Most compilers cannot optimize code with a single pointer and no nested loops in all cases' },

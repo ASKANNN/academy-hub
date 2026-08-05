@@ -18,10 +18,12 @@ for (const file of files) {
   let flagged = 0;
 
   quiz.forEach((item) => {
-    const lens = item.options.map((o) => o.en.length);
-    const correctLen = lens[item.correct];
-    const maxOther = Math.max(...lens.filter((_, idx) => idx !== item.correct));
-    if (correctLen > maxOther) flagged++;
+    for (const lang of ['en', 'ru']) {
+      const lens = item.options.map((o) => o[lang].length);
+      const correctLen = lens[item.correct];
+      const maxOther = Math.max(...lens.filter((_, idx) => idx !== item.correct));
+      if (correctLen > maxOther) { flagged++; break; }
+    }
   });
 
   totalFlagged += flagged;

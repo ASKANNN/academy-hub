@@ -277,7 +277,7 @@ export const oddEvenSort = {
         en: 'Is odd-even sort stable?',
       },
       options: [
-        { ru: 'Да, она устойчива, потому что сравниваются только соседние элементы и обмен происходит только при строгом неравенстве', en: 'Yes, it is stable because only adjacent elements are compared and a swap only occurs on strict inequality' },
+        { ru: 'Да: сравниваются лишь соседние элементы, обмен только при строгом неравенстве', en: 'Yes, it is stable because only adjacent elements are compared and a swap only occurs on strict inequality' },
         { ru: 'Нет, обмены на нечётной фазе всегда нарушают относительный порядок равных элементов', en: 'No, odd-phase swaps always break the relative order of equal elements' },
         { ru: 'Только если массив не содержит дубликатов', en: 'Only if the array contains no duplicate values' },
         { ru: 'Устойчивость зависит от конкретного компилятора, а не от самого алгоритма', en: 'Stability depends on the specific compiler, not on the algorithm itself regardless of input size, distribution, or order' },
@@ -298,7 +298,7 @@ export const oddEvenSort = {
         en: 'How does odd-even sort differ from cocktail shaker sort?',
       },
       options: [
-        { ru: 'Odd-even sort чередует нечётные и чётные фазы, а cocktail sort чередует прямые и обратные проходы', en: 'Odd-even sort alternates odd and even phases; cocktail sort alternates forward and backward passes' },
+        { ru: 'Odd-even sort чередует нечётные и чётные фазы, cocktail sort — прямые и обратные проходы', en: 'Odd-even sort alternates odd and even phases; cocktail sort alternates forward and backward passes' },
         { ru: 'Cocktail sort параллелизуем, а odd-even sort — нет, и это их главное практическое различие', en: 'Cocktail sort is parallelizable while odd-even sort is not — that\'s their main practical difference' },
         { ru: 'Они полностью идентичны и являются просто разными названиями одного и того же алгоритма', en: 'They are completely identical and are simply two names for the exact same algorithm' },
         { ru: 'Cocktail sort сортирует за O(n log n), тогда как odd-even sort всегда работает за O(n²)', en: 'Cocktail sort sorts in O(n log n) while odd-even sort always runs in O(n²)' },
@@ -361,7 +361,7 @@ export const oddEvenSort = {
         en: 'Why is odd-even sort also called "brick sort"?',
       },
       options: [
-        { ru: 'Схема сравнений напоминает кирпичную кладку: чётные и нечётные ряды смещены друг относительно друга', en: 'The comparison pattern resembles a brick wall: even and odd rows are offset from each other' },
+        { ru: 'Схема сравнений напоминает кирпичную кладку: ряды нечётной и чётной фаз смещены', en: 'The comparison pattern resembles a brick wall: even and odd rows are offset from each other' },
         { ru: 'Алгоритм был изобретён строителями для сортировки кирпичей по размеру на заводе', en: 'The algorithm was invented by construction workers specifically for sorting bricks by size at a factory' },
         { ru: 'Каждый элемент перемещается ровно на одну позицию за проход, как укладка кирпичей', en: 'Each element moves exactly one position per pass, like laying bricks one by one' },
         { ru: 'Название произошло от аббревиатуры, не связанной с внешним видом алгоритма', en: 'The name comes from an acronym unrelated to the visual appearance of the algorithm' },

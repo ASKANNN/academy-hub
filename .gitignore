@@ -26,7 +26,8 @@ dist-ssr
 # Internal working notes (never ship, never commit)
 PROJECT.md
 TASKS.md
-
+CONTENT_TEMPLATE.md
+.claude
 # Temporary QA screenshots
 .playwright-mcp/
 bubble-sort-quiz.png
