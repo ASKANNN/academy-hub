@@ -191,6 +191,10 @@ export const patienceSort = {
         ru: 'Это правило гарантирует, что каждая стопка остаётся убывающей сверху вниз, а поиск подходящей стопки можно делать бинарным поиском.',
         en: 'This rule guarantees each pile stays decreasing top-to-bottom, and the fitting pile can be found via binary search.',
       },
+      hint: {
+        ru: 'Правило выбора стопки позаимствовано из карточного пасьянса: карта кладётся на первую, куда она «проходит» по значению.',
+        en: 'The pile-selection rule comes from solitaire: a card goes onto the first pile it "fits" by value.',
+      },
     },
     {
       question: {
@@ -210,6 +214,10 @@ export const patienceSort = {
       explanation: {
         ru: 'Это ключевое наблюдение, которое связывает пасьянсную сортировку с задачей поиска длиннейшей возрастающей подпоследовательности (LIS).',
         en: 'This is the key observation linking patience sort to the longest-increasing-subsequence (LIS) problem.',
+      },
+      hint: {
+        ru: 'Число стопок связано с известной задачей на подпоследовательности — какой именно?',
+        en: 'The number of piles is related to a well-known subsequence problem — which one?',
       },
     },
     {
@@ -231,6 +239,10 @@ export const patienceSort = {
         ru: 'Это k-путевое слияние: каждая стопка уже упорядочена, поэтому многократный выбор минимального верха даёт полностью отсортированный результат, как при слиянии в merge sort.',
         en: 'This is a k-way merge: each pile is already ordered, so repeatedly picking the minimum top yields a fully sorted result, similar to merging in merge sort.',
       },
+      hint: {
+        ru: 'Каждая стопка уже упорядочена — как объединить несколько упорядоченных списков в один, не пересортировывая их?',
+        en: 'Each pile is already ordered — how do you combine several ordered lists into one without re-sorting?',
+      },
     },
     {
       question: {
@@ -247,6 +259,10 @@ export const patienceSort = {
       explanation: {
         ru: 'Стопки — это отдельная структура данных поверх исходного массива, поэтому память растёт линейно с n.',
         en: 'The piles are a separate data structure on top of the original array, so memory grows linearly with n.',
+      },
+      hint: {
+        ru: 'Стопки хранятся отдельно от входного массива — входит ли это в понятие «на месте»?',
+        en: 'The piles are stored separately from the input array — does that fit the definition of "in-place"?',
       },
     },
     {
@@ -267,6 +283,115 @@ export const patienceSort = {
       explanation: {
         ru: 'Правило «класть карту на первую подходящую стопку» — это в точности упрощённая стратегия одного из пасьянсов.',
         en: 'The "place the card on the first fitting pile" rule is exactly the simplified strategy of one solitaire variant.',
+      },
+      hint: {
+        ru: 'Подумайте о реальной игре с картами, в которой игрок раскладывает карты по столбикам по определённому правилу.',
+        en: 'Think of a real card game where the player deals cards into columns according to a specific rule.',
+      },
+    },
+    {
+      question: {
+        ru: 'Как связано число стопок в пасьянсной сортировке с задачей LIS?',
+        en: 'How is the number of piles in patience sort connected to the LIS problem?',
+      },
+      options: [
+        { ru: 'Число стопок равно длине наидлиннейшей возрастающей подпоследовательности (LIS) входа', en: 'The number of piles equals the length of the longest increasing subsequence (LIS) of the input' },
+        { ru: 'Число стопок равно числу инверсий в исходном массиве', en: 'The number of piles equals the number of inversions in the original array' },
+        { ru: 'LIS никак не связана с пасьянсной сортировкой — это совпадение терминов', en: 'LIS has nothing to do with patience sort — the apparent connection is merely a coincidence of terminology' },
+        { ru: 'Число стопок равно квадрату длины LIS входного массива', en: 'The number of piles equals the square of the LIS length of the input array' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'По теореме Дилворта число стопок в пасьянсной сортировке равно длине LIS: верхние карты стопок образуют убывающую последовательность, длина которой по теореме Дилворта равна длине LIS.',
+        en: 'By Dilworth\'s theorem, the number of piles in patience sort equals the LIS length: pile tops form a decreasing sequence whose length equals the LIS length by Dilworth\'s theorem.',
+      },
+      hint: {
+        ru: 'Вспомните, что число стопок равно длине наидлиннейшей убывающей подпоследовательности; что говорит о ней теорема Дилворта?',
+        en: 'Recall that the number of piles equals the longest decreasing subsequence length; what does Dilworth\'s theorem say about that?',
+      },
+    },
+    {
+      question: {
+        ru: 'Каков метод поиска подходящей стопки при раскладке карт?',
+        en: 'What search method is used to find the fitting pile during dealing?',
+      },
+      options: [
+        { ru: 'Бинарный поиск по верхним элементам стопок', en: 'Binary search over the pile tops' },
+        { ru: 'Линейный перебор всех стопок слева направо', en: 'Linear scan of all piles from left to right' },
+        { ru: 'Случайный выбор стопки с последующей проверкой', en: 'Random pile selection with a subsequent check' },
+        { ru: 'Хеш-таблица с ключами из верхних элементов стопок', en: 'Hash table keyed on pile tops' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Верхние элементы стопок всегда образуют возрастающую последовательность (иначе карта легла бы раньше), поэтому по ним можно проводить бинарный поиск за O(log k), где k — текущее число стопок.',
+        en: 'Pile tops always form an increasing sequence (otherwise the card would have been placed earlier), so binary search over them takes O(log k), where k is the current number of piles.',
+      },
+      hint: {
+        ru: 'Верхние карты стопок упорядочены между собой — какой метод поиска оптимален для упорядоченного набора?',
+        en: 'Pile tops are ordered among themselves — which search method is optimal for an ordered set?',
+      },
+    },
+    {
+      question: {
+        ru: 'Как ведёт себя пасьянсная сортировка на полностью отсортированном входе?',
+        en: 'How does patience sort behave on a fully sorted input?',
+      },
+      options: [
+        { ru: 'Образуется ровно одна стопка, а слияние тривиально — алгоритм адаптивен', en: 'Exactly one pile forms and merging is trivial — the algorithm is adaptive' },
+        { ru: 'Образуется n стопок по одной карте — это наихудший случай для пасьянсной сортировки', en: 'Exactly n piles of one card each form — this is the worst case for patience sort' },
+        { ru: 'Алгоритм обнаруживает упорядоченность и завершает работу немедленно без раскладки', en: 'The algorithm detects the order and terminates immediately without dealing' },
+        { ru: 'Число стопок равно log n, как в сбалансированном дереве', en: 'The number of piles equals log n, as in a balanced tree' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'При возрастающем входе каждая следующая карта меньше или равна верху последней стопки, поэтому всегда находится первая же стопка — в итоге стопка одна.',
+        en: 'For increasing input every next card is less than or equal to the last pile\'s top, so the first pile always fits — resulting in a single pile.',
+      },
+      hint: {
+        ru: 'Если каждая следующая карта меньше верха текущей стопки, сколько стопок в итоге образуется?',
+        en: 'If every next card is smaller than the current pile\'s top, how many piles end up forming?',
+      },
+    },
+    {
+      question: {
+        ru: 'Почему пасьянсная сортировка считается неустойчивой?',
+        en: 'Why is patience sort considered unstable?',
+      },
+      options: [
+        { ru: 'Равные элементы из разных стопок могут поменяться местами при слиянии', en: 'Equal elements from different piles can change their relative order during the merge' },
+        { ru: 'Бинарный поиск стопки всегда помещает новый элемент перед равными ему, нарушая порядок', en: 'Binary search always places a new element before equal ones, breaking their order always' },
+        { ru: 'Алгоритм использует случайный порядок слияния стопок, что нарушает устойчивость', en: 'The algorithm merges piles in a random order, breaking stability' },
+        { ru: 'Неустойчивость возникает только при повторяющихся значениях в уже отсортированном входе', en: 'Instability only occurs for duplicate values in an already-sorted input' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'При слиянии k стопок не отслеживается, из какой именно стопки пришли равные элементы, поэтому их исходный относительный порядок не гарантируется.',
+        en: 'During the k-way merge, no tracking is done of which pile equal elements came from, so their original relative order is not guaranteed.',
+      },
+      hint: {
+        ru: 'При слиянии нескольких стопок одновременно, как определяется порядок равных элементов из разных стопок?',
+        en: 'During a multi-pile merge, how is the order of equal elements from different piles determined?',
+      },
+    },
+    {
+      question: {
+        ru: 'Какова временная сложность пасьянсной сортировки в худшем случае?',
+        en: 'What is the worst-case time complexity of patience sort?',
+      },
+      options: [
+        { ru: 'O(n log n)', en: 'O(n log n)' },
+        { ru: 'O(n²) при обратно отсортированном входе', en: 'O(n²) on reverse-sorted input' },
+        { ru: 'O(n) при любом входе благодаря адаптивности', en: 'O(n) for any input thanks to adaptivity' },
+        { ru: 'O(n log² n) из-за накладных расходов на k-путевое слияние', en: 'O(n log² n) due to k-way merge overhead' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Даже в худшем случае (обратно отсортированный вход, когда образуется n стопок) раскладка занимает O(n log n), а слияние n стопок через кучу тоже O(n log n).',
+        en: 'Even in the worst case (reverse-sorted input, where n piles form), dealing takes O(n log n) and merging n piles via a heap also takes O(n log n).',
+      },
+      hint: {
+        ru: 'Сколько стопок образуется в худшем случае и сколько стоит их слияние через кучу?',
+        en: 'How many piles form in the worst case, and how much does merging them via a heap cost?',
       },
     },
   ],

@@ -286,6 +286,10 @@ def _heap_sort_range(a, low, high):
         ru: 'Превышение порога глубины сигнализирует, что quicksort работает на неудачных данных и рискует уйти в O(n²) — вместо этого текущий подмассив досортировывается heap sort с гарантированной асимптотикой.',
         en: 'Exceeding the depth threshold signals that quicksort is running on unlucky data and risks O(n²) — instead, the current subarray is finished with heap sort\'s guaranteed asymptotics.',
       },
+      hint: {
+        ru: 'Какой показатель алгоритм отслеживает, чтобы понять, что quicksort «ушёл не туда»?',
+        en: 'What metric does the algorithm monitor to detect that quicksort is going off the rails?',
+      },
     },
     {
       question: {
@@ -306,6 +310,10 @@ def _heap_sort_range(a, low, high):
         ru: 'Тот же приём, что и в Timsort: на маленьких n асимптотика не так важна, как константы, а у insertion sort они минимальны.',
         en: 'Same trick as in Timsort: at small n, asymptotics matter less than constant factors, and insertion sort has the lowest ones.',
       },
+      hint: {
+        ru: 'При очень малом n асимптотика перестаёт иметь значение — что тогда определяет практическую скорость?',
+        en: 'At very small n, asymptotics stop mattering — what then determines practical speed?',
+      },
     },
     {
       question: {
@@ -322,6 +330,10 @@ def _heap_sort_range(a, low, high):
       explanation: {
         ru: 'Обычный quicksort может деградировать до O(n²) на неудачном выборе опорных элементов; introsort страхует этот случай переключением на heap sort.',
         en: 'Plain quicksort can degrade to O(n²) on unlucky pivot choices; introsort hedges against this by switching to heap sort.',
+      },
+      hint: {
+        ru: 'Зачем вообще нужен fallback на heap sort — от какой именно беды он защищает?',
+        en: 'What specific failure mode does the heap sort fallback protect against?',
       },
     },
     {
@@ -343,6 +355,10 @@ def _heap_sort_range(a, low, high):
         ru: 'И партиционирование quicksort, и обмены в heap sort могут переставить местами равные элементы относительно друг друга — устойчивость не гарантируется ни одним из компонентов.',
         en: 'Both quicksort\'s partitioning and heap sort\'s swaps can reorder equal elements relative to each other — stability isn\'t guaranteed by either component.',
       },
+      hint: {
+        ru: 'Устойчивость гибрида определяется его компонентами — являются ли quicksort и heap sort устойчивыми?',
+        en: 'A hybrid\'s stability comes from its components — are quicksort and heap sort stable?',
+      },
     },
     {
       question: {
@@ -362,6 +378,115 @@ def _heap_sort_range(a, low, high):
       explanation: {
         ru: 'Стандарт `std::sort` требует O(n log n) в среднем; introsort даёт это и вдобавок гарантию худшего случая, оставаясь при этом in-place — в отличие от merge sort, который требует O(n) памяти.',
         en: 'The `std::sort` standard requires O(n log n) average; introsort delivers that plus a worst-case guarantee while staying in-place — unlike merge sort, which needs O(n) memory.',
+      },
+      hint: {
+        ru: 'Подумайте, чего не хватает чистому quicksort и чем платит за надёжность merge sort.',
+        en: 'Think about what plain quicksort lacks and what merge sort pays for its reliability.',
+      },
+    },
+    {
+      question: {
+        ru: 'Какой порог глубины рекурсии использует introsort перед переключением на heap sort?',
+        en: 'What recursion depth threshold does introsort use before switching to heap sort?',
+      },
+      options: [
+        { ru: '2·log₂(n)', en: '2·log₂(n)' },
+        { ru: 'n / 2', en: 'n / 2' },
+        { ru: 'log₂(n) / 2', en: 'log₂(n) / 2' },
+        { ru: 'sqrt(n)', en: 'sqrt(n)' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Порог 2·log₂(n) выбран так, чтобы нормальная рекурсия quicksort никогда не достигала его при сбалансированных разбиениях, но при деградации он срабатывал быстро.',
+        en: 'The threshold 2·log₂(n) is chosen so that normal quicksort recursion never reaches it under balanced partitions, but triggers quickly during degeneration.',
+      },
+      hint: {
+        ru: 'Это произведение константы на логарифм от n — какая именно константа используется?',
+        en: 'It is a constant multiplied by the logarithm of n — which constant is used?',
+      },
+    },
+    {
+      question: {
+        ru: 'Какова пространственная сложность introsort?',
+        en: 'What is the space complexity of introsort?',
+      },
+      options: [
+        { ru: 'O(log n) — под стек рекурсии', en: 'O(log n) — for the recursion stack' },
+        { ru: 'O(n) — для вспомогательного массива при слиянии', en: 'O(n) — for an auxiliary array during merging' },
+        { ru: 'O(1) — никакой дополнительной памяти не требуется совсем', en: 'O(1) — no extra memory is needed at all' },
+        { ru: 'O(n log n) — из-за рекурсивных вызовов с накладными расходами на каждом уровне', en: 'O(n log n) — due to recursive calls with overhead at each level' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Introsort сортирует на месте, но рекурсивный стек quicksort в сбалансированном случае имеет глубину O(log n).',
+        en: 'Introsort sorts in place, but the quicksort recursion stack has O(log n) depth in the balanced case.',
+      },
+      hint: {
+        ru: 'Алгоритм in-place, но рекурсия занимает память — какова максимальная глубина стека при сбалансированных разбиениях?',
+        en: 'The algorithm is in-place, but recursion uses memory — what is the maximum stack depth under balanced partitions?',
+      },
+    },
+    {
+      question: {
+        ru: 'Какой из трёх алгоритмов introsort применяет первым при запуске?',
+        en: 'Which of the three algorithms does introsort apply first upon starting?',
+      },
+      options: [
+        { ru: 'Quicksort', en: 'Quicksort' },
+        { ru: 'Heap sort', en: 'Heap sort' },
+        { ru: 'Insertion sort', en: 'Insertion sort' },
+        { ru: 'Merge sort', en: 'Merge sort' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Introsort начинает работу как обычный quicksort и переключается на heap sort или insertion sort только при выполнении соответствующих условий.',
+        en: 'Introsort starts as regular quicksort and only switches to heap sort or insertion sort when the respective conditions are met.',
+      },
+      hint: {
+        ru: 'Название «интроспективная» намекает на то, что алгоритм начинает как один хорошо известный метод и лишь затем «смотрит внутрь себя».',
+        en: 'The name "introspective" hints that the algorithm starts as one well-known method and only then "looks inward."',
+      },
+    },
+    {
+      question: {
+        ru: 'Ниже какого размера подмассива introsort переключается на insertion sort?',
+        en: 'Below what subarray size does introsort switch to insertion sort?',
+      },
+      options: [
+        { ru: 'Примерно 16 элементов', en: 'Approximately 16 elements' },
+        { ru: 'Примерно 1000 элементов', en: 'Approximately 1000 elements' },
+        { ru: 'Примерно 2 элемента', en: 'Approximately 2 elements' },
+        { ru: 'Примерно 256 элементов', en: 'Approximately 256 elements' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Типичное пороговое значение — около 16 элементов; на таком размере insertion sort обгоняет quicksort за счёт низких накладных расходов.',
+        en: 'The typical threshold is around 16 elements; at that size insertion sort outpaces quicksort due to its low overhead.',
+      },
+      hint: {
+        ru: 'Подумайте о небольшом числе, при котором накладные расходы рекурсии quicksort становятся дороже, чем O(n²) алгоритм с маленькими константами.',
+        en: 'Think of a small number at which quicksort\'s recursion overhead becomes costlier than an O(n²) algorithm with tiny constants.',
+      },
+    },
+    {
+      question: {
+        ru: 'Как introsort отличается от Timsort, который тоже является гибридным алгоритмом?',
+        en: 'How does introsort differ from Timsort, which is also a hybrid algorithm?',
+      },
+      options: [
+        { ru: 'Introsort неустойчив и in-place, тогда как Timsort устойчив и требует O(n) памяти', en: 'Introsort is unstable and in-place, while Timsort is stable and requires O(n) memory' },
+        { ru: 'Introsort использует merge sort вместо heap sort в качестве резервного алгоритма', en: 'Introsort uses merge sort instead of heap sort as its fallback algorithm for deep recursion' },
+        { ru: 'Timsort применяется только в C++, тогда как introsort используется исключительно в Python', en: 'Timsort is only used in C++, while introsort is used exclusively in Python' },
+        { ru: 'Introsort устойчив, а Timsort — нет, что и является главным практическим различием', en: 'Introsort is stable while Timsort is not, which is the main practical difference' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Introsort (quicksort + heap sort + insertion sort) жертвует устойчивостью ради in-place работы; Timsort (merge sort + insertion sort) сохраняет устойчивость, но использует O(n) памяти.',
+        en: 'Introsort (quicksort + heap sort + insertion sort) trades stability for in-place operation; Timsort (merge sort + insertion sort) preserves stability but uses O(n) memory.',
+      },
+      hint: {
+        ru: 'Какое ключевое свойство имеет merge sort, которого нет у quicksort и heap sort?',
+        en: 'What key property does merge sort have that quicksort and heap sort lack?',
       },
     },
   ],

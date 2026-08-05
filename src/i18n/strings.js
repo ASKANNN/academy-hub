@@ -94,6 +94,11 @@ export const STRINGS = {
       notFoundSubtitle: 'Такого раздела пока не существует.',
       notFoundCta: 'Вернуться на главную',
     },
+    error: {
+      title: 'Что-то пошло не так',
+      message: 'Не удалось загрузить этот раздел. Попробуй обновить страницу.',
+      reload: 'Обновить страницу',
+    },
     accessibility: {
       toggle: 'Настройки доступности',
       dockTab: 'Показать/скрыть кнопку доступности',
@@ -199,6 +204,11 @@ export const STRINGS = {
       notFoundTitle: 'Page not found',
       notFoundSubtitle: "This section doesn't exist yet.",
       notFoundCta: 'Back to home',
+    },
+    error: {
+      title: 'Something went wrong',
+      message: 'Failed to load this section. Try refreshing the page.',
+      reload: 'Reload page',
     },
     accessibility: {
       toggle: 'Accessibility settings',

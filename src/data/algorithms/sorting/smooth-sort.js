@@ -315,6 +315,10 @@ def smooth_sort(arr):
         ru: 'Именно структура «леса» переменных по размеру деревьев (вместо единой кучи) позволяет смузсорту адаптироваться к порядку входных данных.',
         en: 'It is exactly this "forest" of variable-sized trees (instead of a single heap) that lets smoothsort adapt to the order of the input data.',
       },
+      hint: {
+        ru: 'Heap sort строит одну кучу на весь массив. Что смузсорт строит вместо этого?',
+        en: 'Heap sort builds one heap over the entire array. What does smoothsort build instead?',
+      },
     },
     {
       question: {
@@ -344,6 +348,10 @@ def smooth_sort(arr):
         ru: 'Если элементы уже стоят близко к правильным позициям, просеивание (rectify/trinkle) завершается быстрее — отсюда приближение к O(n) на «гладких» данных.',
         en: 'If elements are already close to their correct positions, sifting (rectify/trinkle) finishes faster — hence the near-O(n) behavior on "smooth" data.',
       },
+      hint: {
+        ru: 'Адаптивный алгоритм делает меньше работы, когда данные уже частично упорядочены. Что именно требует меньше работы при наличии порядка в данных?',
+        en: 'An adaptive algorithm does less work when data is already partially ordered. What specifically requires less work when order is present in the data?',
+      },
     },
     {
       question: {
@@ -369,6 +377,10 @@ def smooth_sort(arr):
       explanation: {
         ru: 'В отличие от Timsort, который тратит O(n) памяти на слияние прогонов, смузсорт как вариант heap sort перестраивает деревья прямо внутри исходного массива.',
         en: 'Unlike Timsort, which spends O(n) memory merging runs, smoothsort, as a heap sort variant, restructures trees directly within the original array.',
+      },
+      hint: {
+        ru: 'Timsort сливает отсортированные прогоны во временный буфер. Смузсорт делает то же самое или обходится без него?',
+        en: 'Timsort merges sorted runs into a temporary buffer. Does smoothsort do the same, or does it work without one?',
       },
     },
     {
@@ -399,6 +411,10 @@ def smooth_sort(arr):
         ru: 'Смузсорт (1981) — работа Дейкстры, демонстрирующая, что адаптивность (как у insertion sort) не обязательно требует жертвовать памятью или гарантией худшего случая.',
         en: 'Smoothsort (1981) is Dijkstra\'s work, demonstrating that adaptivity (like insertion sort has) doesn\'t necessarily require sacrificing memory or the worst-case guarantee.',
       },
+      hint: {
+        ru: 'Этот учёный известен алгоритмом поиска кратчайшего пути и концепцией структурного программирования. Кто это?',
+        en: 'This scientist is known for a shortest-path algorithm and the concept of structured programming. Who is it?',
+      },
     },
     {
       question: {
@@ -427,6 +443,115 @@ def smooth_sort(arr):
       explanation: {
         ru: 'В отличие от обычного heap sort с единственной регулярной структурой, лес деревьев переменного размера по числам Леонардо требует отслеживания множества состояний при добавлении и удалении элементов.',
         en: 'Unlike regular heap sort with one uniform structure, a forest of variable-sized Leonardo-number trees requires tracking many states as elements are added and removed.',
+      },
+      hint: {
+        ru: 'Сравните сложность поддержания одной бинарной кучи с поддержанием леса деревьев разного размера с нестандартными операциями slicing и merging.',
+        en: 'Compare the complexity of maintaining one binary heap versus a forest of differently sized trees with non-standard slicing and merging operations.',
+      },
+    },
+    {
+      question: {
+        ru: 'Какова временная сложность смузсорта в лучшем случае и при каком условии она достигается?',
+        en: 'What is smoothsort\'s best-case time complexity and when is it achieved?',
+      },
+      options: [
+        { ru: 'O(n) — когда входные данные уже полностью отсортированы', en: 'O(n) — when the input data is already fully sorted' },
+        { ru: 'O(n log n) — лучший и средний случай у смузсорта одинаковы', en: 'O(n log n) — smoothsort\'s best and average cases are the same' },
+        { ru: 'O(log n) — если все элементы массива одинаковы', en: 'O(log n) — if all elements in the array are identical' },
+        { ru: 'O(1) — при пустом входном массиве без единого элемента', en: 'O(1) — with an empty input array containing no elements' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'На уже отсортированном массиве операции rectify/trinkle завершаются немедленно — ни один элемент не нарушает инвариант кучи, поэтому суммарная работа линейна.',
+        en: 'On an already sorted array, rectify/trinkle operations complete immediately — no element violates the heap invariant — so total work is linear.',
+      },
+      hint: {
+        ru: 'Если данные уже отсортированы, нужно ли что-то перемещать при построении леса куч?',
+        en: 'If the data is already sorted, does anything need to be moved while building the heap forest?',
+      },
+    },
+    {
+      question: {
+        ru: 'Что такое числа Леонардо и как они связаны со смузсортом?',
+        en: 'What are Leonardo numbers and how are they related to smoothsort?',
+      },
+      options: [
+        { ru: 'Последовательность, похожая на Фибоначчи (L(k) = L(k-1) + L(k-2) + 1), задающая допустимые размеры деревьев леса', en: 'A Fibonacci-like sequence (L(k) = L(k-1) + L(k-2) + 1) defining valid tree sizes in the forest' },
+        { ru: 'Простые числа, используемые для выбора опорного элемента при разбиении леса', en: 'Prime numbers used to select the pivot element when partitioning the forest' },
+        { ru: 'Степени двойки, определяющие, на каком уровне дерева находится каждый элемент', en: 'Powers of two determining at which tree level each element is located' },
+        { ru: 'Индексы элементов, которые гарантированно стоят на правильных позициях после каждого прохода', en: 'Indices of elements guaranteed to be in the correct position after each pass regardless of input' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Числа Леонардо: L(0) = 1, L(1) = 1, L(k) = L(k-1) + L(k-2) + 1. Размеры деревьев в лесу смузсорта всегда должны быть числами Леонардо — это обеспечивает корректное слияние и разбиение деревьев.',
+        en: 'Leonardo numbers: L(0) = 1, L(1) = 1, L(k) = L(k-1) + L(k-2) + 1. Tree sizes in smoothsort\'s forest must always be Leonardo numbers — this ensures correct tree merging and splitting.',
+      },
+      hint: {
+        ru: 'Вспомните числа Фибоначчи: F(k) = F(k-1) + F(k-2). Как числа Леонардо отличаются от них?',
+        en: 'Recall Fibonacci numbers: F(k) = F(k-1) + F(k-2). How do Leonardo numbers differ from them?',
+      },
+    },
+    {
+      question: {
+        ru: 'Является ли смузсорт устойчивым алгоритмом?',
+        en: 'Is smoothsort a stable algorithm?',
+      },
+      options: [
+        { ru: 'Нет — как и обычный heap sort, он не сохраняет относительный порядок равных элементов', en: 'No — like regular heap sort, it does not preserve the relative order of equal elements' },
+        { ru: 'Да — лес куч Леонардо специально спроектирован для сохранения порядка вставки', en: 'Yes — the Leonardo heap forest is specifically designed to preserve insertion order always' },
+        { ru: 'Зависит от размера массива: при n < 100 устойчив, при больших n — нет', en: 'It depends on array size: stable for n < 100, unstable for larger n' },
+        { ru: 'Да, но только если все элементы массива уникальны и не имеют дубликатов', en: 'Yes, but only if all array elements are unique with no duplicates at all' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Смузсорт, как и heap sort, при извлечении максимума и перестройке леса может менять относительный порядок одинаковых элементов. Устойчивость не является его свойством.',
+        en: 'Smoothsort, like heap sort, can change the relative order of equal elements during maximum extraction and forest restructuring. Stability is not its property.',
+      },
+      hint: {
+        ru: 'Heap sort известен тем, что неустойчив. Смузсорт — вариант heap sort. Что это говорит о его устойчивости?',
+        en: 'Heap sort is known to be unstable. Smoothsort is a heap sort variant. What does that suggest about its stability?',
+      },
+    },
+    {
+      question: {
+        ru: 'Почему смузсорт предпочтительнее Timsort в системах с жёсткими ограничениями памяти?',
+        en: 'Why is smoothsort preferable to Timsort in systems with strict memory constraints?',
+      },
+      options: [
+        { ru: 'Смузсорт использует O(1) памяти, тогда как Timsort требует O(n) для слияния прогонов', en: 'Smoothsort uses O(1) memory, whereas Timsort requires O(n) to merge runs' },
+        { ru: 'Смузсорт всегда быстрее Timsort на любом входе, включая случайные данные', en: 'Smoothsort is always faster than Timsort on any input, including random data' },
+        { ru: 'Timsort нестабилен в отличие от смузсорта, что важно при сортировке по ключу', en: 'Timsort is unstable unlike smoothsort, which matters when sorting by key' },
+        { ru: 'Timsort не может работать на данных с повторяющимися значениями', en: 'Timsort cannot handle data with repeating values at all' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Timsort сливает прогоны во временный буфер размером O(n), что неприемлемо там, где памяти мало. Смузсорт обходится без дополнительных массивов — весь лес строится прямо в исходном массиве.',
+        en: 'Timsort merges runs into an O(n) temporary buffer, which is unacceptable where memory is scarce. Smoothsort needs no extra arrays — the entire forest is built directly within the original array.',
+      },
+      hint: {
+        ru: 'Для чего Timsort выделяет дополнительную память — и нужно ли это смузсорту?',
+        en: 'What does Timsort allocate extra memory for — and does smoothsort need that same thing?',
+      },
+    },
+    {
+      question: {
+        ru: 'Что происходит с деревом в лесу смузсорта, когда из него извлекают корневой элемент?',
+        en: 'What happens to a tree in smoothsort\'s forest when its root element is extracted?',
+      },
+      options: [
+        { ru: 'Оно разбивается на два меньших дерева Леонардо, которые остаются в лесу', en: 'It splits into two smaller Leonardo trees that remain in the forest' },
+        { ru: 'Оно полностью удаляется из леса, и его элементы больше не участвуют в сортировке', en: 'It is completely removed from the forest, and its elements no longer participate in sorting' },
+        { ru: 'Оно заменяется одним новым деревом, вдвое меньшим по высоте исходного', en: 'It is replaced by a single new tree that is half the height of the original' },
+        { ru: 'Оно перестраивается в одну бинарную кучу для последующего извлечения по одному', en: 'It is rebuilt into a single binary heap for subsequent one-by-one extraction' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Каждое дерево Леонардо порядка k состоит из корня и двух поддеревьев порядка k-1 и k-2. При удалении корня эти два поддерева становятся самостоятельными деревьями в лесу.',
+        en: 'Each Leonardo tree of order k consists of a root and two subtrees of order k-1 and k-2. When the root is removed, these two subtrees become independent trees in the forest.',
+      },
+      hint: {
+        ru: 'Число Леонардо L(k) = L(k-1) + L(k-2) + 1 (корень). Если убрать корень, что останется?',
+        en: 'A Leonardo number L(k) = L(k-1) + L(k-2) + 1 (the root). If you remove the root, what is left?',
       },
     },
   ],

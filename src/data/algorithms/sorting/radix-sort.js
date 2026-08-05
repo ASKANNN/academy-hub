@@ -165,6 +165,10 @@ export const radixSort = {
         ru: 'LSD (least significant digit) сортировка начинает с единиц и постепенно переходит к более значимым разрядам, полагаясь на устойчивость каждого прохода.',
         en: 'LSD (least significant digit) sort starts from the ones place and moves toward more significant digits, relying on the stability of each pass.',
       },
+      hint: {
+        ru: 'Расшифровка аббревиатуры LSD подсказывает ответ: с какого конца числа начинается обработка?',
+        en: 'The LSD abbreviation itself is a hint: which end of the number does processing start from?',
+      },
     },
     {
       question: {
@@ -181,6 +185,10 @@ export const radixSort = {
       explanation: {
         ru: 'Если бы сортировка по текущему разряду не была устойчивой, она могла бы перемешать элементы, уже правильно упорядоченные по младшим разрядам с предыдущих проходов.',
         en: 'If the sort on the current digit weren\'t stable, it could scramble elements already correctly ordered by lower digits from previous passes.',
+      },
+      hint: {
+        ru: 'Что случится с порядком, установленным на прошлом проходе, если следующий проход не сохранит относительный порядок равных элементов?',
+        en: 'What happens to the order set by the previous pass if the next pass doesn\'t preserve the relative order of equal elements?',
       },
     },
     {
@@ -199,6 +207,10 @@ export const radixSort = {
         ru: 'Алгоритм проходит по разрядам, пока не обработает самый старший разряд наибольшего числа — значит d равно количеству разрядов этого числа.',
         en: 'The algorithm processes digits until it handles the most significant digit of the largest value — so d equals that value\'s digit count.',
       },
+      hint: {
+        ru: 'Алгоритм должен обработать все разряды хотя бы одного числа. Какое число задаёт верхнюю границу числа проходов?',
+        en: 'The algorithm must process every digit position of at least one number. Which number sets the upper bound on the pass count?',
+      },
     },
     {
       question: {
@@ -216,6 +228,10 @@ export const radixSort = {
         ru: 'Число проходов d определяется наибольшим значением — один аномально длинный «выброс» заставляет делать много проходов ради небольшого числа коротких чисел.',
         en: 'The pass count d is set by the largest value — one abnormally long "outlier" forces many passes for the sake of a few short numbers.',
       },
+      hint: {
+        ru: 'Какое единственное число во входных данных диктует количество проходов, и что происходит, если это число аномально велико?',
+        en: 'Which single number in the input dictates the pass count, and what happens when that number is abnormally large?',
+      },
     },
     {
       question: {
@@ -232,6 +248,115 @@ export const radixSort = {
       explanation: {
         ru: 'Поскольку каждый разряд — это цифра от 0 до 9, счётчик/корзины внутренней сортировки подсчётом всегда фиксированного размера 10, независимо от диапазона исходных чисел.',
         en: 'Since each digit is a value 0–9, the inner counting sort\'s counters/buckets are always a fixed size of 10, regardless of the original numbers\' range.',
+      },
+      hint: {
+        ru: 'Сколько возможных значений может принимать одна десятичная цифра?',
+        en: 'How many possible values can a single decimal digit take?',
+      },
+    },
+    {
+      question: {
+        ru: 'Чем поразрядная сортировка лучше сортировки подсчётом для больших чисел?',
+        en: 'Why is radix sort better than counting sort for large numbers?',
+      },
+      options: [
+        { ru: 'Она использует только 10 счётчиков на проход, а не счётчик для каждого возможного значения', en: 'It uses only 10 counters per pass, not a counter for every possible value' },
+        { ru: 'Она работает быстрее, потому что делает меньше проходов, чем сортировка подсчётом', en: 'It runs faster because it makes fewer passes than counting sort always does' },
+        { ru: 'Она не требует дополнительной памяти, сортируя элементы полностью на месте', en: 'It needs no extra memory, sorting elements entirely in place without any buffers' },
+        { ru: 'Она может сортировать отрицательные числа, а сортировка подсчётом — никогда', en: 'It can sort negative numbers while counting sort can never handle them at all' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Сортировка подсчётом требует массив счётчиков размером во весь диапазон значений. Поразрядная разбивает задачу на проходы по одному разряду, каждый из которых требует всего 10 счётчиков.',
+        en: 'Counting sort requires a counter array as large as the entire value range. Radix sort breaks the task into single-digit passes, each needing only 10 counters.',
+      },
+      hint: {
+        ru: 'Сколько счётчиков нужно сортировке подсчётом для чисел от 0 до миллиарда — и сколько нужно поразрядной сортировке на один проход?',
+        en: 'How many counters does counting sort need for numbers from 0 to one billion — and how many does radix sort need per pass?',
+      },
+    },
+    {
+      question: {
+        ru: 'Можно ли применить поразрядную сортировку к строкам?',
+        en: 'Can radix sort be applied to strings?',
+      },
+      options: [
+        { ru: 'Да — если строки одной длины, «разрядом» служит символ на определённой позиции', en: 'Yes — for equal-length strings, each character position serves as a digit' },
+        { ru: 'Нет — строки невозможно сортировать без попарного сравнения символов', en: 'No — strings cannot be sorted without pairwise character comparisons' },
+        { ru: 'Да, но только для строк, содержащих исключительно цифровые символы от 0 до 9', en: 'Yes, but only for strings containing exclusively digit characters from 0 to 9' },
+        { ru: 'Нет — алгоритм требует числового типа данных и не работает с символами', en: 'No — the algorithm requires a numeric data type and cannot handle characters at all' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Поразрядная сортировка обобщается на строки фиксированной длины: позиция символа играет роль «разряда», а код символа — роль «цифры». Именно на этой идее строится быстрая сортировка строк LSD.',
+        en: 'Radix sort generalizes to fixed-length strings: the character position plays the role of "digit place," and the character code plays the role of "digit value." This is the basis of LSD string sorting.',
+      },
+      hint: {
+        ru: 'Что является «разрядом» для строки, если применить аналогию с числами?',
+        en: 'What serves as a "digit position" for a string if you apply the analogy with numbers?',
+      },
+    },
+    {
+      question: {
+        ru: 'Какое основание системы счисления (base) чаще всего используется в реализациях поразрядной сортировки на практике и почему?',
+        en: 'What numeral base is most often used in practical radix sort implementations, and why?',
+      },
+      options: [
+        { ru: '256 — совпадает с размером байта, что удобно при работе с битовыми представлениями чисел', en: '256 — matches the byte size, which is convenient for working with bit representations of numbers' },
+        { ru: '10 — десятичная система наиболее привычна людям и самая быстрая для процессора', en: '10 — the decimal system is most natural for humans and is the fastest base for the processor to use' },
+        { ru: '2 — двоичная арифметика всегда быстрее любого другого основания на любом процессоре', en: '2 — binary arithmetic is always faster than any other base on any processor' },
+        { ru: '16 — шестнадцатеричное основание минимизирует число проходов для любых данных', en: '16 — hexadecimal base minimizes the number of passes for any possible data' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Основание 256 (один байт) позволяет разделить 32-битное целое всего на 4 прохода, каждый с 256 корзинами. Это даёт отличный баланс между числом проходов и размером счётчиков.',
+        en: 'Base 256 (one byte) splits a 32-bit integer into just 4 passes, each with 256 buckets. This gives an excellent balance between pass count and counter-array size.',
+      },
+      hint: {
+        ru: 'Подумайте о том, какой единицей данных оперирует процессор — и какое основание позволяет минимизировать число проходов для 32-битных чисел.',
+        en: 'Think about what unit of data a processor naturally works with — and which base minimizes passes for 32-bit integers.',
+      },
+    },
+    {
+      question: {
+        ru: 'Как изменится число проходов поразрядной сортировки, если все числа в массиве трёхзначные?',
+        en: 'How many passes does radix sort make if all numbers in the array are three-digit numbers?',
+      },
+      options: [
+        { ru: 'Ровно 3 прохода — по одному на каждый разряд', en: 'Exactly 3 passes — one for each digit position' },
+        { ru: 'Зависит от количества элементов, а не от числа разрядов', en: 'It depends on the element count, not the digit count' },
+        { ru: '10 проходов — по одному на каждое возможное значение цифры', en: '10 passes — one for each possible digit value' },
+        { ru: '1 проход — если все числа попадают в одну корзину при первом разряде', en: '1 pass — if all numbers land in one bucket on the first digit' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Число проходов равно числу разрядов наибольшего числа в массиве. Все трёхзначные числа — значит наибольшее тоже трёхзначное, и достаточно ровно трёх проходов.',
+        en: 'The pass count equals the digit count of the largest number in the array. All three-digit numbers means the largest is also three digits, so exactly three passes suffice.',
+      },
+      hint: {
+        ru: 'Сколько разрядов у трёхзначного числа — и сколько проходов делает алгоритм по разрядам?',
+        en: 'How many digit positions does a three-digit number have — and how many passes does the algorithm make per digit position?',
+      },
+    },
+    {
+      question: {
+        ru: 'Является ли поразрядная сортировка алгоритмом сравнения?',
+        en: 'Is radix sort a comparison-based algorithm?',
+      },
+      options: [
+        { ru: 'Нет — она распределяет элементы по значению разряда, а не сравнивает пары элементов', en: 'No — it distributes elements by digit value rather than comparing pairs of elements' },
+        { ru: 'Да — каждый проход сравнивает соседние элементы, как в сортировке пузырьком', en: 'Yes — each pass compares neighboring elements just like bubble sort does' },
+        { ru: 'Да, но только в первом проходе, когда определяется максимальный элемент', en: 'Yes, but only in the very first pass when the maximum element is being determined always' },
+        { ru: 'Зависит от основания: при base=2 это сортировка сравнением, при base=10 — нет', en: 'It depends on the base: at base=2 it is a comparison sort, at base=10 it is not' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Поразрядная сортировка не принадлежит к классу алгоритмов сравнения — она обходит нижнюю границу Ω(n log n), используя не сравнения пар элементов, а чтение разрядов ключей.',
+        en: 'Radix sort does not belong to the comparison-based class — it bypasses the Ω(n log n) lower bound by reading digit values rather than comparing pairs of elements.',
+      },
+      hint: {
+        ru: 'Нижняя граница Ω(n log n) применяется к сортировкам сравнением. Нарушает ли поразрядная сортировка эту границу — и если да, то как?',
+        en: 'The Ω(n log n) lower bound applies to comparison sorts. Does radix sort violate that bound — and if so, how?',
       },
     },
   ],

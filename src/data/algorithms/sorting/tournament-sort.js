@@ -74,7 +74,6 @@ export const tournamentSort = {
   const leaves = new Array(size).fill(INF);
   for (let i = 0; i < n; i++) leaves[i] = arr[i];
 
-  // winner[node] holds the leaf slot that wins at this internal node
   const winner = new Array(2 * size - 1).fill(-1);
   for (let i = 0; i < size; i++) winner[size - 1 + i] = i;
 
@@ -210,6 +209,10 @@ export const tournamentSort = {
         ru: 'Дерево турнира хранит результаты прошлых сравнений, поэтому после извлечения минимума достаточно пересчитать только путь до корня.',
         en: 'The tournament tree keeps the results of past comparisons, so after extracting the minimum only the path to the root needs recomputing.',
       },
+      hint: {
+        ru: 'Главная слабость сортировки выбором — то, что результаты каждого прохода забываются. Как дерево решает эту проблему?',
+        en: 'The main weakness of selection sort is that each pass\'s results are forgotten. How does the tree address this?',
+      },
     },
     {
       question: {
@@ -226,6 +229,10 @@ export const tournamentSort = {
       explanation: {
         ru: 'Замена на +∞ — простой способ «выключить» уже отсортированный элемент, не меняя структуру дерева.',
         en: 'Replacing with +∞ is a simple way to "switch off" an already-sorted element without changing the tree\'s structure.',
+      },
+      hint: {
+        ru: 'После извлечения элемент не должен снова «победить» в турнире. Какое значение всегда проигрывает любому реальному?',
+        en: 'After extraction, the element must never "win" the tournament again. What value always loses to any real one?',
       },
     },
     {
@@ -244,6 +251,10 @@ export const tournamentSort = {
         ru: 'Нужно пересчитать только путь от листа до корня, а высота полного бинарного дерева с n листьями — O(log n).',
         en: 'Only the path from the leaf to the root needs recomputing, and a complete binary tree with n leaves has height O(log n).',
       },
+      hint: {
+        ru: 'После замены листа на +∞ сколько узлов нужно обновить и как связана эта цифра с высотой дерева?',
+        en: 'After replacing a leaf with +∞, how many nodes need updating and how does this relate to the tree\'s height?',
+      },
     },
     {
       question: {
@@ -260,6 +271,10 @@ export const tournamentSort = {
       explanation: {
         ru: 'В отличие от heap sort, дерево турнира строится как отдельная структура поверх исходного массива, а не внутри него.',
         en: 'Unlike heap sort, the tournament tree is built as a separate structure on top of the original array, not inside it.',
+      },
+      hint: {
+        ru: 'Полное бинарное дерево с n листьями имеет порядка 2n узлов — сколько это памяти?',
+        en: 'A complete binary tree with n leaves has roughly 2n nodes — how much memory is that?',
       },
     },
     {
@@ -280,6 +295,115 @@ export const tournamentSort = {
       explanation: {
         ru: 'Внешняя сортировка сливает много отсортированных файлов за один проход, используя winner tree для быстрого выбора следующего наименьшего элемента среди «голов» всех файлов.',
         en: 'External sorting merges many sorted files in a single pass, using a winner tree to quickly pick the next-smallest element among all the files\' current heads.',
+      },
+      hint: {
+        ru: 'Подумайте о сценарии, где нужно непрерывно выбирать минимум из k разных источников данных.',
+        en: 'Think of a scenario where you need to continuously pick the minimum from k different data sources.',
+      },
+    },
+    {
+      question: {
+        ru: 'Является ли турнирная сортировка устойчивой?',
+        en: 'Is tournament sort stable?',
+      },
+      options: [
+        { ru: 'Нет — при равенстве значений победитель определяется структурой дерева, а не порядком элементов', en: 'No — on equal values the winner is determined by tree structure, not element order' },
+        { ru: 'Да — слияние в дереве всегда берёт из левого поддерева при равенстве', en: 'Yes — the tree merge always takes from the left subtree on ties' },
+        { ru: 'Зависит от реализации — устойчивость можно обеспечить дополнительной логикой', en: 'Depends on the implementation — stability can be ensured with extra logic in all cases' },
+        { ru: 'Да — дерево турнира гарантирует исходный порядок равных значений', en: 'Yes — the tournament tree guarantees the original order of equal values' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Турнирная сортировка неустойчива: при равных значениях победитель зависит от позиции в дереве, а не от исходного порядка элементов.',
+        en: 'Tournament sort is unstable: among equal values, the winner depends on tree position, not on the original element order.',
+      },
+      hint: {
+        ru: 'Вспомните, как определяется «победитель» при равных значениях — зависит ли это от исходной позиции элемента?',
+        en: 'Recall how the "winner" is determined when values are equal — does this depend on the element\'s original position?',
+      },
+    },
+    {
+      question: {
+        ru: 'Чем дерево турнира концептуально похоже на кучу (heap)?',
+        en: 'In what way is the tournament tree conceptually similar to a heap?',
+      },
+      options: [
+        { ru: 'Оба являются бинарными деревьями, где корень всегда содержит минимум', en: 'Both are binary trees where the root always holds the minimum' },
+        { ru: 'Оба сортируют за O(n) без какой-либо рекурсии или дополнительной памяти', en: 'Both sort in O(n) without any recursion or extra memory' },
+        { ru: 'Оба требуют O(n²) операций для начального построения структуры', en: 'Both require O(n²) operations to build the initial structure always' },
+        { ru: 'Оба являются хеш-таблицами с открытой адресацией', en: 'Both are hash tables with open addressing' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'И дерево турнира, и min-heap поддерживают свойство, при котором корень всегда содержит глобальный минимум, и оба обновляются за O(log n).',
+        en: 'Both the tournament tree and a min-heap maintain the property that the root always holds the global minimum, and both update in O(log n).',
+      },
+      hint: {
+        ru: 'Что хранится в корне min-heap? Сравните с тем, что хранится в корне дерева турнира.',
+        en: 'What is stored at the root of a min-heap? Compare it with what the tournament tree root holds.',
+      },
+    },
+    {
+      question: {
+        ru: 'Почему турнирная сортировка медленнее пирамидальной (heap sort) на практике, несмотря на одинаковую асимптотику?',
+        en: 'Why is tournament sort slower than heap sort in practice despite the same asymptotic complexity?',
+      },
+      options: [
+        { ru: 'Дерево турнира хранится отдельно от массива, что ухудшает локальность кэша', en: 'The tournament tree is stored separately from the array, worsening cache locality' },
+        { ru: 'Турнирная сортировка использует больше сравнений, чем пирамидальная', en: 'Tournament sort uses more comparisons than heap sort' },
+        { ru: 'Пирамидальная сортировка работает за O(n), а турнирная — за O(n log n)', en: 'Heap sort runs in O(n) while tournament sort runs in O(n log n) regardless of input' },
+        { ru: 'Турнирная сортировка несовместима с современными процессорами', en: 'Tournament sort is incompatible with modern processors' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Heap sort сортирует прямо внутри входного массива, обращаясь к соседним ячейкам памяти, тогда как дерево турнира — отдельная структура с худшей локальностью кэша.',
+        en: 'Heap sort sorts directly inside the input array, accessing nearby memory cells, whereas the tournament tree is a separate structure with worse cache locality.',
+      },
+      hint: {
+        ru: 'Heap sort работает in-place, а турнирная сортировка строит отдельную структуру данных. Что это означает для кэша?',
+        en: 'Heap sort works in-place, while tournament sort builds a separate data structure. What does this mean for cache?',
+      },
+    },
+    {
+      question: {
+        ru: 'Как строится дерево турнира в начале алгоритма?',
+        en: 'How is the tournament tree built at the start of the algorithm?',
+      },
+      options: [
+        { ru: 'Элементы помещаются в листья, затем победители вычисляются снизу вверх за O(n)', en: 'Elements are placed in leaves, then winners are computed bottom-up in O(n)' },
+        { ru: 'Элементы сортируются сначала, потом помещаются в дерево сверху вниз', en: 'Elements are sorted first, then placed into the tree top-down' },
+        { ru: 'Дерево строится вставками по одному элементу за O(log n) каждый', en: 'The tree is built by inserting one element at a time in O(log n) each always' },
+        { ru: 'Все элементы помещаются в корень, затем распределяются по листьям', en: 'All elements are placed at the root, then distributed to the leaves' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Построение дерева снизу вверх — стандартный способ за O(n): листья уже содержат элементы, а внутренние узлы заполняются поочерёдно от нижнего уровня к корню.',
+        en: 'Building the tree bottom-up in O(n) is the standard approach: leaves already hold elements, and internal nodes are filled level by level up to the root.',
+      },
+      hint: {
+        ru: 'Подумайте о том же приёме, что используется при построении кучи из массива за O(n).',
+        en: 'Think of the same technique used when building a heap from an array in O(n).',
+      },
+    },
+    {
+      question: {
+        ru: 'Какова общая временная сложность турнирной сортировки для массива из n элементов?',
+        en: 'What is the overall time complexity of tournament sort for an array of n elements?',
+      },
+      options: [
+        { ru: 'O(n log n) — построение O(n) плюс n извлечений по O(log n) каждое', en: 'O(n log n) — O(n) build plus n extractions of O(log n) each' },
+        { ru: 'O(n²) — каждое извлечение минимума требует линейного прохода по дереву', en: 'O(n²) — each minimum extraction requires a linear pass over the tree' },
+        { ru: 'O(n) — дерево строится один раз и все извлечения бесплатны', en: 'O(n) — the tree is built once and all extractions are free' },
+        { ru: 'O(log n) — только высота дерева определяет сложность', en: 'O(log n) — only the tree height determines the complexity' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Начальное построение дерева за O(n) плюс n операций извлечения по O(log n) каждая даёт итоговую сложность O(n log n).',
+        en: 'The initial O(n) tree build plus n extraction operations of O(log n) each gives a total complexity of O(n log n).',
+      },
+      hint: {
+        ru: 'Сложите стоимость построения дерева и стоимость всех n операций извлечения минимума.',
+        en: 'Add together the cost of building the tree and the cost of all n minimum-extraction operations.',
       },
     },
   ],

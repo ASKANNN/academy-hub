@@ -233,6 +233,10 @@ export const spreadSort = {
         ru: 'Именно это переключение между распределением и прямой сортировкой сравнениями для маленьких групп и делает алгоритм гибридным.',
         en: 'This switching between distribution and direct comparison sorting for small groups is exactly what makes the algorithm hybrid.',
       },
+      hint: {
+        ru: 'Подумайте, какую операцию алгоритм выполняет над большой группой, а какую — над маленькой.',
+        en: 'Think about what operation the algorithm performs on a large group versus a small one.',
+      },
     },
     {
       question: {
@@ -252,6 +256,10 @@ export const spreadSort = {
       explanation: {
         ru: 'На маленьких группах прямая сортировка сравнениями обычно быстрее, чем создание и заполнение корзин.',
         en: 'On small groups, direct comparison sorting is usually faster than creating and filling buckets.',
+      },
+      hint: {
+        ru: 'Вспомните, какова стоимость создания корзин относительно числа обрабатываемых элементов.',
+        en: 'Consider the cost of creating buckets relative to the number of elements being processed.',
       },
     },
     {
@@ -273,6 +281,10 @@ export const spreadSort = {
         ru: 'Рекурсивная обработка каждой корзины (распределение снова или переход к сортировке вставками) — то, что защищает алгоритм от вырождения на неравномерных данных.',
         en: 'Recursively processing each bucket (distributing again or falling back to insertion sort) is exactly what protects the algorithm from degenerating on skewed data.',
       },
+      hint: {
+        ru: 'Алгоритм применяет к каждой корзине тот же процесс, что и к исходному диапазону.',
+        en: 'The algorithm applies the same process to each bucket as it does to the original range.',
+      },
     },
     {
       question: {
@@ -290,6 +302,10 @@ export const spreadSort = {
         ru: 'Благодаря переходу на сортировку вставками для маленьких групп алгоритм не деградирует хуже O(n log n), в отличие от чистой корзинной сортировки.',
         en: 'Thanks to the fallback to insertion sort for small groups, the algorithm never degrades worse than O(n log n), unlike plain bucket sort.',
       },
+      hint: {
+        ru: 'Переход к сортировке сравнениями не позволяет алгоритму выйти за рамки классической теоретической границы.',
+        en: 'The fallback to comparison sorting keeps the algorithm within the classical theoretical bound.',
+      },
     },
     {
       question: {
@@ -306,6 +322,115 @@ export const spreadSort = {
       explanation: {
         ru: 'Boost.Sort включает Спредсорт как одну из доступных стратегий, оптимизированную для числовых данных.',
         en: 'Boost.Sort includes Spreadsort as one of its available strategies, optimized for numeric data.',
+      },
+      hint: {
+        ru: 'Вспомните, в каком высокопроизводительном C++ фреймворке алгоритм получил промышленную реализацию.',
+        en: 'Recall which high-performance C++ framework gave the algorithm a production-grade implementation.',
+      },
+    },
+    {
+      question: {
+        ru: 'Как спред-сортировка определяет число корзин для текущего диапазона?',
+        en: 'How does spreadsort determine the number of buckets for the current range?',
+      },
+      options: [
+        { ru: 'Адаптивно, примерно как квадратный корень от размера диапазона', en: 'Adaptively, roughly as the square root of the range size' },
+        { ru: 'Всегда фиксированное число — ровно 256 корзин на любой размер', en: 'Always a fixed count — exactly 256 buckets regardless of the size' },
+        { ru: 'Равно числу различных значений, встречающихся в диапазоне', en: 'Equal to the count of distinct values occurring in the range' },
+        { ru: 'Всегда два, потому что алгоритм всегда делит диапазон строго пополам', en: 'Always two, because the algorithm always divides the range exactly in half' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Адаптивный выбор числа корзин (порядка √size) балансирует между слишком большим числом пустых корзин и слишком маленьким числом перегруженных.',
+        en: 'Choosing the bucket count adaptively (on the order of √size) balances between too many empty buckets and too few overloaded ones.',
+      },
+      hint: {
+        ru: 'Подумайте, какая математическая функция от размера хорошо балансирует число корзин.',
+        en: 'Think about which mathematical function of the size gives a good bucket count balance.',
+      },
+    },
+    {
+      question: {
+        ru: 'Требует ли спред-сортировка, чтобы элементы поддерживали только операцию «меньше»?',
+        en: 'Does spreadsort require elements to support only the "less than" comparison?',
+      },
+      options: [
+        { ru: 'Нет — нужны также вычитание и деление для вычисления индекса корзины', en: 'No — subtraction and division are also needed to compute the bucket index' },
+        { ru: 'Да, только оператор сравнения «меньше», как в любой сортировке сравнениями', en: 'Yes, only the less-than comparison operator, just like any comparison-based sort' },
+        { ru: 'Нет — нужен только оператор равенства, сравнение «меньше» не требуется вообще', en: 'No — only equality is needed, less-than is not required at all' },
+        { ru: 'Да, но дополнительно требуется поддержка битовых операций XOR и AND', en: 'Yes, but bitwise XOR and AND support is additionally required' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Распределение элементов по корзинам требует вычисления (a[i] − min) / span, поэтому элементы должны поддерживать арифметику, а не только сравнение.',
+        en: 'Distributing elements into buckets requires computing (a[i] − min) / span, so elements must support arithmetic, not just comparison.',
+      },
+      hint: {
+        ru: 'Вспомните формулу вычисления индекса корзины для конкретного элемента.',
+        en: 'Recall the formula for computing a bucket index for a given element.',
+      },
+    },
+    {
+      question: {
+        ru: 'Какова сложность спред-сортировки по памяти?',
+        en: 'What is the space complexity of spreadsort?',
+      },
+      options: [
+        { ru: 'O(n) — корзины занимают линейную дополнительную память', en: 'O(n) — buckets occupy linear extra memory' },
+        { ru: 'O(1) — сортировка выполняется на месте без дополнительных структур', en: 'O(1) — the sort runs in place without extra structures' },
+        { ru: 'O(log n) — только стек рекурсии без каких-либо вспомогательных массивов', en: 'O(log n) — only the recursion stack and no auxiliary arrays' },
+        { ru: 'O(n²) — матрица всех попарных сравнений элементов', en: 'O(n²) — a matrix of all pairwise element comparisons' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'На каждом уровне рекурсии корзины суммарно хранят все элементы текущего диапазона, что даёт O(n) дополнительной памяти.',
+        en: 'At each recursion level, the buckets collectively hold all elements of the current range, giving O(n) extra memory.',
+      },
+      hint: {
+        ru: 'Сколько элементов суммарно хранится во всех корзинах на одном уровне рекурсии?',
+        en: 'How many elements in total are stored across all buckets at one recursion level?',
+      },
+    },
+    {
+      question: {
+        ru: 'Что происходит, когда минимум и максимум текущего диапазона совпадают?',
+        en: 'What happens when the minimum and maximum of the current range are equal?',
+      },
+      options: [
+        { ru: 'Обработка диапазона сразу завершается — все элементы одинаковы', en: 'Processing of the range ends immediately — all elements are equal' },
+        { ru: 'Все элементы помещаются в одну корзину и рекурсия продолжается', en: 'All elements go into one bucket and the recursion continues as normal' },
+        { ru: 'Алгоритм переключается на поразрядную сортировку для дубликатов', en: 'The algorithm switches to radix sort to handle the duplicates' },
+        { ru: 'Диапазон дополнительно проверяется сортировкой подсчётом', en: 'The range is additionally checked with counting sort' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Если min == max, все элементы одинаковы и уже «отсортированы» — дальнейшая работа не нужна.',
+        en: 'If min == max, all elements are identical and already "sorted" — no further work is needed.',
+      },
+      hint: {
+        ru: 'Если все значения одинаковы, нужна ли вообще сортировка?',
+        en: 'If all values are the same, is any sorting needed at all?',
+      },
+    },
+    {
+      question: {
+        ru: 'Чем подход спред-сортировки к выбору числа корзин отличается от классической корзинной сортировки?',
+        en: 'How does spreadsort\'s approach to choosing the bucket count differ from classic bucket sort?',
+      },
+      options: [
+        { ru: 'Число корзин адаптируется к текущему размеру диапазона, а не задаётся фиксированно', en: 'The bucket count adapts to the current range size rather than being fixed upfront' },
+        { ru: 'Спред-сортировка использует вдвое больше корзин, чем классическая корзинная сортировка', en: 'Spreadsort always uses exactly twice as many buckets as classic bucket sort ever uses' },
+        { ru: 'Классическая корзинная сортировка адаптивна, а спред-сортировка — нет', en: 'Classic bucket sort is adaptive and spreadsort is not' },
+        { ru: 'Никакой разницы — оба алгоритма выбирают число корзин одинаково', en: 'No difference — both algorithms choose the bucket count the same way' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Адаптивный выбор числа корзин позволяет алгоритму эффективно работать как на больших, так и на маленьких диапазонах без ручной настройки.',
+        en: 'The adaptive bucket count lets the algorithm work efficiently on both large and small ranges without manual tuning.',
+      },
+      hint: {
+        ru: 'В классической корзинной сортировке число корзин обычно задаётся заранее как константа.',
+        en: 'In classic bucket sort the number of buckets is typically set as a constant upfront.',
       },
     },
   ],

@@ -253,6 +253,10 @@ def tim_sort(arr):
         ru: 'Timsort сортирует маленькие прогоны сортировкой вставками, а затем сливает их механизмом слияния, идентичным merge sort.',
         en: 'Timsort sorts small runs with insertion sort, then merges them using a mechanism identical to merge sort.',
       },
+      hint: {
+        ru: 'Один компонент эффективен на маленьких данных, другой — при объединении уже отсортированных частей.',
+        en: 'One component excels on small data, the other at combining already-sorted pieces.',
+      },
     },
     {
       question: {
@@ -281,6 +285,10 @@ def tim_sort(arr):
       explanation: {
         ru: 'На массивах размером ~32-64 элемента O(n²) сортировки вставками на практике быстрее, чем рекурсия merge sort из-за меньшего числа операций и лучшей локальности данных.',
         en: 'On arrays of ~32-64 elements, insertion sort\'s O(n²) is faster in practice than merge sort\'s recursion, due to fewer operations and better data locality.',
+      },
+      hint: {
+        ru: 'Асимптотика важна при больших n, но на 32 элементах константы при O(n²) могут быть меньше, чем при O(n log n).',
+        en: 'Asymptotics matter for large n, but on 32 elements the constants of O(n²) can beat those of O(n log n).',
       },
     },
     {
@@ -311,6 +319,10 @@ def tim_sort(arr):
         ru: 'Если входной массив уже содержит длинный отсортированный (или обратно отсортированный) участок, Timsort использует его как прогон вместо принудительного разбиения на фиксированные блоки.',
         en: 'If the input array already contains a long sorted (or reverse-sorted) stretch, Timsort uses it as a run instead of forcibly splitting into fixed blocks.',
       },
+      hint: {
+        ru: 'Подумайте, как Timsort ведёт себя иначе на данных с уже упорядоченными участками по сравнению с обычным merge sort.',
+        en: 'Think about how Timsort behaves differently on data with already-ordered stretches compared to plain merge sort.',
+      },
     },
     {
       question: {
@@ -336,6 +348,10 @@ def tim_sort(arr):
       explanation: {
         ru: 'Как и обычный merge sort, слияние в Timsort берёт элемент из левого прогона при равенстве — это сохраняет устойчивость всего алгоритма.',
         en: 'Like regular merge sort, Timsort\'s merge step takes the element from the left run on ties — this preserves stability across the whole algorithm.',
+      },
+      hint: {
+        ru: 'Merge sort устойчив благодаря тому, как он обрабатывает равные элементы при слиянии — Timsort наследует это свойство.',
+        en: 'Merge sort is stable due to how it handles equal elements during merging — Timsort inherits this property.',
       },
     },
     {
@@ -365,6 +381,115 @@ def tim_sort(arr):
       explanation: {
         ru: 'Для языков общего назначения важны и типичная производительность на реальных, часто частично упорядоченных данных, и устойчивость при сортировке сложных объектов — Timsort даёт оба свойства.',
         en: 'General-purpose languages need both typical performance on real, often partially-ordered data and stability when sorting complex objects — Timsort provides both.',
+      },
+      hint: {
+        ru: 'Что важно при сортировке объектов (например, записей таблицы) по нескольким полям последовательно?',
+        en: 'What matters when sorting objects (e.g., table rows) by multiple fields in sequence?',
+      },
+    },
+    {
+      question: {
+        ru: 'Каков типичный размер прогона (minrun) в Timsort и почему именно такой?',
+        en: 'What is the typical run size (minrun) in Timsort and why that value?',
+      },
+      options: [
+        { ru: '32–64 элемента — это диапазон, где сортировка вставками быстрее из-за низких констант', en: '32–64 elements — the range where insertion sort wins on constant factors' },
+        { ru: '2 элемента — минимально возможная единица для слияния пар', en: '2 elements — the smallest possible unit for pairwise merging' },
+        { ru: '1000 элементов — достаточно большой блок, чтобы избежать рекурсии', en: '1000 elements — large enough to avoid recursion altogether' },
+        { ru: 'Всегда n/2 — ровно половина массива, как в классическом merge sort', en: 'Always n/2 — exactly half the array, just like classic merge sort in all cases' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'В диапазоне 32–64 сортировка вставками на практике обгоняет merge sort благодаря лучшей локальности кэша и меньшим константным расходам на рекурсию.',
+        en: 'In the 32–64 range, insertion sort beats merge sort in practice thanks to better cache locality and lower constant overhead from recursion.',
+      },
+      hint: {
+        ru: 'Оптимальный размер прогона — это баланс между тем, когда сортировка вставками перестаёт быть быстрой, и тем, когда merge sort ещё слишком дорог.',
+        en: 'The optimal run size is the balance point where insertion sort stops being fast and merge sort is still too costly.',
+      },
+    },
+    {
+      question: {
+        ru: 'Что происходит с обратно отсортированными прогонами при обнаружении в Timsort?',
+        en: 'What happens to descending runs when Timsort encounters them?',
+      },
+      options: [
+        { ru: 'Они разворачиваются на месте, превращаясь в возрастающие прогоны', en: 'They are reversed in place, turning them into ascending runs' },
+        { ru: 'Они игнорируются и сортируются с нуля сортировкой вставками', en: 'They are ignored and sorted from scratch with insertion sort' },
+        { ru: 'Они удаляются из массива и добавляются в конец', en: 'They are removed from the array and appended to the end' },
+        { ru: 'Они вызывают переключение на быструю сортировку для данного блока', en: 'They trigger a switch to quicksort for that block' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Timsort распознаёт строго убывающие прогоны и разворачивает их за O(k), получая готовый возрастающий прогон без лишней работы.',
+        en: 'Timsort detects strictly descending runs and reverses them in O(k), obtaining a ready ascending run without extra work.',
+      },
+      hint: {
+        ru: 'Обратная последовательность уже «почти отсортирована» — как можно использовать её без повторной сортировки?',
+        en: 'A descending sequence is already "almost sorted" — how can it be used without re-sorting?',
+      },
+    },
+    {
+      question: {
+        ru: 'Какова пространственная сложность Timsort?',
+        en: 'What is the space complexity of Timsort?',
+      },
+      options: [
+        { ru: 'O(n) — временные буферы при слиянии занимают линейную память', en: 'O(n) — merge buffers occupy linear extra memory' },
+        { ru: 'O(1) — Timsort сортирует полностью на месте', en: 'O(1) — Timsort sorts entirely in place' },
+        { ru: 'O(log n) — только стек вызовов без дополнительных массивов', en: 'O(log n) — only the call stack without extra arrays' },
+        { ru: 'O(n²) — каждый прогон создаёт копию всего массива', en: 'O(n²) — each run creates a copy of the whole array' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Слияние двух прогонов в Timsort требует временного буфера размером с меньший из них — в худшем случае O(n).',
+        en: 'Merging two runs in Timsort requires a temporary buffer the size of the smaller run — O(n) in the worst case.',
+      },
+      hint: {
+        ru: 'Вспомните, как выглядит слияние двух отсортированных массивов с точки зрения памяти.',
+        en: 'Recall what merging two sorted arrays looks like from a memory perspective.',
+      },
+    },
+    {
+      question: {
+        ru: 'Даёт ли Timsort гарантированный O(n log n) в худшем случае?',
+        en: 'Does Timsort guarantee O(n log n) in the worst case?',
+      },
+      options: [
+        { ru: 'Да — даже на случайных данных Timsort не деградирует хуже O(n log n)', en: 'Yes — even on random data Timsort does not degrade worse than O(n log n)' },
+        { ru: 'Нет — на случайных данных возможно O(n²) из-за большого числа коротких прогонов', en: 'No — on random data O(n²) is possible due to a large number of short runs' },
+        { ru: 'Да, но только на отсортированных данных; на случайных гарантии нет', en: 'Yes, but only on sorted data; there\'s no guarantee on random data' },
+        { ru: 'Нет — в худшем случае Timsort вырождается до O(n³)', en: 'No — in the worst case Timsort degenerates to O(n³)' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Гарантия O(n log n) в худшем случае достигается за счёт механизма слияния прогонов — даже при коротких прогонах слияние выполняется за логарифмическое число раундов.',
+        en: 'The O(n log n) worst-case guarantee comes from the run-merging mechanism — even with short runs, merging takes a logarithmic number of rounds.',
+      },
+      hint: {
+        ru: 'Компонент merge sort в Timsort отвечает за гарантию — а merge sort всегда работает за O(n log n).',
+        en: 'The merge sort component in Timsort provides the guarantee — and merge sort always runs in O(n log n).',
+      },
+    },
+    {
+      question: {
+        ru: 'Как изменяется производительность Timsort при сортировке уже полностью отсортированного массива?',
+        en: 'How does Timsort\'s performance change when sorting an already fully sorted array?',
+      },
+      options: [
+        { ru: 'Деградирует до O(n) — весь массив распознаётся как один прогон', en: 'Improves to O(n) — the whole array is detected as one run' },
+        { ru: 'Остаётся O(n log n) — алгоритм не способен использовать готовый порядок', en: 'Stays O(n log n) — the algorithm cannot exploit existing order' },
+        { ru: 'Деградирует до O(n²) — слияние одного прогона с пустым результатом дорогостоящее', en: 'Degrades to O(n²) — merging one run with an empty result is costly' },
+        { ru: 'Ухудшается до O(n³) из-за повторных сравнений внутри прогона', en: 'Worsens to O(n³) due to repeated comparisons inside the run' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Если массив уже отсортирован, Timsort распознаёт его как один естественный прогон и не делает ни одного лишнего обмена — сложность O(n).',
+        en: 'If the array is already sorted, Timsort recognizes it as one natural run and makes no unnecessary swaps — complexity O(n).',
+      },
+      hint: {
+        ru: 'Это тот же лучший случай, что и у adaptive-сортировок: что происходит, когда данные уже упорядочены?',
+        en: 'This is the same best case as adaptive sorts: what happens when the data is already in order?',
       },
     },
   ],

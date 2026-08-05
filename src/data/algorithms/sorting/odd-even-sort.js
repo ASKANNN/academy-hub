@@ -173,6 +173,10 @@ export const oddEvenSort = {
         ru: 'Нечётная фаза начинается с индекса 1 и сравнивает соседние пары, не пересекаясь по индексам, что позволяет выполнять их одновременно.',
         en: 'The odd phase starts at index 1 and compares neighboring pairs that never share an index, which is what allows them to run simultaneously.',
       },
+      hint: {
+        ru: 'Нечётная фаза начинается с нечётного индекса — с какого именно?',
+        en: 'The odd phase starts at an odd index — which one?',
+      },
     },
     {
       question: {
@@ -184,7 +188,7 @@ export const oddEvenSort = {
           ru: 'Ни один индекс не участвует в двух парах одновременно внутри одной фазы',
           en: 'No index participates in two pairs at once within a single phase',
         },
-        { ru: 'Потому что массив уже почти отсортирован, как это часто предполагается перед последним проходом', en: 'Because the array is already nearly sorted, as is often assumed right before the final pass' },
+        { ru: 'Потому что массив уже почти отсортирован, как это часто предполагается перед последним проходом', en: 'Because the array is already nearly sorted, as is commonly assumed right before the very last pass of the algorithm' },
         { ru: 'Потому что используется случайный выбор пар на каждой итерации, как в рандомизированной сортировке', en: 'Because pairs are chosen randomly on every iteration, as in a randomized sort' },
         { ru: 'Параллельность здесь невозможна в принципе, так как сравнения всегда зависят друг от друга', en: 'Parallelism isn\'t actually possible here, since comparisons always depend on one another' },
       ],
@@ -192,6 +196,10 @@ export const oddEvenSort = {
       explanation: {
         ru: 'Отсутствие пересечения по индексам — ключевое свойство, которое устраняет зависимости между сравнениями внутри фазы.',
         en: 'The lack of overlapping indices is the key property that removes dependencies between comparisons within a phase.',
+      },
+      hint: {
+        ru: 'Что является необходимым условием для независимого параллельного выполнения двух операций над массивом?',
+        en: 'What is the necessary condition for two array operations to run independently in parallel?',
       },
     },
     {
@@ -213,6 +221,10 @@ export const oddEvenSort = {
         ru: 'Как и в bubble sort, отсутствие перестановок на полном проходе — надёжный признак того, что массив отсортирован.',
         en: 'As in bubble sort, no swaps during a full pass is a reliable sign the array is sorted.',
       },
+      hint: {
+        ru: 'Вспомните аналогичное условие остановки в обычной пузырьковой сортировке.',
+        en: 'Recall the analogous stopping condition in plain bubble sort.',
+      },
     },
     {
       question: {
@@ -229,6 +241,10 @@ export const oddEvenSort = {
       explanation: {
         ru: 'Параллельность снижает сложность только при наличии реального параллельного оборудования; на одном ядре число операций остаётся квадратичным.',
         en: 'The parallelism only reduces complexity given real parallel hardware; on a single core, the operation count stays quadratic.',
+      },
+      hint: {
+        ru: 'На одном ядре фазы выполняются последовательно — чем отличается этот алгоритм от обычного bubble sort по числу операций?',
+        en: 'On a single core, phases run sequentially — how does this algorithm differ from plain bubble sort in operation count?',
       },
     },
     {
@@ -249,6 +265,115 @@ export const oddEvenSort = {
       explanation: {
         ru: 'Регулярная, независимая структура сравнений именно то, что нужно для эффективной аппаратной или SIMD-реализации.',
         en: 'The regular, independent comparison structure is exactly what an efficient hardware or SIMD implementation needs.',
+      },
+      hint: {
+        ru: 'Главное преимущество алгоритма — независимость сравнений. Где именно это важнее всего?',
+        en: 'The algorithm\'s main strength is independent comparisons — where does that matter most?',
+      },
+    },
+    {
+      question: {
+        ru: 'Является ли чётно-нечётная сортировка устойчивой (stable)?',
+        en: 'Is odd-even sort stable?',
+      },
+      options: [
+        { ru: 'Да, она устойчива, потому что сравниваются только соседние элементы и обмен происходит только при строгом неравенстве', en: 'Yes, it is stable because only adjacent elements are compared and a swap only occurs on strict inequality' },
+        { ru: 'Нет, обмены на нечётной фазе всегда нарушают относительный порядок равных элементов', en: 'No, odd-phase swaps always break the relative order of equal elements' },
+        { ru: 'Только если массив не содержит дубликатов', en: 'Only if the array contains no duplicate values' },
+        { ru: 'Устойчивость зависит от конкретного компилятора, а не от самого алгоритма', en: 'Stability depends on the specific compiler, not on the algorithm itself regardless of input size, distribution, or order' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Как и bubble sort, чётно-нечётная сортировка сравнивает только соседние элементы и меняет их только при строгом неравенстве, не нарушая порядок равных элементов.',
+        en: 'Like bubble sort, odd-even sort compares only adjacent elements and swaps them only on strict inequality, leaving the order of equal elements intact.',
+      },
+      hint: {
+        ru: 'Вспомните, при каком условии происходит обмен и могут ли два равных элемента поменяться местами.',
+        en: 'Recall under what condition a swap occurs — can two equal elements ever be exchanged?',
+      },
+    },
+    {
+      question: {
+        ru: 'Чем чётно-нечётная сортировка отличается от коктейльной (cocktail shaker sort)?',
+        en: 'How does odd-even sort differ from cocktail shaker sort?',
+      },
+      options: [
+        { ru: 'Odd-even sort чередует нечётные и чётные фазы, а cocktail sort чередует прямые и обратные проходы', en: 'Odd-even sort alternates odd and even phases; cocktail sort alternates forward and backward passes' },
+        { ru: 'Cocktail sort параллелизуем, а odd-even sort — нет, и это их главное практическое различие', en: 'Cocktail sort is parallelizable while odd-even sort is not — that\'s their main practical difference' },
+        { ru: 'Они полностью идентичны и являются просто разными названиями одного и того же алгоритма', en: 'They are completely identical and are simply two names for the exact same algorithm' },
+        { ru: 'Cocktail sort сортирует за O(n log n), тогда как odd-even sort всегда работает за O(n²)', en: 'Cocktail sort sorts in O(n log n) while odd-even sort always runs in O(n²)' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Оба улучшают bubble sort, но по-разному: odd-even sort разбивает проход на независимые фазы, а cocktail sort устраняет «черепах» двунаправленными проходами.',
+        en: 'Both improve on bubble sort, but differently: odd-even sort splits a pass into independent phases, while cocktail sort addresses turtles via bidirectional passes.',
+      },
+      hint: {
+        ru: 'Оба алгоритма — варианты bubble sort, но какую именно слабость каждый из них пытается устранить?',
+        en: 'Both are bubble sort variants — but what specific weakness does each one try to fix?',
+      },
+    },
+    {
+      question: {
+        ru: 'Какова временная сложность чётно-нечётной сортировки при параллельном выполнении с n/2 процессорами?',
+        en: 'What is the time complexity of odd-even sort with n/2 processors running in parallel?',
+      },
+      options: [
+        { ru: 'O(n) — каждая фаза выполняется за O(1) параллельного времени, проходов O(n)', en: 'O(n) — each phase runs in O(1) parallel time, and there are O(n) passes' },
+        { ru: 'O(n log n) — параллельность снижает сложность, но не до линейной', en: 'O(n log n) — parallelism reduces complexity but not to linear' },
+        { ru: 'O(n²) — параллельность не меняет асимптотику даже при неограниченном числе процессоров', en: 'O(n²) — parallelism doesn\'t change asymptotics even with unlimited processors' },
+        { ru: 'O(log n) — число фаз логарифмически зависит от n при параллельном исполнении', en: 'O(log n) — the number of phases depends logarithmically on n under parallel execution' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'С n/2 процессорами каждая фаза занимает O(1) параллельного времени, но потребуется до O(n) проходов, что даёт O(n) суммарно.',
+        en: 'With n/2 processors each phase takes O(1) parallel time, but up to O(n) passes may be needed, giving O(n) total.',
+      },
+      hint: {
+        ru: 'Если одна фаза занимает O(1) при параллельном исполнении и есть O(n) фаз — какова итоговая сложность?',
+        en: 'If one phase takes O(1) in parallel and there are O(n) phases — what is the total complexity?',
+      },
+    },
+    {
+      question: {
+        ru: 'Какие пары индексов сравниваются на «чётной» фазе?',
+        en: 'Which index pairs are compared during the "even" phase?',
+      },
+      options: [
+        { ru: '(0,1), (2,3), (4,5) и так далее', en: '(0,1), (2,3), (4,5), and so on' },
+        { ru: '(1,2), (3,4), (5,6) и так далее', en: '(1,2), (3,4), (5,6), and so on' },
+        { ru: '(0,2), (1,3), (4,6) и так далее — пары с шагом 2', en: '(0,2), (1,3), (4,6), and so on — pairs with a step of 2' },
+        { ru: 'Только пары с чётными значениями элементов', en: 'Only pairs where element values are even' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Чётная фаза начинается с индекса 0 и сравнивает пары (0,1), (2,3), (4,5)... — они не пересекаются с нечётными парами и также могут выполняться параллельно.',
+        en: 'The even phase starts at index 0 and compares pairs (0,1), (2,3), (4,5)... — they do not overlap with odd pairs and can also run in parallel.',
+      },
+      hint: {
+        ru: 'Чётная фаза дополняет нечётную: нечётная начинается с 1, а чётная — с какого индекса?',
+        en: 'The even phase complements the odd phase: odd starts at 1, even starts at which index?',
+      },
+    },
+    {
+      question: {
+        ru: 'Почему чётно-нечётную сортировку называют «brick sort» («кирпичная сортировка»)?',
+        en: 'Why is odd-even sort also called "brick sort"?',
+      },
+      options: [
+        { ru: 'Схема сравнений напоминает кирпичную кладку: чётные и нечётные ряды смещены друг относительно друга', en: 'The comparison pattern resembles a brick wall: even and odd rows are offset from each other' },
+        { ru: 'Алгоритм был изобретён строителями для сортировки кирпичей по размеру на заводе', en: 'The algorithm was invented by construction workers specifically for sorting bricks by size at a factory' },
+        { ru: 'Каждый элемент перемещается ровно на одну позицию за проход, как укладка кирпичей', en: 'Each element moves exactly one position per pass, like laying bricks one by one' },
+        { ru: 'Название произошло от аббревиатуры, не связанной с внешним видом алгоритма', en: 'The name comes from an acronym unrelated to the visual appearance of the algorithm' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Если нарисовать пары сравнений, нечётные и чётные фазы чередуются со смещением, образуя узор, похожий на кирпичную кладку со сдвинутыми рядами.',
+        en: 'If you draw the comparison pairs, odd and even phases alternate with an offset, forming a pattern resembling a brick wall with shifted rows.',
+      },
+      hint: {
+        ru: 'Визуализируйте чередующиеся фазы рядами: как выглядит их взаимное расположение, если нарисовать скобки сравнений?',
+        en: 'Visualize the alternating phases as rows: what do they look like if you draw the comparison brackets?',
       },
     },
   ],

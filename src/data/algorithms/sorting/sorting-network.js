@@ -209,6 +209,10 @@ export const sortingNetwork = {
         ru: 'Элементы на чётных и на нечётных позициях сливаются раздельно и рекурсивно, а затем один финальный проход исправляет оставшиеся нарушения — отсюда и название алгоритма.',
         en: 'Elements at even and odd positions are merged separately and recursively, and a final pass then fixes the remaining violations — hence the algorithm\'s name.',
       },
+      hint: {
+        ru: 'Название алгоритма «нечётно-чётное слияние» уже содержит подсказку: по какому свойству позиций разделяются элементы?',
+        en: 'The algorithm\'s name "odd-even merge" already contains the hint: by what property of their positions are elements split?',
+      },
     },
     {
       question: {
@@ -228,6 +232,10 @@ export const sortingNetwork = {
       explanation: {
         ru: 'Оба алгоритма — сети сравнений с фиксированной структурой, но именно детали построения сети слияния и определяют, сколько всего нужно компараторов.',
         en: 'Both algorithms are comparison networks with a fixed structure, but the details of the merge network construction are what determine the total comparator count.',
+      },
+      hint: {
+        ru: 'Оба алгоритма строят сортирующие сети, но по-разному объединяют две отсортированные половины. Что лежит в основе каждого подхода?',
+        en: 'Both algorithms build sorting networks, but combine two sorted halves differently. What is the foundation of each approach?',
       },
     },
     {
@@ -249,6 +257,10 @@ export const sortingNetwork = {
         ru: 'После раздельного слияния чётных и нечётных подпоследовательностей результат почти отсортирован, но требует финальной коррекции соседних пар.',
         en: 'After the even and odd subsequences are merged separately, the result is nearly sorted but needs a final correction of neighboring pairs.',
       },
+      hint: {
+        ru: 'После двух раздельных слияний чётных и нечётных элементов почти всё стоит правильно. Какие нарушения порядка ещё могут оставаться?',
+        en: 'After two separate merges of even and odd elements, nearly everything is in order. What order violations can still remain?',
+      },
     },
     {
       question: {
@@ -265,6 +277,10 @@ export const sortingNetwork = {
       explanation: {
         ru: 'Тот же порядок роста, что и у битонической сортировки — O(log² n) уровней сети, каждый требует O(n) сравнений.',
         en: 'The same growth order as bitonic sort — O(log² n) network levels, each requiring O(n) comparisons.',
+      },
+      hint: {
+        ru: 'Сколько уровней рекурсии нужно для разбиения n элементов — и сколько сравнений на каждом уровне?',
+        en: 'How many recursion levels are needed to split n elements — and how many comparisons per level?',
       },
     },
     {
@@ -285,6 +301,115 @@ export const sortingNetwork = {
       explanation: {
         ru: 'Именно фиксированность сети сравнений, известная заранее, объединяет их в класс «сортирующих сетей», пригодных для параллельного исполнения.',
         en: 'It is precisely the fixed, known-in-advance comparison network that unites them into the class of "sorting networks," suited to parallel execution.',
+      },
+      hint: {
+        ru: 'Что принципиально отличает сортирующие сети от обычных алгоритмов — зависит ли последовательность сравнений от значений элементов?',
+        en: 'What fundamentally distinguishes sorting networks from ordinary algorithms — does the comparison sequence depend on element values?',
+      },
+    },
+    {
+      question: {
+        ru: 'Почему сортирующие сети (в том числе сеть Батчера) требуют дополнения массива до степени двойки?',
+        en: 'Why do sorting networks (including Batcher\'s) require padding the array to a power of two?',
+      },
+      options: [
+        { ru: 'Рекурсивное разбиение на равные половины требует чётного числа элементов на каждом уровне', en: 'Recursive splitting into equal halves requires an even element count at every level' },
+        { ru: 'Степень двойки минимизирует число сравнений по сравнению с любым другим размером', en: 'A power of two minimizes the comparison count compared to any other size' },
+        { ru: 'Аппаратные реализации не могут работать с нечётным числом элементов физически', en: 'Hardware implementations physically cannot process an odd number of elements' },
+        { ru: 'Это требование языка программирования, а не самого алгоритма', en: 'This is a programming language requirement, not a property of the algorithm itself always' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Нечётно-чётное слияние (и битоническое слияние) основаны на рекурсивном делении пополам, которое должно выполняться на каждом уровне. Нестепень-двоечный размер нарушает эту симметрию.',
+        en: 'Odd-even merge (and bitonic merge) are based on recursive halving that must work at every level. A non-power-of-two size breaks this symmetry.',
+      },
+      hint: {
+        ru: 'Что происходит при рекурсивном делении нечётного числа элементов пополам — получаются ли равные половины?',
+        en: 'What happens when you recursively split an odd number of elements in half — do you always get equal halves?',
+      },
+    },
+    {
+      question: {
+        ru: 'Является ли сортирующая сеть Батчера устойчивым алгоритмом?',
+        en: "Is Batcher's sorting network a stable algorithm?",
+      },
+      options: [
+        { ru: 'Нет — фиксированная схема сравнений может менять порядок равных элементов', en: 'No — the fixed comparison scheme can change the relative order of equal elements' },
+        { ru: 'Да — все компараторы сети сохраняют порядок равных элементов по определению', en: 'Yes — all network comparators preserve the order of equal elements by definition' },
+        { ru: 'Зависит от размера массива: для n ≤ 8 устойчива, для больших n — нет', en: 'It depends on array size: stable for n ≤ 8, unstable for larger n' },
+        { ru: 'Устойчивость неприменима к алгоритмам, выполняемым на аппаратном обеспечении', en: 'Stability does not apply to algorithms executed on hardware' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Компаратор «сравнить и поменять, если нужно» меняет элементы независимо от их исходных позиций. Если два одинаковых элемента стоят в «неправильном» порядке с точки зрения компаратора, они поменяются местами.',
+        en: 'A "compare and swap if needed" comparator exchanges elements regardless of their original positions. If two equal elements happen to be in the "wrong" comparator order, they will be swapped.',
+      },
+      hint: {
+        ru: 'Компаратор сети меняет элементы, если они стоят в неправильном порядке. Учитывает ли он исходные позиции равных элементов?',
+        en: 'A network comparator swaps elements when they are out of order. Does it consider the original positions of equal elements?',
+      },
+    },
+    {
+      question: {
+        ru: 'Почему сортирующие сети эффективны на FPGA и ASIC?',
+        en: 'Why are sorting networks efficient on FPGAs and ASICs?',
+      },
+      options: [
+        { ru: 'Все компараторы известны заранее и могут быть реализованы параллельными аппаратными блоками', en: 'All comparators are known in advance and can be implemented as parallel hardware units' },
+        { ru: 'FPGA автоматически оптимизирует любой алгоритм до линейного времени при компиляции', en: 'FPGAs automatically optimize any algorithm to linear time at compile time' },
+        { ru: 'Аппаратные сортировщики работают только с сетями, но не с программными алгоритмами', en: 'Hardware sorters only work with networks and never with software algorithms in all cases' },
+        { ru: 'Сортирующие сети не требуют никакого тактового сигнала для синхронизации этапов', en: 'Sorting networks require no clock signal to synchronize their stages at all' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Поскольку набор сравнений фиксирован и не зависит от данных, каждый компаратор может быть реализован как отдельная логическая схема. Независимые компараторы на одном уровне сети работают одновременно.',
+        en: 'Since the comparison set is fixed and data-independent, each comparator can be implemented as a separate logic circuit. Independent comparators at the same network level operate simultaneously.',
+      },
+      hint: {
+        ru: 'Если все операции сравнения известны заранее и некоторые из них независимы — что можно сделать с такими операциями на параллельном оборудовании?',
+        en: 'If all comparison operations are known in advance and some of them are independent — what can be done with those operations on parallel hardware?',
+      },
+    },
+    {
+      question: {
+        ru: 'Чем отличается сортирующая сеть от обычного алгоритма сортировки с точки зрения зависимости от данных?',
+        en: 'How does a sorting network differ from an ordinary sorting algorithm in terms of data dependency?',
+      },
+      options: [
+        { ru: 'Последовательность сравнений в сети фиксирована и не меняется в зависимости от входных данных', en: 'The comparison sequence in the network is fixed and does not change based on the input data' },
+        { ru: 'Сортирующая сеть всегда выбирает следующее сравнение случайным образом', en: 'A sorting network always selects the next comparison at random' },
+        { ru: 'Обычный алгоритм выполняет больше сравнений, чем сортирующая сеть, при любом входе', en: 'An ordinary algorithm always performs more comparisons than a sorting network on any input always' },
+        { ru: 'Никакой разницы нет — оба подхода принимают одинаковые решения при одинаковых данных', en: 'There is no difference — both approaches make the same decisions given the same data' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'В обычных алгоритмах (quicksort, mergesort) следующее сравнение зависит от результата предыдущего. В сортирующей сети все сравнения определены заранее — входные данные влияют только на то, произойдёт ли обмен при каждом конкретном сравнении.',
+        en: 'In ordinary algorithms (quicksort, mergesort) the next comparison depends on the result of the previous one. In a sorting network all comparisons are predefined — input data only affects whether a swap occurs at each specific comparison.',
+      },
+      hint: {
+        ru: 'В quicksort следующий шаг зависит от того, как элемент сравнился с опорным. В сортирующей сети — зависит ли следующий шаг от результата текущего сравнения?',
+        en: 'In quicksort the next step depends on how an element compared to the pivot. In a sorting network — does the next step depend on the current comparison\'s result?',
+      },
+    },
+    {
+      question: {
+        ru: 'Сколько уровней сравнений (глубина сети) в нечётно-чётной сортировке для n элементов?',
+        en: 'How many comparison levels (network depth) does odd-even sort use for n elements?',
+      },
+      options: [
+        { ru: 'O(log² n) уровней — что совпадает с асимптотикой битонической сети', en: 'O(log² n) levels — matching the asymptotic depth of the bitonic network' },
+        { ru: 'O(n) уровней — по одному уровню на каждый элемент массива', en: 'O(n) levels — one level for each element in the array' },
+        { ru: 'O(log n) уровней — как и у оптимальной сортирующей сети', en: 'O(log n) levels — the same as an optimal sorting network regardless of input' },
+        { ru: 'Ровно n/2 уровней независимо от содержания массива', en: 'Exactly n/2 levels regardless of the array contents' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Нечётно-чётная сортировка имеет глубину O(log² n), как и битоническая. Теоретически оптимальная сортирующая сеть имела бы глубину O(log n), но практически реализуемые конструкции дают O(log² n).',
+        en: 'Odd-even sort has depth O(log² n), same as bitonic sort. A theoretically optimal sorting network would have depth O(log n), but practically constructible networks yield O(log² n).',
+      },
+      hint: {
+        ru: 'Глубина сети определяет, сколько параллельных шагов нужно для завершения сортировки. Вспомните асимптотику из вопроса о временной сложности.',
+        en: 'Network depth determines how many parallel steps are needed to complete sorting. Recall the asymptotic from the time complexity question.',
       },
     },
   ],

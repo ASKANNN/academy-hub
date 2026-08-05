@@ -181,6 +181,10 @@ export const pancakeSort = {
         ru: 'Как лопатка переворачивает верхнюю часть стопки блинов, алгоритм может лишь развернуть какой-то начальный отрезок массива.',
         en: 'Just as a spatula flips the top part of a pancake stack, the algorithm can only reverse some leading segment of the array.',
       },
+      hint: {
+        ru: 'Вспомните аналогию с лопаткой: что она физически делает со стопкой блинов?',
+        en: 'Recall the spatula analogy: what does it physically do to a stack of pancakes?',
+      },
     },
     {
       question: {
@@ -201,6 +205,10 @@ export const pancakeSort = {
         ru: 'Переворот префикса может переместить элемент только на позицию 0 или на текущий конец префикса, поэтому максимум сначала выводится в начало, а затем — в конец.',
         en: 'A prefix flip can only move an element to position 0 or to the current end of the prefix, so the maximum is first brought to the start, then to the end.',
       },
+      hint: {
+        ru: 'Переворот может поставить что-то только на позицию 0 или в конец. Как за два шага доставить максимум в конец?',
+        en: 'A flip can only place something at position 0 or at the end. How do two flips get the maximum to the end?',
+      },
     },
     {
       question: {
@@ -217,6 +225,10 @@ export const pancakeSort = {
       explanation: {
         ru: 'Это классическая NP-трудная задача, точная минимальная формула для которой до сих пор неизвестна.',
         en: 'This is a classic NP-hard problem for which an exact minimal formula is still unknown.',
+      },
+      hint: {
+        ru: 'Название задачи совпадает с образом, который лежит в основе алгоритма.',
+        en: 'The problem\'s name matches the image that inspired the algorithm.',
       },
     },
     {
@@ -235,6 +247,10 @@ export const pancakeSort = {
         ru: 'Разворот сегмента переставляет местами позиции равных элементов внутри него, поэтому исходный относительный порядок теряется.',
         en: 'Reversing a segment swaps the positions of equal elements within it, so their original relative order is lost.',
       },
+      hint: {
+        ru: 'Когда вы переворачиваете сегмент, что происходит с относительным порядком элементов внутри него?',
+        en: 'When you reverse a segment, what happens to the relative order of elements within it?',
+      },
     },
     {
       question: {
@@ -251,6 +267,115 @@ export const pancakeSort = {
       explanation: {
         ru: 'Поиск максимума в префиксе на каждом из n шагов даёт квадратичное число сравнений, как в сортировке выбором.',
         en: 'Finding the maximum in the prefix at each of the n steps gives a quadratic number of comparisons, just like selection sort.',
+      },
+      hint: {
+        ru: 'На каждом из n шагов нужно найти максимум линейным перебором — что это даёт суммарно?',
+        en: 'At each of n steps, the maximum is found by linear scan — what does that give in total?',
+      },
+    },
+    {
+      question: {
+        ru: 'Какова верхняя граница числа переворотов для сортировки массива из n элементов?',
+        en: 'What is the upper bound on the number of flips to sort an array of n elements?',
+      },
+      options: [
+        { ru: '2(n−1)', en: '2(n−1)' },
+        { ru: 'n!', en: 'n!' },
+        { ru: 'n log n', en: 'n log n' },
+        { ru: 'n²', en: 'n²' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'На каждом шаге выполняется не более двух переворотов, а шагов n−1, поэтому верхняя граница — 2(n−1) переворотов.',
+        en: 'At each of the n−1 steps at most two flips are made, so the upper bound is 2(n−1) flips.',
+      },
+      hint: {
+        ru: 'Если на каждом из n−1 шагов выполняется не более двух переворотов, то суммарный максимум — это сколько?',
+        en: 'If at most two flips are made per step and there are n−1 steps, what is the total maximum?',
+      },
+    },
+    {
+      question: {
+        ru: 'Что происходит, если максимум уже стоит на последнем месте текущего префикса?',
+        en: 'What happens if the maximum is already at the last position of the current prefix?',
+      },
+      options: [
+        { ru: 'Перевороты не выполняются — алгоритм сразу переходит к меньшему префиксу', en: 'No flips are made — the algorithm immediately moves to the smaller prefix' },
+        { ru: 'Всё равно выполняется один переворот для проверки правильности положения', en: 'One flip is still made to verify the element is in the correct position' },
+        { ru: 'Весь массив переворачивается, чтобы убедиться в его полной отсортированности', en: 'The entire array is flipped to confirm it is fully sorted' },
+        { ru: 'Алгоритм переходит к следующей итерации, но увеличивает, а не уменьшает размер префикса', en: 'The algorithm moves to the next iteration but increases rather than decreases the prefix size' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Если максимум уже на нужном месте, никаких переворотов не нужно — он уже «уложен» и граница префикса просто уменьшается.',
+        en: 'If the maximum is already in place, no flips are needed — it is already "settled" and the prefix boundary simply shrinks.',
+      },
+      hint: {
+        ru: 'Цель шага — поставить максимум на конец префикса. Что делать, если он уже там?',
+        en: 'The goal of each step is to place the maximum at the end of the prefix. What if it is already there?',
+      },
+    },
+    {
+      question: {
+        ru: 'Как блинная сортировка связана с задачами биоинформатики?',
+        en: 'How is pancake sort related to problems in bioinformatics?',
+      },
+      options: [
+        { ru: 'Переупорядочивание сегментов ДНК реверсиями формально аналогично сортировке переворотами', en: 'DNA segment rearrangement by reversals is formally analogous to sorting by flips' },
+        { ru: 'Алгоритм используется для выравнивания белковых последовательностей в базах данных', en: 'The algorithm is used to align protein sequences in databases' },
+        { ru: 'Блинная сортировка применяется для сжатия геномных данных перед хранением', en: 'Pancake sort is applied to compress genomic data before storage' },
+        { ru: 'Никакой реальной связи нет — это просто отдалённая метафора без практического значения', en: 'There is no real connection — it is merely a distant metaphor without practical significance' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'В геномике хромосомные перестройки моделируются реверсиями сегментов последовательности, что математически идентично задаче блинной сортировки.',
+        en: 'In genomics, chromosomal rearrangements are modeled as reversals of sequence segments, which is mathematically identical to the pancake sorting problem.',
+      },
+      hint: {
+        ru: 'Что общего между «переворотом» сегмента ДНК при мутации и «переворотом» префикса массива?',
+        en: 'What do "reversing" a DNA segment in a mutation and "flipping" an array prefix have in common?',
+      },
+    },
+    {
+      question: {
+        ru: 'Чем блинная сортировка концептуально похожа на сортировку выбором?',
+        en: 'How is pancake sort conceptually similar to selection sort?',
+      },
+      options: [
+        { ru: 'Оба на каждом шаге находят максимум в неотсортированной части и ставят его на нужное место', en: 'Both find the maximum in the unsorted part at each step and place it in its correct position' },
+        { ru: 'Оба используют переворот префикса как единственную разрешённую операцию над массивом', en: 'Both use a prefix flip as the only allowed operation on the array, never swapping arbitrary elements' },
+        { ru: 'Оба устойчивы и сортируют за O(n log n) в лучшем случае на упорядоченных данных', en: 'Both are stable and sort in O(n log n) in the best case on ordered data' },
+        { ru: 'Оба используют случайный выбор опорного элемента для ускорения сортировки', en: 'Both use random pivot selection to speed up the sort' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Оба алгоритма последовательно помещают максимальный элемент неотсортированной части на его законное место; разница лишь в том, как именно он туда доставляется.',
+        en: 'Both algorithms successively place the unsorted portion\'s maximum at its rightful position; the difference is only in how it is delivered there.',
+      },
+      hint: {
+        ru: 'Какая стратегия выбора следующего «обрабатываемого» элемента у обоих алгоритмов одинакова?',
+        en: 'What element-selection strategy do both algorithms share?',
+      },
+    },
+    {
+      question: {
+        ru: 'Кто из известных учёных написал раннюю статью о блинной задаче?',
+        en: 'Which well-known figure co-authored an early paper on the pancake problem?',
+      },
+      options: [
+        { ru: 'Билл Гейтс', en: 'Bill Gates' },
+        { ru: 'Дональд Кнут', en: 'Donald Knuth' },
+        { ru: 'Тони Хоар', en: 'Tony Hoare' },
+        { ru: 'Джон фон Нейман', en: 'John von Neumann' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Билл Гейтс и Христос Пападимитриу опубликовали статью о блинной задаче в 1979 году — это единственная научная публикация Гейтса.',
+        en: 'Bill Gates and Christos Papadimitriou published a paper on the pancake problem in 1979 — it is Gates\'s only academic publication.',
+      },
+      hint: {
+        ru: 'Этот соавтор позже стал соучредителем одной из крупнейших технологических компаний в мире.',
+        en: 'This co-author later co-founded one of the largest technology companies in the world.',
       },
     },
   ],

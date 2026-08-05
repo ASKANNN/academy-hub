@@ -194,6 +194,10 @@ export const postmanSort = {
         ru: 'Это MSD-подход (most-significant-digit-first) — грубая раскладка идёт по старшей цифре, а затем уточняется по следующим, как в реальной почтовой сортировке.',
         en: 'This is the MSD (most-significant-digit-first) approach — the coarse pass uses the leading digit, then refines using the following digits, just like real postal sorting.',
       },
+      hint: {
+        ru: 'Подумайте, как почтальон сортирует письма: начинает ли он с первой цифры индекса или с последней?',
+        en: 'Think about how a postal worker sorts mail: do they start with the first digit of the code or the last?',
+      },
     },
     {
       question: {
@@ -213,6 +217,10 @@ export const postmanSort = {
       explanation: {
         ru: 'Radix sort в этом курсе — классический LSD-вариант; почтовая сортировка — MSD-вариант с рекурсивным уточнением внутри каждой корзины.',
         en: 'The radix sort covered elsewhere is the classic LSD variant; postman sort is the MSD variant, with recursive refinement inside each bucket.',
+      },
+      hint: {
+        ru: 'LSD и MSD — это аббревиатуры, указывающие направление обхода разрядов. С какого конца начинает почтовая сортировка?',
+        en: 'LSD and MSD are abbreviations indicating the direction digits are traversed. Which end does postman sort start from?',
       },
     },
     {
@@ -234,6 +242,10 @@ export const postmanSort = {
         ru: 'Корзина с одним элементом уже упорядочена сама по себе, а отсутствие оставшихся разрядов означает, что дальше делить нечем.',
         en: 'A single-element bucket is already trivially ordered, and running out of digits means there\'s nothing left to split on.',
       },
+      hint: {
+        ru: 'Какое минимальное условие делает дальнейшую сортировку корзины бессмысленной — по числу элементов или по числу оставшихся разрядов?',
+        en: 'What minimal condition makes further sorting of a bucket pointless — regarding element count or remaining digit positions?',
+      },
     },
     {
       question: {
@@ -251,6 +263,10 @@ export const postmanSort = {
         ru: 'Каждый элемент обрабатывается один раз на каждом из k уровней разрядности, что даёт линейную по n·k сложность.',
         en: 'Each element is processed once at each of the k digit levels, giving a complexity linear in n·k.',
       },
+      hint: {
+        ru: 'Сколько проходов делает алгоритм и сколько элементов обрабатывается за каждый проход?',
+        en: 'How many passes does the algorithm make, and how many elements are touched per pass?',
+      },
     },
     {
       question: {
@@ -267,6 +283,115 @@ export const postmanSort = {
       explanation: {
         ru: 'Как и другие поразрядные и корзинные сортировки, почтовая сортировка использует значения цифр для распределения по корзинам, а не сравнение пар элементов.',
         en: 'Like other radix and bucket sorts, postman sort uses digit values to distribute elements into buckets rather than comparing pairs of elements.',
+      },
+      hint: {
+        ru: 'Принимает ли алгоритм решение о порядке двух элементов, сравнивая их напрямую, или просто читает цифру числа?',
+        en: 'Does the algorithm decide the order of two elements by comparing them directly, or simply by reading a digit value?',
+      },
+    },
+    {
+      question: {
+        ru: 'Какова пространственная сложность почтовой сортировки?',
+        en: 'What is the space complexity of postman sort?',
+      },
+      options: [
+        { ru: 'O(n + k), где k — основание системы счисления', en: 'O(n + k), where k is the base of the numeral system' },
+        { ru: 'O(1) — алгоритм сортирует полностью на месте', en: 'O(1) — the algorithm sorts entirely in place' },
+        { ru: 'O(n²) — из-за вложенных корзин на каждом уровне рекурсии', en: 'O(n²) — due to nested buckets at every recursion level' },
+        { ru: 'O(log n) — только стек рекурсии, без дополнительных массивов', en: 'O(log n) — only the recursion stack, no extra arrays' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'На каждом уровне рекурсии нужно хранить до n элементов в корзинах и до k корзин, поэтому суммарная дополнительная память равна O(n + k).',
+        en: 'At each recursion level, up to n elements must be held in buckets alongside up to k buckets, so the total extra memory is O(n + k).',
+      },
+      hint: {
+        ru: 'Куда кладутся элементы во время каждого прохода раскладки по корзинам?',
+        en: 'Where are elements held during each bucket-distribution pass?',
+      },
+    },
+    {
+      question: {
+        ru: 'Почему MSD-подход почтовой сортировки позволяет завершить обработку некоторых корзин раньше, чем LSD-вариант?',
+        en: 'Why does the MSD approach of postman sort allow some buckets to finish earlier than the LSD variant?',
+      },
+      options: [
+        { ru: 'Корзина с одним элементом не требует дальнейших проходов по оставшимся разрядам', en: 'A single-element bucket needs no further passes over the remaining digits' },
+        { ru: 'LSD-вариант пропускает первый разряд, поэтому всегда делает на один проход меньше', en: 'The LSD variant skips the first digit, so it always makes one fewer pass' },
+        { ru: 'MSD-подход использует параллельную обработку нескольких корзин одновременно', en: 'The MSD approach processes several buckets simultaneously in parallel' },
+        { ru: 'LSD требует нечётного числа проходов, а MSD всегда делает чётное число проходов', en: 'LSD always requires an odd number of passes while MSD always makes an even number' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'LSD всегда делает ровно k проходов по всем элементам независимо от их значений. MSD рекурсивно обрабатывает только непустые корзины и останавливается, как только в корзине остался один элемент.',
+        en: 'LSD always makes exactly k passes over all elements regardless of their values. MSD recursively processes only non-empty buckets and stops as soon as a bucket contains one element.',
+      },
+      hint: {
+        ru: 'Что происходит с корзиной, в которой после очередного разряда остался всего один элемент — нужно ли её дальше дробить?',
+        en: 'What happens to a bucket that ends up with just one element after a digit pass — does it need further splitting?',
+      },
+    },
+    {
+      question: {
+        ru: 'Как почтовая сортировка связана со структурой данных trie?',
+        en: 'How is postman sort related to the trie data structure?',
+      },
+      options: [
+        { ru: 'Оба обрабатывают ключи символ за символом (или цифру за цифрой) начиная с самого значимого', en: 'Both process keys character by character (or digit by digit) starting from the most significant' },
+        { ru: 'Trie используется внутри почтовой сортировки как обязательная промежуточная структура данных', en: 'A trie is used internally by postman sort as a mandatory intermediate data structure' },
+        { ru: 'Они не связаны — trie применяется только для текстового поиска, а не для сортировки', en: 'They are unrelated — tries are only used for text search and never applied to sorting at all always' },
+        { ru: 'Оба требуют O(n²) памяти при работе с числами большого диапазона значений', en: 'Both require O(n²) memory when dealing with numbers from a large value range' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Почтовая сортировка неявно строит trie-подобную структуру: каждый уровень рекурсии соответствует одному уровню дерева, где узлы — это значения очередной цифры.',
+        en: 'Postman sort implicitly builds a trie-like structure: each recursion level corresponds to one level of the tree, where nodes are digit values.',
+      },
+      hint: {
+        ru: 'Как trie организует строки? Сравните это с тем, как почтовая сортировка организует числа по разрядам.',
+        en: 'How does a trie organize strings? Compare that with how postman sort organizes numbers by digit position.',
+      },
+    },
+    {
+      question: {
+        ru: 'Почему почтовая сортировка не подходит для сортировки вещественных чисел (float) напрямую?',
+        en: 'Why is postman sort not directly applicable to sorting floating-point numbers?',
+      },
+      options: [
+        { ru: 'У вещественных чисел нет чёткой позиционной разрядной структуры, пригодной для раскладки по корзинам', en: 'Floating-point numbers lack a clear positional digit structure suitable for bucket distribution' },
+        { ru: 'Алгоритм выдаёт неверный результат при наличии хотя бы одного числа меньше нуля', en: 'The algorithm produces wrong results whenever any number is less than zero' },
+        { ru: 'Вещественные числа всегда имеют бесконечное число значимых разрядов, делая k = ∞', en: 'Floating-point numbers always have infinitely many significant decimal digits, making k = ∞ always' },
+        { ru: 'Алгоритм требует, чтобы все числа имели одинаковое количество разрядов до запятой', en: 'The algorithm requires all numbers to have the same digit count before the decimal point' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Поразрядные алгоритмы работают с целочисленной или позиционной структурой ключа. Для вещественных чисел нужно либо преобразование в целые, либо специальные трюки с битовым представлением.',
+        en: 'Radix-based algorithms rely on integer or positional key structure. For floating-point numbers, either integer conversion or special bit-representation tricks are needed.',
+      },
+      hint: {
+        ru: 'Что именно читает алгоритм из числа на каждом шаге — и есть ли такая структура у вещественных чисел?',
+        en: 'What exactly does the algorithm read from a number at each step — and do floating-point numbers have that structure?',
+      },
+    },
+    {
+      question: {
+        ru: 'Что произойдёт, если все числа в массиве одинаковые?',
+        en: 'What happens if all numbers in the array are identical?',
+      },
+      options: [
+        { ru: 'После первого прохода все элементы попадут в одну корзину, и рекурсия быстро остановится', en: 'After the first pass all elements land in one bucket, and the recursion stops quickly' },
+        { ru: 'Алгоритм зациклится, так как корзина никогда не сократится до одного элемента', en: 'The algorithm loops forever because the bucket never shrinks to one element' },
+        { ru: 'Все корзины заполнятся равномерно, по одному элементу на корзину', en: 'All ten buckets fill evenly, with exactly one element landing in each bucket in all cases' },
+        { ru: 'Алгоритм автоматически переключится на LSD-вариант для однородных данных', en: 'The algorithm automatically switches to the LSD variant for uniform data' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Одинаковые числа имеют одинаковые цифры на каждом разряде, поэтому при каждом проходе все они попадают в одну и ту же корзину. Рекурсия прекратится, когда исчерпаются разряды.',
+        en: 'Identical numbers share the same digit at every position, so at each pass they all land in the same bucket. Recursion ends when digits run out.',
+      },
+      hint: {
+        ru: 'Если все числа одинаковы, в какие корзины они попадут при первом проходе?',
+        en: 'If all numbers are identical, into which buckets do they land on the first pass?',
       },
     },
   ],

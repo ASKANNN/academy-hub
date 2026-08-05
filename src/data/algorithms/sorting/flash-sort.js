@@ -222,6 +222,10 @@ export const flashSort = {
         ru: 'Как и в подсчитывающей сортировке, сначала вычисляется, сколько элементов относится к каждому классу и где должны быть его границы.',
         en: 'Like in counting sort, it first computes how many elements fall into each class and where its boundaries should be.',
       },
+      hint: {
+        ru: 'Алгоритм должен знать, куда помещать каждый элемент в основном проходе. Какую информацию нужно собрать заранее?',
+        en: 'The algorithm needs to know where to place each element in the main pass. What information must be gathered first?',
+      },
     },
     {
       question: {
@@ -238,6 +242,10 @@ export const flashSort = {
       explanation: {
         ru: 'Элемент ставится на границу своего класса, вытесняя другой элемент, который переставляется на границу уже своего класса — так строится цепочка.',
         en: "An element is placed at its class's boundary, displacing another element, which is then placed at its own class's boundary — forming a chain.",
+      },
+      hint: {
+        ru: 'Что происходит с элементом, который уже занимал целевую позицию нового элемента? Куда он отправляется?',
+        en: 'What happens to the element already occupying the target position of the new element? Where does it go?',
       },
     },
     {
@@ -259,6 +267,10 @@ export const flashSort = {
         ru: 'После классификации элементы находятся близко к финальным позициям, но не точно на них — сортировка вставками эффективно доводит порядок до точного.',
         en: "After classification, elements are close to their final positions but not exactly there — insertion sort efficiently finishes the ordering.",
       },
+      hint: {
+        ru: 'Классификация раскладывает элементы по «правильным регионам», но не внутри них. Что остаётся сделать?',
+        en: 'Classification places elements in the right regions but not in order within those regions. What remains to be done?',
+      },
     },
     {
       question: {
@@ -275,6 +287,10 @@ export const flashSort = {
       explanation: {
         ru: 'При сильно неравномерном распределении почти все элементы могут попасть в один класс, и алгоритм фактически выродится в сортировку вставками на всём массиве.',
         en: 'With a heavily skewed distribution, almost all elements can fall into a single class, and the algorithm effectively degenerates to insertion sort over the whole array.',
+      },
+      hint: {
+        ru: 'Если все элементы попадают в один класс, каким алгоритмом фактически выполняется финальная сортировка?',
+        en: 'If all elements fall into one class, which algorithm effectively handles the final sort?',
       },
     },
     {
@@ -295,6 +311,115 @@ export const flashSort = {
       explanation: {
         ru: 'Вычисление класса элемента использует линейную формулу с разностью и умножением на коэффициент, что требует числовых значений.',
         en: "Computing an element's class uses a linear formula with subtraction and multiplication by a coefficient, which requires numeric values.",
+      },
+      hint: {
+        ru: 'Посмотрите на формулу вычисления класса: `floor(c1 * (value - min))`. Что нужно уметь делать со значением?',
+        en: 'Look at the class formula: `floor(c1 * (value - min))`. What arithmetic must be possible on the value?',
+      },
+    },
+    {
+      question: {
+        ru: 'Чем Флэш-сортировка отличается от корзинной сортировки (bucket sort) по использованию памяти?',
+        en: 'How does flashsort differ from bucket sort in memory usage?',
+      },
+      options: [
+        { ru: 'Флэш-сортировка переставляет элементы прямо в исходном массиве; корзинная сортировка выделяет отдельные списки для каждой корзины', en: 'Flashsort permutes elements within the original array; bucket sort allocates separate lists for each bucket' },
+        { ru: 'Флэш-сортировка требует O(n²) памяти, а корзинная сортировка всегда работает в O(1)', en: 'Flashsort requires O(n²) memory, while bucket sort always works in O(1)' },
+        { ru: 'Оба алгоритма используют абсолютно одинаковый объём памяти на любых входных данных', en: 'Both algorithms use exactly the same amount of memory on any input data' },
+        { ru: 'Флэш-сортировка требует памяти O(n log n) из-за рекурсии сортировки вставками', en: 'Flashsort requires O(n log n) memory due to the recursion of the insertion sort step regardless of input size' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Флэш-сортировка использует лишь небольшой массив L размером m для хранения границ классов, тогда как bucket sort создаёт динамические списки, которые суммарно занимают O(n) дополнительной памяти.',
+        en: 'Flashsort uses only a small array L of size m to store class boundaries, while bucket sort creates dynamic lists that together occupy O(n) extra memory.',
+      },
+      hint: {
+        ru: 'Подумайте, где хранятся элементы во время сортировки в каждом из алгоритмов: в исходном массиве или в отдельных структурах?',
+        en: 'Think about where elements live during sorting in each algorithm: inside the original array or in separate structures?',
+      },
+    },
+    {
+      question: {
+        ru: 'При каком условии Флэш-сортировка достигает линейного времени O(n)?',
+        en: 'Under what condition does flashsort achieve linear O(n) time?',
+      },
+      options: [
+        { ru: 'Когда данные равномерно распределены и элементы равномерно расходятся по классам', en: 'When data is uniformly distributed and elements spread evenly across classes' },
+        { ru: 'Когда массив уже полностью отсортирован и перестановок не требуется', en: 'When the array is already fully sorted and no permutations are needed' },
+        { ru: 'Когда все элементы одинаковы и ни один класс не содержит более одного элемента', en: 'When all elements are identical and no class contains more than one element' },
+        { ru: 'Когда число классов m равно числу элементов n без исключений', en: 'When the number of classes m equals the number of elements n without exception' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'При равномерном распределении каждый класс содержит примерно n/m элементов. Финальная сортировка вставками внутри каждого класса занимает O((n/m)²), что суммарно даёт O(n) при m ~ n.',
+        en: 'With uniform distribution, each class holds about n/m elements. The final insertion sort within each class takes O((n/m)²), summing to O(n) when m ~ n.',
+      },
+      hint: {
+        ru: 'Насколько быстро работает сортировка вставками, если в каждой корзине лишь несколько элементов? Как это зависит от распределения данных?',
+        en: 'How fast is insertion sort when each bucket has only a few elements? How does that depend on the data distribution?',
+      },
+    },
+    {
+      question: {
+        ru: 'Почему Флэш-сортировка не подходит для сортировки строк без дополнительной обработки?',
+        en: 'Why is flashsort not suitable for sorting strings without extra processing?',
+      },
+      options: [
+        { ru: 'Формула вычисления класса требует арифметических операций над значением, которые не определены для строк', en: 'The class formula requires arithmetic operations on the value that are not defined for strings' },
+        { ru: 'Строки занимают слишком много памяти и не помещаются в вспомогательный массив классов', en: 'Strings take too much memory and do not fit in the auxiliary class array regardless of input size' },
+        { ru: 'Сортировка вставками, используемая финально, не работает со строками', en: 'The insertion sort used in the final step does not work with strings' },
+        { ru: 'Строки всегда равномерно распределены, что делает Флэш-сортировку излишней', en: 'Strings are always uniformly distributed, making flashsort unnecessary' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Формула `floor(c1 * (value - min))` предполагает числовое вычитание и умножение — операции, не определённые для строк без явного преобразования в числа.',
+        en: 'The formula `floor(c1 * (value - min))` assumes numeric subtraction and multiplication — operations not defined for strings without explicit conversion to numbers.',
+      },
+      hint: {
+        ru: 'Что именно делает формула классификации с каждым значением? Применимо ли это к строкам?',
+        en: 'What exactly does the classification formula do to each value? Is that applicable to strings?',
+      },
+    },
+    {
+      question: {
+        ru: 'Как обычно выбирается число классов m в Флэш-сортировке?',
+        en: 'How is the number of classes m typically chosen in flashsort?',
+      },
+      options: [
+        { ru: 'Примерно 0.45·n — эмпирически найденное значение, дающее хороший баланс', en: 'Roughly 0.45·n — an empirically found value giving a good balance' },
+        { ru: 'Всегда ровно 2, чтобы разделить массив на нижнюю и верхнюю половины', en: 'Always exactly 2, to split the array into a lower and upper half' },
+        { ru: 'Равно log₂(n), аналогично глубине дерева при сортировке слиянием', en: 'Equal to log₂(n), analogous to the tree depth in merge sort' },
+        { ru: 'Равно квадратному корню из n для минимизации суммы сравнений и памяти', en: 'Equal to the square root of n to minimize the sum of comparisons and memory' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Значение m ≈ 0.45·n было получено эмпирически: оно даёт достаточно мелкие классы для быстрой сортировки вставками, не требуя при этом слишком большого вспомогательного массива L.',
+        en: 'The value m ≈ 0.45·n was found empirically: it gives classes small enough for fast insertion sort without requiring an excessively large auxiliary array L.',
+      },
+      hint: {
+        ru: 'Больше классов — меньше элементов в каждом, но больший массив L. Меньше классов — наоборот. Какое соотношение оказалось оптимальным?',
+        en: 'More classes means fewer elements per class but a larger L array. Fewer classes means the opposite. What ratio turned out optimal?',
+      },
+    },
+    {
+      question: {
+        ru: 'Что происходит, если минимум и максимум входного массива совпадают?',
+        en: 'What happens if the minimum and maximum of the input array are equal?',
+      },
+      options: [
+        { ru: 'Алгоритм сразу возвращает массив без изменений, так как все элементы одинаковы', en: 'The algorithm returns the array immediately without changes, since all elements are equal' },
+        { ru: 'Деление на ноль происходит при вычислении коэффициента c1, вызывая ошибку', en: 'Division by zero occurs when computing coefficient c1, causing an error' },
+        { ru: 'Все элементы помещаются в класс 0, и выполняется только сортировка вставками', en: 'All elements go into class 0 and only insertion sort runs' },
+        { ru: 'Число классов автоматически увеличивается до максимально возможного значения', en: 'The number of classes is automatically increased to the maximum possible value in all cases' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Если min === max, все элементы одинаковы и массив уже «отсортирован» — специальная проверка перед вычислением c1 позволяет избежать деления на ноль и лишней работы.',
+        en: 'If min === max, all elements are equal and the array is already "sorted" — a special check before computing c1 avoids division by zero and unnecessary work.',
+      },
+      hint: {
+        ru: 'Посмотрите на формулу c1 = (m-1) / (max - min). Что происходит, если знаменатель равен нулю?',
+        en: 'Look at the formula c1 = (m-1) / (max - min). What happens when the denominator is zero?',
       },
     },
   ],

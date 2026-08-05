@@ -190,6 +190,10 @@ export const cycleSort = {
         ru: 'Циклическая сортировка жертвует числом сравнений (O(n²)) ради теоретически минимального числа записей — каждый элемент пишется не более одного раза.',
         en: 'Cycle sort sacrifices comparison count (O(n²)) for a theoretically minimal write count — each element is written at most once.',
       },
+      hint: {
+        ru: 'Подумайте, что именно дорого в контексте флеш-памяти или EEPROM. Что алгоритм оптимизирует в первую очередь?',
+        en: 'Think about what is expensive in the context of flash memory or EEPROM. What does the algorithm optimize first?',
+      },
     },
     {
       question: {
@@ -209,6 +213,10 @@ export const cycleSort = {
       explanation: {
         ru: 'Минимизация записей напрямую продлевает срок службы флеш-памяти и снижает энергопотребление — то, за что другие алгоритмы не оптимизируют.',
         en: 'Minimizing writes directly extends flash memory lifespan and reduces power consumption — something other algorithms don\'t optimize for.',
+      },
+      hint: {
+        ru: 'Флеш-память изнашивается от записей, а не от чтений. Что делает cycle sort с количеством записей?',
+        en: 'Flash memory wears out from writes, not reads. What does cycle sort do to the write count?',
       },
     },
     {
@@ -230,6 +238,10 @@ export const cycleSort = {
         ru: 'Число элементов меньше данного равно числу позиций перед ним в отсортированном порядке — это и есть его целевой индекс.',
         en: 'The count of smaller elements equals the number of positions before it in sorted order — that is exactly its target index.',
       },
+      hint: {
+        ru: 'В отсортированном массиве, если перед элементом стоит ровно k меньших элементов, какой у него индекс?',
+        en: 'In a sorted array, if exactly k elements smaller than it come before it, what is its index?',
+      },
     },
     {
       question: {
@@ -250,6 +262,10 @@ export const cycleSort = {
         ru: 'На CPU и RAM запись почти так же дешева, как чтение — компромисс "меньше записей ценой квадратичных сравнений" там невыгоден.',
         en: 'On CPU and RAM, writes are nearly as cheap as reads — the "fewer writes at the cost of quadratic comparisons" tradeoff doesn\'t pay off there.',
       },
+      hint: {
+        ru: 'Цикличская сортировка торгует сравнениями на записи. Когда этот обмен выгоден, а когда нет?',
+        en: 'Cycle sort trades comparisons for writes. When is that trade worthwhile, and when is it not?',
+      },
     },
     {
       question: {
@@ -266,6 +282,115 @@ export const cycleSort = {
       explanation: {
         ru: 'Возврат в стартовую точку означает, что цепочка перестановок замкнулась и все элементы цикла заняли свои места — цикл закрыт.',
         en: 'Returning to the starting point means the rotation chain has closed and all elements in the cycle have taken their places — the cycle is done.',
+      },
+      hint: {
+        ru: 'Цикл перестановок — это замкнутая цепочка. Что означает возврат в начальную точку для состояния всех элементов в цепочке?',
+        en: 'A permutation cycle is a closed chain. What does returning to the start mean for the state of all elements in the chain?',
+      },
+    },
+    {
+      question: {
+        ru: 'Какова временная сложность циклической сортировки в лучшем случае?',
+        en: 'What is the best-case time complexity of cycle sort?',
+      },
+      options: [
+        { ru: 'O(n²) — подсчёт правильных позиций всегда требует прохода по оставшейся части массива', en: 'O(n²) — counting correct positions always requires scanning the remaining portion of the array' },
+        { ru: 'O(n) — когда массив уже отсортирован и запись не нужна ни разу', en: 'O(n) — when the array is already sorted and no writes are needed at all' },
+        { ru: 'O(n log n) — благодаря структуре циклов, аналогичной куче', en: 'O(n log n) — due to the cycle structure similar to a heap' },
+        { ru: 'O(1) — если все элементы уже стоят на своих местах без каких-либо перемещений', en: 'O(1) — if all elements are already in place with no movements needed whatsoever regardless of input' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Даже когда массив уже отсортирован (записей нет), для каждой позиции i алгоритм всё равно проходит по всем j > i, подсчитывая меньшие элементы — это даёт O(n²) сравнений.',
+        en: 'Even when the array is already sorted (no writes needed), for each position i the algorithm still scans all j > i to count smaller elements — giving O(n²) comparisons.',
+      },
+      hint: {
+        ru: 'Вспомните, как алгоритм находит правильную позицию элемента. Этот шаг выполняется всегда, независимо от состояния массива?',
+        en: 'Recall how the algorithm finds an element\'s correct position. Is that step always performed regardless of array state?',
+      },
+    },
+    {
+      question: {
+        ru: 'Является ли циклическая сортировка устойчивой (stable)?',
+        en: 'Is cycle sort stable?',
+      },
+      options: [
+        { ru: 'Нет — перестановка по циклам может изменить порядок равных элементов', en: 'No — cycling through permutations can change the relative order of equal elements' },
+        { ru: 'Да — каждый элемент записывается ровно один раз, поэтому их порядок не нарушается', en: 'Yes — each element is written exactly once, so their order is not disturbed' },
+        { ru: 'Только если все элементы в массиве различны и дубликатов нет', en: 'Only if all elements in the array are distinct and there are no duplicates' },
+        { ru: 'Только при чётном числе элементов из-за симметрии циклов перестановок', en: 'Only when the element count is even due to the symmetry of permutation cycles always' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'При подсчёте элементов меньше данного алгоритм может поставить элемент перед равным ему, изменив их исходный порядок — устойчивость не гарантирована.',
+        en: 'When counting elements smaller than the current one, the algorithm may place an element before an equal one, altering their original order — stability is not guaranteed.',
+      },
+      hint: {
+        ru: 'Подумайте, что происходит, когда два равных элемента участвуют в одном или разных циклах перестановок.',
+        en: 'Think about what happens when two equal elements are involved in the same or different permutation cycles.',
+      },
+    },
+    {
+      question: {
+        ru: 'Почему алгоритм дополнительно сдвигает pos вперёд при `item === a[pos]`?',
+        en: 'Why does the algorithm shift pos forward when `item === a[pos]`?',
+      },
+      options: [
+        { ru: 'Чтобы не перезаписывать равный элемент, когда тот уже стоит на правильной позиции', en: 'To avoid overwriting an equal element that is already in its correct position' },
+        { ru: 'Чтобы ускорить поиск позиции с помощью пропуска уже обработанных элементов', en: 'To speed up position search by skipping already processed elements' },
+        { ru: 'Потому что сравнение на равенство работает медленнее, чем сравнение на меньше', en: 'Because equality comparison runs slower than less-than comparison' },
+        { ru: 'Это баг в стандартной реализации, который никто не удосужился исправить', en: 'This is a bug in the standard implementation that nobody bothered to fix always' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Если на целевой позиции стоит элемент, равный перемещаемому, его нельзя трогать — он уже корректно размещён. Алгоритм ищет следующую позицию с другим значением.',
+        en: 'If the target position holds an element equal to the one being moved, it must not be touched — it is already correctly placed. The algorithm finds the next position with a different value.',
+      },
+      hint: {
+        ru: 'Что означало бы поставить элемент на место равного ему, не проверив, что тот уже стоит правильно?',
+        en: 'What would it mean to place an element into the slot of an equal element without checking that the latter is already correctly placed?',
+      },
+    },
+    {
+      question: {
+        ru: 'Чем циклическая сортировка принципиально отличается от сортировки выбором по числу записей?',
+        en: 'How does cycle sort fundamentally differ from selection sort in terms of write count?',
+      },
+      options: [
+        { ru: 'Cycle sort делает O(n) записей, тогда как selection sort делает O(n) обменов, каждый из которых включает 2–3 записи', en: 'Cycle sort makes O(n) writes, while selection sort makes O(n) swaps each involving 2–3 writes' },
+        { ru: 'Cycle sort делает O(n²) записей, а selection sort — O(n log n) обменов', en: 'Cycle sort makes O(n²) writes, while selection sort makes O(n log n) swaps regardless of input' },
+        { ru: 'Оба алгоритма делают абсолютно одинаковое число записей на любых входных данных', en: 'Both algorithms make the exact same number of writes on any input data' },
+        { ru: 'Selection sort вообще не делает записей, поскольку использует только сравнения', en: 'Selection sort makes no writes at all since it only uses comparisons' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Selection sort делает примерно n обменов, каждый из которых требует 3 записи (через временную переменную). Cycle sort записывает каждый элемент ровно раз — итого не более n записей.',
+        en: 'Selection sort makes roughly n swaps, each needing 3 writes (via a temporary variable). Cycle sort writes each element exactly once — at most n writes total.',
+      },
+      hint: {
+        ru: 'Сколько записей нужно для одного обмена двух элементов через временную переменную? Умножьте на n обменов.',
+        en: 'How many writes does one swap of two elements via a temporary variable require? Multiply by n swaps.',
+      },
+    },
+    {
+      question: {
+        ru: 'Как задача «найти пропущенное число в массиве [1, n]» связана с идеей циклической сортировки?',
+        en: 'How does the "find the missing number in array [1, n]" problem relate to cycle sort\'s idea?',
+      },
+      options: [
+        { ru: 'Оба используют подсчёт меньших элементов для определения правильной позиции каждого числа', en: 'Both use counting smaller elements to determine each number\'s correct position' },
+        { ru: 'Задача о пропущенном числе решается только сортировкой слиянием и не имеет связи с cycle sort', en: 'The missing-number problem is solved only by merge sort and has no relation to cycle sort' },
+        { ru: 'Cycle sort специально разработан для задач о пропущенных числах и не умеет ничего другого', en: 'Cycle sort was specifically designed for missing-number problems and cannot do anything else' },
+        { ru: 'Связь отсутствует: это принципиально разные алгоритмические задачи без пересечений', en: 'There is no connection: these are fundamentally different algorithmic problems with no overlap' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Трюк cycle sort — «поставь число на позицию, равную его значению минус 1» — напрямую применим для расстановки чисел [1, n] на свои индексы, после чего пропущенное число легко найти.',
+        en: 'Cycle sort\'s trick — "place a number at the index equal to its value minus 1" — applies directly to arranging numbers [1, n] at their indices, after which the missing number is easy to find.',
+      },
+      hint: {
+        ru: 'Если все числа от 1 до n стоят на позиции value-1, что можно сказать о позиции с «чужим» числом или без числа вовсе?',
+        en: 'If all numbers from 1 to n sit at position value-1, what can you say about the position that has a "wrong" number or no number at all?',
       },
     },
   ],

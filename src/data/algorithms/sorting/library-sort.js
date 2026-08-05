@@ -288,6 +288,10 @@ export const librarySort = {
         ru: 'Свободные зазоры позволяют чаще всего вставлять новый элемент без сдвига большого числа соседей, как в обычной сортировке вставками.',
         en: 'Free gaps usually let a new element be inserted without shifting a large number of neighbors, unlike plain insertion sort.',
       },
+      hint: {
+        ru: 'Вспомните аналогию с библиотечной полкой: что упрощает работу библиотекаря при добавлении новой книги?',
+        en: 'Think of the library shelf analogy: what makes a librarian\'s job easier when adding a new book?',
+      },
     },
     {
       question: {
@@ -304,6 +308,10 @@ export const librarySort = {
       explanation: {
         ru: 'Перебалансировка равномерно распределяет все текущие элементы по новому, увеличенному массиву, снова создавая зазоры.',
         en: 'Rebalancing evenly spreads all current elements across a new, larger array, recreating the gaps.',
+      },
+      hint: {
+        ru: 'Когда на полке кончается место, библиотекарь переставляет книги на полку большего размера — что происходит в алгоритме?',
+        en: 'When a shelf runs out of space, the librarian moves to a bigger shelf — what does the algorithm do?',
       },
     },
     {
@@ -322,6 +330,10 @@ export const librarySort = {
         ru: 'Заполненные ячейки в любой момент отсортированы между собой, поэтому бинарный поиск находит нужную позицию за логарифмическое число сравнений.',
         en: 'The filled cells are always sorted relative to each other, so binary search finds the right position in a logarithmic number of comparisons.',
       },
+      hint: {
+        ru: 'Заполненные ячейки всегда отсортированы — какой метод поиска работает быстрее всего на отсортированном наборе?',
+        en: 'The filled cells are always sorted — which search method is fastest on a sorted set?',
+      },
     },
     {
       question: {
@@ -339,6 +351,10 @@ export const librarySort = {
         ru: 'Благодаря зазорам большинство вставок обходится без сдвига, а позиция ищется бинарным поиском, что в среднем даёт O(n log n).',
         en: 'Thanks to the gaps, most insertions avoid shifting, and the position is found via binary search, giving O(n log n) on average.',
       },
+      hint: {
+        ru: 'Бинарный поиск даёт O(log n) на вставку, а n вставок суммируются до какой сложности?',
+        en: 'Binary search gives O(log n) per insertion — what does that sum to for n insertions?',
+      },
     },
     {
       question: {
@@ -355,6 +371,115 @@ export const librarySort = {
       explanation: {
         ru: 'Массив с зазорами создаётся с ёмкостью в несколько раз больше числа элементов, что и даёт линейный по n дополнительный расход памяти.',
         en: 'The gapped array is allocated with capacity several times the element count, which is exactly the linear-in-n extra memory cost.',
+      },
+      hint: {
+        ru: 'Зазоры — это пустые ячейки в массиве большего размера: больше ли такой массив исходного, и насколько?',
+        en: 'Gaps are empty slots in a larger array — is that array bigger than the input, and by how much?',
+      },
+    },
+    {
+      question: {
+        ru: 'Является ли библиотечная сортировка устойчивой (stable)?',
+        en: 'Is library sort stable?',
+      },
+      options: [
+        { ru: 'Да, равные элементы сохраняют исходный относительный порядок благодаря левостороннему бинарному поиску', en: 'Yes, equal elements keep their original relative order thanks to left-biased binary search' },
+        { ru: 'Нет, зазоры перемешивают равные элементы непредсказуемым образом при каждой перебалансировке', en: 'No, gaps shuffle equal elements unpredictably during every rebalance, so the original order is lost' },
+        { ru: 'Нет, библиотечная сортировка устойчива только для целочисленных массивов без повторений', en: 'No, library sort is stable only for integer arrays with no repeated values' },
+        { ru: 'Это зависит от реализации и не гарантируется стандартом алгоритма', en: 'It depends on the implementation and isn\'t guaranteed by the algorithm\'s specification' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'При использовании левостороннего (lower-bound) бинарного поиска новый элемент встаёт перед равными ему — это стандартный приём, обеспечивающий устойчивость вставочных алгоритмов.',
+        en: 'With a left-biased (lower-bound) binary search, the new element is placed before equal ones — a standard technique for making insertion-based algorithms stable.',
+      },
+      hint: {
+        ru: 'Подумайте о том, куда именно ставится новый элемент относительно уже существующих равных ему при корректном бинарном поиске.',
+        en: 'Think about exactly where a new element lands relative to existing equal ones under a proper binary search.',
+      },
+    },
+    {
+      question: {
+        ru: 'Как библиотечная сортировка ведёт себя на уже отсортированном входе?',
+        en: 'How does library sort behave on an already-sorted input?',
+      },
+      options: [
+        { ru: 'O(n log n) — бинарный поиск всё равно нужен, хотя сдвиги редки', en: 'O(n log n) — binary search is still needed, though shifts are rare' },
+        { ru: 'O(n) — каждый элемент попадает в пустой зазор прямо за последним, без поиска', en: 'O(n) — each element falls into the empty gap right after the last, needing no search' },
+        { ru: 'O(n²) — отсортированный вход всегда является худшим случаем для этого алгоритма', en: 'O(n²) — sorted input is always the worst case for this algorithm' },
+        { ru: 'O(1) — алгоритм сразу обнаруживает упорядоченность и завершает работу', en: 'O(1) — the algorithm immediately detects order and terminates' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Бинарный поиск выполняется на каждой вставке независимо от порядка входа, давая O(log n) на вставку и O(n log n) суммарно.',
+        en: 'Binary search is performed on each insertion regardless of input order, giving O(log n) per insertion and O(n log n) total.',
+      },
+      hint: {
+        ru: 'Алгоритм всегда выполняет бинарный поиск — исчезает ли он на отсортированном входе?',
+        en: 'The algorithm always runs binary search — does that disappear on sorted input?',
+      },
+    },
+    {
+      question: {
+        ru: 'Чем библиотечная сортировка концептуально похожа на работу настоящего библиотекаря?',
+        en: 'How is library sort conceptually similar to what a real librarian does?',
+      },
+      options: [
+        { ru: 'Оба оставляют пустые места на полке, чтобы вставить новую книгу без сдвига всех остальных', en: 'Both leave empty slots on the shelf to fit a new book without moving all the others' },
+        { ru: 'Оба сортируют книги исключительно по числу страниц, а не по алфавиту или другому критерию', en: 'Both sort books purely by page count rather than alphabetically or by any other criterion' },
+        { ru: 'Оба удаляют книги из середины полки и добавляют их снова в конец при каждой операции', en: 'Both remove books from the middle of a shelf and re-add them to the end on every operation' },
+        { ru: 'Оба используют хеш-функцию, чтобы сразу определить точную позицию каждой новой книги', en: 'Both use a hash function to immediately determine the exact position of each new book' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Оставленные промежутки на полке — это и есть ключевая аналогия, давшая алгоритму название.',
+        en: 'The deliberate gaps left on the shelf are the key analogy that gave the algorithm its name.',
+      },
+      hint: {
+        ru: 'Что делает опытный библиотекарь, чтобы не двигать сотни книг при добавлении каждой новой?',
+        en: 'What does an experienced librarian do to avoid moving hundreds of books when adding a new one?',
+      },
+    },
+    {
+      question: {
+        ru: 'Какова временная сложность библиотечной сортировки в худшем случае?',
+        en: 'What is the worst-case time complexity of library sort?',
+      },
+      options: [
+        { ru: 'O(n²)', en: 'O(n²)' },
+        { ru: 'O(n log n)', en: 'O(n log n)' },
+        { ru: 'O(n)', en: 'O(n)' },
+        { ru: 'O(n log² n)', en: 'O(n log² n)' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'При неудачном паттерне вставок зазоры исчезают быстро, частые перебалансировки накапливают O(n) работу, и суммарная сложность деградирует до O(n²).',
+        en: 'Under an unfavorable insertion pattern, gaps disappear quickly, frequent rebalances accumulate O(n) work each, and the total complexity degrades to O(n²).',
+      },
+      hint: {
+        ru: 'Что происходит, если зазоры постоянно заканчиваются и rebalance() вызывается очень часто?',
+        en: 'What happens if gaps run out constantly and rebalance() is called very often?',
+      },
+    },
+    {
+      question: {
+        ru: 'Какой сценарий использования наиболее подходит для библиотечной сортировки?',
+        en: 'Which usage scenario suits library sort best?',
+      },
+      options: [
+        { ru: 'Онлайн-сортировка, когда элементы поступают по одному и массив должен оставаться отсортированным', en: 'Online sorting where elements arrive one at a time and the array must stay sorted' },
+        { ru: 'Параллельная сортировка больших массивов на многоядерном процессоре без дополнительной памяти', en: 'Parallel sorting of large arrays on a multicore processor, distributing work without any extra shared memory' },
+        { ru: 'Сортировка массивов с очень большим числом дубликатов методом подсчёта их частот', en: 'Sorting arrays with many duplicates by counting their frequencies' },
+        { ru: 'Внешняя сортировка данных, не умещающихся в оперативной памяти, с помощью диска', en: 'External sorting of data that doesn\'t fit in RAM, using disk storage' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Вставка по одному элементу при поддержании отсортированного массива — именно тот сценарий, для которого библиотечная сортировка разрабатывалась.',
+        en: 'Inserting elements one at a time while keeping the array sorted is precisely the scenario library sort was designed for.',
+      },
+      hint: {
+        ru: 'Алгоритм вставляет элементы по одному — для каких задач это является естественным требованием?',
+        en: 'The algorithm inserts elements one at a time — for what tasks is that a natural requirement?',
       },
     },
   ],

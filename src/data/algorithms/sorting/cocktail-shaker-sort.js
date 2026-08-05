@@ -189,6 +189,10 @@ export const cocktailShakerSort = {
         ru: 'Проход слева направо выталкивает наибольший элемент вправо, а следующий проход справа налево выталкивает наименьший элемент влево — границы сортированной зоны сжимаются с обеих сторон.',
         en: 'A left-to-right pass pushes the largest element right, and the following right-to-left pass pushes the smallest element left — the sorted boundary shrinks from both sides.',
       },
+      hint: {
+        ru: 'Подумайте о движении шейкера для коктейлей — что отличает его от простого движения в одну сторону?',
+        en: 'Think about the motion of a cocktail shaker — what sets it apart from just moving in one direction?',
+      },
     },
     {
       question: {
@@ -205,6 +209,10 @@ export const cocktailShakerSort = {
       explanation: {
         ru: 'В обычном bubble sort маленький элемент у конца массива сдвигается к началу лишь на одну позицию за проход; двунаправленные проходы устраняют эту асимметрию.',
         en: 'In plain bubble sort, a small element near the end only moves one position toward the start per pass; bidirectional passes remove that asymmetry.',
+      },
+      hint: {
+        ru: 'Представьте маленький элемент в самом конце массива при обычном bubble sort. Насколько быстро он доберётся до начала?',
+        en: 'Imagine a small element at the very end of the array in plain bubble sort. How quickly can it reach the start?',
       },
     },
     {
@@ -223,6 +231,10 @@ export const cocktailShakerSort = {
         ru: 'Двунаправленность меняет константный множитель и поведение на конкретных распределениях, но не меняет порядок роста — в среднем всё ещё O(n²) сравнений.',
         en: 'Bidirectionality changes the constant factor and behavior on specific distributions, but not the growth order — still O(n²) comparisons on average.',
       },
+      hint: {
+        ru: 'Двунаправленность улучшает константу, но меняет ли она порядок роста числа сравнений?',
+        en: 'Bidirectionality improves the constant, but does it change the growth order of comparisons?',
+      },
     },
     {
       question: {
@@ -240,6 +252,10 @@ export const cocktailShakerSort = {
         ru: 'Как и в bubble sort, элементы меняются местами только если левый строго больше правого — равные элементы никогда не переставляются друг с другом.',
         en: 'Just like bubble sort, elements swap only when the left one is strictly greater — equal elements never swap with each other.',
       },
+      hint: {
+        ru: 'Посмотрите на условие перестановки: `a[i] > a[i+1]`. Что происходит, если элементы равны?',
+        en: 'Look at the swap condition: `a[i] > a[i+1]`. What happens when elements are equal?',
+      },
     },
     {
       question: {
@@ -256,6 +272,115 @@ export const cocktailShakerSort = {
       explanation: {
         ru: 'Все перестановки происходят прямо в исходном массиве; нужны лишь переменные-границы `start`/`end` и флаг `swapped`.',
         en: 'All swaps happen directly in the original array; only `start`/`end` boundary variables and a `swapped` flag are needed.',
+      },
+      hint: {
+        ru: 'Создаёт ли алгоритм копии массива или вспомогательные структуры данных?',
+        en: 'Does the algorithm create copies of the array or auxiliary data structures?',
+      },
+    },
+    {
+      question: {
+        ru: 'Каков лучший случай шейкерной сортировки и когда он возникает?',
+        en: 'What is the best case of cocktail shaker sort and when does it occur?',
+      },
+      options: [
+        { ru: 'O(n) — когда массив уже отсортирован и первый двойной проход не даёт перестановок', en: 'O(n) — when the array is already sorted and the first round trip makes no swaps' },
+        { ru: 'O(1) — когда массив из одного элемента', en: 'O(1) — when the array has exactly one element' },
+        { ru: 'O(n log n) — когда данные случайные, но близкие к нормальному распределению', en: 'O(n log n) — when data is random but close to a normal distribution in all cases' },
+        { ru: 'O(n²) — лучший случай не отличается от среднего', en: 'O(n²) — the best case is no different from the average case' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Флаг ранней остановки `swapped` позволяет выйти после одного прохода туда и обратно, если не было ни одной перестановки — это означает, что массив уже был отсортирован.',
+        en: 'The early-exit flag `swapped` lets the algorithm stop after one round trip if no swap was made — meaning the array was already sorted.',
+      },
+      hint: {
+        ru: 'Когда флаг swapped остаётся ложным после целого прохода туда и обратно?',
+        en: 'When does the swapped flag stay false after a full round-trip pass?',
+      },
+    },
+    {
+      question: {
+        ru: 'Почему шейкерная сортировка не улучшает асимптотику по сравнению с bubble sort?',
+        en: 'Why doesn\'t cocktail shaker sort improve the asymptotic complexity over bubble sort?',
+      },
+      options: [
+        { ru: 'Она по-прежнему делает O(n²) сравнений на случайных данных в среднем', en: 'It still makes O(n²) comparisons on random data on average' },
+        { ru: 'Она добавляет лишние проходы справа налево, удваивая работу', en: 'It adds extra right-to-left passes that double the work' },
+        { ru: 'Она устойчива, а устойчивые алгоритмы не могут быть лучше O(n²)', en: 'It is stable, and stable algorithms cannot be better than O(n²)' },
+        { ru: 'Она не использует рекурсию, а без неё нельзя достичь O(n log n)', en: 'It uses no recursion, and without recursion O(n log n) is impossible' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Двунаправленность устраняет конкретный патологический случай («черепахи»), но не меняет порядок роста числа сравнений — на случайных данных алгоритм всё равно делает O(n²) сравнений.',
+        en: 'Bidirectionality removes a specific pathological case ("turtles") but doesn\'t change the growth order of comparisons — on random data the algorithm still makes O(n²) comparisons.',
+      },
+      hint: {
+        ru: 'Что меняет двунаправленность — поведение на конкретном распределении или общий порядок роста?',
+        en: 'What does bidirectionality change — behavior on a specific distribution, or the overall growth order?',
+      },
+    },
+    {
+      question: {
+        ru: 'Как называется «маленький элемент, застрявший в конце массива» в контексте bubble sort?',
+        en: 'What is the name for a "small element stuck at the end of the array" in the context of bubble sort?',
+      },
+      options: [
+        { ru: '«Черепаха» — она движется к началу медленно, по одной позиции за проход', en: '"Turtle" — it moves toward the start slowly, one position per pass' },
+        { ru: '«Кролик» — он быстро перемещается вправо за один проход влево', en: '"Rabbit" — it moves quickly to the right in a single left pass' },
+        { ru: '«Якорь» — он полностью останавливает алгоритм до следующего перезапуска', en: '"Anchor" — it completely stops the algorithm until the next restart' },
+        { ru: '«Сентинель» — специальный элемент для обозначения границы массива', en: '"Sentinel" — a special element marking the array boundary' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: '«Черепаха» — классический термин для маленького элемента у правого края: в bubble sort он двигается влево лишь на одну позицию за каждый полный проход.',
+        en: '"Turtle" is the classic term for a small element near the right edge: in bubble sort it moves left by only one position per full pass.',
+      },
+      hint: {
+        ru: 'Подумайте о животном, которое движется очень медленно. Какой термин использует терминология bubble sort?',
+        en: 'Think of an animal that moves very slowly. What term does bubble sort terminology use?',
+      },
+    },
+    {
+      question: {
+        ru: 'Что происходит с границами `start` и `end` после каждого полного двойного прохода?',
+        en: 'What happens to the `start` and `end` boundaries after each full round-trip pass?',
+      },
+      options: [
+        { ru: '`end` уменьшается на 1, а `start` увеличивается на 1', en: '`end` decreases by 1 and `start` increases by 1' },
+        { ru: 'Обе границы сбрасываются в исходные позиции для следующего прохода', en: 'Both boundaries reset to their initial positions for the next pass' },
+        { ru: '`start` увеличивается на 2, а `end` не меняется', en: '`start` increases by 2 and `end` stays the same' },
+        { ru: 'Границы меняются местами после каждого полного двойного прохода', en: 'The boundaries swap with each other after every full round-trip' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'После прохода слева направо `end` уменьшается — наибольший элемент встал на место; после прохода справа налево `start` увеличивается — наименьший элемент встал на место.',
+        en: 'After the left-to-right pass `end` decreases — the largest element is in place; after the right-to-left pass `start` increases — the smallest element is in place.',
+      },
+      hint: {
+        ru: 'После каждого прохода один элемент занимает своё финальное место. С какой стороны?',
+        en: 'After each pass, one element reaches its final place. On which side?',
+      },
+    },
+    {
+      question: {
+        ru: 'Какой алгоритм использует аналогичную идею «уменьшающегося зазора», но более агрессивно?',
+        en: 'Which algorithm uses a similar "shrinking gap" idea but more aggressively?',
+      },
+      options: [
+        { ru: 'Comb sort — уменьшает зазор между сравниваемыми элементами быстрее', en: 'Comb sort — it shrinks the gap between compared elements faster' },
+        { ru: 'Merge sort — рекурсивно уменьшает размер подзадачи вдвое', en: 'Merge sort — it recursively halves the subproblem size' },
+        { ru: 'Radix sort — уменьшает диапазон ключей поразрядно', en: 'Radix sort — it reduces the key range digit by digit' },
+        { ru: 'Heap sort — уменьшает кучу после каждого извлечения максимума', en: 'Heap sort — it shrinks the heap after each maximum extraction always' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Comb sort использует тот же базовый принцип пузырьковой сортировки, но сравнивает элементы через зазор больше 1, быстро уменьшая его — это устраняет «черепах» гораздо быстрее, чем шейкерная сортировка.',
+        en: 'Comb sort uses the same basic bubble sort principle but compares elements across a gap greater than 1, shrinking it rapidly — this eliminates turtles much faster than cocktail shaker sort does.',
+      },
+      hint: {
+        ru: 'Шейкерная сортировка сравнивает соседние элементы (зазор = 1). Какой алгоритм начинает с большего зазора и уменьшает его?',
+        en: 'Cocktail shaker sort compares adjacent elements (gap = 1). Which algorithm starts with a larger gap and shrinks it?',
       },
     },
   ],

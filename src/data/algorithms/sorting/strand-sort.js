@@ -196,6 +196,10 @@ def merge(a, b):
         ru: 'Прядь собирается жадно: первый элемент берётся всегда, а следующий добавляется, только если он не меньше последнего добавленного.',
         en: 'The strand is built greedily: the first element is always taken, and the next joins only if it is not smaller than the last one added.',
       },
+      hint: {
+        ru: 'Прядь строится жадно — подумайте, какое условие добавления элемента сохраняет возрастающий порядок.',
+        en: 'The strand is built greedily — think about what condition for adding an element keeps the order increasing.',
+      },
     },
     {
       question: {
@@ -212,6 +216,10 @@ def merge(a, b):
       explanation: {
         ru: 'Поскольку и прядь, и накопленный результат уже отсортированы по отдельности, их можно слить за линейное время, как два отсортированных списка.',
         en: 'Since both the strand and the accumulated result are already individually sorted, they can be merged in linear time like any two sorted lists.',
+      },
+      hint: {
+        ru: 'Оба списка — прядь и результат — уже отсортированы. Какая операция объединяет два отсортированных списка?',
+        en: 'Both lists — the strand and the result — are already sorted. What operation combines two sorted lists?',
       },
     },
     {
@@ -233,6 +241,10 @@ def merge(a, b):
         ru: 'Чем длиннее естественные возрастающие участки, тем меньше итераций требуется, чтобы извлечь и слить все элементы.',
         en: 'The longer the natural increasing runs, the fewer iterations are needed to extract and merge all the elements.',
       },
+      hint: {
+        ru: 'Подумайте, что происходит, когда первая же прядь содержит почти весь массив.',
+        en: 'Think about what happens when the very first strand contains nearly the whole array.',
+      },
     },
     {
       question: {
@@ -253,6 +265,10 @@ def merge(a, b):
         ru: 'В отличие от алгоритмов, опирающихся на индексацию (например, быстрой сортировки), извлечение пряди естественно выражается через перестановку указателей.',
         en: 'Unlike algorithms that rely on indexing (such as quicksort), extracting a strand is naturally expressed through pointer relinking.',
       },
+      hint: {
+        ru: 'Вспомните, что главная слабость связных списков — отсутствие быстрого доступа по индексу.',
+        en: 'Recall that the main weakness of linked lists is the lack of fast index-based access.',
+      },
     },
     {
       question: {
@@ -269,6 +285,115 @@ def merge(a, b):
       explanation: {
         ru: 'В худшем случае (например, на обратно отсортированном массиве) каждая прядь состоит из одного элемента, что даёт квадратичное поведение, как у сортировки вставками.',
         en: 'In the worst case (e.g., a reverse-sorted array), every strand consists of a single element, giving quadratic behavior similar to insertion sort.',
+      },
+      hint: {
+        ru: 'Представьте обратно отсортированный массив: сколько прядей нужно извлечь и сколько элементов в каждой?',
+        en: 'Imagine a reverse-sorted array: how many strands need to be pulled out and how many elements does each have?',
+      },
+    },
+    {
+      question: {
+        ru: 'Каков лучший случай временной сложности сортировки прядями и когда он достигается?',
+        en: 'What is the best-case time complexity of strand sort and when is it achieved?',
+      },
+      options: [
+        { ru: 'O(n) — когда весь массив уже отсортирован и образует одну прядь', en: 'O(n) — when the whole array is already sorted and forms a single strand' },
+        { ru: 'O(log n) — когда массив содержит ровно два возрастающих участка', en: 'O(log n) — when the array contains exactly two increasing runs in all cases' },
+        { ru: 'O(n log n) — лучший случай совпадает со средним', en: 'O(n log n) — the best case equals the average case' },
+        { ru: 'O(1) — когда массив пуст или содержит один элемент', en: 'O(1) — when the array is empty or has a single element' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Если весь массив уже возрастающий, первая прядь захватывает все n элементов, и единственная операция слияния (с пустым результатом) занимает O(n).',
+        en: 'If the whole array is already increasing, the first strand captures all n elements, and the single merge operation (with an empty result) takes O(n).',
+      },
+      hint: {
+        ru: 'Подумайте, сколько итераций нужно, если вся последовательность возрастает.',
+        en: 'Think about how many iterations are needed if the entire sequence is already increasing.',
+      },
+    },
+    {
+      question: {
+        ru: 'Является ли сортировка прядями устойчивой?',
+        en: 'Is strand sort stable?',
+      },
+      options: [
+        { ru: 'Да — слияние берёт элемент из левого списка при равенстве, сохраняя порядок', en: 'Yes — the merge takes from the left list on ties, preserving order' },
+        { ru: 'Нет — порядок равных элементов не определён из-за произвольного выбора пряди', en: 'No — the order of equal elements is undefined due to arbitrary strand selection' },
+        { ru: 'Зависит от реализации — не является свойством самого алгоритма', en: 'Depends on the implementation — it is not a property of the algorithm itself' },
+        { ru: 'Нет — элементы переставляются по значению, что нарушает исходный порядок', en: 'No — elements are rearranged by value, which breaks the original order' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Условие x >= strand[-1] пропускает равные элементы в прядь, а слияние при равенстве берёт из левого (ранее накопленного) списка — вместе это обеспечивает устойчивость.',
+        en: 'The condition x >= strand[-1] admits equal elements into the strand, and the merge on ties takes from the left (already-accumulated) list — together these ensure stability.',
+      },
+      hint: {
+        ru: 'Подумайте, что происходит при слиянии, когда два равных элемента находятся в разных списках.',
+        en: 'Think about what happens during a merge when two equal elements are in different lists.',
+      },
+    },
+    {
+      question: {
+        ru: 'Что происходит с элементами, не попавшими в текущую прядь?',
+        en: 'What happens to elements that did not join the current strand?',
+      },
+      options: [
+        { ru: 'Они остаются в списке оставшихся для следующей итерации', en: 'They stay in the remaining list for the next iteration' },
+        { ru: 'Они отбрасываются и не попадают в результат', en: 'They are discarded and never appear in the result' },
+        { ru: 'Они немедленно добавляются в конец результата', en: 'They are immediately appended to the end of the result' },
+        { ru: 'Они вставляются в текущую прядь в случайном порядке', en: 'They are inserted into the current strand in random order' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Именно эти элементы, пропущенные текущей прядью, образуют оставшийся список для следующего шага — они будут захвачены в последующих прядях.',
+        en: 'These elements skipped by the current strand form the remaining list for the next step — they will be captured in subsequent strands.',
+      },
+      hint: {
+        ru: 'Алгоритм должен обработать все элементы, иначе результат был бы неполным.',
+        en: 'The algorithm must process all elements, otherwise the result would be incomplete.',
+      },
+    },
+    {
+      question: {
+        ru: 'Чем сортировка прядями отличается от сортировки слиянием в подходе к входным данным?',
+        en: 'How does strand sort differ from merge sort in its approach to the input?',
+      },
+      options: [
+        { ru: 'Она использует уже существующий порядок в данных, а не слепо делит массив пополам', en: 'It uses the order already present in the data rather than blindly splitting the array' },
+        { ru: 'Она всегда работает за O(n log n), тогда как слияние бывает медленнее', en: 'It always runs in O(n log n), while merge sort can be slower regardless of input size or order' },
+        { ru: 'Она сортирует массив на месте, а сортировка слиянием требует дополнительной памяти', en: 'It sorts in place, while merge sort requires extra memory' },
+        { ru: 'Она нестабильна, а сортировка слиянием — устойчива', en: 'It is unstable, while merge sort is stable' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Сортировка прядями адаптируется к структуре данных, вытягивая уже упорядоченные участки; сортировка слиянием делит массив механически, не глядя на существующий порядок.',
+        en: 'Strand sort adapts to data structure by pulling out already-ordered runs; merge sort divides the array mechanically without looking at existing order.',
+      },
+      hint: {
+        ru: 'Подумайте, что сортировка прядями делает перед слиянием, в отличие от классического merge sort.',
+        en: 'Think about what strand sort does before merging, unlike classic merge sort.',
+      },
+    },
+    {
+      question: {
+        ru: 'Какова пространственная сложность сортировки прядями?',
+        en: 'What is the space complexity of strand sort?',
+      },
+      options: [
+        { ru: 'O(n) — промежуточные пряди и результат занимают линейную память', en: 'O(n) — intermediate strands and the result occupy linear memory' },
+        { ru: 'O(1) — сортировка выполняется полностью на месте', en: 'O(1) — the sort runs entirely in place' },
+        { ru: 'O(log n) — только стек рекурсии без вспомогательных массивов', en: 'O(log n) — only the recursion stack without auxiliary arrays' },
+        { ru: 'O(n²) — каждая прядь хранит копию всего оставшегося массива', en: 'O(n²) — each strand stores a copy of the whole remaining array always' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Алгоритм хранит прядь, список оставшихся элементов и накопленный результат — суммарно O(n) дополнительной памяти.',
+        en: 'The algorithm stores the strand, the remaining-elements list, and the accumulated result — O(n) extra memory in total.',
+      },
+      hint: {
+        ru: 'Подумайте, сколько элементов суммарно хранится в пряди, в оставшемся списке и в результате одновременно.',
+        en: 'Think about how many elements are stored at once in the strand, the remaining list, and the result combined.',
       },
     },
   ],

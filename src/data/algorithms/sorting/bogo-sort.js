@@ -168,6 +168,10 @@ def bogo_sort(arr):
         ru: 'После каждого перемешивания проверяется, отсортирован ли массив; если нет, перемешивание повторяется.',
         en: 'After each shuffle, it checks whether the array is sorted; if not, the shuffle is repeated.',
       },
+      hint: {
+        ru: 'Алгоритм не запоминает предыдущие попытки и не использует никакой информации об элементах. Что он делает снова и снова?',
+        en: 'The algorithm remembers nothing from previous attempts and uses no information about elements. What does it do over and over?',
+      },
     },
     {
       question: {
@@ -185,6 +189,10 @@ def bogo_sort(arr):
         ru: 'Существует n! перестановок массива, и в среднем нужно перебрать порядка n! попыток, каждая из которых требует O(n) на перемешивание и проверку.',
         en: 'There are n! permutations of the array, and on average roughly n! attempts are needed, each costing O(n) to shuffle and check.',
       },
+      hint: {
+        ru: 'Сколько всего возможных перестановок n элементов? Во сколько обходится каждая попытка?',
+        en: 'How many total permutations of n elements are there? How much does each attempt cost?',
+      },
     },
     {
       question: {
@@ -201,6 +209,10 @@ def bogo_sort(arr):
       explanation: {
         ru: 'Каждое перемешивание независимо и случайно, поэтому сколь угодно длинная серия неудачных попыток остаётся возможной, хоть и крайне маловероятной.',
         en: 'Each shuffle is independent and random, so an arbitrarily long streak of failed attempts remains possible, though extremely unlikely.',
+      },
+      hint: {
+        ru: 'Если каждая попытка независима от предыдущих, может ли алгоритм «знать», что следующая попытка обязательно будет удачной?',
+        en: 'If each attempt is independent of the previous ones, can the algorithm "know" that the next attempt must succeed?',
       },
     },
     {
@@ -222,6 +234,10 @@ def bogo_sort(arr):
         ru: 'Бого-сортировка используется исключительно как обучающая иллюстрация, а не как практический инструмент.',
         en: 'Bogosort is used exclusively as a teaching illustration, not as a practical tool.',
       },
+      hint: {
+        ru: 'Что можно объяснить студентам через контрпример — алгоритм, который правильный, но бесполезный?',
+        en: 'What can be taught through a counterexample — an algorithm that is correct but completely useless?',
+      },
     },
     {
       question: {
@@ -238,6 +254,115 @@ def bogo_sort(arr):
       explanation: {
         ru: 'Перемешивание выполняется на месте, так что дополнительная память не зависит от размера массива.',
         en: 'The shuffle is done in place, so the extra memory does not depend on the array size.',
+      },
+      hint: {
+        ru: 'Создаёт ли алгоритм копии массива или дополнительные структуры данных при каждом перемешивании?',
+        en: 'Does the algorithm create copies of the array or extra data structures on each shuffle?',
+      },
+    },
+    {
+      question: {
+        ru: 'Какова временная сложность Бого-сортировки в лучшем случае?',
+        en: 'What is the best-case time complexity of bogosort?',
+      },
+      options: [
+        { ru: 'O(n) — если массив уже отсортирован и достаточно одной проверки', en: 'O(n) — if the array is already sorted and one check suffices' },
+        { ru: 'O(1) — если первое же перемешивание даёт отсортированный результат', en: 'O(1) — if the very first shuffle yields a sorted result' },
+        { ru: 'O(n!) — в лучшем случае нужна одна полная перестановка', en: 'O(n!) — in the best case one full permutation pass is needed' },
+        { ru: 'O(n log n) — оптимальная сортировка случайного массива', en: 'O(n log n) — optimal sorting of a random array' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Если входной массив уже отсортирован, алгоритм выходит после одной проверки, которая стоит O(n) — это и есть лучший случай.',
+        en: 'If the input is already sorted, the algorithm exits after one check costing O(n) — that is the best case.',
+      },
+      hint: {
+        ru: 'При каком входе алгоритм завершается как можно быстрее? Сколько шагов занимает проверка?',
+        en: 'On what input does the algorithm finish as quickly as possible? How many steps does a single check take?',
+      },
+    },
+    {
+      question: {
+        ru: 'Почему Бого-сортировка считается алгоритмом, а не просто случайным перебором?',
+        en: 'Why is bogosort considered an algorithm rather than just random enumeration?',
+      },
+      options: [
+        { ru: 'Она гарантированно завершается с вероятностью 1 при бесконечном числе попыток', en: 'It terminates with probability 1 given an unlimited number of attempts' },
+        { ru: 'Она детерминированна и всегда завершается за конечное число шагов', en: 'It is deterministic and always finishes in a finite number of steps always' },
+        { ru: 'Она используется в стандартных библиотеках некоторых языков программирования', en: 'It is used in standard libraries of some programming languages' },
+        { ru: 'Она упорядочивает элементы, используя структуру данных типа куча', en: 'It orders elements using a heap data structure internally' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Вероятность бесконечного числа неудачных попыток равна нулю, поэтому с вероятностью 1 алгоритм завершится — это и отличает его от нереализуемой бесконечной процедуры.',
+        en: 'The probability of infinitely many failed attempts is zero, so the algorithm terminates with probability 1 — this is what distinguishes it from an unrealizable infinite procedure.',
+      },
+      hint: {
+        ru: 'Может ли цепочка независимых случайных событий с одинаковой положительной вероятностью успеха никогда не завершиться?',
+        en: 'Can a chain of independent random events each with the same positive success probability go on forever?',
+      },
+    },
+    {
+      question: {
+        ru: 'Что произойдёт с ожидаемым числом попыток, если увеличить массив с 3 до 4 элементов?',
+        en: 'What happens to the expected number of attempts when the array grows from 3 to 4 elements?',
+      },
+      options: [
+        { ru: 'Оно возрастёт примерно в 4 раза — с ~6 до ~24 попыток', en: 'It grows roughly 4-fold — from ~6 to ~24 attempts' },
+        { ru: 'Оно возрастёт примерно в 2 раза — линейно с числом элементов', en: 'It grows roughly 2-fold — linearly with the number of elements' },
+        { ru: 'Оно возрастёт примерно в 1,5 раза — незначительно', en: 'It grows roughly 1.5-fold — barely noticeable' },
+        { ru: 'Оно не изменится, так как перемешивание всегда равновероятно', en: 'It stays the same, since any shuffle is always equally probable' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Ожидаемое число попыток порядка n! (3! = 6, 4! = 24) — каждый новый элемент умножает ожидание на n, что делает рост факториальным.',
+        en: 'The expected number of attempts is on the order of n! (3! = 6, 4! = 24) — each new element multiplies the expectation by n, making the growth factorial.',
+      },
+      hint: {
+        ru: 'Во сколько раз 4! больше 3!? Что это говорит о скорости роста сложности?',
+        en: 'How many times larger is 4! than 3!? What does that say about how fast the complexity grows?',
+      },
+    },
+    {
+      question: {
+        ru: 'Является ли Бого-сортировка детерминированной?',
+        en: 'Is bogosort deterministic?',
+      },
+      options: [
+        { ru: 'Нет — результат каждой попытки случаен и зависит от генератора случайных чисел', en: 'No — each attempt\'s outcome is random and depends on the random number generator' },
+        { ru: 'Да — порядок проверяемых перестановок строго фиксирован заранее', en: 'Yes — the order of checked permutations is strictly fixed in advance in all cases' },
+        { ru: 'Да — он сортирует один и тот же массив за одинаковое число шагов', en: 'Yes — it sorts the same array in the same number of steps every time' },
+        { ru: 'Нет — он использует другой алгоритм сортировки для первоначальной проверки', en: 'No — it uses a different sorting algorithm for the initial check' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Каждое перемешивание использует генератор случайных чисел, поэтому ни число попыток, ни итоговый путь алгоритма не воспроизводимы при повторном запуске.',
+        en: 'Each shuffle uses a random number generator, so neither the attempt count nor the algorithm\'s path is reproducible on re-run.',
+      },
+      hint: {
+        ru: 'Зависит ли следующий шаг алгоритма от случайного числа? Что это означает для воспроизводимости?',
+        en: 'Does the algorithm\'s next step depend on a random number? What does that mean for reproducibility?',
+      },
+    },
+    {
+      question: {
+        ru: 'Как называется алгоритм случайного перемешивания, который обычно используется внутри Бого-сортировки?',
+        en: 'What is the name of the random shuffle algorithm typically used inside bogosort?',
+      },
+      options: [
+        { ru: 'Тасование Фишера — Йетса', en: 'Fisher–Yates shuffle' },
+        { ru: 'Алгоритм Кнута для генерации перестановок', en: 'Knuth permutation generation algorithm' },
+        { ru: 'Сортировка пузырьком в обратном порядке', en: 'Reverse-order bubble sort' },
+        { ru: 'Алгоритм Монте-Карло для приближённых вычислений', en: 'Monte Carlo approximation algorithm' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Тасование Фишера — Йетса гарантирует равномерное распределение по всем n! перестановкам за O(n) время — именно оно применяется для честного случайного перемешивания.',
+        en: 'The Fisher–Yates shuffle guarantees uniform distribution over all n! permutations in O(n) time — it is the standard choice for an unbiased random shuffle.',
+      },
+      hint: {
+        ru: 'Какой алгоритм перемешивания равномерно распределяет все перестановки и работает за O(n)?',
+        en: 'Which shuffle algorithm uniformly distributes all permutations and runs in O(n)?',
       },
     },
   ],

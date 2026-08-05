@@ -172,6 +172,10 @@ export const countingSort = {
         ru: 'Нижняя граница O(n log n) доказывается для сортировок, которые определяют порядок через попарные сравнения. Подсчёт вхождений — принципиально другой механизм, на который эта граница не распространяется.',
         en: 'The O(n log n) lower bound is proven for sorts that determine order via pairwise comparisons. Counting occurrences is a fundamentally different mechanism, so the bound doesn\'t apply.',
       },
+      hint: {
+        ru: 'Нижняя граница O(n log n) доказана для конкретного класса алгоритмов. Использует ли подсчёт вхождений сравнения вообще?',
+        en: 'The O(n log n) lower bound is proven for a specific class of algorithms. Does counting occurrences use comparisons at all?',
+      },
     },
     {
       question: {
@@ -188,6 +192,10 @@ export const countingSort = {
       explanation: {
         ru: 'k — это размер вспомогательного массива `count`, который равен диапазону значений (max - min + 1). Если k сопоставим с n, сложность фактически линейна.',
         en: 'k is the size of the helper `count` array, equal to the value range (max - min + 1). When k is comparable to n, the complexity is effectively linear.',
+      },
+      hint: {
+        ru: 'Какую структуру выделяет алгоритм помимо выходного массива? Её размер и есть k.',
+        en: 'What structure does the algorithm allocate besides the output array? Its size is k.',
       },
     },
     {
@@ -206,6 +214,10 @@ export const countingSort = {
         ru: 'При обходе справа налево более поздний из двух равных элементов размещается первым (с большим индексом), поэтому исходный порядок между равными значениями сохраняется.',
         en: 'Walking right to left places the later of two equal elements first (at the higher index), so the original order between equal values is preserved.',
       },
+      hint: {
+        ru: 'Представьте два одинаковых элемента. Если обходить массив слева направо, который из них окажется на большем индексе в выводе?',
+        en: 'Imagine two identical elements. If you walk left to right, which one ends up at the higher index in the output?',
+      },
     },
     {
       question: {
@@ -223,6 +235,10 @@ export const countingSort = {
         ru: 'Если k (например, 10^9 при малом n) намного больше n, память и время на массив `count` перевешивают выигрыш от отсутствия сравнений.',
         en: 'If k (e.g. 10^9 with a small n) dwarfs n, the memory and time spent on the `count` array outweigh the benefit of skipping comparisons.',
       },
+      hint: {
+        ru: 'Алгоритм выделяет массив размером k. Что будет, если k в тысячи раз больше n?',
+        en: 'The algorithm allocates an array of size k. What happens if k is thousands of times larger than n?',
+      },
     },
     {
       question: {
@@ -239,6 +255,115 @@ export const countingSort = {
       explanation: {
         ru: 'Сортировка подсчётом требует дискретных ключей известного диапазона — строки можно сортировать посимвольно (это и есть идея LSD radix sort), но не напрямую одним проходом подсчёта.',
         en: 'Counting sort needs discrete keys of a known range — strings can be sorted character by character (this is exactly the LSD radix sort idea), but not directly in a single counting pass.',
+      },
+      hint: {
+        ru: 'Алгоритм использует значение элемента как индекс в массиве count. Что нужно для этого знать о значениях?',
+        en: 'The algorithm uses each element\'s value as an index into the count array. What must be known about the values for this to work?',
+      },
+    },
+    {
+      question: {
+        ru: 'Для чего нужен шаг построения префиксных сумм в массиве count?',
+        en: 'What is the purpose of the prefix-sum step on the count array?',
+      },
+      options: [
+        { ru: 'Чтобы каждый элемент count хранил, сколько элементов входного массива не превышает данное значение', en: 'So each count entry stores how many input elements are no greater than that value' },
+        { ru: 'Чтобы отсортировать сам массив count по возрастанию перед финальным проходом', en: 'To sort the count array itself in ascending order before the final pass' },
+        { ru: 'Чтобы подсчитать суммарное количество элементов в массиве и проверить целостность данных', en: 'To compute the total number of elements in the array and verify data integrity always' },
+        { ru: 'Чтобы уменьшить размер массива count вдвое и сэкономить память', en: 'To halve the size of the count array and save memory' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'После построения префиксных сумм count[v] равен числу элементов ≤ v, что непосредственно задаёт последний индекс, который занимает значение v в выходном массиве.',
+        en: 'After prefix sums, count[v] equals the number of elements ≤ v, which directly gives the last index that value v occupies in the output array.',
+      },
+      hint: {
+        ru: 'Зная, сколько элементов меньше или равно v, что можно сказать о позиции последнего вхождения v в отсортированном массиве?',
+        en: 'Knowing how many elements are less than or equal to v, what can you say about the position of the last occurrence of v in the sorted array?',
+      },
+    },
+    {
+      question: {
+        ru: 'Какую роль играет сортировка подсчётом внутри поразрядной сортировки (radix sort)?',
+        en: 'What role does counting sort play inside radix sort?',
+      },
+      options: [
+        { ru: 'Она стабильно сортирует числа по одному разряду за проход', en: 'It stably sorts numbers by one digit per pass' },
+        { ru: 'Она выбирает опорный элемент для разбиения массива на части', en: 'It selects a pivot element for partitioning the array into parts' },
+        { ru: 'Она рекурсивно делит массив, как при сортировке слиянием', en: 'It recursively divides the array, as in merge sort' },
+        { ru: 'Она освобождает память после каждого прохода по разряду', en: 'It frees memory after each digit pass completes' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Radix sort обрабатывает числа разряд за разрядом; на каждом шаге он вызывает counting sort по текущему разряду, опираясь на устойчивость, чтобы сохранить порядок, достигнутый предыдущими шагами.',
+        en: 'Radix sort processes numbers digit by digit; at each step it calls counting sort on the current digit, relying on stability to preserve the order established by previous steps.',
+      },
+      hint: {
+        ru: 'Radix sort обрабатывает одну цифру за проход. Какие свойства counting sort делают её идеальной для этой роли?',
+        en: 'Radix sort processes one digit per pass. Which properties of counting sort make it ideal for this role?',
+      },
+    },
+    {
+      question: {
+        ru: 'Что произойдёт, если массив count заполнять, проходя исходный массив слева направо при размещении элементов в выход?',
+        en: 'What happens if the output is filled by walking the input array left to right instead of right to left?',
+      },
+      options: [
+        { ru: 'Алгоритм останется корректным, но потеряет устойчивость', en: 'The algorithm stays correct but loses stability' },
+        { ru: 'Алгоритм полностью перестанет работать и выдаст неотсортированный результат', en: 'The algorithm breaks entirely and returns an unsorted result' },
+        { ru: 'Сложность ухудшится с O(n + k) до O(n²) из-за конфликтов при записи', en: 'The complexity degrades from O(n + k) to O(n²) due to write conflicts' },
+        { ru: 'Вспомогательный массив count переполнится и вызовет выход за границы памяти', en: 'The auxiliary count array overflows and causes an out-of-bounds memory access' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Обход слева направо разместит более ранние равные элементы на более высоких индексах, нарушив их исходный порядок, — сортировка станет нестабильной, но результат всё равно будет отсортирован.',
+        en: 'Walking left to right places earlier equal elements at higher indices, breaking their original order — the sort becomes unstable, but the result is still sorted.',
+      },
+      hint: {
+        ru: 'Подумайте конкретно о двух одинаковых элементах. Как их расположение в выходе изменится, если обходить массив в другом направлении?',
+        en: 'Think specifically about two identical elements. How will their placement in the output change if the array is walked in the opposite direction?',
+      },
+    },
+    {
+      question: {
+        ru: 'Какова пространственная сложность сортировки подсчётом?',
+        en: 'What is the space complexity of counting sort?',
+      },
+      options: [
+        { ru: 'O(n + k) — для выходного массива и массива count размером в диапазон значений', en: 'O(n + k) — for the output array and the count array sized to the value range' },
+        { ru: 'O(1) — алгоритм сортирует данные прямо на месте без дополнительных структур', en: 'O(1) — the algorithm sorts in place without any extra structures' },
+        { ru: 'O(log n) — за счёт стека рекурсивных вызовов при разбиении диапазона пополам', en: 'O(log n) — from the recursive call stack when splitting the range in half always' },
+        { ru: 'O(n²) — потому что для каждого элемента хранится его полная история сравнений', en: 'O(n²) — because the full comparison history of each element is stored' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Алгоритм выделяет массив `count` размером k и выходной массив размером n, откуда и берётся суммарная сложность O(n + k).',
+        en: 'The algorithm allocates a `count` array of size k and an output array of size n, giving total space O(n + k).',
+      },
+      hint: {
+        ru: 'Перечислите все структуры, которые выделяет алгоритм помимо входного массива, и оцените размер каждой.',
+        en: 'List all the structures the algorithm allocates beyond the input array and estimate the size of each.',
+      },
+    },
+    {
+      question: {
+        ru: 'Зачем при инициализации массива count из него вычитается минимальное значение при индексации?',
+        en: 'Why is the minimum value subtracted from each element when indexing into the count array?',
+      },
+      options: [
+        { ru: 'Чтобы сдвинуть диапазон значений к нулю и не выделять лишнюю память для значений ниже минимума', en: 'To shift the value range to start at zero and avoid allocating memory for values below the minimum' },
+        { ru: 'Чтобы ускорить вычисление индекса при помощи битового сдвига вместо деления', en: 'To speed up index computation using a bit shift instead of division regardless of input size or order' },
+        { ru: 'Потому что отрицательные индексы массива требуют коррекции знака', en: 'Because negative array indices require a sign correction' },
+        { ru: 'Чтобы гарантировать, что максимальный элемент всегда попадёт в последнюю ячейку', en: 'To guarantee the maximum element always lands in the last cell' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Если минимальное значение равно, например, 50, то без вычитания первые 50 ячеек массива count были бы пусты — вычитание минимума убирает этот мёртвый балласт.',
+        en: 'If the minimum value is, say, 50, then without subtraction the first 50 cells of count would be empty — subtracting the minimum removes this dead space.',
+      },
+      hint: {
+        ru: 'Что было бы размером массива count, если бы он индексировался напрямую значениями, а не их смещением относительно минимума?',
+        en: 'What would the count array size be if it were indexed directly by values rather than by their offset from the minimum?',
       },
     },
   ],

@@ -168,6 +168,10 @@ export const stoogeSort = {
         ru: 'Если первый элемент диапазона больше последнего, они меняются местами — это единственное фактическое сравнение на каждом уровне.',
         en: "If the range's first element is greater than its last, they are swapped — this is the only actual comparison at each level.",
       },
+      hint: {
+        ru: 'Подумайте, какие два элемента диапазона наиболее удалены друг от друга по позиции.',
+        en: 'Think about which two elements of the range are furthest apart by position.',
+      },
     },
     {
       question: {
@@ -185,6 +189,10 @@ export const stoogeSort = {
         ru: 'Именно перекрытие двух третей — а не непересекающееся деление, как в сортировке слиянием — отличает Стуз-сортировку и объясняет её плохую асимптотику.',
         en: "It's exactly the overlap of the two-thirds — not a non-overlapping split like in merge sort — that defines stooge sort and explains its poor asymptotics.",
       },
+      hint: {
+        ru: 'Ключевое слово здесь — «перекрывающиеся». Сколько раз вызывается рекурсия и на каких частях диапазона?',
+        en: 'The key word here is "overlapping." How many recursive calls are made and on which portions of the range?',
+      },
     },
     {
       question: {
@@ -201,6 +209,10 @@ export const stoogeSort = {
       explanation: {
         ru: 'Решение рекуррентного соотношения T(n) = 3T(2n/3) + O(1) даёт показатель степени log(3)/log(1.5) ≈ 2.71.',
         en: 'Solving the recurrence T(n) = 3T(2n/3) + O(1) gives the exponent log(3)/log(1.5) ≈ 2.71.',
+      },
+      hint: {
+        ru: 'Подставьте параметры рекуррентного соотношения T(n) = 3T(2n/3) + O(1) в основную теорему.',
+        en: 'Plug the parameters of the recurrence T(n) = 3T(2n/3) + O(1) into the master theorem.',
       },
     },
     {
@@ -222,6 +234,10 @@ export const stoogeSort = {
         ru: 'Хотя это не очевидно на интуитивном уровне, тройное перекрывающееся рекурсивное применение можно строго доказать корректным индукцией по размеру диапазона.',
         en: 'Although not intuitively obvious, the triple overlapping recursive application can be rigorously proved correct by induction on the range size.',
       },
+      hint: {
+        ru: 'Перекрытие диапазонов, несмотря на неэффективность, всё же гарантирует, что каждый элемент окажется на нужном месте.',
+        en: 'The range overlap, despite its inefficiency, still ensures every element ends up in the right place.',
+      },
     },
     {
       question: {
@@ -238,6 +254,115 @@ export const stoogeSort = {
       explanation: {
         ru: 'Сортировка выполняется на месте, а дополнительная память уходит только на глубину рекурсивных вызовов.',
         en: 'The sort runs in place, and the only extra memory goes to the depth of the recursive calls.',
+      },
+      hint: {
+        ru: 'Алгоритм рекурсивен, но не создаёт вспомогательных массивов — какова тогда глубина стека?',
+        en: 'The algorithm is recursive but creates no auxiliary arrays — what is the stack depth then?',
+      },
+    },
+    {
+      question: {
+        ru: 'Какое рекуррентное соотношение описывает сложность Стуз-сортировки?',
+        en: 'Which recurrence relation describes the complexity of stooge sort?',
+      },
+      options: [
+        { ru: 'T(n) = 3T(2n/3) + O(1)', en: 'T(n) = 3T(2n/3) + O(1)' },
+        { ru: 'T(n) = 2T(n/2) + O(n), как у сортировки слиянием', en: 'T(n) = 2T(n/2) + O(n), the same as merge sort' },
+        { ru: 'T(n) = T(n−1) + O(n), как у сортировки вставками', en: 'T(n) = T(n−1) + O(n), the same as insertion sort' },
+        { ru: 'T(n) = T(n/2) + O(1), как у бинарного поиска', en: 'T(n) = T(n/2) + O(1), the same as binary search' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Три рекурсивных вызова на диапазонах размером 2n/3 и константная работа на каждом уровне дают T(n) = 3T(2n/3) + O(1).',
+        en: 'Three recursive calls on ranges of size 2n/3 and constant work at each level give T(n) = 3T(2n/3) + O(1).',
+      },
+      hint: {
+        ru: 'Посчитайте, сколько рекурсивных вызовов делается и какого размера каждый из них.',
+        en: 'Count how many recursive calls are made and what size each one processes.',
+      },
+    },
+    {
+      question: {
+        ru: 'Чем Стуз-сортировка хуже пузырьковой сортировки с точки зрения асимптотики?',
+        en: 'In what way is stooge sort worse than bubble sort in terms of asymptotics?',
+      },
+      options: [
+        { ru: 'Стуз-сортировка имеет показатель степени ~2.71, тогда как пузырьковая — ровно 2', en: 'Stooge sort has exponent ~2.71, while bubble sort has exactly 2' },
+        { ru: 'Стуз-сортировка использует O(n) памяти, а пузырьковая — только O(1)', en: 'Stooge sort uses O(n) memory for its recursion, while bubble sort uses only O(1)' },
+        { ru: 'Пузырьковая сортировка нестабильна, а Стуз-сортировка — устойчива', en: 'Bubble sort is unstable, while stooge sort is stable' },
+        { ru: 'Никакой разницы — обе сортировки имеют одинаковую асимптотику O(n²)', en: 'No difference — both sorts have the same O(n²) asymptotics' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'O(n^2.71) растёт быстрее O(n²) при увеличении n, поэтому Стуз-сортировка асимптотически хуже даже пузырьковой.',
+        en: 'O(n^2.71) grows faster than O(n²) as n increases, so stooge sort is asymptotically worse than even bubble sort.',
+      },
+      hint: {
+        ru: 'Сравните показатели степени: 2 у пузырьковой и ~2.71 у Стуз-сортировки.',
+        en: 'Compare the exponents: 2 for bubble sort and ~2.71 for stooge sort.',
+      },
+    },
+    {
+      question: {
+        ru: 'Зачем алгоритм делает третий рекурсивный вызов на первых двух третях после уже двух предыдущих вызовов?',
+        en: 'Why does the algorithm make a third recursive call on the first two-thirds after the previous two calls?',
+      },
+      options: [
+        { ru: 'Чтобы гарантировать, что элементы, перемещённые последними двумя вызовами, оказались на правильных позициях', en: 'To guarantee that elements shifted by the last two calls are in their correct positions' },
+        { ru: 'Только для симметрии кода — третий вызов не влияет на результат', en: 'Only for code symmetry — the third call has no effect on the result' },
+        { ru: 'Чтобы выполнить итоговую проверку на отсортированность без изменений', en: 'To perform a final check for sortedness without making changes' },
+        { ru: 'Потому что два вызова обрабатывают только половину элементов, а третий — оставшиеся', en: 'Because the first two calls together only cover half the elements, and the third handles the rest' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Без третьего вызова элементы, «занесённые» вторым вызовом (последние 2/3) в начало диапазона, могут оказаться не на своих местах.',
+        en: 'Without the third call, elements "introduced" by the second call (last 2/3) into the start of the range may not be in their correct positions.',
+      },
+      hint: {
+        ru: 'После обработки последних двух третей некоторые элементы в начале диапазона могут нуждаться в исправлении.',
+        en: 'After processing the last two-thirds, some elements at the start of the range may still need fixing.',
+      },
+    },
+    {
+      question: {
+        ru: 'Какое практическое применение имеет Стуз-сортировка за пределами учебных целей?',
+        en: 'What practical application does stooge sort have beyond educational purposes?',
+      },
+      options: [
+        { ru: 'Никакого — алгоритм намеренно неэффективен и используется только как учебный пример', en: 'None — the algorithm is deliberately inefficient and used only as a teaching example' },
+        { ru: 'Сортировка строк в базах данных, где требуется лексикографический порядок', en: 'Sorting strings in databases where lexicographic order is required regardless of input' },
+        { ru: 'Параллельная сортировка на GPU благодаря простой структуре рекурсии', en: 'Parallel sorting on GPUs thanks to the simple recursion structure' },
+        { ru: 'Внешняя сортировка файлов, не помещающихся в оперативную память', en: 'External sorting of files that do not fit in RAM' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Стуз-сортировка существует исключительно как учебный и шуточный пример — ни одна известная реальная система не использует её.',
+        en: 'Stooge sort exists purely as an educational and joke example — no known real-world system uses it.',
+      },
+      hint: {
+        ru: 'Вспомните, к какой категории алгоритмов относится Стуз-сортировка по своему назначению.',
+        en: 'Recall what category of algorithms stooge sort belongs to by its purpose.',
+      },
+    },
+    {
+      question: {
+        ru: 'Что происходит с диапазоном из двух элементов в Стуз-сортировке?',
+        en: 'What happens to a two-element range in stooge sort?',
+      },
+      options: [
+        { ru: 'Элементы сравниваются и при необходимости меняются местами, рекурсия не вызывается', en: 'The elements are compared and swapped if needed, no recursion is called' },
+        { ru: 'Рекурсия вызывается ещё три раза, каждый раз на всём том же диапазоне', en: 'Recursion is called three more times, each time on the same full range' },
+        { ru: 'Диапазон из двух элементов считается уже отсортированным без проверки', en: 'A two-element range is considered already sorted without any check' },
+        { ru: 'Два элемента сортируются встроенной функцией сравнения платформы', en: 'The two elements are sorted by the platform\'s built-in comparison function' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Условие hi − lo + 1 > 2 не выполняется для двух элементов, поэтому рекурсия останавливается после единственного сравнения и возможного обмена.',
+        en: 'The condition hi − lo + 1 > 2 is not satisfied for two elements, so recursion stops after the single comparison and possible swap.',
+      },
+      hint: {
+        ru: 'Посмотрите на условие базового случая: когда рекурсия прекращается?',
+        en: 'Look at the base-case condition: when does the recursion stop?',
       },
     },
   ],

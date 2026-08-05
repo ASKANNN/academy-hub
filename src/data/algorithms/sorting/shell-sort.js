@@ -165,6 +165,10 @@ export const shellSort = {
         ru: 'Сравнения «через gap» позволяют далёким друг от друга элементам быстро переместиться на большое расстояние за один шаг, а не через множество мелких сдвигов.',
         en: 'Gapped comparisons let far-apart elements move a long distance in one step instead of many small shifts.',
       },
+      hint: {
+        ru: 'Главная слабость сортировки вставками — маленький элемент ползёт к началу массива по одной позиции. Как сортировка Шелла ускоряет это перемещение?',
+        en: 'Insertion sort\'s main weakness is a small element crawling toward the start one position at a time. How does Shell sort speed that move up?',
+      },
     },
     {
       question: {
@@ -181,6 +185,10 @@ export const shellSort = {
       explanation: {
         ru: 'При gap = 1 алгоритм превращается в обычную сортировку вставками, но благодаря предыдущим проходам данные уже почти упорядочены, поэтому сдвигов немного.',
         en: 'At gap = 1 the algorithm is plain insertion sort, but thanks to earlier passes the data is already nearly sorted, so few shifts remain.',
+      },
+      hint: {
+        ru: 'Gap = 1 означает сравнение соседних элементов. Какой алгоритм делает именно это?',
+        en: 'Gap = 1 means comparing adjacent elements. Which algorithm does exactly that?',
       },
     },
     {
@@ -199,6 +207,10 @@ export const shellSort = {
         ru: 'Элемент может «перепрыгнуть» через равный себе элемент, стоящий между позициями i и i-gap, поэтому относительный порядок равных элементов не гарантирован.',
         en: 'An element can jump over an equal element sitting between positions i and i-gap, so equal elements\' relative order isn\'t guaranteed.',
       },
+      hint: {
+        ru: 'Когда элемент перепрыгивает через несколько позиций сразу, что может случиться с равными ему элементами, стоящими между старым и новым местом?',
+        en: 'When an element jumps over several positions at once, what can happen to equal elements sitting between the old and new position?',
+      },
     },
     {
       question: {
@@ -216,6 +228,10 @@ export const shellSort = {
         ru: 'Как и обычная сортировка вставками, алгоритм переставляет элементы прямо в исходном массиве.',
         en: 'Like plain insertion sort, the algorithm rearranges elements directly in the original array.',
       },
+      hint: {
+        ru: 'Создаёт ли алгоритм дополнительные массивы или использует рекурсию — или он работает непосредственно в исходном массиве?',
+        en: 'Does the algorithm create extra arrays or use recursion — or does it work directly in the original array?',
+      },
     },
     {
       question: {
@@ -232,6 +248,115 @@ export const shellSort = {
       explanation: {
         ru: 'Разные последовательности gap (Шелла, Кнута, Седжвика и другие) дают разные гарантии сложности — от O(n²) до O(n^1.3) и лучше, поэтому единой формулы для «сортировки Шелла вообще» не существует.',
         en: 'Different gap sequences (Shell\'s, Knuth\'s, Sedgewick\'s, and others) give different complexity guarantees — from O(n²) to O(n^1.3) and better — so there is no single formula for "Shell sort in general."',
+      },
+      hint: {
+        ru: 'Какой единственный параметр алгоритма кардинально меняет его производительность и не зафиксирован стандартом?',
+        en: 'Which single parameter of the algorithm drastically changes its performance and is not fixed by any standard?',
+      },
+    },
+    {
+      question: {
+        ru: 'Что означает последовательность Кнута (1, 4, 13, 40, ...) в контексте сортировки Шелла?',
+        en: 'What does Knuth\'s sequence (1, 4, 13, 40, ...) represent in the context of Shell sort?',
+      },
+      options: [
+        { ru: 'Это одна из возможных убывающих последовательностей gap, дающая сложность O(n^1.5)', en: 'It is one of the possible decreasing gap sequences, giving O(n^1.5) complexity' },
+        { ru: 'Это числа Фибоначчи, используемые для определения размера временного буфера', en: 'These are Fibonacci numbers used to determine the size of a temporary auxiliary buffer' },
+        { ru: 'Это индексы элементов, которые нужно поменять местами на первом проходе', en: 'These are the indices of elements to be swapped during the first pass' },
+        { ru: 'Это количество сравнений, выполняемых на каждом из проходов алгоритма', en: 'These are the comparison counts performed during each pass of the algorithm' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Последовательность Кнута h = 3h + 1 генерирует значения gap сверху вниз. При её использовании сортировка Шелла достигает сложности O(n^1.5) и значительно опережает простую последовательность n/2.',
+        en: 'Knuth\'s sequence h = 3h + 1 generates gap values top-down. Using it, Shell sort achieves O(n^1.5) complexity and significantly outperforms the simple n/2 sequence.',
+      },
+      hint: {
+        ru: 'Последовательность gap определяет расстояния между сравниваемыми элементами. Как формируется последовательность Кнута?',
+        en: 'The gap sequence defines the distances between compared elements. How is Knuth\'s sequence generated?',
+      },
+    },
+    {
+      question: {
+        ru: 'Почему сортировка Шелла предпочтительна перед merge sort во встроенных системах?',
+        en: 'Why is Shell sort preferred over merge sort in embedded systems?',
+      },
+      options: [
+        { ru: 'Она сортирует на месте без рекурсии, не требуя выделения дополнительной памяти', en: 'It sorts in place without recursion, requiring no extra memory allocation' },
+        { ru: 'Она всегда быстрее merge sort на любых входных данных любого размера', en: 'It is always faster than merge sort on any input data of any size' },
+        { ru: 'Она устойчива, что важно при сортировке структур с несколькими полями', en: 'It is stable, which matters when sorting structs with multiple fields always' },
+        { ru: 'Она использует меньше сравнений, чем сортировка пузырьком, при любом gap', en: 'It uses fewer comparisons than bubble sort for any gap value at all' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Во встроенных системах часто критичен жёсткий лимит стека и отсутствие динамического выделения памяти. Сортировка Шелла удовлетворяет обоим требованиям: нет рекурсии, нет дополнительных массивов.',
+        en: 'Embedded systems often have strict stack limits and no dynamic memory allocation. Shell sort satisfies both constraints: no recursion, no extra arrays.',
+      },
+      hint: {
+        ru: 'Каковы два главных ресурсных ограничения встроенных систем, и как сортировка Шелла их соблюдает?',
+        en: 'What are the two main resource constraints of embedded systems, and how does Shell sort respect both?',
+      },
+    },
+    {
+      question: {
+        ru: 'Чем сортировка Шелла похожа на сортировку расчёской (comb sort)?',
+        en: 'How is Shell sort similar to comb sort?',
+      },
+      options: [
+        { ru: 'Обе начинают с большого расстояния между сравниваемыми элементами и постепенно его уменьшают', en: 'Both start with a large gap between compared elements and gradually shrink it' },
+        { ru: 'Обе используют числа Фибоначчи для формирования последовательности gap', en: 'Both use Fibonacci numbers to form the gap sequence' },
+        { ru: 'Обе устойчивы и сохраняют порядок равных элементов при любом gap', en: 'Both are stable and preserve equal element order for any gap value in all cases' },
+        { ru: 'Обе являются нерекурсивными вариантами быстрой сортировки с опорным элементом', en: 'Both are non-recursive variants of quicksort with a pivot element' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Сортировка расчёской — это «сортировка пузырьком с gap»: она тоже начинает с большого расстояния и сокращает его до 1. Сортировка Шелла делает то же самое, но на основе сортировки вставками.',
+        en: 'Comb sort is "bubble sort with a gap": it also starts with a large distance and shrinks it to 1. Shell sort does the same thing, but based on insertion sort.',
+      },
+      hint: {
+        ru: 'Оба алгоритма решают одну и ту же проблему медленных «черепах» — маленьких элементов, далёких от своей позиции. Как?',
+        en: 'Both algorithms solve the same "turtle" problem — small elements far from their position. How?',
+      },
+    },
+    {
+      question: {
+        ru: 'Какова лучшая временная сложность сортировки Шелла и при каком условии она достигается?',
+        en: 'What is the best-case time complexity of Shell sort and when is it achieved?',
+      },
+      options: [
+        { ru: 'O(n log n) — при хорошей последовательности gap на уже почти отсортированном массиве', en: 'O(n log n) — with a good gap sequence on an already nearly sorted array' },
+        { ru: 'O(n) — когда массив уже полностью отсортирован и gap не нужен вовсе', en: 'O(n) — when the array is already fully sorted and no gap is needed at all' },
+        { ru: 'O(n²) — лучший и худший случаи у сортировки Шелла одинаковы', en: 'O(n²) — Shell sort\'s best and worst cases are the same' },
+        { ru: 'O(1) — если все элементы массива одинаковы и перестановок не требуется', en: 'O(1) — if all array elements are equal and no swaps are required at all' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Лучший случай O(n log n) достигается при хороших последовательностях gap (например, Седжвика) и благоприятных входных данных. На идеально отсортированных данных с простейшей последовательностью n/2 сложность всё равно Θ(n log n) из-за числа проходов.',
+        en: 'The O(n log n) best case is achieved with good gap sequences (e.g. Sedgewick\'s) and favorable input. On perfectly sorted data with the simplest n/2 sequence, complexity is still Θ(n log n) due to the number of passes.',
+      },
+      hint: {
+        ru: 'Сколько проходов делает алгоритм в любом случае — и как это влияет на нижнюю границу сложности?',
+        en: 'How many passes does the algorithm always make — and how does that affect the lower bound on complexity?',
+      },
+    },
+    {
+      question: {
+        ru: 'Что произойдёт, если использовать последовательность gap с чётными числами (например, 4, 2)?',
+        en: 'What happens if you use a gap sequence of only even numbers (for example, 4, 2)?',
+      },
+      options: [
+        { ru: 'Нечётные позиции никогда не сравниваются с чётными до финального прохода gap = 1', en: 'Odd-indexed elements never compare against even-indexed ones until the final gap=1 pass' },
+        { ru: 'Алгоритм завершится быстрее, поскольку чётные числа делятся пополам за меньшее число шагов', en: 'The algorithm finishes faster because even numbers halve in fewer steps than odd ones' },
+        { ru: 'Результат будет неверным, так как не все элементы попадут в одну группу сравнений', en: 'The result will be incorrect because not all elements end up in the same comparison group' },
+        { ru: 'Алгоритм вообще не сможет запуститься, так как gap должен быть нечётным по определению', en: 'The algorithm cannot start at all because gap must be odd by definition' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'С чётными gap элементы на чётных позициях сравниваются только между собой, а элементы на нечётных — только между собой, до тех пор пока gap не станет 1. Это не ошибка — массив будет отсортирован — но может быть неэффективно.',
+        en: 'With even gaps, even-indexed elements only compare among themselves and odd-indexed elements only among themselves, until gap reaches 1. This isn\'t incorrect — the array will be sorted — but can be inefficient.',
+      },
+      hint: {
+        ru: 'При чётном gap элементы с чётными и нечётными индексами смешиваются? Проверьте: если gap = 2, то элемент на позиции 1 сравнивается с позицией -1 или позицией 3?',
+        en: 'With an even gap, do elements at even and odd indices ever mix? Check: if gap = 2, does the element at index 1 compare with index -1 or index 3?',
       },
     },
   ],

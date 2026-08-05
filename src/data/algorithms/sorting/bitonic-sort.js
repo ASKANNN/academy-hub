@@ -206,6 +206,10 @@ export const bitonicSort = {
         ru: 'Именно эта форма («гора» или «долина») позволяет корректно слить последовательность за один проход битонического слияния.',
         en: 'Exactly this shape (a "mountain" or "valley") is what lets the sequence be correctly merged in a single bitonic-merge pass.',
       },
+      hint: {
+        ru: 'Представьте профиль горы: сначала подъём, потом спуск. Какую форму описывает последовательность?',
+        en: 'Picture a mountain profile: first a rise, then a fall. What shape does the sequence trace?',
+      },
     },
     {
       question: {
@@ -222,6 +226,10 @@ export const bitonicSort = {
       explanation: {
         ru: 'Рекурсивное деление cnt/2 на каждом уровне сети предполагает степень двойки; для произвольного n массив дополняют фиктивными элементами.',
         en: 'The recursive cnt/2 split at every network level assumes a power of two; for arbitrary n, the array is padded with sentinel elements.',
+      },
+      hint: {
+        ru: 'Подумайте о том, как сеть строится рекурсивным делением пополам на каждом уровне.',
+        en: 'Think about how the network is built by splitting in half at every level of recursion.',
       },
     },
     {
@@ -243,6 +251,10 @@ export const bitonicSort = {
         ru: 'Фиксированная, независимая от данных структура сравнений позволяет выполнять их одновременно на многих процессорах без ветвлений.',
         en: 'A fixed, data-independent comparison structure lets many processors execute them simultaneously without branching.',
       },
+      hint: {
+        ru: 'Что мешает обычным алгоритмам запускать сравнения параллельно? Что было бы нужно знать заранее?',
+        en: 'What prevents ordinary algorithms from running comparisons in parallel? What would need to be known ahead of time?',
+      },
     },
     {
       question: {
@@ -260,6 +272,10 @@ export const bitonicSort = {
         ru: 'Сеть состоит из O(log² n) уровней, каждый из которых требует O(n) сравнений, что даёт в сумме O(n log² n).',
         en: 'The network consists of O(log² n) levels, each requiring O(n) comparisons, giving O(n log² n) overall.',
       },
+      hint: {
+        ru: 'Сеть имеет O(log² n) уровней. Сколько сравнений выполняется на каждом уровне?',
+        en: 'The network has O(log² n) levels. How many comparisons happen at each level?',
+      },
     },
     {
       question: {
@@ -276,6 +292,115 @@ export const bitonicSort = {
       explanation: {
         ru: 'Как и большинство сетей сравнений, битоническая сортировка меняет местами равные элементы в зависимости от их позиции в сети, теряя исходный порядок.',
         en: 'Like most comparison networks, bitonic sort swaps equal elements based on their position in the network, losing their original order.',
+      },
+      hint: {
+        ru: 'Может ли сеть с фиксированными парами сравнений «видеть» исходные позиции равных элементов?',
+        en: 'Can a network with fixed comparison pairs "see" the original positions of equal elements?',
+      },
+    },
+    {
+      question: {
+        ru: 'Чем битоническая сортировка лучше merge sort на параллельном оборудовании?',
+        en: 'Where does bitonic sort outperform merge sort on parallel hardware?',
+      },
+      options: [
+        { ru: 'Параллельная глубина сети O(log² n) против O(n log n) последовательных шагов merge sort', en: 'Network depth O(log² n) versus O(n log n) sequential steps in merge sort' },
+        { ru: 'Меньше сравнений в сумме, что всегда быстрее на любом железе', en: 'Fewer total comparisons overall, making it always faster on any hardware platform' },
+        { ru: 'Устойчивость, которой нет у merge sort в параллельной реализации', en: 'Stability that merge sort lacks in a parallel implementation' },
+        { ru: 'Отсутствие необходимости в дополнительной памяти для слияния', en: 'No need for any extra memory during the merge phase' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'При достаточном числе процессоров все сравнения одного уровня сети выполняются одновременно — реальное время сводится к глубине сети O(log² n).',
+        en: 'With enough processors, all comparisons at one network level run simultaneously — actual time reduces to the network depth O(log² n).',
+      },
+      hint: {
+        ru: 'Если все сравнения одного уровня выполняются одновременно, что определяет реальное время выполнения?',
+        en: 'If all comparisons at one level run simultaneously, what determines the actual wall-clock time?',
+      },
+    },
+    {
+      question: {
+        ru: 'Что такое «сеть сравнений» в контексте битонической сортировки?',
+        en: 'What is a "comparison network" in the context of bitonic sort?',
+      },
+      options: [
+        { ru: 'Фиксированная заранее схема пар элементов для сравнения, не зависящая от значений', en: 'A fixed pre-determined scheme of element pairs to compare, independent of their values' },
+        { ru: 'Граф соседних элементов, по которому строится порядок обходов во время работы', en: 'A graph of neighboring elements used to determine the full traversal order dynamically at runtime' },
+        { ru: 'Нейронная сеть, обученная предсказывать результат сравнения двух элементов', en: 'A neural network trained to predict the result of comparing two elements' },
+        { ru: 'Компьютерная сеть из нескольких машин, каждая из которых сравнивает свою пару', en: 'A computer network of several machines, each comparing its assigned pair' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Сеть сравнений — это набор компараторов (пар индексов), порядок и выбор которых полностью определён до запуска алгоритма, независимо от входных данных.',
+        en: 'A comparison network is a set of comparators (index pairs) whose order and selection are fully determined before the algorithm runs, regardless of the input.',
+      },
+      hint: {
+        ru: 'Ключевое слово — «заранее». Что именно известно ещё до того, как алгоритм получил данные?',
+        en: 'The key word is "in advance." What exactly is known before the algorithm even sees the data?',
+      },
+    },
+    {
+      question: {
+        ru: 'Что происходит, если входной массив имеет размер, не являющийся степенью двойки?',
+        en: 'What happens when the input array has a size that is not a power of two?',
+      },
+      options: [
+        { ru: 'Его дополняют фиктивными элементами до ближайшей степени двойки', en: 'It is padded with sentinel elements up to the nearest power of two' },
+        { ru: 'Алгоритм выдаёт ошибку и завершается без результата', en: 'The algorithm throws an error and exits without a result' },
+        { ru: 'Последний лишний элемент игнорируется при построении сети', en: 'The last leftover element is silently ignored when building the network' },
+        { ru: 'Используется более медленная версия алгоритма без рекурсивного деления', en: 'A slower version of the algorithm without recursive halving is used instead' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Фиктивные элементы (sentinel) устанавливаются больше любого настоящего, чтобы сеть корректно работала, а после окончания они просто отбрасываются.',
+        en: 'Sentinel elements are set larger than any real element so the network operates correctly, and they are simply dropped at the end.',
+      },
+      hint: {
+        ru: 'Как можно заставить сеть, рассчитанную на степень двойки, работать с произвольным n?',
+        en: 'How can you make a network designed for a power of two work on an arbitrary n?',
+      },
+    },
+    {
+      question: {
+        ru: 'На каком типе оборудования битоническая сортировка применяется на практике?',
+        en: 'On what type of hardware is bitonic sort used in practice?',
+      },
+      options: [
+        { ru: 'GPU и FPGA, где важна предсказуемая структура операций', en: 'GPUs and FPGAs, where a predictable operation structure matters' },
+        { ru: 'Исключительно одноядерных процессорах без поддержки SIMD', en: 'Exclusively single-core processors without SIMD support' },
+        { ru: 'Квантовых компьютерах, так как требует суперпозиции состояний', en: 'Quantum computers, since it requires superposition of quantum states to operate' },
+        { ru: 'Только в учебных симуляторах, реальных применений нет', en: 'Only in teaching simulators — no real-world use exists' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Отсутствие ветвлений по данным и фиксированная структура операций делают битоническую сортировку идеальной для GPU-шейдеров, FPGA и SIMD-инструкций.',
+        en: 'The absence of data-dependent branches and the fixed operation structure make bitonic sort ideal for GPU shaders, FPGAs, and SIMD instructions.',
+      },
+      hint: {
+        ru: 'Какое оборудование выигрывает от отсутствия условных переходов и заранее известной последовательности операций?',
+        en: 'What hardware benefits most from having no conditional branches and a pre-known sequence of operations?',
+      },
+    },
+    {
+      question: {
+        ru: 'Какова пространственная сложность битонической сортировки?',
+        en: 'What is the space complexity of bitonic sort?',
+      },
+      options: [
+        { ru: 'O(n) — на дополненный массив и рекурсивный стек вызовов', en: 'O(n) — for the padded array and the recursive call stack' },
+        { ru: 'O(1) — все операции выполняются на месте без каких-либо вспомогательных структур', en: 'O(1) — all operations happen in place with no auxiliary structures at all' },
+        { ru: 'O(n log n) — пропорционально числу уровней сети и размеру массива', en: 'O(n log n) — proportional to the number of network levels times the array size' },
+        { ru: 'O(n²) — из-за хранения всех пар элементов для сравнения', en: 'O(n²) — due to storing all element pairs to compare' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Основная память — это дополненная копия массива размером до 2n, плюс стек рекурсии глубиной O(log² n) — итого O(n).',
+        en: 'The main memory is the padded copy of up to 2n elements, plus a recursion stack of depth O(log² n) — giving O(n) overall.',
+      },
+      hint: {
+        ru: 'Нужна ли копия массива для дополнения? Насколько глубока рекурсия?',
+        en: 'Is a copy of the array needed for padding? How deep does the recursion go?',
       },
     },
   ],

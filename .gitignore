@@ -25,3 +25,12 @@ dist-ssr
 
 # Internal working notes (never ship, never commit)
 PROJECT.md
+TASKS.md
+
+# Temporary QA screenshots
+.playwright-mcp/
+bubble-sort-quiz.png
+bubble-sort-quiz-before-hint.png
+hint-open.png
+hint-open-2.png
+current-state.png

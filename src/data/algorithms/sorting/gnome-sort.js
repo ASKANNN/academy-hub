@@ -160,6 +160,10 @@ export const gnomeSort = {
         ru: 'Если a[i-1] <= a[i], менять местами нечего, и алгоритм просто переходит к следующей паре.',
         en: 'If a[i-1] <= a[i], there\'s nothing to swap, so the algorithm simply moves to the next pair.',
       },
+      hint: {
+        ru: 'Алгоритм проверяет следующую пару, только двигаясь вперёд. Что означает «нет нарушения» для направления движения?',
+        en: 'The algorithm checks the next pair only by moving forward. What does "no violation" mean for the direction of movement?',
+      },
     },
     {
       question: {
@@ -176,6 +180,10 @@ export const gnomeSort = {
       explanation: {
         ru: 'Отступ назад позволяет проверить, не нарушает ли переставленный элемент порядок и с тем, что стоит перед ним.',
         en: 'Stepping back lets the algorithm check whether the swapped element also violates order with what comes before it.',
+      },
+      hint: {
+        ru: 'После обмена перемещённый элемент оказывается левее. Нужно ли проверить, на своём ли он теперь месте?',
+        en: 'After the swap, the moved element is one position to the left. Does it need to be checked against its new neighbor?',
       },
     },
     {
@@ -194,6 +202,10 @@ export const gnomeSort = {
         ru: 'В худшем случае (например, обратно отсортированный массив) указатель многократно пятится назад, что даёт квадратичное число операций.',
         en: 'In the worst case (e.g., a reverse-sorted array), the pointer repeatedly steps back, giving a quadratic number of operations.',
       },
+      hint: {
+        ru: 'Представьте массив [n, n-1, ..., 2, 1]. Сколько шагов назад сделает указатель при вставке каждого элемента?',
+        en: 'Imagine the array [n, n-1, ..., 2, 1]. How many backward steps does the pointer take when placing each element?',
+      },
     },
     {
       question: {
@@ -211,6 +223,10 @@ export const gnomeSort = {
         ru: 'Условие обмена — строгое `a[i-1] > a[i]`, поэтому равные соседние элементы никогда не меняются местами.',
         en: 'The swap condition is the strict `a[i-1] > a[i]`, so equal neighboring elements are never swapped.',
       },
+      hint: {
+        ru: 'Посмотрите на условие обмена: `a[i-1] > a[i]`. Произойдёт ли обмен, если элементы равны?',
+        en: 'Look at the swap condition: `a[i-1] > a[i]`. Does a swap happen when elements are equal?',
+      },
     },
     {
       question: {
@@ -227,6 +243,115 @@ export const gnomeSort = {
       explanation: {
         ru: 'Оба алгоритма проталкивают неуместный элемент назад до его правильной позиции; гномья сортировка просто выражает это через единственный указатель.',
         en: 'Both algorithms push an out-of-place element backward to its correct position; gnome sort just expresses this with a single pointer.',
+      },
+      hint: {
+        ru: 'Какой алгоритм тоже «тащит» элемент на нужное место, перемещая его влево через уже отсортированный участок?',
+        en: 'Which algorithm also "drags" an element into place by moving it left through an already sorted portion?',
+      },
+    },
+    {
+      question: {
+        ru: 'Какова лучшая временная сложность гномьей сортировки и при каком условии она достигается?',
+        en: 'What is the best-case time complexity of gnome sort and when is it achieved?',
+      },
+      options: [
+        { ru: 'O(n) — когда массив уже отсортирован и указатель ни разу не пятится', en: 'O(n) — when the array is already sorted and the pointer never steps back' },
+        { ru: 'O(1) — если массив содержит ровно один элемент и сортировать нечего', en: 'O(1) — if the array contains exactly one element and nothing needs sorting' },
+        { ru: 'O(n log n) — на случайных данных за счёт особой структуры откатов указателя', en: 'O(n log n) — on random data due to the special structure of pointer rollbacks' },
+        { ru: 'O(n²) всегда, независимо от исходного порядка элементов в массиве', en: 'O(n²) always, regardless of the initial order of elements in the array' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'На уже отсортированном массиве каждый шаг — вперёд, ни одного обмена, итого n шагов.',
+        en: 'On an already sorted array every step is forward, no swaps occur, giving n total steps.',
+      },
+      hint: {
+        ru: 'Если на каждом шаге пара в порядке, сколько шагов назад сделает алгоритм?',
+        en: 'If every pair is in order on every step, how many backward steps does the algorithm take?',
+      },
+    },
+    {
+      question: {
+        ru: 'Зачем гномья сортировка проверяет условие `i === 0` перед сравнением `a[i-1]` и `a[i]`?',
+        en: 'Why does gnome sort check the condition `i === 0` before comparing `a[i-1]` and `a[i]`?',
+      },
+      options: [
+        { ru: 'Чтобы не выйти за левую границу массива при обращении к a[i-1]', en: 'To avoid going past the left boundary of the array when accessing a[i-1]' },
+        { ru: 'Чтобы ускорить первую итерацию и пропустить ненужное сравнение', en: 'To speed up the first iteration and skip an unnecessary comparison' },
+        { ru: 'Потому что при i=0 элемент гарантированно является минимумом всего массива', en: 'Because at i=0 the element is guaranteed to be the minimum of the whole array' },
+        { ru: 'Это избыточная проверка, которая никак не влияет на корректность алгоритма', en: 'This is a redundant check that has no effect on correctness of the algorithm' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'При i = 0 обращение к a[-1] выйдет за границы массива. Проверка `i === 0` гарантирует, что `a[i-1]` всегда существует.',
+        en: 'At i = 0, accessing a[-1] would be out of bounds. The `i === 0` check guarantees that `a[i-1]` always exists.',
+      },
+      hint: {
+        ru: 'Что произошло бы при попытке обратиться к a[i-1], когда i равно нулю?',
+        en: 'What would happen if the code tried to access a[i-1] when i is zero?',
+      },
+    },
+    {
+      question: {
+        ru: 'Чем гномья сортировка хуже сортировки вставками по числу операций на случайных данных?',
+        en: 'How does gnome sort perform worse than insertion sort in operation count on random data?',
+      },
+      options: [
+        { ru: 'Гномья сортировка делает больше обменов, тогда как сортировка вставками сдвигает элементы без обмена', en: 'Gnome sort performs more swaps, while insertion sort shifts elements without swapping' },
+        { ru: 'Гномья сортировка требует дополнительного прохода в конце для проверки результата', en: 'Gnome sort requires an extra pass at the end to verify the result' },
+        { ru: 'Сортировка вставками использует рекурсию и поэтому быстрее при большом n', en: 'Insertion sort uses recursion and is therefore faster at large n' },
+        { ru: 'Гномья сортировка не поддерживает параллельное выполнение, а сортировка вставками поддерживает', en: 'Gnome sort does not support parallel execution while insertion sort does at every step' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Сортировка вставками сдвигает элементы одной записью на шаг, тогда как гномья сортировка выполняет полный обмен (3 записи) на каждый шаг назад — это делает её медленнее по числу операций записи.',
+        en: 'Insertion sort shifts elements with one write per step, while gnome sort performs a full swap (3 writes) on each backward step — making it slower in terms of write operations.',
+      },
+      hint: {
+        ru: 'Сравните, что происходит при каждом шаге назад: полный обмен трёх операций записи против одного сдвига.',
+        en: 'Compare what happens on each backward step: a full three-write swap versus a single shift.',
+      },
+    },
+    {
+      question: {
+        ru: 'Какова пространственная сложность гномьей сортировки?',
+        en: 'What is the space complexity of gnome sort?',
+      },
+      options: [
+        { ru: 'O(1) — только переменная-указатель и временная переменная для обмена', en: 'O(1) — only a pointer variable and a temporary variable for swapping' },
+        { ru: 'O(n) — для хранения исходного массива во время сортировки', en: 'O(n) — to store the original array during sorting' },
+        { ru: 'O(log n) — из-за глубины стека рекурсии при откатах указателя', en: 'O(log n) — due to the recursion stack depth during pointer rollbacks' },
+        { ru: 'O(n²) — потому что хранится история всех позиций указателя', en: 'O(n²) — because the history of all pointer positions is stored' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Гномья сортировка работает прямо в исходном массиве и не выделяет никаких дополнительных структур — только счётчик i и временная переменная при обмене.',
+        en: 'Gnome sort works directly on the original array and allocates no additional structures — only the counter i and a temporary variable during swaps.',
+      },
+      hint: {
+        ru: 'Нужно ли алгоритму выделять какие-либо дополнительные массивы или структуры данных?',
+        en: 'Does the algorithm need to allocate any additional arrays or data structures?',
+      },
+    },
+    {
+      question: {
+        ru: 'Почему гномья сортировка почти не используется в производственном коде?',
+        en: 'Why is gnome sort almost never used in production code?',
+      },
+      options: [
+        { ru: 'Она не даёт никаких практических преимуществ перед сортировкой вставками, которая делает то же самое быстрее', en: 'It offers no practical advantage over insertion sort, which does the same thing faster' },
+        { ru: 'Она нестабильна, что делает её непригодной для большинства реальных задач сортировки', en: 'It is unstable, which makes it unsuitable for most real-world sorting tasks' },
+        { ru: 'Её патент запрещает коммерческое использование без лицензии правообладателя', en: 'Its patent prohibits commercial use without a license from the rights holder' },
+        { ru: 'Большинство компиляторов не умеют оптимизировать код с одним указателем без вложенных циклов', en: 'Most compilers cannot optimize code with a single pointer and no nested loops in all cases' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Гномья сортировка делает то же самое, что сортировка вставками, но выполняет больше операций из-за попарных обменов вместо сдвигов — на практике это просто более медленная альтернатива с той же идеей.',
+        en: 'Gnome sort does the same thing as insertion sort but performs more operations due to pairwise swaps instead of shifts — in practice it is simply a slower alternative with the same underlying idea.',
+      },
+      hint: {
+        ru: 'Какой алгоритм с той же идеей работает эффективнее? Есть ли у гномьей сортировки хоть одно преимущество в скорости?',
+        en: 'Which algorithm with the same idea works more efficiently? Does gnome sort have any speed advantage at all?',
       },
     },
   ],

@@ -166,6 +166,10 @@ export const bucketSort = {
         ru: 'При равномерном распределении элементы поровну распределяются по корзинам, каждая корзина маленькая, и сортировка каждой из них быстрая. При перекошенном распределении почти все элементы могут попасть в одну корзину.',
         en: 'With uniform distribution, elements spread evenly across buckets, each bucket is small, and sorting each is fast. With skewed distribution, nearly everything can land in one bucket.',
       },
+      hint: {
+        ru: 'Что происходит с размером корзин при разных распределениях? Что влияет на скорость сортировки внутри корзины?',
+        en: 'What happens to bucket sizes under different distributions? What drives the speed of sorting inside a bucket?',
+      },
     },
     {
       question: {
@@ -182,6 +186,10 @@ export const bucketSort = {
       explanation: {
         ru: 'Если одна корзина содержит почти все n элементов, внутренняя сортировка (например, insertion sort) выполняется за O(n²) на этой корзине — распределение по корзинам не дало никакого выигрыша.',
         en: 'If one bucket holds nearly all n elements, the inner sort (e.g. insertion sort) runs in O(n²) on that bucket — distributing into buckets gave no benefit.',
+      },
+      hint: {
+        ru: 'Если одна корзина содержит n элементов, что происходит при сортировке этой корзины insertion sort\'ом?',
+        en: 'If one bucket has n elements, what happens when insertion sort processes that bucket?',
       },
     },
     {
@@ -200,6 +208,10 @@ export const bucketSort = {
         ru: 'При равномерном распределении каждая корзина содержит примерно n/k элементов — на таких маленьких массивах простые O(n²) алгоритмы вроде insertion sort работают быстро и с минимальными накладными расходами.',
         en: 'With uniform distribution, each bucket holds roughly n/k elements — on such small arrays, simple O(n²) algorithms like insertion sort run fast with minimal overhead.',
       },
+      hint: {
+        ru: 'Если корзина содержит всего несколько элементов, нужен ли сложный алгоритм сортировки или достаточно простого?',
+        en: 'If a bucket contains just a few elements, does it need a complex sorting algorithm or will a simple one do?',
+      },
     },
     {
       question: {
@@ -217,6 +229,10 @@ export const bucketSort = {
         ru: 'После распределения элементов по корзинам сортировка каждой корзины не зависит от других — их можно раздать по потокам или узлам вычислительного кластера.',
         en: 'Once elements are distributed into buckets, sorting each bucket doesn\'t depend on the others — they can be handed off to separate threads or cluster nodes.',
       },
+      hint: {
+        ru: 'После шага распределения нужны ли корзины друг другу для сортировки своего содержимого?',
+        en: 'After the distribution step, do buckets need each other to sort their own contents?',
+      },
     },
     {
       question: {
@@ -233,6 +249,115 @@ export const bucketSort = {
       explanation: {
         ru: 'В counting sort каждой ячейке счётчика соответствует ровно одно значение; в bucket sort каждая корзина покрывает целый интервал значений, что делает её пригодной и для вещественных чисел.',
         en: 'In counting sort, each counter slot maps to exactly one value; in bucket sort, each bucket spans a whole interval of values, which makes it suitable for floating-point numbers too.',
+      },
+      hint: {
+        ru: 'Counting sort считает вхождения каждого конкретного значения. Что делает bucket sort вместо этого?',
+        en: 'Counting sort tallies occurrences of each specific value. What does bucket sort do instead?',
+      },
+    },
+    {
+      question: {
+        ru: 'Какова пространственная сложность блочной сортировки?',
+        en: 'What is the space complexity of bucket sort?',
+      },
+      options: [
+        { ru: 'O(n + k) — на хранение n элементов в k корзинах', en: 'O(n + k) — for storing n elements across k buckets' },
+        { ru: 'O(1) — все операции выполняются на месте без дополнительной памяти', en: 'O(1) — all operations run in place without any extra memory' },
+        { ru: 'O(n²) — каждый элемент сравнивается со всеми остальными', en: 'O(n²) — each element is compared against all others' },
+        { ru: 'O(log n) — только на рекурсивный стек вызовов алгоритма', en: 'O(log n) — only for the algorithm\'s recursive call stack' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Нужно хранить все n элементов в корзинах и сами k корзин — итоговая память O(n + k).',
+        en: 'All n elements must be stored in buckets plus the k bucket structures themselves — total memory is O(n + k).',
+      },
+      hint: {
+        ru: 'Сколько памяти нужно для хранения n элементов, разложенных по k корзинам?',
+        en: 'How much memory is needed to hold n elements distributed across k buckets?',
+      },
+    },
+    {
+      question: {
+        ru: 'Почему блочная сортировка может работать быстрее O(n log n)?',
+        en: 'Why can bucket sort run faster than O(n log n)?',
+      },
+      options: [
+        { ru: 'Она не является сортировкой сравнением и использует знание о диапазоне значений', en: 'It is not a comparison sort and exploits knowledge of the value range' },
+        { ru: 'Она нарушает теорему об информационной нижней оценке для сортировок', en: 'It violates the information-theoretic lower bound for sorting in all cases' },
+        { ru: 'Она всегда делает меньше сравнений, чем любой другой алгоритм', en: 'It always makes fewer comparisons than any other algorithm' },
+        { ru: 'Она использует аппаратные инструкции, недоступные другим алгоритмам', en: 'It uses hardware instructions unavailable to other algorithms' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Нижняя оценка Ω(n log n) применима только к сортировкам сравнением; блочная сортировка распределяет элементы по диапазону, а не сравнивает их попарно, обходя это ограничение.',
+        en: 'The Ω(n log n) lower bound applies only to comparison sorts; bucket sort distributes by value range rather than comparing pairs, which is how it bypasses that limit.',
+      },
+      hint: {
+        ru: 'Нижняя оценка Ω(n log n) применима только к алгоритмам, которые только сравнивают элементы. Чем отличается bucket sort?',
+        en: 'The Ω(n log n) lower bound only applies to algorithms that do nothing but compare elements. What does bucket sort do differently?',
+      },
+    },
+    {
+      question: {
+        ru: 'Что произойдёт, если выбрать слишком мало корзин для большого массива?',
+        en: 'What happens if too few buckets are chosen for a large array?',
+      },
+      options: [
+        { ru: 'Корзины будут переполнены, и внутренняя сортировка займёт больше времени', en: 'Buckets will be overfull and the inner sort will take longer' },
+        { ru: 'Алгоритм автоматически создаст дополнительные корзины по мере необходимости', en: 'The algorithm automatically creates extra buckets as needed' },
+        { ru: 'Элементы будут потеряны, так как индексы корзин выйдут за границы', en: 'Elements will be lost because bucket indices go out of bounds' },
+        { ru: 'Алгоритм переключится на merge sort для повышения точности', en: 'The algorithm switches to merge sort for better accuracy' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Малое число корзин означает больше элементов в каждой корзине — внутренняя сортировка (insertion sort) на большой корзине работает медленно, снижая общую производительность.',
+        en: 'Too few buckets means more elements per bucket — the inner sort (insertion sort) on a large bucket is slow, reducing overall performance.',
+      },
+      hint: {
+        ru: 'Если корзин мало, что происходит со средним числом элементов в каждой корзине?',
+        en: 'If there are too few buckets, what happens to the average number of elements in each bucket?',
+      },
+    },
+    {
+      question: {
+        ru: 'Является ли блочная сортировка устойчивой (stable)?',
+        en: 'Is bucket sort stable?',
+      },
+      options: [
+        { ru: 'Да, если внутренняя сортировка каждой корзины устойчива', en: 'Yes, if the inner sort used for each bucket is stable' },
+        { ru: 'Нет никогда — распределение по корзинам всегда нарушает порядок', en: 'No, never — distributing into buckets always breaks the order' },
+        { ru: 'Только если все элементы уникальны и нет повторяющихся значений', en: 'Only if all elements are unique and there are no repeated values' },
+        { ru: 'Зависит исключительно от числа корзин, а не от алгоритма внутри', en: 'Depends solely on the number of buckets, not on the inner algorithm' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Распределение по корзинам сохраняет исходный порядок элементов внутри каждой корзины, если элементы добавляются по порядку; устойчивость финального результата определяется устойчивостью внутреннего алгоритма.',
+        en: 'Distribution into buckets preserves the original order of elements within each bucket when they are appended in order; final stability depends on the inner algorithm\'s stability.',
+      },
+      hint: {
+        ru: 'После распределения порядок элементов внутри одной корзины сохранён. Что далее влияет на устойчивость?',
+        en: 'After distribution, the order within one bucket is preserved. What then determines overall stability?',
+      },
+    },
+    {
+      question: {
+        ru: 'При каком распределении данных блочная сортировка показывает наилучшую производительность?',
+        en: 'Under what data distribution does bucket sort perform best?',
+      },
+      options: [
+        { ru: 'При равномерном распределении на известном интервале', en: 'Under uniform distribution over a known interval' },
+        { ru: 'При нормальном (гауссовом) распределении с пиком в центре', en: 'Under a normal (Gaussian) distribution with a peak in the center' },
+        { ru: 'При уже отсортированных данных — как у insertion sort', en: 'On already-sorted data — the same as insertion sort' },
+        { ru: 'При обратно отсортированных данных — наихудший случай для bubble sort', en: 'On reverse-sorted data — the worst case for bubble sort' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'При равномерном распределении каждая корзина получает примерно n/k элементов, что минимизирует время сортировки каждой корзины и приводит к O(n + k) суммарно.',
+        en: 'With uniform distribution, each bucket receives roughly n/k elements, minimizing the sorting time per bucket and yielding O(n + k) overall.',
+      },
+      hint: {
+        ru: 'При каком распределении корзины заполняются наиболее равномерно?',
+        en: 'Under which distribution do buckets fill most evenly?',
       },
     },
   ],
