@@ -22,7 +22,9 @@ export function Layout() {
   const location = useLocation();
 
   useLayoutEffect(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    document.documentElement.style.scrollBehavior = 'auto';
+    window.scrollTo(0, 0);
+    document.documentElement.style.scrollBehavior = '';
   }, [location.pathname]);
 
   return (
