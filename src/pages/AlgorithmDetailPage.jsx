@@ -10,6 +10,7 @@ import { CodeBlock } from '../components/ui/CodeBlock.jsx';
 import { Tabs } from '../components/ui/Tabs.jsx';
 import { Quiz } from '../components/ui/Quiz.jsx';
 import { RichText } from '../components/ui/RichText.jsx';
+import { PrerequisiteBadge } from '../components/ui/PrerequisiteBadge.jsx';
 import { getCategory, getAlgorithm, getAdjacentAlgorithms, getAlgorithmsByCategory } from '../data/algorithms/index.js';
 import { getStrings } from '../i18n/strings.js';
 import { usePageMeta } from '../hooks/usePageMeta.js';
@@ -80,6 +81,7 @@ export default function AlgorithmDetailPage() {
           </span>
         </div>
         <p className="algorithms-hero__subtitle">{algorithm.intent[lang] ?? algorithm.intent.ru}</p>
+        <PrerequisiteBadge t={t} />
         <div className="algorithm-detail__complexity">
           <span className="algorithm-card__complexity-badge">{t.best}: {algorithm.complexity.time.best}</span>
           <span className="algorithm-card__complexity-badge">{t.average}: {algorithm.complexity.time.average}</span>

@@ -241,6 +241,33 @@
   gap: var(--space-3);
 }
 
+.prerequisite-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-1);
+  font-size: var(--text-xs);
+  color: var(--color-text-secondary);
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  padding: var(--space-1) var(--space-3);
+  margin-top: var(--space-3);
+}
+
+.prerequisite-badge__label {
+  font-weight: var(--font-weight-medium);
+}
+
+.prerequisite-badge__link {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: var(--font-weight-medium);
+}
+
+.prerequisite-badge__link:hover {
+  text-decoration: underline;
+}
+
 .algorithm-detail__complexity {
   display: flex;
   flex-wrap: wrap;
@@ -580,7 +607,7 @@
     grid-template-areas:
       "shuffle shuffle step"
       "prev    play   next";
-    grid-template-columns: 44px 1fr 44px;
+    grid-template-columns: 44px 1fr auto;
     gap: var(--space-2);
     align-items: center;
   }
@@ -588,7 +615,7 @@
   .visualizer__controls > .btn:nth-child(2) { grid-area: prev; }
   .visualizer__controls > .btn:nth-child(3) { grid-area: play; }
   .visualizer__controls > .btn:nth-child(4) { grid-area: next; }
-  .visualizer__step-count { grid-area: step; margin-left: 0; text-align: right; }
+  .visualizer__step-count { grid-area: step; margin-left: 0; text-align: right; white-space: nowrap; }
 }
 
 .btn {
@@ -618,6 +645,10 @@
 .btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
+}
+.btn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
 
 /* ---------- quiz ---------- */
@@ -664,6 +695,10 @@
 .quiz__hint-btn:hover {
   background-color: rgba(234, 179, 8, 0.14);
   box-shadow: 0 0 0 4px rgba(234, 179, 8, 0.14);
+}
+.quiz__hint-btn:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
 
 .quiz__hint-wrap {
@@ -718,6 +753,10 @@
 }
 .quiz__option:hover:not(:disabled) {
   border-color: var(--color-accent);
+}
+.quiz__option:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
 .quiz__option:disabled {
   cursor: default;
@@ -856,6 +895,11 @@
 .quiz__report:hover {
   color: var(--color-text-secondary);
   text-decoration: underline;
+}
+.quiz__report:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
 }
 
 /* ---------- prev/next nav ---------- */

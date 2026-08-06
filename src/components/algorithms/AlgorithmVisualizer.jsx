@@ -82,6 +82,7 @@ export function AlgorithmVisualizer({ slug, t }) {
           className="btn btn--secondary"
           onClick={() => setStep((s) => Math.max(0, s - 1))}
           disabled={step === 0}
+          aria-label={t.visualizerPrevStep}
         >
           ←
         </button>
@@ -100,6 +101,7 @@ export function AlgorithmVisualizer({ slug, t }) {
           className="btn btn--secondary"
           onClick={() => setStep((s) => Math.min(frames.length - 1, s + 1))}
           disabled={step >= frames.length - 1}
+          aria-label={t.visualizerNextStep}
         >
           →
         </button>
