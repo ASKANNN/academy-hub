@@ -240,7 +240,7 @@ export const bubbleSort = {
         en: 'Why is bubble sort stable?',
       },
       options: [
-        { ru: 'Условие обмена - строго больше (>): равные элементы никогда не меняются местами', en: 'The swap condition is strictly greater than (>): equal elements are never exchanged' },
+        { ru: 'Условие обмена - строго больше (>): равные элементы никогда не меняются местами', en: 'Strictly greater than (>): equal adjacent elements are never swapped' },
         { ru: 'Она всегда делает чётное число перестановок, что сохраняет относительный порядок', en: 'It always makes an even number of swaps, which preserves relative order' },
         { ru: 'Она сравнивает элементы одновременно по значению и по исходному индексу', en: 'It compares elements by both value and original index simultaneously' },
         { ru: 'Она переносит равные элементы в начало массива перед основной сортировкой', en: 'It moves equal elements to the front of the array before the main sort' },

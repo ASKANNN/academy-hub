@@ -172,7 +172,7 @@ def partition(arr, low, high):
         en: 'Is quicksort stable?',
       },
       options: [
-        { ru: 'Нет - перестановки при разбиении могут изменить относительный порядок равных элементов', en: 'No - swaps during partitioning can change the relative order of equal elements' },
+        { ru: 'Нет - перестановки при разбиении нарушают порядок равных элементов', en: 'No - swaps during partitioning can change the relative order of equal elements' },
         { ru: 'Да - при разбиении равные элементы никогда не меняют свой относительный порядок', en: 'Yes - equal elements never change their relative order during partitioning' },
         { ru: 'Зависит от версии: рандомизированная устойчива, а с фиксированным опорным - нет', en: 'It depends on the version: randomized quicksort is stable, fixed-pivot quicksort is not' },
         { ru: 'Только если все элементы массива различны', en: 'Only if all elements of the array are distinct' },

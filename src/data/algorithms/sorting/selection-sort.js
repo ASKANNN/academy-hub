@@ -150,7 +150,7 @@ export const selectionSort = {
         en: 'What is the time complexity of selection sort in the best, average, and worst cases?',
       },
       options: [
-        { ru: 'O(n²) во всех трёх случаях - число сравнений не зависит от порядка входных данных', en: 'O(n²) in all three cases - the number of comparisons does not depend on input order' },
+        { ru: 'O(n²) во всех трёх случаях - количество сравнений не зависит от порядка', en: 'O(n²) in all three cases - comparisons never depend on input order' },
         { ru: 'O(n) в лучшем случае (уже отсортирован) и O(n²) в худшем', en: 'O(n) in the best case (already sorted) and O(n²) in the worst' },
         { ru: 'O(n log n) в среднем случае благодаря встроенному бинарному поиску минимума', en: 'O(n log n) on average thanks to a built-in binary search for the minimum' },
         { ru: 'O(n²) в худшем и O(n log n) в среднем, как у большинства популярных алгоритмов', en: 'O(n²) in the worst and O(n log n) on average, like most popular algorithms' },
