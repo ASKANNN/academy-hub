@@ -155,7 +155,7 @@
 }
 
 .algorithms-hero__title {
-  font-size: var(--text-5xl);
+  font-size: clamp(var(--text-3xl), 8vw, var(--text-5xl));
   letter-spacing: var(--tracking-tight);
   margin-top: var(--space-4);
   margin-bottom: var(--space-3);
@@ -381,6 +381,9 @@
 }
 
 .tabs__tab {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   padding: var(--space-2) var(--space-4);
   font-size: var(--text-sm);
   font-weight: var(--font-weight-medium);
@@ -572,6 +575,10 @@
 }
 
 .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
   padding: var(--space-2) var(--space-4);
   font-size: var(--text-sm);
   font-weight: var(--font-weight-medium);
