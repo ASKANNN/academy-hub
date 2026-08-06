@@ -35,7 +35,7 @@ export function Layout() {
       <div className={`page-content${done ? ' is-revealed' : ''}`}>
         <a href="#main-content" className="skip-link">{t.skipLink}</a>
         <Header theme={theme} onToggleTheme={toggleTheme} lang={lang} onToggleLang={toggleLang} />
-        <main id="main-content">
+        <main id="main-content" tabIndex={-1}>
           <div key={location.pathname} className="page-transition">
             <Outlet context={{ theme, lang }} />
           </div>

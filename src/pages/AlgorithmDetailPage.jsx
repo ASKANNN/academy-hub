@@ -1,4 +1,5 @@
-import { Navigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import NotFoundPage from './NotFoundPage.jsx';
 import { usePageContext } from '../components/Layout.jsx';
 import { ErrorBoundary } from '../components/ErrorBoundary.jsx';
 import { Breadcrumb } from '../components/algorithms/Breadcrumb.jsx';
@@ -50,7 +51,7 @@ export default function AlgorithmDetailPage() {
   });
 
   if (!category || category.status !== 'live' || !algorithm) {
-    return <Navigate to="/algorithms" replace />;
+    return <NotFoundPage />;
   }
 
   const categoryName = category.name[lang] ?? category.name.ru;
