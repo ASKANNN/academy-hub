@@ -17,6 +17,9 @@ Source-available, non-commercial license.
 - RU / EN language toggle across the whole site, text centralized in `src/i18n/strings.js`
 - Accessibility widget: text size, high contrast, invert, monochrome mode,
   readable font, forced underlined links — settings persisted in `localStorage`
+- Full keyboard navigation: all interactive elements reachable by Tab, activated
+  by Enter/Space; `:focus-visible` accent rings on buttons and quiz options;
+  icon-only buttons have `aria-label`
 - Glass header with backdrop-blur
 - Responsive grid of academy cards, click-to-expand topics list inside a
   planned academy's card
@@ -59,7 +62,7 @@ src/
     AccessibilityWidget.jsx         — floating button + accessibility settings panel
     BackToTop.jsx                   — floating scroll-to-top button
     algorithms/                      — AlgorithmCard, CategoryCard, AlgorithmVisualizer, AlgorithmIcon, Breadcrumb, PrevNextNav
-    ui/                                — CodeBlock, Quiz, Tabs, RichText, Accordion
+    ui/                                — CodeBlock, Quiz, Tabs, RichText, Accordion, PrerequisiteBadge
   pages/                     — one component per route: HomePage, AlgorithmsCatalogPage, AlgorithmsCategoryPage, AlgorithmDetailPage, NotFoundPage
   hooks/
     useTheme.js              — light/dark theme, localStorage
