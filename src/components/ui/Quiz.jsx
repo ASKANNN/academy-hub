@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { playErrorTone, playSuccessChime } from '../../utils/sound.js';
 
 function shuffle(list) {
@@ -98,6 +98,7 @@ export function Quiz({ quiz, lang, t, reportUrl = '' }) {
   const [selected, setSelected] = useState(null);
   const [score, setScore] = useState(0);
   const [hintOpen, setHintOpen] = useState(false);
+  const nextBtnRef = useRef(null);
 
   const isIntro = step === -1;
   const isResult = step >= total;
@@ -106,6 +107,10 @@ export function Quiz({ quiz, lang, t, reportUrl = '' }) {
     if (!isResult) return;
     getTier(score, total) === 'pass' ? playSuccessChime() : playErrorTone();
   }, [isResult]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    if (selected !== null) nextBtnRef.current?.focus();
+  }, [selected]);
 
   function reset() {
     setStep(-1);
@@ -229,7 +234,7 @@ export function Quiz({ quiz, lang, t, reportUrl = '' }) {
               {question.explanation[lang] ?? question.explanation.ru}
             </span>
           </p>
-          <button type="button" className="btn btn--primary btn--md" onClick={handleNext}>
+          <button ref={nextBtnRef} type="button" className="btn btn--primary btn--md" onClick={handleNext}>
             {isLast ? t.quizFinish : t.quizNext}
           </button>
         </div>
