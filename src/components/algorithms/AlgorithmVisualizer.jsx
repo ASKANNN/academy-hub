@@ -19,7 +19,7 @@ function shuffleArray(base) {
   return arr;
 }
 
-export function AlgorithmVisualizer({ slug, t }) {
+export function AlgorithmVisualizer({ slug, t, steps, lang }) {
   const [array, setArray] = useState(() => sampleFor(slug));
   const frames = useMemo(() => generateSteps(slug, array), [slug, array]);
   const [step, setStep] = useState(0);
@@ -52,6 +52,10 @@ export function AlgorithmVisualizer({ slug, t }) {
   const current = frames[step];
   const max = Math.max(...current.array);
 
+  const conceptStep = steps?.length
+    ? Math.min(Math.floor((step * steps.length) / frames.length), steps.length - 1)
+    : 0;
+
   return (
     <div className="visualizer">
       <div className="visualizer__bars">
@@ -69,6 +73,11 @@ export function AlgorithmVisualizer({ slug, t }) {
           );
         })}
       </div>
+      {steps?.length > 0 && (
+        <p key={conceptStep} className="visualizer__step-label">
+          {steps[conceptStep].title[lang] ?? steps[conceptStep].title.ru}
+        </p>
+      )}
       <div className="visualizer__controls">
         <button
           type="button"

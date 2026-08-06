@@ -131,7 +131,7 @@ export default function AlgorithmDetailPage() {
               label: t.sectionVisualization,
               content: (
                 <div className="detail-section">
-                  <AlgorithmVisualizer slug={algorithm.slug} t={t} />
+                  <AlgorithmVisualizer slug={algorithm.slug} t={t} steps={algorithm.steps} lang={lang} />
                   <ol className="algorithm-steps">
                     {algorithm.steps.map((step, i) => (
                       <li key={i} className="algorithm-steps__item">

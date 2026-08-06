@@ -598,6 +598,24 @@
   color: #ffffff;
 }
 
+@keyframes stepLabelFade {
+  from { opacity: 0; transform: translateY(5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.visualizer__step-label {
+  min-height: 2.4em;
+  padding: var(--space-2) 0;
+  font-size: var(--text-sm);
+  color: var(--color-text-secondary);
+  text-align: center;
+  animation: stepLabelFade 0.22s ease both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .visualizer__step-label { animation: none; }
+}
+
 .visualizer__controls {
   display: flex;
   align-items: center;
@@ -803,6 +821,9 @@
   display: flex;
   flex-direction: column;
   gap: var(--space-3);
+}
+.quiz__feedback > .btn {
+  align-self: flex-start;
 }
 
 .quiz__feedback-text {
