@@ -4,6 +4,7 @@ export function Tabs({ items, defaultIndex = 0, className = '', panelClassName =
   const [active, setActive] = useState(defaultIndex);
   const [scrollState, setScrollState] = useState({ left: false, right: false });
   const listRef = useRef(null);
+  const tabRefs = useRef([]);
 
   useEffect(() => {
     const list = listRef.current;
@@ -29,9 +30,21 @@ export function Tabs({ items, defaultIndex = 0, className = '', panelClassName =
   }, [items]);
 
   useEffect(() => {
-    const activeTab = listRef.current?.children[active];
-    activeTab?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    tabRefs.current[active]?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
   }, [active]);
+
+  function handleKeyDown(e, i) {
+    let next;
+    if (e.key === 'ArrowRight') next = (i + 1) % items.length;
+    else if (e.key === 'ArrowLeft') next = (i - 1 + items.length) % items.length;
+    else if (e.key === 'Home') next = 0;
+    else if (e.key === 'End') next = items.length - 1;
+    else return;
+
+    e.preventDefault();
+    setActive(next);
+    tabRefs.current[next]?.focus();
+  }
 
   const listClassName = [
     'tabs__list',
@@ -47,17 +60,20 @@ export function Tabs({ items, defaultIndex = 0, className = '', panelClassName =
         {items.map((item, i) => (
           <button
             key={item.key}
+            ref={el => (tabRefs.current[i] = el)}
             type="button"
             role="tab"
             className={`tabs__tab ${i === active ? 'is-active' : ''}`}
             aria-selected={i === active}
+            tabIndex={i === active ? 0 : -1}
             onClick={() => setActive(i)}
+            onKeyDown={e => handleKeyDown(e, i)}
           >
             {item.label}
           </button>
         ))}
       </div>
-      <div className={`tabs__panel ${panelClassName}`} role="tabpanel">
+      <div className={`tabs__panel ${panelClassName}`} role="tabpanel" tabIndex={0}>
         {items[active]?.content}
       </div>
     </div>
