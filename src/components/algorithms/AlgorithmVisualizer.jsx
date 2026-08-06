@@ -4,7 +4,7 @@ import { generateSteps } from '../../utils/algorithmSteps.js';
 const SAMPLE_ARRAY = [8, 3, 9, 1, 6, 4, 7, 2, 5];
 const SMALL_SAMPLE_ARRAY = [4, 2, 5, 1, 3];
 const SMALL_SAMPLE_SLUGS = new Set(['bogosort']);
-const PLAY_INTERVAL = 500;
+const PLAY_INTERVAL = 750;
 
 function sampleFor(slug) {
   return SMALL_SAMPLE_SLUGS.has(slug) ? SMALL_SAMPLE_ARRAY : SAMPLE_ARRAY;
