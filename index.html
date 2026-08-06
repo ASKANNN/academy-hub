@@ -48,9 +48,13 @@
         opacity: 0;
         transform: scale(0.96);
         transform-origin: center center;
+    }
+    html.intro-pending #root {
+        visibility: hidden;
     }</style>
 </head>
 <body>
+<script>if(sessionStorage.getItem('academy-intro')!=='1')document.documentElement.classList.add('intro-pending');</script>
 <div id="root"></div>
 <script type="module" src="/src/main.jsx"></script>
 </body>

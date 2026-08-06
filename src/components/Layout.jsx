@@ -22,6 +22,10 @@ export function Layout() {
   const location = useLocation();
 
   useLayoutEffect(() => {
+    document.documentElement.classList.remove('intro-pending');
+  }, []);
+
+  useLayoutEffect(() => {
     document.documentElement.style.scrollBehavior = 'auto';
     window.scrollTo(0, 0);
     document.documentElement.style.scrollBehavior = '';
