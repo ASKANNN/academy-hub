@@ -85,8 +85,9 @@ scripts/
   generate-sitemap.mjs       — writes public/sitemap.xml (34 URLs); runs automatically via npm run build
   generate-snapshot.mjs      — dev-only: visits every route in headless Chromium, writes prerendered/**/page.json
   inject-prerender.mjs       — postbuild: reads page.json files, writes dist/<route>/index.html with pre-rendered content
-  validate-algorithms.mjs    — schema validation for all algorithm files (structure, bilingual fields, quiz format)
-  audit-quiz-length.mjs      — checks that no correct answer is longer than all distractors (both RU and EN)
+  validate-algorithms.mjs       — schema validation for all algorithm files (structure, bilingual fields, quiz format, length-tell check)
+  audit-quiz-length.mjs         — standalone length-tell check for quiz answers (both RU and EN)
+  compute-step-breakpoints.mjs  — dev-only; computes exact frame-index breakpoints for the visualizer step labels and writes them back into each algorithm module; re-run after editing algorithmSteps.js
 prerendered/                 — one page.json per route (34 total); commit these — they are the prerendered content source
 ```
 
