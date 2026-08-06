@@ -109,7 +109,7 @@ export function Quiz({ quiz, lang, t, reportUrl = '' }) {
   }, [isResult]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    if (selected !== null) nextBtnRef.current?.focus();
+    if (selected !== null) nextBtnRef.current?.focus({ preventScroll: true });
   }, [selected]);
 
   function reset() {
