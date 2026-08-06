@@ -10,13 +10,13 @@ export const cocktailShakerSort = {
   tags: ['comparison', 'in-place', 'stable'],
 
   intent: {
-    ru: 'Шейкерная сортировка — это двунаправленная пузырьковая сортировка: она поочерёдно проходит массив слева направо и справа налево, «выталкивая» на каждом проходе и самый большой, и самый маленький ещё не отсортированный элемент.',
+    ru: 'Шейкерная сортировка - это двунаправленная пузырьковая сортировка: она поочерёдно проходит массив слева направо и справа налево, «выталкивая» на каждом проходе и самый большой, и самый маленький ещё не отсортированный элемент.',
     en: 'Cocktail shaker sort is bidirectional bubble sort: it alternates passing the array left-to-right and right-to-left, pushing both the largest and the smallest unsorted element into place on every round.',
   },
 
   problem: {
-    ru: 'Обычная пузырьковая сортировка всегда движется в одну сторону, поэтому маленький элемент, застрявший в конце массива (её называют «черепахой»), сдвигается к началу лишь на одну позицию за проход — это требует почти n проходов, даже если весь остальной массив уже отсортирован.',
-    en: 'Plain bubble sort always moves in one direction, so a small element stuck at the end of the array (a "turtle") only moves one position toward the start per pass — this takes nearly n passes even if the rest of the array is already sorted.',
+    ru: 'Обычная пузырьковая сортировка всегда движется в одну сторону, поэтому маленький элемент, застрявший в конце массива (её называют «черепахой»), сдвигается к началу лишь на одну позицию за проход - это требует почти n проходов, даже если весь остальной массив уже отсортирован.',
+    en: 'Plain bubble sort always moves in one direction, so a small element stuck at the end of the array (a "turtle") only moves one position toward the start per pass - this takes nearly n passes even if the rest of the array is already sorted.',
   },
 
   solution: {
@@ -28,15 +28,15 @@ export const cocktailShakerSort = {
     {
       title: { ru: 'Проход слева направо', en: 'Left-to-right pass' },
       explanation: {
-        ru: 'Сравнить и при необходимости поменять местами соседние элементы, двигаясь от начала неотсортированной части к концу — как в bubble sort.',
-        en: 'Compare and swap adjacent elements while moving from the start of the unsorted part to its end — just like bubble sort.',
+        ru: 'Сравнить и при необходимости поменять местами соседние элементы, двигаясь от начала неотсортированной части к концу - как в bubble sort.',
+        en: 'Compare and swap adjacent elements while moving from the start of the unsorted part to its end - just like bubble sort.',
       },
     },
     {
       title: { ru: 'Сжать правую границу', en: 'Shrink the right boundary' },
       explanation: {
-        ru: 'Самый большой элемент прохода теперь на своём месте справа — исключить его из дальнейших проходов.',
-        en: 'The largest element of the pass is now in place on the right — exclude it from further passes.',
+        ru: 'Самый большой элемент прохода теперь на своём месте справа - исключить его из дальнейших проходов.',
+        en: 'The largest element of the pass is now in place on the right - exclude it from further passes.',
       },
     },
     {
@@ -49,15 +49,15 @@ export const cocktailShakerSort = {
     {
       title: { ru: 'Сжать левую границу', en: 'Shrink the left boundary' },
       explanation: {
-        ru: 'Самый маленький элемент прохода теперь на своём месте слева — исключить его из дальнейших проходов.',
-        en: 'The smallest element of the pass is now in place on the left — exclude it from further passes.',
+        ru: 'Самый маленький элемент прохода теперь на своём месте слева - исключить его из дальнейших проходов.',
+        en: 'The smallest element of the pass is now in place on the left - exclude it from further passes.',
       },
     },
     {
       title: { ru: 'Остановиться без перестановок', en: 'Stop with no swaps' },
       explanation: {
-        ru: 'Если целый двойной проход не дал ни одной перестановки, массив отсортирован — можно закончить раньше времени.',
-        en: 'If a full round-trip pass makes zero swaps, the array is sorted — the algorithm can exit early.',
+        ru: 'Если целый двойной проход не дал ни одной перестановки, массив отсортирован - можно закончить раньше времени.',
+        en: 'If a full round-trip pass makes zero swaps, the array is sorted - the algorithm can exit early.',
       },
     },
   ],
@@ -122,8 +122,8 @@ export const cocktailShakerSort = {
       en: 'Eliminates both "turtles" (small elements at the end) and "rabbits" (large elements at the start) equally fast, unlike plain bubble sort.',
     },
     {
-      ru: 'Сортирует на месте — требует лишь O(1) дополнительной памяти.',
-      en: 'Sorts in place — needs only O(1) extra memory.',
+      ru: 'Сортирует на месте - требует лишь O(1) дополнительной памяти.',
+      en: 'Sorts in place - needs only O(1) extra memory.',
     },
     {
       ru: 'Устойчив: равные элементы сохраняют исходный относительный порядок.',
@@ -136,16 +136,16 @@ export const cocktailShakerSort = {
   ],
   cons: [
     {
-      ru: 'Всё ещё O(n²) сравнений в среднем и худшем случае — асимптотически не лучше bubble sort.',
-      en: 'Still O(n²) comparisons on average and worst case — asymptotically no better than bubble sort.',
+      ru: 'Всё ещё O(n²) сравнений в среднем и худшем случае - асимптотически не лучше bubble sort.',
+      en: 'Still O(n²) comparisons on average and worst case - asymptotically no better than bubble sort.',
     },
     {
       ru: 'Более сложная реализация, чем обычный bubble sort, за прирост производительности только на конкретных «неудобных» распределениях данных.',
       en: 'More complex to implement than plain bubble sort, for a speed-up that only matters on specific "awkward" data distributions.',
     },
     {
-      ru: 'На случайных данных выигрыш перед обычным bubble sort минимален — константный множитель, не порядок сложности.',
-      en: 'On random data the gain over plain bubble sort is minimal — a constant factor, not a complexity-order improvement.',
+      ru: 'На случайных данных выигрыш перед обычным bubble sort минимален - константный множитель, не порядок сложности.',
+      en: 'On random data the gain over plain bubble sort is minimal - a constant factor, not a complexity-order improvement.',
     },
   ],
 
@@ -155,8 +155,8 @@ export const cocktailShakerSort = {
       en: 'When data is nearly sorted but a few elements are "stuck" on the wrong side for plain bubble sort to reach quickly.',
     },
     {
-      ru: 'Как учебный пример двунаправленного прохода — концептуальный мостик к более сложным алгоритмам вроде timsort.',
-      en: 'As a teaching example of a bidirectional pass — a conceptual bridge to more advanced algorithms like Timsort.',
+      ru: 'Как учебный пример двунаправленного прохода - концептуальный мостик к более сложным алгоритмам вроде timsort.',
+      en: 'As a teaching example of a bidirectional pass - a conceptual bridge to more advanced algorithms like Timsort.',
     },
   ],
 
@@ -187,12 +187,12 @@ export const cocktailShakerSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'Проход слева направо выталкивает наибольший элемент вправо, а следующий проход справа налево выталкивает наименьший элемент влево — границы сортированной зоны сжимаются с обеих сторон.',
-        en: 'A left-to-right pass pushes the largest element right, and the following right-to-left pass pushes the smallest element left — the sorted boundary shrinks from both sides.',
+        ru: 'Проход слева направо выталкивает наибольший элемент вправо, а следующий проход справа налево выталкивает наименьший элемент влево - границы сортированной зоны сжимаются с обеих сторон.',
+        en: 'A left-to-right pass pushes the largest element right, and the following right-to-left pass pushes the smallest element left - the sorted boundary shrinks from both sides.',
       },
       hint: {
-        ru: 'Подумайте о движении шейкера для коктейлей — что отличает его от простого движения в одну сторону?',
-        en: 'Think about the motion of a cocktail shaker — what sets it apart from just moving in one direction?',
+        ru: 'Подумайте о движении шейкера для коктейлей - что отличает его от простого движения в одну сторону?',
+        en: 'Think about the motion of a cocktail shaker - what sets it apart from just moving in one direction?',
       },
     },
     {
@@ -229,8 +229,8 @@ export const cocktailShakerSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'Двунаправленность меняет константный множитель и поведение на конкретных распределениях, но не меняет порядок роста — в среднем всё ещё O(n²) сравнений.',
-        en: 'Bidirectionality changes the constant factor and behavior on specific distributions, but not the growth order — still O(n²) comparisons on average.',
+        ru: 'Двунаправленность меняет константный множитель и поведение на конкретных распределениях, но не меняет порядок роста - в среднем всё ещё O(n²) сравнений.',
+        en: 'Bidirectionality changes the constant factor and behavior on specific distributions, but not the growth order - still O(n²) comparisons on average.',
       },
       hint: {
         ru: 'Двунаправленность улучшает константу, но меняет ли она порядок роста числа сравнений?',
@@ -243,15 +243,15 @@ export const cocktailShakerSort = {
         en: 'Is cocktail shaker sort stable?',
       },
       options: [
-        { ru: 'Да — меняются местами только строго неравные соседние элементы', en: 'Yes — only strictly unequal adjacent elements are swapped' },
-        { ru: 'Нет — двунаправленные проходы нарушают порядок равных элементов', en: 'No — bidirectional passes break the order of equal elements' },
+        { ru: 'Да - меняются местами только строго неравные соседние элементы', en: 'Yes - only strictly unequal adjacent elements are swapped' },
+        { ru: 'Нет - двунаправленные проходы нарушают порядок равных элементов', en: 'No - bidirectional passes break the order of equal elements' },
         { ru: 'Зависит от направления первого прохода', en: 'It depends on the direction of the first pass' },
         { ru: 'Устойчивость неприменима к сортировкам на месте', en: 'Stability doesn\'t apply to in-place sorts' },
       ],
       correct: 0,
       explanation: {
-        ru: 'Как и в bubble sort, элементы меняются местами только если левый строго больше правого — равные элементы никогда не переставляются друг с другом.',
-        en: 'Just like bubble sort, elements swap only when the left one is strictly greater — equal elements never swap with each other.',
+        ru: 'Как и в bubble sort, элементы меняются местами только если левый строго больше правого - равные элементы никогда не переставляются друг с другом.',
+        en: 'Just like bubble sort, elements swap only when the left one is strictly greater - equal elements never swap with each other.',
       },
       hint: {
         ru: 'Посмотрите на условие перестановки: `a[i] > a[i+1]`. Что происходит, если элементы равны?',
@@ -264,10 +264,10 @@ export const cocktailShakerSort = {
         en: 'How much extra memory does cocktail shaker sort need?',
       },
       options: [
-        { ru: 'O(1) — сортировка происходит на месте', en: 'O(1) — it sorts in place' },
-        { ru: 'O(n) — по одному элементу с каждой стороны', en: 'O(n) — one per side' },
-        { ru: 'O(log n) — на стек рекурсии', en: 'O(log n) — for a recursion stack' },
-        { ru: 'O(n²) — на матрицу сравнений', en: 'O(n²) — for a comparison matrix' },
+        { ru: 'O(1) - сортировка происходит на месте', en: 'O(1) - it sorts in place' },
+        { ru: 'O(n) - по одному элементу с каждой стороны', en: 'O(n) - one per side' },
+        { ru: 'O(log n) - на стек рекурсии', en: 'O(log n) - for a recursion stack' },
+        { ru: 'O(n²) - на матрицу сравнений', en: 'O(n²) - for a comparison matrix' },
       ],
       correct: 0,
       explanation: {
@@ -285,15 +285,15 @@ export const cocktailShakerSort = {
         en: 'What is the best case of cocktail shaker sort and when does it occur?',
       },
       options: [
-        { ru: 'O(n) — массив уже упорядочен, первый проход не даёт перестановок', en: 'O(n) — when the array is already sorted and the first round trip makes no swaps' },
-        { ru: 'O(1) — когда массив из одного элемента', en: 'O(1) — when the array has exactly one element' },
-        { ru: 'O(n log n) — когда данные случайные, но близкие к нормальному распределению', en: 'O(n log n) — when data is random but close to a normal distribution in all cases' },
-        { ru: 'O(n²) — лучший случай не отличается от среднего', en: 'O(n²) — the best case is no different from the average case' },
+        { ru: 'O(n) - массив уже упорядочен, первый проход не даёт перестановок', en: 'O(n) - when the array is already sorted and the first round trip makes no swaps' },
+        { ru: 'O(1) - когда массив из одного элемента', en: 'O(1) - when the array has exactly one element' },
+        { ru: 'O(n log n) - когда данные случайные, но близкие к нормальному распределению', en: 'O(n log n) - when data is random but close to a normal distribution in all cases' },
+        { ru: 'O(n²) - лучший случай не отличается от среднего', en: 'O(n²) - the best case is no different from the average case' },
       ],
       correct: 0,
       explanation: {
-        ru: 'Флаг ранней остановки `swapped` позволяет выйти после одного прохода туда и обратно, если не было ни одной перестановки — это означает, что массив уже был отсортирован.',
-        en: 'The early-exit flag `swapped` lets the algorithm stop after one round trip if no swap was made — meaning the array was already sorted.',
+        ru: 'Флаг ранней остановки `swapped` позволяет выйти после одного прохода туда и обратно, если не было ни одной перестановки - это означает, что массив уже был отсортирован.',
+        en: 'The early-exit flag `swapped` lets the algorithm stop after one round trip if no swap was made - meaning the array was already sorted.',
       },
       hint: {
         ru: 'Когда флаг swapped остаётся ложным после целого прохода туда и обратно?',
@@ -313,12 +313,12 @@ export const cocktailShakerSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'Двунаправленность устраняет конкретный патологический случай («черепахи»), но не меняет порядок роста числа сравнений — на случайных данных алгоритм всё равно делает O(n²) сравнений.',
-        en: 'Bidirectionality removes a specific pathological case ("turtles") but doesn\'t change the growth order of comparisons — on random data the algorithm still makes O(n²) comparisons.',
+        ru: 'Двунаправленность устраняет конкретный патологический случай («черепахи»), но не меняет порядок роста числа сравнений - на случайных данных алгоритм всё равно делает O(n²) сравнений.',
+        en: 'Bidirectionality removes a specific pathological case ("turtles") but doesn\'t change the growth order of comparisons - on random data the algorithm still makes O(n²) comparisons.',
       },
       hint: {
-        ru: 'Что меняет двунаправленность — поведение на конкретном распределении или общий порядок роста?',
-        en: 'What does bidirectionality change — behavior on a specific distribution, or the overall growth order?',
+        ru: 'Что меняет двунаправленность - поведение на конкретном распределении или общий порядок роста?',
+        en: 'What does bidirectionality change - behavior on a specific distribution, or the overall growth order?',
       },
     },
     {
@@ -327,14 +327,14 @@ export const cocktailShakerSort = {
         en: 'What is the name for a "small element stuck at the end of the array" in the context of bubble sort?',
       },
       options: [
-        { ru: '«Черепаха» — она движется к началу медленно, по одной позиции за проход', en: '"Turtle" — it moves toward the start slowly, one position per pass' },
-        { ru: '«Кролик» — он быстро перемещается вправо за один проход влево', en: '"Rabbit" — it moves quickly to the right in a single left pass' },
-        { ru: '«Якорь» — он полностью останавливает алгоритм до следующего перезапуска', en: '"Anchor" — it completely stops the algorithm until the next restart' },
-        { ru: '«Сентинель» — специальный элемент для обозначения границы массива', en: '"Sentinel" — a special element marking the array boundary' },
+        { ru: '«Черепаха» - она движется к началу медленно, по одной позиции за проход', en: '"Turtle" - it moves toward the start slowly, one position per pass' },
+        { ru: '«Кролик» - он быстро перемещается вправо за один проход влево', en: '"Rabbit" - it moves quickly to the right in a single left pass' },
+        { ru: '«Якорь» - он полностью останавливает алгоритм до следующего перезапуска', en: '"Anchor" - it completely stops the algorithm until the next restart' },
+        { ru: '«Сентинель» - специальный элемент для обозначения границы массива', en: '"Sentinel" - a special element marking the array boundary' },
       ],
       correct: 0,
       explanation: {
-        ru: '«Черепаха» — классический термин для маленького элемента у правого края: в bubble sort он двигается влево лишь на одну позицию за каждый полный проход.',
+        ru: '«Черепаха» - классический термин для маленького элемента у правого края: в bubble sort он двигается влево лишь на одну позицию за каждый полный проход.',
         en: '"Turtle" is the classic term for a small element near the right edge: in bubble sort it moves left by only one position per full pass.',
       },
       hint: {
@@ -355,8 +355,8 @@ export const cocktailShakerSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'После прохода слева направо `end` уменьшается — наибольший элемент встал на место; после прохода справа налево `start` увеличивается — наименьший элемент встал на место.',
-        en: 'After the left-to-right pass `end` decreases — the largest element is in place; after the right-to-left pass `start` increases — the smallest element is in place.',
+        ru: 'После прохода слева направо `end` уменьшается - наибольший элемент встал на место; после прохода справа налево `start` увеличивается - наименьший элемент встал на место.',
+        en: 'After the left-to-right pass `end` decreases - the largest element is in place; after the right-to-left pass `start` increases - the smallest element is in place.',
       },
       hint: {
         ru: 'После каждого прохода один элемент занимает своё финальное место. С какой стороны?',
@@ -369,15 +369,15 @@ export const cocktailShakerSort = {
         en: 'Which algorithm uses a similar "shrinking gap" idea but more aggressively?',
       },
       options: [
-        { ru: 'Comb sort — быстрее уменьшает зазор между элементами', en: 'Comb sort — it shrinks the gap between compared elements faster' },
-        { ru: 'Merge sort — рекурсивно уменьшает размер подзадачи вдвое', en: 'Merge sort — it recursively halves the subproblem size' },
-        { ru: 'Radix sort — уменьшает диапазон ключей поразрядно', en: 'Radix sort — it reduces the key range digit by digit' },
-        { ru: 'Heap sort — уменьшает кучу после каждого извлечения максимума', en: 'Heap sort — it shrinks the heap after each maximum extraction always' },
+        { ru: 'Comb sort - быстрее уменьшает зазор между элементами', en: 'Comb sort - it shrinks the gap between compared elements faster' },
+        { ru: 'Merge sort - рекурсивно уменьшает размер подзадачи вдвое', en: 'Merge sort - it recursively halves the subproblem size' },
+        { ru: 'Radix sort - уменьшает диапазон ключей поразрядно', en: 'Radix sort - it reduces the key range digit by digit' },
+        { ru: 'Heap sort - уменьшает кучу после каждого извлечения максимума', en: 'Heap sort - it shrinks the heap after each maximum extraction always' },
       ],
       correct: 0,
       explanation: {
-        ru: 'Comb sort использует тот же базовый принцип пузырьковой сортировки, но сравнивает элементы через зазор больше 1, быстро уменьшая его — это устраняет «черепах» гораздо быстрее, чем шейкерная сортировка.',
-        en: 'Comb sort uses the same basic bubble sort principle but compares elements across a gap greater than 1, shrinking it rapidly — this eliminates turtles much faster than cocktail shaker sort does.',
+        ru: 'Comb sort использует тот же базовый принцип пузырьковой сортировки, но сравнивает элементы через зазор больше 1, быстро уменьшая его - это устраняет «черепах» гораздо быстрее, чем шейкерная сортировка.',
+        en: 'Comb sort uses the same basic bubble sort principle but compares elements across a gap greater than 1, shrinking it rapidly - this eliminates turtles much faster than cocktail shaker sort does.',
       },
       hint: {
         ru: 'Шейкерная сортировка сравнивает соседние элементы (зазор = 1). Какой алгоритм начинает с большего зазора и уменьшает его?',

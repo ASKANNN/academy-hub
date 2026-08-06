@@ -15,21 +15,21 @@ export const mergeSort = {
   },
 
   problem: {
-    ru: 'Все алгоритмы сортировки сравнением, рассмотренные ранее (пузырьковая, выбором, вставками), гарантированно требуют O(n²) сравнений в худшем случае на больших массивах — для миллиона элементов это триллион операций. Нужен алгоритм, который использует принцип «разделяй и властвуй», чтобы гарантированно уложиться в O(n log n) независимо от исходного порядка данных.',
-    en: 'All the comparison sorts covered so far (bubble, selection, insertion) are guaranteed O(n²) worst case on large arrays — a trillion operations for a million elements. What is needed is an algorithm that uses divide-and-conquer to guarantee O(n log n) regardless of the input order.',
+    ru: 'Все алгоритмы сортировки сравнением, рассмотренные ранее (пузырьковая, выбором, вставками), гарантированно требуют O(n²) сравнений в худшем случае на больших массивах - для миллиона элементов это триллион операций. Нужен алгоритм, который использует принцип «разделяй и властвуй», чтобы гарантированно уложиться в O(n log n) независимо от исходного порядка данных.',
+    en: 'All the comparison sorts covered so far (bubble, selection, insertion) are guaranteed O(n²) worst case on large arrays - a trillion operations for a million elements. What is needed is an algorithm that uses divide-and-conquer to guarantee O(n log n) regardless of the input order.',
   },
 
   solution: {
-    ru: 'Если массив состоит из 0 или 1 элемента, он уже отсортирован. Иначе массив делится пополам, каждая половина сортируется тем же алгоритмом рекурсивно, а затем две уже отсортированные половины сливаются в один массив: на каждом шаге слияния сравниваются «головы» двух половин, и меньший элемент забирается в результат. Деление даёт log n уровней рекурсии, а слияние на каждом уровне стоит O(n) — итого O(n log n).',
-    en: 'If the array has 0 or 1 elements, it is already sorted. Otherwise, split it in half, sort each half recursively with the same algorithm, then merge the two already-sorted halves into one array: at each merge step, compare the "heads" of both halves and take the smaller one into the result. The splitting gives log n recursion levels, and merging at each level costs O(n) — O(n log n) overall.',
+    ru: 'Если массив состоит из 0 или 1 элемента, он уже отсортирован. Иначе массив делится пополам, каждая половина сортируется тем же алгоритмом рекурсивно, а затем две уже отсортированные половины сливаются в один массив: на каждом шаге слияния сравниваются «головы» двух половин, и меньший элемент забирается в результат. Деление даёт log n уровней рекурсии, а слияние на каждом уровне стоит O(n) - итого O(n log n).',
+    en: 'If the array has 0 or 1 elements, it is already sorted. Otherwise, split it in half, sort each half recursively with the same algorithm, then merge the two already-sorted halves into one array: at each merge step, compare the "heads" of both halves and take the smaller one into the result. The splitting gives log n recursion levels, and merging at each level costs O(n) - O(n log n) overall.',
   },
 
   steps: [
     {
       title: { ru: 'Базовый случай', en: 'Base case' },
       explanation: {
-        ru: 'Если в подмассиве 0 или 1 элемент, он уже отсортирован — вернуть как есть.',
-        en: 'If the subarray has 0 or 1 elements, it is already sorted — return it as-is.',
+        ru: 'Если в подмассиве 0 или 1 элемент, он уже отсортирован - вернуть как есть.',
+        en: 'If the subarray has 0 or 1 elements, it is already sorted - return it as-is.',
       },
     },
     {
@@ -56,8 +56,8 @@ export const mergeSort = {
     {
       title: { ru: 'Добавить остаток', en: 'Append the remainder' },
       explanation: {
-        ru: 'Когда одна половина закончится, оставшиеся элементы другой половины добавляются в конец — они уже отсортированы.',
-        en: 'When one half runs out, the remaining elements of the other half are appended — they are already sorted.',
+        ru: 'Когда одна половина закончится, оставшиеся элементы другой половины добавляются в конец - они уже отсортированы.',
+        en: 'When one half runs out, the remaining elements of the other half are appended - they are already sorted.',
       },
     },
   ],
@@ -115,12 +115,12 @@ def merge(left, right):
 
   pros: [
     {
-      ru: 'Гарантированный O(n log n) в лучшем, среднем и худшем случае — предсказуемая производительность независимо от входных данных.',
-      en: 'Guaranteed O(n log n) best, average, and worst case — predictable performance regardless of input.',
+      ru: 'Гарантированный O(n log n) в лучшем, среднем и худшем случае - предсказуемая производительность независимо от входных данных.',
+      en: 'Guaranteed O(n log n) best, average, and worst case - predictable performance regardless of input.',
     },
     {
-      ru: 'Устойчив — важно при сортировке объектов по одному полю с сохранением порядка по другому.',
-      en: 'Stable — important when sorting objects by one field while preserving order by another.',
+      ru: 'Устойчив - важно при сортировке объектов по одному полю с сохранением порядка по другому.',
+      en: 'Stable - important when sorting objects by one field while preserving order by another.',
     },
     {
       ru: 'Естественно распараллеливается: левая и правая половины можно сортировать независимо на разных ядрах/машинах.',
@@ -133,8 +133,8 @@ def merge(left, right):
   ],
   cons: [
     {
-      ru: 'Требует O(n) дополнительной памяти для временных массивов при слиянии — не сортирует «на месте» без сложных модификаций.',
-      en: 'Needs O(n) extra memory for temporary arrays during merging — doesn\'t sort in place without complex modifications.',
+      ru: 'Требует O(n) дополнительной памяти для временных массивов при слиянии - не сортирует «на месте» без сложных модификаций.',
+      en: 'Needs O(n) extra memory for temporary arrays during merging - doesn\'t sort in place without complex modifications.',
     },
     {
       ru: 'На маленьких массивах константные накладные расходы рекурсии делают его медленнее сортировки вставками.',
@@ -156,19 +156,19 @@ def merge(left, right):
       en: 'When you need a stable sort, not just a fast one.',
     },
     {
-      ru: 'Для сортировки связных списков, где произвольный доступ дорог, но последовательное слияние — нет.',
+      ru: 'Для сортировки связных списков, где произвольный доступ дорог, но последовательное слияние - нет.',
       en: 'For sorting linked lists, where random access is expensive but sequential merging is not.',
     },
   ],
 
   realWorldExamples: [
     {
-      ru: '**Timsort** (Python `sorted()`, Java `Arrays.sort()` для объектов) — гибрид сортировки слиянием и вставками, использующий именно устойчивость и гарантированную асимптотику слияния.',
-      en: '**Timsort** (Python\'s `sorted()`, Java\'s `Arrays.sort()` for objects) — a hybrid of merge sort and insertion sort that relies on merge sort\'s stability and guaranteed asymptotics.',
+      ru: '**Timsort** (Python `sorted()`, Java `Arrays.sort()` для объектов) - гибрид сортировки слиянием и вставками, использующий именно устойчивость и гарантированную асимптотику слияния.',
+      en: '**Timsort** (Python\'s `sorted()`, Java\'s `Arrays.sort()` for objects) - a hybrid of merge sort and insertion sort that relies on merge sort\'s stability and guaranteed asymptotics.',
     },
     {
-      ru: '**Внешняя сортировка больших файлов** — база данных сортирует куски, помещающиеся в память, а затем сливает их с диска, что является прямым применением merge-шага.',
-      en: '**External sorting of large files** — a database sorts memory-sized chunks, then merges them from disk, which is a direct application of the merge step.',
+      ru: '**Внешняя сортировка больших файлов** - база данных сортирует куски, помещающиеся в память, а затем сливает их с диска, что является прямым применением merge-шага.',
+      en: '**External sorting of large files** - a database sorts memory-sized chunks, then merges them from disk, which is a direct application of the merge step.',
     },
     {
       ru: '**Git** использует вариант слияния при трёхстороннем merge истории коммитов (концептуально близкий принцип объединения двух упорядоченных последовательностей).',
@@ -179,39 +179,6 @@ def merge(left, right):
   relatedAlgorithms: ['quick-sort', 'insertion-sort'],
 
   quiz: [
-    {
-      question: {
-        ru: 'Почему сортировка слиянием гарантирует O(n log n) даже в худшем случае?',
-        en: 'Why does merge sort guarantee O(n log n) even in the worst case?',
-      },
-      options: [
-        {
-          ru: 'Массив всегда делится строго пополам, независимо от значений элементов',
-          en: 'The array is always split exactly in half, regardless of element values',
-        },
-        {
-          ru: 'Она использует хеш-таблицу для быстрого поиска места вставки каждого элемента',
-          en: 'It uses a hash table to quickly look up the insertion point for each element',
-        },
-        {
-          ru: 'Она сортирует на месте без какой-либо дополнительной памяти на всех этапах',
-          en: 'It sorts in place without needing any extra memory at any stage of the process',
-        },
-        {
-          ru: 'Она никогда не сравнивает элементы напрямую друг с другом на протяжении всего алгоритма',
-          en: 'It never compares elements directly against each other throughout the entire algorithm',
-        },
-      ],
-      correct: 0,
-      explanation: {
-        ru: 'В отличие от quicksort, где разбиение зависит от выбора опорного элемента и данных, merge sort делит массив по индексу — глубина рекурсии всегда ровно log n.',
-        en: 'Unlike quicksort, where partitioning depends on the pivot choice and data, merge sort splits by index — recursion depth is always exactly log n.',
-      },
-      hint: {
-        ru: 'Подумай, от чего зависит точка деления массива — от значений элементов или от их позиции.',
-        en: 'Think about what the split point depends on — element values, or their position.',
-      },
-    },
     {
       question: {
         ru: 'Сколько дополнительной памяти в худшем случае требует классическая реализация сортировки слиянием?',
@@ -225,8 +192,8 @@ def merge(left, right):
       ],
       correct: 0,
       explanation: {
-        ru: 'Шаг слияния создаёт новый временный массив размером с объединяемые половины — суммарно на каждом уровне рекурсии требуется O(n) памяти.',
-        en: 'The merge step creates a new temporary array the size of the merged halves — each recursion level needs O(n) memory in total.',
+        ru: 'Шаг слияния создаёт новый временный массив размером с объединяемые половины - суммарно на каждом уровне рекурсии требуется O(n) памяти.',
+        en: 'The merge step creates a new temporary array the size of the merged halves - each recursion level needs O(n) memory in total.',
       },
       hint: {
         ru: 'Подумай, что именно создаётся на каждом шаге `merge`, и какого размера этот новый объект.',
@@ -258,12 +225,66 @@ def merge(left, right):
       ],
       correct: 0,
       explanation: {
-        ru: 'Раз обе половины уже отсортированы по отдельности, оставшийся «хвост» одной из них уже находится в правильном относительном порядке — его можно просто дописать.',
-        en: 'Since both halves are already independently sorted, the remaining "tail" of one is already in correct relative order — it can just be appended.',
+        ru: 'Раз обе половины уже отсортированы по отдельности, оставшийся «хвост» одной из них уже находится в правильном относительном порядке - его можно просто дописать.',
+        en: 'Since both halves are already independently sorted, the remaining "tail" of one is already in correct relative order - it can just be appended.',
       },
       hint: {
         ru: 'Подумай, нужно ли заново сравнивать элементы внутри уже отсортированного «хвоста» друг с другом.',
         en: 'Think about whether the elements inside the already-sorted "tail" need to be compared against each other again.',
+      },
+    },
+    {
+      question: {
+        ru: 'Является ли сортировка слиянием устойчивой (stable)?',
+        en: 'Is merge sort stable?',
+      },
+      options: [
+        { ru: 'Да - равные элементы сохраняют исходный относительный порядок', en: 'Yes - equal elements keep their original relative order' },
+        { ru: 'Нет - шаг слияния всегда меняет порядок равных элементов из разных половин', en: 'No - the merge step always swaps the order of equal elements from different halves' },
+        { ru: 'Зависит от реализации - рекурсивная устойчива, а итеративная нет', en: 'It depends on the implementation - the recursive version is stable, but the iterative one is not' },
+        { ru: 'Только если массив не содержит повторяющихся значений', en: 'Only if the array contains no duplicate values' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Условие `left[i] <= right[j]` при слиянии гарантирует: при равенстве первым берётся элемент из левой половины - той, что стояла в исходном массиве раньше. Относительный порядок равных элементов сохраняется.',
+        en: 'The `left[i] <= right[j]` merge condition guarantees that on a tie, the element from the left half - the one that appeared earlier in the original array - is taken first. The relative order of equal elements is preserved.',
+      },
+      hint: {
+        ru: 'Подумай, что происходит на шаге слияния, когда left[i] и right[j] равны по значению.',
+        en: 'Think about what happens in the merge step when left[i] and right[j] are equal in value.',
+      },
+    },
+    {
+      question: {
+        ru: 'Почему сортировка слиянием гарантирует O(n log n) даже в худшем случае?',
+        en: 'Why does merge sort guarantee O(n log n) even in the worst case?',
+      },
+      options: [
+        {
+          ru: 'Массив всегда делится строго пополам, независимо от значений элементов',
+          en: 'The array is always split exactly in half, regardless of element values',
+        },
+        {
+          ru: 'Она использует хеш-таблицу для быстрого поиска места вставки каждого элемента',
+          en: 'It uses a hash table to quickly look up the insertion point for each element',
+        },
+        {
+          ru: 'Она сортирует на месте без какой-либо дополнительной памяти на всех этапах',
+          en: 'It sorts in place without needing any extra memory at any stage of the process',
+        },
+        {
+          ru: 'Она никогда не сравнивает элементы напрямую друг с другом на протяжении всего алгоритма',
+          en: 'It never compares elements directly against each other throughout the entire algorithm',
+        },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'В отличие от quicksort, где разбиение зависит от выбора опорного элемента и данных, merge sort делит массив по индексу - глубина рекурсии всегда ровно log n.',
+        en: 'Unlike quicksort, where partitioning depends on the pivot choice and data, merge sort splits by index - recursion depth is always exactly log n.',
+      },
+      hint: {
+        ru: 'Подумай, от чего зависит точка деления массива - от значений элементов или от их позиции.',
+        en: 'Think about what the split point depends on - element values, or their position.',
       },
     },
     {
@@ -291,8 +312,8 @@ def merge(left, right):
       ],
       correct: 0,
       explanation: {
-        ru: 'Для промышленного алгоритма сортировки критичны гарантированная асимптотика на больших данных и устойчивость при сортировке объектов — оба свойства даёт именно merge sort.',
-        en: 'A production sort needs guaranteed large-scale asymptotics and stability when sorting objects — both properties come specifically from merge sort.',
+        ru: 'Для промышленного алгоритма сортировки критичны гарантированная асимптотика на больших данных и устойчивость при сортировке объектов - оба свойства даёт именно merge sort.',
+        en: 'A production sort needs guaranteed large-scale asymptotics and stability when sorting objects - both properties come specifically from merge sort.',
       },
       hint: {
         ru: 'Подумай, какого гарантированного свойства не хватает квадратичным алгоритмам вроде пузырьковой сортировки на больших данных.',
@@ -339,26 +360,26 @@ def merge(left, right):
       },
       options: [
         {
-          ru: 'O(n) — сумма размеров всех сливаемых пар на уровне всегда равна размеру исходного массива',
-          en: 'O(n) — the combined size of all merged pairs at a level always equals the size of the original array',
+          ru: 'O(n) - сумма размеров всех сливаемых пар на уровне всегда равна размеру исходного массива',
+          en: 'O(n) - the combined size of all merged pairs at a level always equals the size of the original array',
         },
         {
-          ru: 'O(n log n) — потому что каждый элемент сравнивается со всеми остальными элементами на каждом отдельном уровне',
-          en: 'O(n log n) — because every single element gets compared against all other elements at every single level',
+          ru: 'O(n log n) - потому что каждый элемент сравнивается со всеми остальными элементами на каждом отдельном уровне',
+          en: 'O(n log n) - because every single element gets compared against all other elements at every single level',
         },
         {
-          ru: 'O(1) — на каждом уровне рекурсии обрабатывается одно и то же фиксированное небольшое число элементов',
-          en: 'O(1) — the exact same small fixed number of elements gets processed at every single recursion level',
+          ru: 'O(1) - на каждом уровне рекурсии обрабатывается одно и то же фиксированное небольшое число элементов',
+          en: 'O(1) - the exact same small fixed number of elements gets processed at every single recursion level',
         },
         {
-          ru: 'O(log n) — только ровно по одному слиянию происходит на каждом уровне рекурсии всего дерева',
-          en: 'O(log n) — only exactly a single merge operation happens at each level of the whole recursion tree',
+          ru: 'O(log n) - только ровно по одному слиянию происходит на каждом уровне рекурсии всего дерева',
+          en: 'O(log n) - only exactly a single merge operation happens at each level of the whole recursion tree',
         },
       ],
       correct: 0,
       explanation: {
-        ru: 'Хотя на уровне может быть много отдельных вызовов `merge`, вместе они всегда покрывают весь массив ровно один раз — O(n) работы на уровень. Помножив на log n уровней рекурсии, получаем итоговую сложность O(n log n).',
-        en: 'Although a level can have many separate `merge` calls, together they always cover the entire array exactly once — O(n) work per level. Multiplied by the log n recursion levels, this gives the overall O(n log n) complexity.',
+        ru: 'Хотя на уровне может быть много отдельных вызовов `merge`, вместе они всегда покрывают весь массив ровно один раз - O(n) работы на уровень. Помножив на log n уровней рекурсии, получаем итоговую сложность O(n log n).',
+        en: 'Although a level can have many separate `merge` calls, together they always cover the entire array exactly once - O(n) work per level. Multiplied by the log n recursion levels, this gives the overall O(n log n) complexity.',
       },
       hint: {
         ru: 'Подумай, сколько всего элементов покрывают все одновременные слияния на одном уровне рекурсии, если сложить их вместе.',
@@ -390,8 +411,8 @@ def merge(left, right):
       ],
       correct: 0,
       explanation: {
-        ru: 'Bottom-up версия начинает со слияния пар размером 1, затем 2, 4, 8 и так далее, обходясь без рекурсии — та же сложность O(n log n), но без накладных расходов на стек вызовов, что важно в средах с ограниченным размером стека.',
-        en: 'The bottom-up version starts by merging chunks of size 1, then 2, 4, 8, and so on, without recursion — same O(n log n) complexity, but without call-stack overhead, which matters in environments with limited stack size.',
+        ru: 'Bottom-up версия начинает со слияния пар размером 1, затем 2, 4, 8 и так далее, обходясь без рекурсии - та же сложность O(n log n), но без накладных расходов на стек вызовов, что важно в средах с ограниченным размером стека.',
+        en: 'The bottom-up version starts by merging chunks of size 1, then 2, 4, 8, and so on, without recursion - same O(n log n) complexity, but without call-stack overhead, which matters in environments with limited stack size.',
       },
       hint: {
         ru: 'Подумай, что меняется, если заменить рекурсивные вызовы на явные циклы, выполняющие те же слияния снизу вверх.',
@@ -423,12 +444,12 @@ def merge(left, right):
       ],
       correct: 0,
       explanation: {
-        ru: 'Шаг слияния merge sort нуждается лишь в последовательном обходе — идеально для связного списка, а сама операция слияния двух списков требует лишь O(1) дополнительной памяти (перелинковка). Разбиение quicksort вокруг опорного элемента, напротив, активно опирается на произвольный доступ к элементам.',
-        en: "Merge sort's merge step only needs sequential traversal — ideal for a linked list — and merging two lists costs only O(1) extra memory (re-linking pointers). Quicksort's pivot-based partitioning, in contrast, relies heavily on random access to elements.",
+        ru: 'Шаг слияния merge sort нуждается лишь в последовательном обходе - идеально для связного списка, а сама операция слияния двух списков требует лишь O(1) дополнительной памяти (перелинковка). Разбиение quicksort вокруг опорного элемента, напротив, активно опирается на произвольный доступ к элементам.',
+        en: "Merge sort's merge step only needs sequential traversal - ideal for a linked list - and merging two lists costs only O(1) extra memory (re-linking pointers). Quicksort's pivot-based partitioning, in contrast, relies heavily on random access to elements.",
       },
       hint: {
-        ru: 'Подумай, какой тип доступа к данным — последовательный или произвольный — нужен ключевому шагу каждого из алгоритмов.',
-        en: 'Think about what kind of data access — sequential or random — each algorithm\'s key step needs.',
+        ru: 'Подумай, какой тип доступа к данным - последовательный или произвольный - нужен ключевому шагу каждого из алгоритмов.',
+        en: 'Think about what kind of data access - sequential or random - each algorithm\'s key step needs.',
       },
     },
     {
@@ -438,8 +459,8 @@ def merge(left, right):
       },
       options: [
         {
-          ru: 'При слиянии считать, сколько раз элемент из правой половины забирается раньше, чем закончится левая — это число инверсий',
-          en: "During merging, count how many times an element from the right half is taken before the left half is exhausted — that is the inversion count",
+          ru: 'При слиянии считать, сколько раз элемент из правой половины забирается раньше, чем закончится левая - это число инверсий',
+          en: "During merging, count how many times an element from the right half is taken before the left half is exhausted - that is the inversion count",
         },
         {
           ru: 'Сортировка слиянием в принципе не умеет считать инверсии ни при каких возможных модификациях алгоритма или реализации',
@@ -462,39 +483,6 @@ def merge(left, right):
       hint: {
         ru: 'Подумай, что означает ситуация, когда на шаге слияния элемент из правой половины забирается раньше, чем левая ещё не исчерпана.',
         en: 'Think about what it means, during a merge step, for an element from the right half to be taken before the left half runs out.',
-      },
-    },
-    {
-      question: {
-        ru: 'Как условие `left[i] <= right[j]` в реализации `merge` гарантирует устойчивость сортировки?',
-        en: "How does the condition `left[i] <= right[j]` in the `merge` implementation guarantee the sort's stability?",
-      },
-      options: [
-        {
-          ru: 'При равенстве элементов первым всегда берётся элемент из левой половины',
-          en: 'When elements are equal, the element from the left half is always taken first',
-        },
-        {
-          ru: 'Оно случайным образом выбирает, какой из двух равных элементов взять первым',
-          en: 'It randomly picks which of the two equal elements to take first each time',
-        },
-        {
-          ru: 'Оно явно сравнивает исходные индексы элементов в массиве, а не только их значения',
-          en: "It explicitly compares the elements' original array indices, not just their values",
-        },
-        {
-          ru: 'Устойчивость на самом деле никак не гарантируется этим конкретным условием',
-          en: 'Stability is not actually guaranteed by this particular condition at all',
-        },
-      ],
-      correct: 0,
-      explanation: {
-        ru: 'Нестрогое сравнение `<=` означает, что при равенстве элементов предпочтение отдаётся левой половине — а элемент из левой половины по построению стоял в исходном массиве раньше элемента из правой. Так их относительный порядок сохраняется.',
-        en: 'The non-strict `<=` comparison means that on a tie, the left half is preferred — and by construction, an element from the left half originally stood earlier in the array than one from the right. This preserves their relative order.',
-      },
-      hint: {
-        ru: 'Присмотрись к оператору сравнения в условии слияния — что именно происходит, когда сравниваемые «головы» половин равны?',
-        en: 'Look closely at the comparison operator in the merge condition — what exactly happens when the two compared "heads" are equal?',
       },
     },
   ],

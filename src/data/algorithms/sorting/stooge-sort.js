@@ -10,18 +10,18 @@ export const stoogeSort = {
   tags: ['joke', 'recursive', 'inefficient', 'educational'],
 
   intent: {
-    ru: 'Стуз-сортировка — намеренно неэффективный рекурсивный алгоритм: он сравнивает и при необходимости меняет местами лишь крайние элементы диапазона, а затем трижды рекурсивно обрабатывает пересекающиеся две трети диапазона — интересный не практической пользой, а тем, насколько простая на вид рекурсия может давать почти кубическую сложность.',
-    en: "Stooge sort is a deliberately inefficient recursive algorithm: it compares and, if needed, swaps only the outermost elements of a range, then recursively processes three overlapping two-thirds of the range — interesting not for practical use but for how a simple-looking recursion can yield near-cubic complexity.",
+    ru: 'Стуз-сортировка - намеренно неэффективный рекурсивный алгоритм: он сравнивает и при необходимости меняет местами лишь крайние элементы диапазона, а затем трижды рекурсивно обрабатывает пересекающиеся две трети диапазона - интересный не практической пользой, а тем, насколько простая на вид рекурсия может давать почти кубическую сложность.',
+    en: "Stooge sort is a deliberately inefficient recursive algorithm: it compares and, if needed, swaps only the outermost elements of a range, then recursively processes three overlapping two-thirds of the range - interesting not for practical use but for how a simple-looking recursion can yield near-cubic complexity.",
   },
 
   problem: {
-    ru: 'Многие эффективные сортировки делят массив на непересекающиеся половины или трети и обрабатывают их независимо. Что произойдёт, если вместо непересекающихся частей рекурсивно обрабатывать перекрывающиеся две трети диапазона — сначала первые 2/3, потом последние 2/3, потом снова первые 2/3? Формально это всё ещё корректно сортирует массив, но перекрытие означает огромную избыточную работу: значительная часть элементов обрабатывается заново по несколько раз на каждом уровне рекурсии.',
-    en: 'Many efficient sorts split the array into non-overlapping halves or thirds and process them independently. What happens if, instead of non-overlapping parts, we recursively process overlapping two-thirds of the range — first the first 2/3, then the last 2/3, then the first 2/3 again? Formally this still correctly sorts the array, but the overlap means enormous redundant work: a large fraction of elements gets reprocessed multiple times at every level of recursion.',
+    ru: 'Многие эффективные сортировки делят массив на непересекающиеся половины или трети и обрабатывают их независимо. Что произойдёт, если вместо непересекающихся частей рекурсивно обрабатывать перекрывающиеся две трети диапазона - сначала первые 2/3, потом последние 2/3, потом снова первые 2/3? Формально это всё ещё корректно сортирует массив, но перекрытие означает огромную избыточную работу: значительная часть элементов обрабатывается заново по несколько раз на каждом уровне рекурсии.',
+    en: 'Many efficient sorts split the array into non-overlapping halves or thirds and process them independently. What happens if, instead of non-overlapping parts, we recursively process overlapping two-thirds of the range - first the first 2/3, then the last 2/3, then the first 2/3 again? Formally this still correctly sorts the array, but the overlap means enormous redundant work: a large fraction of elements gets reprocessed multiple times at every level of recursion.',
   },
 
   solution: {
-    ru: 'Для диапазона [lo, hi] сначала сравниваются крайние элементы: если a[lo] больше a[hi], они меняются местами — это гарантирует, что после всей обработки наибольший элемент диапазона не окажется в начале. Если в диапазоне больше двух элементов, вычисляется треть его длины t, и рекурсивно обрабатываются три перекрывающихся поддиапазона: первые две трети [lo, hi−t], последние две трети [lo+t, hi], и снова первые две трети [lo, hi−t]. Такое тройное перекрывающееся применение гарантирует корректность (это доказуемо, хотя и не очевидно с первого взгляда), но приводит к сложности порядка O(n^log(3)/log(1.5)) ≈ O(n^2.71) — гораздо хуже, чем даже пузырьковая сортировка.',
-    en: "For a range [lo, hi], the outer elements are first compared: if a[lo] is greater than a[hi], they're swapped — this guarantees the largest element of the range won't end up at the start after processing. If the range has more than two elements, its length's third t is computed, and three overlapping subranges are recursively processed: the first two-thirds [lo, hi−t], the last two-thirds [lo+t, hi], and the first two-thirds again [lo, hi−t]. This triple overlapping application guarantees correctness (provable, though not obvious at a glance), but results in complexity on the order of O(n^log(3)/log(1.5)) ≈ O(n^2.71) — far worse than even bubble sort.",
+    ru: 'Для диапазона [lo, hi] сначала сравниваются крайние элементы: если a[lo] больше a[hi], они меняются местами - это гарантирует, что после всей обработки наибольший элемент диапазона не окажется в начале. Если в диапазоне больше двух элементов, вычисляется треть его длины t, и рекурсивно обрабатываются три перекрывающихся поддиапазона: первые две трети [lo, hi−t], последние две трети [lo+t, hi], и снова первые две трети [lo, hi−t]. Такое тройное перекрывающееся применение гарантирует корректность (это доказуемо, хотя и не очевидно с первого взгляда), но приводит к сложности порядка O(n^log(3)/log(1.5)) ≈ O(n^2.71) - гораздо хуже, чем даже пузырьковая сортировка.',
+    en: "For a range [lo, hi], the outer elements are first compared: if a[lo] is greater than a[hi], they're swapped - this guarantees the largest element of the range won't end up at the start after processing. If the range has more than two elements, its length's third t is computed, and three overlapping subranges are recursively processed: the first two-thirds [lo, hi−t], the last two-thirds [lo+t, hi], and the first two-thirds again [lo, hi−t]. This triple overlapping application guarantees correctness (provable, though not obvious at a glance), but results in complexity on the order of O(n^log(3)/log(1.5)) ≈ O(n^2.71) - far worse than even bubble sort.",
   },
 
   steps: [
@@ -101,12 +101,12 @@ export const stoogeSort = {
 
   pros: [
     {
-      ru: 'Реализация предельно короткая и рекурсия концептуально проста — интересный пример того, что «простой код» и «эффективный код» не одно и то же.',
-      en: 'The implementation is extremely short and the recursion is conceptually simple — an interesting example that "simple code" and "efficient code" are not the same thing.',
+      ru: 'Реализация предельно короткая и рекурсия концептуально проста - интересный пример того, что «простой код» и «эффективный код» не одно и то же.',
+      en: 'The implementation is extremely short and the recursion is conceptually simple - an interesting example that "simple code" and "efficient code" are not the same thing.',
     },
     {
-      ru: 'Корректность доказывается индукцией по перекрывающимся третям — хорошая учебная задача на доказательство корректности рекурсивных алгоритмов.',
-      en: "Correctness is proved by induction over the overlapping thirds — a good exercise in proving correctness of recursive algorithms.",
+      ru: 'Корректность доказывается индукцией по перекрывающимся третям - хорошая учебная задача на доказательство корректности рекурсивных алгоритмов.',
+      en: "Correctness is proved by induction over the overlapping thirds - a good exercise in proving correctness of recursive algorithms.",
     },
     {
       ru: 'Требует лишь O(log n) дополнительной памяти на стек рекурсии, в отличие от многих других намеренно неэффективных алгоритмов.',
@@ -115,12 +115,12 @@ export const stoogeSort = {
   ],
   cons: [
     {
-      ru: 'Сложность порядка O(n^2.71) хуже, чем у пузырьковой или сортировки вставками (O(n²)) — практически нет сценария, где Стуз-сортировка была бы предпочтительнее их.',
-      en: "Complexity on the order of O(n^2.71) is worse than bubble or insertion sort (O(n²)) — there is virtually no scenario where stooge sort would be preferable to them.",
+      ru: 'Сложность порядка O(n^2.71) хуже, чем у пузырьковой или сортировки вставками (O(n²)) - практически нет сценария, где Стуз-сортировка была бы предпочтительнее их.',
+      en: "Complexity on the order of O(n^2.71) is worse than bubble or insertion sort (O(n²)) - there is virtually no scenario where stooge sort would be preferable to them.",
     },
     {
-      ru: 'Тройное перекрывающееся рекурсивное применение к двум третям диапазона порождает огромную избыточную работу — большая часть элементов обрабатывается заново по несколько раз.',
-      en: 'The triple overlapping recursive application to two-thirds of the range creates enormous redundant work — most elements get reprocessed several times.',
+      ru: 'Тройное перекрывающееся рекурсивное применение к двум третям диапазона порождает огромную избыточную работу - большая часть элементов обрабатывается заново по несколько раз.',
+      en: 'The triple overlapping recursive application to two-thirds of the range creates enormous redundant work - most elements get reprocessed several times.',
     },
     {
       ru: 'Существует исключительно в учебных и шуточных целях; ни одна известная реальная система не использует его для сортировки данных.',
@@ -130,12 +130,12 @@ export const stoogeSort = {
 
   whenToUse: [
     {
-      ru: 'Никогда в реальных задачах — как и Бого-сортировка, Стуз-сортировка существует исключительно как учебный и шуточный пример.',
-      en: 'Never in real tasks — like bogosort, stooge sort exists purely as an educational and joke example.',
+      ru: 'Никогда в реальных задачах - как и Бого-сортировка, Стуз-сортировка существует исключительно как учебный и шуточный пример.',
+      en: 'Never in real tasks - like bogosort, stooge sort exists purely as an educational and joke example.',
     },
     {
-      ru: 'В обучении рекурсии и анализу сложности — хороший пример того, как перекрывающиеся подзадачи (в отличие от непересекающихся, как в сортировке слиянием) резко ухудшают асимптотику.',
-      en: "In teaching recursion and complexity analysis — a good example of how overlapping subproblems (unlike the non-overlapping ones in merge sort) drastically worsen the asymptotics.",
+      ru: 'В обучении рекурсии и анализу сложности - хороший пример того, как перекрывающиеся подзадачи (в отличие от непересекающихся, как в сортировке слиянием) резко ухудшают асимптотику.',
+      en: "In teaching recursion and complexity analysis - a good example of how overlapping subproblems (unlike the non-overlapping ones in merge sort) drastically worsen the asymptotics.",
     },
   ],
 
@@ -166,8 +166,8 @@ export const stoogeSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'Если первый элемент диапазона больше последнего, они меняются местами — это единственное фактическое сравнение на каждом уровне.',
-        en: "If the range's first element is greater than its last, they are swapped — this is the only actual comparison at each level.",
+        ru: 'Если первый элемент диапазона больше последнего, они меняются местами - это единственное фактическое сравнение на каждом уровне.',
+        en: "If the range's first element is greater than its last, they are swapped - this is the only actual comparison at each level.",
       },
       hint: {
         ru: 'Подумайте, какие два элемента диапазона наиболее удалены друг от друга по позиции.',
@@ -187,11 +187,11 @@ export const stoogeSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'Именно перекрытие двух третей — а не непересекающееся деление, как в сортировке слиянием — отличает Стуз-сортировку и объясняет её плохую асимптотику.',
-        en: "It's exactly the overlap of the two-thirds — not a non-overlapping split like in merge sort — that defines stooge sort and explains its poor asymptotics.",
+        ru: 'Именно перекрытие двух третей - а не непересекающееся деление, как в сортировке слиянием - отличает Стуз-сортировку и объясняет её плохую асимптотику.',
+        en: "It's exactly the overlap of the two-thirds - not a non-overlapping split like in merge sort - that defines stooge sort and explains its poor asymptotics.",
       },
       hint: {
-        ru: 'Ключевое слово здесь — «перекрывающиеся». Сколько раз вызывается рекурсия и на каких частях диапазона?',
+        ru: 'Ключевое слово здесь - «перекрывающиеся». Сколько раз вызывается рекурсия и на каких частях диапазона?',
         en: 'The key word here is "overlapping." How many recursive calls are made and on which portions of the range?',
       },
     },
@@ -257,8 +257,8 @@ export const stoogeSort = {
         en: 'The sort runs in place, and the only extra memory goes to the depth of the recursive calls.',
       },
       hint: {
-        ru: 'Алгоритм рекурсивен, но не создаёт вспомогательных массивов — какова тогда глубина стека?',
-        en: 'The algorithm is recursive but creates no auxiliary arrays — what is the stack depth then?',
+        ru: 'Алгоритм рекурсивен, но не создаёт вспомогательных массивов - какова тогда глубина стека?',
+        en: 'The algorithm is recursive but creates no auxiliary arrays - what is the stack depth then?',
       },
     },
     {
@@ -288,10 +288,10 @@ export const stoogeSort = {
         en: 'In what way is stooge sort worse than bubble sort in terms of asymptotics?',
       },
       options: [
-        { ru: 'Стуз: степень ~2.71, пузырьковая — ровно 2', en: 'Stooge sort has exponent ~2.71, while bubble sort has exactly 2' },
-        { ru: 'Стуз-сортировка использует O(n) памяти, а пузырьковая — только O(1)', en: 'Stooge sort uses O(n) memory for its recursion, while bubble sort uses only O(1)' },
-        { ru: 'Пузырьковая сортировка нестабильна, а Стуз-сортировка — устойчива', en: 'Bubble sort is unstable, while stooge sort is stable' },
-        { ru: 'Никакой разницы — обе сортировки имеют одинаковую асимптотику O(n²)', en: 'No difference — both sorts have the same O(n²) asymptotics' },
+        { ru: 'Стуз: степень ~2.71, пузырьковая - ровно 2', en: 'Stooge sort has exponent ~2.71, while bubble sort has exactly 2' },
+        { ru: 'Стуз-сортировка использует O(n) памяти, а пузырьковая - только O(1)', en: 'Stooge sort uses O(n) memory for its recursion, while bubble sort uses only O(1)' },
+        { ru: 'Пузырьковая сортировка нестабильна, а Стуз-сортировка - устойчива', en: 'Bubble sort is unstable, while stooge sort is stable' },
+        { ru: 'Никакой разницы - обе сортировки имеют одинаковую асимптотику O(n²)', en: 'No difference - both sorts have the same O(n²) asymptotics' },
       ],
       correct: 0,
       explanation: {
@@ -310,9 +310,9 @@ export const stoogeSort = {
       },
       options: [
         { ru: 'Гарантировать правильные позиции элементов после двух предыдущих вызовов', en: 'To guarantee that elements shifted by the last two calls are in their correct positions' },
-        { ru: 'Только для симметрии кода — третий вызов не влияет на результат', en: 'Only for code symmetry — the third call has no effect on the result' },
+        { ru: 'Только для симметрии кода - третий вызов не влияет на результат', en: 'Only for code symmetry - the third call has no effect on the result' },
         { ru: 'Чтобы выполнить итоговую проверку на отсортированность без изменений', en: 'To perform a final check for sortedness without making changes' },
-        { ru: 'Потому что два вызова обрабатывают только половину элементов, а третий — оставшиеся', en: 'Because the first two calls together only cover half the elements, and the third handles the rest' },
+        { ru: 'Потому что два вызова обрабатывают только половину элементов, а третий - оставшиеся', en: 'Because the first two calls together only cover half the elements, and the third handles the rest' },
       ],
       correct: 0,
       explanation: {
@@ -330,15 +330,15 @@ export const stoogeSort = {
         en: 'What practical application does stooge sort have beyond educational purposes?',
       },
       options: [
-        { ru: 'Никакого — намеренно неэффективен, только учебный пример', en: 'None — the algorithm is deliberately inefficient and used only as a teaching example' },
+        { ru: 'Никакого - намеренно неэффективен, только учебный пример', en: 'None - the algorithm is deliberately inefficient and used only as a teaching example' },
         { ru: 'Сортировка строк в базах данных, где требуется лексикографический порядок', en: 'Sorting strings in databases where lexicographic order is required regardless of input' },
         { ru: 'Параллельная сортировка на GPU благодаря простой структуре рекурсии', en: 'Parallel sorting on GPUs thanks to the simple recursion structure' },
         { ru: 'Внешняя сортировка файлов, не помещающихся в оперативную память', en: 'External sorting of files that do not fit in RAM' },
       ],
       correct: 0,
       explanation: {
-        ru: 'Стуз-сортировка существует исключительно как учебный и шуточный пример — ни одна известная реальная система не использует её.',
-        en: 'Stooge sort exists purely as an educational and joke example — no known real-world system uses it.',
+        ru: 'Стуз-сортировка существует исключительно как учебный и шуточный пример - ни одна известная реальная система не использует её.',
+        en: 'Stooge sort exists purely as an educational and joke example - no known real-world system uses it.',
       },
       hint: {
         ru: 'Вспомните, к какой категории алгоритмов относится Стуз-сортировка по своему назначению.',

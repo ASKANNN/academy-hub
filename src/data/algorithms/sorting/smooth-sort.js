@@ -10,18 +10,18 @@ export const smoothSort = {
   tags: ['comparison', 'in-place', 'unstable', 'adaptive'],
 
   intent: {
-    ru: 'Смузсорт, придуманный Эдсгером Дейкстрой, — вариант пирамидальной сортировки, который строит не один бинарный, а лес куч Леонардо переменного размера, что позволяет ему адаптивно ускоряться на частично отсортированных данных, оставаясь сортировкой на месте с O(1) памяти.',
+    ru: 'Смузсорт, придуманный Эдсгером Дейкстрой, - вариант пирамидальной сортировки, который строит не один бинарный, а лес куч Леонардо переменного размера, что позволяет ему адаптивно ускоряться на частично отсортированных данных, оставаясь сортировкой на месте с O(1) памяти.',
     en: 'Smoothsort, devised by Edsger Dijkstra, is a heap sort variant that builds a forest of variable-size Leonardo heaps instead of one binary heap, allowing it to adaptively speed up on partially sorted data while remaining an in-place sort with O(1) memory.',
   },
 
   problem: {
-    ru: 'Heap sort гарантирует O(n log n) в любом случае, но не умеет использовать уже имеющийся порядок в данных — на почти отсортированном массиве он всё равно тратит полное время построения и разбора кучи. Нужен вариант heap sort, который адаптируется к порядку во входных данных, приближаясь к O(n) на почти отсортированных массивах, но сохраняет и гарантию O(n log n), и постоянную память heap sort.',
-    en: 'Heap sort guarantees O(n log n) regardless of input, but can\'t exploit existing order in the data — on a nearly sorted array it still spends the full time building and tearing down the heap. A heap sort variant is needed that adapts to input order, approaching O(n) on nearly sorted arrays, while keeping heap sort\'s O(n log n) guarantee and constant memory.',
+    ru: 'Heap sort гарантирует O(n log n) в любом случае, но не умеет использовать уже имеющийся порядок в данных - на почти отсортированном массиве он всё равно тратит полное время построения и разбора кучи. Нужен вариант heap sort, который адаптируется к порядку во входных данных, приближаясь к O(n) на почти отсортированных массивах, но сохраняет и гарантию O(n log n), и постоянную память heap sort.',
+    en: 'Heap sort guarantees O(n log n) regardless of input, but can\'t exploit existing order in the data - on a nearly sorted array it still spends the full time building and tearing down the heap. A heap sort variant is needed that adapts to input order, approaching O(n) on nearly sorted arrays, while keeping heap sort\'s O(n log n) guarantee and constant memory.',
   },
 
   solution: {
-    ru: 'Вместо одной бинарной кучи на весь массив смузсорт строит последовательность куч Леонардо — специальных бинарных деревьев с размерами по числам Леонардо (аналог чисел Фибоначчи: L(k) = L(k-1) + L(k-2) + 1). Массив постепенно превращается в лес таких куч слева направо (фаза «просеивания вверх»), а затем максимумы куч поочерёдно извлекаются справа налево, как в обычном heap sort. Ключевое отличие: если входные данные уже частично упорядочены, деревья строятся с меньшим числом операций восстановления кучи — отсюда адаптивность и почти линейное время на «гладких» данных.',
-    en: 'Instead of one binary heap over the whole array, smoothsort builds a sequence of Leonardo heaps — special binary trees sized after Leonardo numbers (a Fibonacci-like sequence: L(k) = L(k-1) + L(k-2) + 1). The array is gradually turned into a forest of such heaps left to right (the "sift up" phase), then the heap maximums are extracted right to left, same as regular heap sort. The key difference: if the input is already partially ordered, the trees require fewer heapify operations to build — hence the adaptivity and near-linear time on "smooth" data.',
+    ru: 'Вместо одной бинарной кучи на весь массив смузсорт строит последовательность куч Леонардо - специальных бинарных деревьев с размерами по числам Леонардо (аналог чисел Фибоначчи: L(k) = L(k-1) + L(k-2) + 1). Массив постепенно превращается в лес таких куч слева направо (фаза «просеивания вверх»), а затем максимумы куч поочерёдно извлекаются справа налево, как в обычном heap sort. Ключевое отличие: если входные данные уже частично упорядочены, деревья строятся с меньшим числом операций восстановления кучи - отсюда адаптивность и почти линейное время на «гладких» данных.',
+    en: 'Instead of one binary heap over the whole array, smoothsort builds a sequence of Leonardo heaps - special binary trees sized after Leonardo numbers (a Fibonacci-like sequence: L(k) = L(k-1) + L(k-2) + 1). The array is gradually turned into a forest of such heaps left to right (the "sift up" phase), then the heap maximums are extracted right to left, same as regular heap sort. The key difference: if the input is already partially ordered, the trees require fewer heapify operations to build - hence the adaptivity and near-linear time on "smooth" data.',
   },
 
   steps: [
@@ -244,22 +244,22 @@ def smooth_sort(arr):
       en: 'Sorts in place with O(1) extra memory while keeping the O(n log n) worst-case guarantee.',
     },
     {
-      ru: 'Может быть прерван в любой момент — на этот момент уже обработанная часть массива корректно отсортирована относительно себя (свойство, важное для real-time систем).',
-      en: 'Can be interrupted at any point — the already-processed part of the array is correctly sorted relative to itself at that moment (a property important for real-time systems).',
+      ru: 'Может быть прерван в любой момент - на этот момент уже обработанная часть массива корректно отсортирована относительно себя (свойство, важное для real-time систем).',
+      en: 'Can be interrupted at any point - the already-processed part of the array is correctly sorted relative to itself at that moment (a property important for real-time systems).',
     },
   ],
   cons: [
     {
-      ru: 'Одна из самых сложных для понимания и реализации сортировок — числа Леонардо и логика trinkle/rectify требуют внимательности.',
-      en: 'One of the hardest sorts to understand and implement correctly — Leonardo numbers and the trinkle/rectify logic require care.',
+      ru: 'Одна из самых сложных для понимания и реализации сортировок - числа Леонардо и логика trinkle/rectify требуют внимательности.',
+      en: 'One of the hardest sorts to understand and implement correctly - Leonardo numbers and the trinkle/rectify logic require care.',
     },
     {
       ru: 'Неустойчив, как и обычный heap sort.',
       en: 'Not stable, same as regular heap sort.',
     },
     {
-      ru: 'На случайных данных практически не быстрее обычного heap sort — выигрыш проявляется только на частично упорядоченных входах.',
-      en: 'On random data, practically no faster than regular heap sort — the benefit only shows up on partially ordered inputs.',
+      ru: 'На случайных данных практически не быстрее обычного heap sort - выигрыш проявляется только на частично упорядоченных входах.',
+      en: 'On random data, practically no faster than regular heap sort - the benefit only shows up on partially ordered inputs.',
     },
   ],
 
@@ -276,8 +276,8 @@ def smooth_sort(arr):
 
   realWorldExamples: [
     {
-      ru: '**Разработан Эдсгером Дейкстрой** в 1981 году как демонстрация того, что можно получить адаптивность heap sort без потери гарантий и памяти — важный академический результат в теории сортировок.',
-      en: '**Devised by Edsger Dijkstra** in 1981 to demonstrate that heap sort\'s adaptivity could be achieved without sacrificing guarantees or memory — an important academic result in sorting theory.',
+      ru: '**Разработан Эдсгером Дейкстрой** в 1981 году как демонстрация того, что можно получить адаптивность heap sort без потери гарантий и памяти - важный академический результат в теории сортировок.',
+      en: '**Devised by Edsger Dijkstra** in 1981 to demonstrate that heap sort\'s adaptivity could be achieved without sacrificing guarantees or memory - an important academic result in sorting theory.',
     },
     {
       ru: '**Встречается в исследовательских реализациях embedded и real-time систем**, где важна и гарантия худшего случая, и постоянная память, и возможность прерывания на полуслове.',
@@ -346,8 +346,8 @@ def smooth_sort(arr):
       ],
       correct: 0,
       explanation: {
-        ru: 'Если элементы уже стоят близко к правильным позициям, просеивание (rectify/trinkle) завершается быстрее — отсюда приближение к O(n) на «гладких» данных.',
-        en: 'If elements are already close to their correct positions, sifting (rectify/trinkle) finishes faster — hence the near-O(n) behavior on "smooth" data.',
+        ru: 'Если элементы уже стоят близко к правильным позициям, просеивание (rectify/trinkle) завершается быстрее - отсюда приближение к O(n) на «гладких» данных.',
+        en: 'If elements are already close to their correct positions, sifting (rectify/trinkle) finishes faster - hence the near-O(n) behavior on "smooth" data.',
       },
       hint: {
         ru: 'Адаптивный алгоритм делает меньше работы, когда данные уже частично упорядочены. Что именно требует меньше работы при наличии порядка в данных?',
@@ -360,18 +360,18 @@ def smooth_sort(arr):
         en: 'What memory guarantee does smoothsort retain compared to Timsort?',
       },
       options: [
-        { ru: 'O(1) — сортирует полностью на месте, без временных массивов', en: 'O(1) — sorts entirely in place, with no temporary arrays' },
+        { ru: 'O(1) - сортирует полностью на месте, без временных массивов', en: 'O(1) - sorts entirely in place, with no temporary arrays' },
         {
-          ru: 'O(n) — точно такая же дополнительная память, как требуется и Timsort',
-          en: 'O(n) — exactly the same extra memory as Timsort requires for its runs',
+          ru: 'O(n) - точно такая же дополнительная память, как требуется и Timsort',
+          en: 'O(n) - exactly the same extra memory as Timsort requires for its runs',
         },
         {
-          ru: 'O(log n) — только на стек рекурсии при обходе леса деревьев Леонардо',
-          en: 'O(log n) — only for the recursion stack while traversing the Leonardo tree forest',
+          ru: 'O(log n) - только на стек рекурсии при обходе леса деревьев Леонардо',
+          en: 'O(log n) - only for the recursion stack while traversing the Leonardo tree forest',
         },
         {
-          ru: 'O(n log n) — по одному временному элементу на каждый шаг просеивания',
-          en: 'O(n log n) — one temporary element allocated for every sifting step performed',
+          ru: 'O(n log n) - по одному временному элементу на каждый шаг просеивания',
+          en: 'O(n log n) - one temporary element allocated for every sifting step performed',
         },
       ],
       correct: 0,
@@ -391,25 +391,25 @@ def smooth_sort(arr):
       },
       options: [
         {
-          ru: 'Эдсгер Дейкстра — чтобы показать, что heap sort может стать адаптивным без потери гарантий и постоянной памяти',
-          en: 'Edsger Dijkstra — to show that heap sort could become adaptive without losing its guarantees or constant memory',
+          ru: 'Эдсгер Дейкстра - чтобы показать, что heap sort может стать адаптивным без потери гарантий и постоянной памяти',
+          en: 'Edsger Dijkstra - to show that heap sort could become adaptive without losing its guarantees or constant memory',
         },
         {
-          ru: 'Дональд Кнут — как один из иллюстративных примеров в своей многотомной серии учебников TAOCP',
-          en: 'Donald Knuth — as one of the illustrative examples in his own multi-volume TAOCP textbook series',
+          ru: 'Дональд Кнут - как один из иллюстративных примеров в своей многотомной серии учебников TAOCP',
+          en: 'Donald Knuth - as one of the illustrative examples in his own multi-volume TAOCP textbook series',
         },
         {
-          ru: 'Тони Хоар — как дальнейшее усовершенствование и развитие своего собственного алгоритма быстрой сортировки quicksort в 1970-х',
-          en: 'Tony Hoare — as a further improvement and extension of his own quicksort partitioning algorithm design in the 1970s',
+          ru: 'Тони Хоар - как дальнейшее усовершенствование и развитие своего собственного алгоритма быстрой сортировки quicksort в 1970-х',
+          en: 'Tony Hoare - as a further improvement and extension of his own quicksort partitioning algorithm design in the 1970s',
         },
         {
-          ru: 'Инженеры компании Google — специально для внутренних высокопроизводительных библиотек сортировки данных',
-          en: "Google's own engineers — specifically for internal high-performance data sorting library code",
+          ru: 'Инженеры компании Google - специально для внутренних высокопроизводительных библиотек сортировки данных',
+          en: "Google's own engineers - specifically for internal high-performance data sorting library code",
         },
       ],
       correct: 0,
       explanation: {
-        ru: 'Смузсорт (1981) — работа Дейкстры, демонстрирующая, что адаптивность (как у insertion sort) не обязательно требует жертвовать памятью или гарантией худшего случая.',
+        ru: 'Смузсорт (1981) - работа Дейкстры, демонстрирующая, что адаптивность (как у insertion sort) не обязательно требует жертвовать памятью или гарантией худшего случая.',
         en: 'Smoothsort (1981) is Dijkstra\'s work, demonstrating that adaptivity (like insertion sort has) doesn\'t necessarily require sacrificing memory or the worst-case guarantee.',
       },
       hint: {
@@ -456,15 +456,15 @@ def smooth_sort(arr):
         en: 'What is smoothsort\'s best-case time complexity and when is it achieved?',
       },
       options: [
-        { ru: 'O(n) — когда входные данные уже полностью отсортированы', en: 'O(n) — when the input data is already fully sorted' },
-        { ru: 'O(n log n) — лучший и средний случай у смузсорта одинаковы', en: 'O(n log n) — smoothsort\'s best and average cases are the same' },
-        { ru: 'O(log n) — если все элементы массива одинаковы', en: 'O(log n) — if all elements in the array are identical' },
-        { ru: 'O(1) — при пустом входном массиве без единого элемента', en: 'O(1) — with an empty input array containing no elements' },
+        { ru: 'O(n) - когда входные данные уже полностью отсортированы', en: 'O(n) - when the input data is already fully sorted' },
+        { ru: 'O(n log n) - лучший и средний случай у смузсорта одинаковы', en: 'O(n log n) - smoothsort\'s best and average cases are the same' },
+        { ru: 'O(log n) - если все элементы массива одинаковы', en: 'O(log n) - if all elements in the array are identical' },
+        { ru: 'O(1) - при пустом входном массиве без единого элемента', en: 'O(1) - with an empty input array containing no elements' },
       ],
       correct: 0,
       explanation: {
-        ru: 'На уже отсортированном массиве операции rectify/trinkle завершаются немедленно — ни один элемент не нарушает инвариант кучи, поэтому суммарная работа линейна.',
-        en: 'On an already sorted array, rectify/trinkle operations complete immediately — no element violates the heap invariant — so total work is linear.',
+        ru: 'На уже отсортированном массиве операции rectify/trinkle завершаются немедленно - ни один элемент не нарушает инвариант кучи, поэтому суммарная работа линейна.',
+        en: 'On an already sorted array, rectify/trinkle operations complete immediately - no element violates the heap invariant - so total work is linear.',
       },
       hint: {
         ru: 'Если данные уже отсортированы, нужно ли что-то перемещать при построении леса куч?',
@@ -484,8 +484,8 @@ def smooth_sort(arr):
       ],
       correct: 0,
       explanation: {
-        ru: 'Числа Леонардо: L(0) = 1, L(1) = 1, L(k) = L(k-1) + L(k-2) + 1. Размеры деревьев в лесу смузсорта всегда должны быть числами Леонардо — это обеспечивает корректное слияние и разбиение деревьев.',
-        en: 'Leonardo numbers: L(0) = 1, L(1) = 1, L(k) = L(k-1) + L(k-2) + 1. Tree sizes in smoothsort\'s forest must always be Leonardo numbers — this ensures correct tree merging and splitting.',
+        ru: 'Числа Леонардо: L(0) = 1, L(1) = 1, L(k) = L(k-1) + L(k-2) + 1. Размеры деревьев в лесу смузсорта всегда должны быть числами Леонардо - это обеспечивает корректное слияние и разбиение деревьев.',
+        en: 'Leonardo numbers: L(0) = 1, L(1) = 1, L(k) = L(k-1) + L(k-2) + 1. Tree sizes in smoothsort\'s forest must always be Leonardo numbers - this ensures correct tree merging and splitting.',
       },
       hint: {
         ru: 'Вспомните числа Фибоначчи: F(k) = F(k-1) + F(k-2). Как числа Леонардо отличаются от них?',
@@ -498,9 +498,9 @@ def smooth_sort(arr):
         en: 'Is smoothsort a stable algorithm?',
       },
       options: [
-        { ru: 'Нет — как heap sort, не сохраняет относительный порядок равных элементов', en: 'No — like regular heap sort, it does not preserve the relative order of equal elements' },
-        { ru: 'Да — лес куч Леонардо специально спроектирован для сохранения порядка вставки', en: 'Yes — the Leonardo heap forest is specifically designed to preserve insertion order always' },
-        { ru: 'Зависит от размера массива: при n < 100 устойчив, при больших n — нет', en: 'It depends on array size: stable for n < 100, unstable for larger n' },
+        { ru: 'Нет - как heap sort, не сохраняет относительный порядок равных элементов', en: 'No - like regular heap sort, it does not preserve the relative order of equal elements' },
+        { ru: 'Да - лес куч Леонардо специально спроектирован для сохранения порядка вставки', en: 'Yes - the Leonardo heap forest is specifically designed to preserve insertion order always' },
+        { ru: 'Зависит от размера массива: при n < 100 устойчив, при больших n - нет', en: 'It depends on array size: stable for n < 100, unstable for larger n' },
         { ru: 'Да, но только если все элементы массива уникальны и не имеют дубликатов', en: 'Yes, but only if all array elements are unique with no duplicates at all' },
       ],
       correct: 0,
@@ -509,7 +509,7 @@ def smooth_sort(arr):
         en: 'Smoothsort, like heap sort, can change the relative order of equal elements during maximum extraction and forest restructuring. Stability is not its property.',
       },
       hint: {
-        ru: 'Heap sort известен тем, что неустойчив. Смузсорт — вариант heap sort. Что это говорит о его устойчивости?',
+        ru: 'Heap sort известен тем, что неустойчив. Смузсорт - вариант heap sort. Что это говорит о его устойчивости?',
         en: 'Heap sort is known to be unstable. Smoothsort is a heap sort variant. What does that suggest about its stability?',
       },
     },
@@ -519,19 +519,19 @@ def smooth_sort(arr):
         en: 'Why is smoothsort preferable to Timsort in systems with strict memory constraints?',
       },
       options: [
-        { ru: 'Смузсорт — O(1) памяти; Timsort требует O(n) для слияния прогонов', en: 'Smoothsort uses O(1) memory, whereas Timsort requires O(n) to merge runs' },
+        { ru: 'Смузсорт - O(1) памяти; Timsort требует O(n) для слияния прогонов', en: 'Smoothsort uses O(1) memory, whereas Timsort requires O(n) to merge runs' },
         { ru: 'Смузсорт всегда быстрее Timsort на любом входе, включая случайные данные', en: 'Smoothsort is always faster than Timsort on any input, including random data' },
         { ru: 'Timsort нестабилен в отличие от смузсорта, что важно при сортировке по ключу', en: 'Timsort is unstable unlike smoothsort, which matters when sorting by key' },
         { ru: 'Timsort не может работать на данных с повторяющимися значениями', en: 'Timsort cannot handle data with repeating values at all' },
       ],
       correct: 0,
       explanation: {
-        ru: 'Timsort сливает прогоны во временный буфер размером O(n), что неприемлемо там, где памяти мало. Смузсорт обходится без дополнительных массивов — весь лес строится прямо в исходном массиве.',
-        en: 'Timsort merges runs into an O(n) temporary buffer, which is unacceptable where memory is scarce. Smoothsort needs no extra arrays — the entire forest is built directly within the original array.',
+        ru: 'Timsort сливает прогоны во временный буфер размером O(n), что неприемлемо там, где памяти мало. Смузсорт обходится без дополнительных массивов - весь лес строится прямо в исходном массиве.',
+        en: 'Timsort merges runs into an O(n) temporary buffer, which is unacceptable where memory is scarce. Smoothsort needs no extra arrays - the entire forest is built directly within the original array.',
       },
       hint: {
-        ru: 'Для чего Timsort выделяет дополнительную память — и нужно ли это смузсорту?',
-        en: 'What does Timsort allocate extra memory for — and does smoothsort need that same thing?',
+        ru: 'Для чего Timsort выделяет дополнительную память - и нужно ли это смузсорту?',
+        en: 'What does Timsort allocate extra memory for - and does smoothsort need that same thing?',
       },
     },
     {

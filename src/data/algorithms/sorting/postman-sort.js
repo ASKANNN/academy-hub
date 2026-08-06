@@ -10,18 +10,18 @@ export const postmanSort = {
   tags: ['non-comparison', 'distribution', 'digit-based', 'stable'],
 
   intent: {
-    ru: 'Почтовая сортировка названа по методу, которым реальные почтовые сортировочные машины раскладывают письма по индексу: сначала — по первой (самой значимой) цифре в отдельные лотки, а затем каждый лоток заново сортируется по следующей цифре, и так далее, пока письма не окажутся полностью упорядочены.',
+    ru: 'Почтовая сортировка названа по методу, которым реальные почтовые сортировочные машины раскладывают письма по индексу: сначала - по первой (самой значимой) цифре в отдельные лотки, а затем каждый лоток заново сортируется по следующей цифре, и так далее, пока письма не окажутся полностью упорядочены.',
     en: 'Postman sort is named after the method real postal sorting machines use to arrange mail by ZIP code: first bucket everything by the first (most significant) digit, then re-sort each bucket by the next digit, and so on, until the mail ends up fully ordered.',
   },
 
   problem: {
-    ru: 'Классическая поразрядная сортировка (LSD radix sort) обрабатывает цифры от младшей к старшей — это просто и корректно, но требует пройтись по всем разрядам числа даже тогда, когда после первых нескольких проходов данные уже почти разложены по группам. Хочется способа сортировки по цифрам, начиная с самой значимой — так, как естественно раскладывают почту: сначала грубая раскладка по первому разряду индекса, а внутри каждой такой группы отдельно и независимо уточняется порядок по следующим разрядам.',
-    en: 'Classic radix sort (LSD radix sort) processes digits from least to most significant — simple and correct, but it requires passing over every digit position even when, after the first few passes, the data is already nearly grouped. What\'s wanted is a way to sort by digits starting from the most significant one — the way mail is naturally sorted: a coarse first pass by the leading ZIP-code digit, then each resulting group is independently refined by the next digit.',
+    ru: 'Классическая поразрядная сортировка (LSD radix sort) обрабатывает цифры от младшей к старшей - это просто и корректно, но требует пройтись по всем разрядам числа даже тогда, когда после первых нескольких проходов данные уже почти разложены по группам. Хочется способа сортировки по цифрам, начиная с самой значимой - так, как естественно раскладывают почту: сначала грубая раскладка по первому разряду индекса, а внутри каждой такой группы отдельно и независимо уточняется порядок по следующим разрядам.',
+    en: 'Classic radix sort (LSD radix sort) processes digits from least to most significant - simple and correct, but it requires passing over every digit position even when, after the first few passes, the data is already nearly grouped. What\'s wanted is a way to sort by digits starting from the most significant one - the way mail is naturally sorted: a coarse first pass by the leading ZIP-code digit, then each resulting group is independently refined by the next digit.',
   },
 
   solution: {
-    ru: 'Массив делится на 10 корзин по значению самой значимой (старшей) незадействованной цифры каждого числа. Затем для каждой заполненной корзины рекурсивно применяется тот же приём — деление на 10 корзин, но уже по следующей, менее значимой цифре — до тех пор, пока не будут исчерпаны все разряды или в корзине не останется не более одного элемента. Такая раскладка «от старшего разряда к младшему» (most-significant-digit-first) точно соответствует тому, как почтовая машина раскладывает письма: грубая сортировка по первой цифре индекса, а затем всё более точная — по следующим.',
-    en: 'The array is split into 10 buckets by the value of each number\'s most significant not-yet-used digit. Then the same trick is applied recursively to every non-empty bucket — splitting into 10 buckets by the next, less significant digit — until digits run out or a bucket holds at most one element. This most-significant-digit-first distribution matches exactly how a postal sorting machine handles mail: a coarse first pass by the leading ZIP-code digit, then progressively finer passes on the following digits.',
+    ru: 'Массив делится на 10 корзин по значению самой значимой (старшей) незадействованной цифры каждого числа. Затем для каждой заполненной корзины рекурсивно применяется тот же приём - деление на 10 корзин, но уже по следующей, менее значимой цифре - до тех пор, пока не будут исчерпаны все разряды или в корзине не останется не более одного элемента. Такая раскладка «от старшего разряда к младшему» (most-significant-digit-first) точно соответствует тому, как почтовая машина раскладывает письма: грубая сортировка по первой цифре индекса, а затем всё более точная - по следующим.',
+    en: 'The array is split into 10 buckets by the value of each number\'s most significant not-yet-used digit. Then the same trick is applied recursively to every non-empty bucket - splitting into 10 buckets by the next, less significant digit - until digits run out or a bucket holds at most one element. This most-significant-digit-first distribution matches exactly how a postal sorting machine handles mail: a coarse first pass by the leading ZIP-code digit, then progressively finer passes on the following digits.',
   },
 
   steps: [
@@ -56,8 +56,8 @@ export const postmanSort = {
     {
       title: { ru: 'Остановиться', en: 'Stop' },
       explanation: {
-        ru: 'Когда разряды закончились или в корзине остался один элемент, дальнейшая раскладка этой корзины не нужна — массив отсортирован.',
-        en: 'When digits run out or a bucket holds only one element, that bucket needs no further distribution — the array is sorted.',
+        ru: 'Когда разряды закончились или в корзине остался один элемент, дальнейшая раскладка этой корзины не нужна - массив отсортирован.',
+        en: 'When digits run out or a bucket holds only one element, that bucket needs no further distribution - the array is sorted.',
       },
     },
   ],
@@ -127,12 +127,12 @@ export const postmanSort = {
 
   pros: [
     {
-      ru: 'Линейна по числу элементов и разрядов — O(n·k), где k — число цифр, без единого сравнения элементов друг с другом.',
-      en: 'Linear in the number of elements and digits — O(n·k), where k is the digit count, with no direct comparisons between elements at all.',
+      ru: 'Линейна по числу элементов и разрядов - O(n·k), где k - число цифр, без единого сравнения элементов друг с другом.',
+      en: 'Linear in the number of elements and digits - O(n·k), where k is the digit count, with no direct comparisons between elements at all.',
     },
     {
-      ru: 'Раскладка «от старшего разряда» позволяет рано завершать обработку корзин с одним элементом, не дожидаясь прохода по всем оставшимся разрядам — в отличие от LSD-варианта, который всегда проходит все разряды целиком.',
-      en: 'Most-significant-digit-first distribution lets single-element buckets finish early, without waiting through the remaining digit passes — unlike the LSD variant, which always processes every digit position in full.',
+      ru: 'Раскладка «от старшего разряда» позволяет рано завершать обработку корзин с одним элементом, не дожидаясь прохода по всем оставшимся разрядам - в отличие от LSD-варианта, который всегда проходит все разряды целиком.',
+      en: 'Most-significant-digit-first distribution lets single-element buckets finish early, without waiting through the remaining digit passes - unlike the LSD variant, which always processes every digit position in full.',
     },
     {
       ru: 'Устойчива: относительный порядок элементов с одинаковым значением сохраняется внутри каждой корзины.',
@@ -145,8 +145,8 @@ export const postmanSort = {
       en: 'Requires O(n + k) extra memory for the buckets at each level of recursion.',
     },
     {
-      ru: 'Применима только к данным с чёткой разрядной структурой (целые числа, строки фиксированной длины) — не подходит для произвольных сравнимых объектов.',
-      en: 'Only applicable to data with a clear digit/positional structure (integers, fixed-length strings) — not suited to arbitrary comparable objects.',
+      ru: 'Применима только к данным с чёткой разрядной структурой (целые числа, строки фиксированной длины) - не подходит для произвольных сравнимых объектов.',
+      en: 'Only applicable to data with a clear digit/positional structure (integers, fixed-length strings) - not suited to arbitrary comparable objects.',
     },
     {
       ru: 'Глубина рекурсии зависит от числа разрядов, а не от размера входных данных, что для очень больших чисел может потребовать аккуратной обработки стека вызовов.',
@@ -156,19 +156,19 @@ export const postmanSort = {
 
   whenToUse: [
     {
-      ru: 'Когда данные — целые числа или строки фиксированного формата (почтовые индексы, номера телефонов, идентификаторы), а нужна сортировка без сравнений, начиная с самой значимой части ключа.',
+      ru: 'Когда данные - целые числа или строки фиксированного формата (почтовые индексы, номера телефонов, идентификаторы), а нужна сортировка без сравнений, начиная с самой значимой части ключа.',
       en: 'When the data are integers or fixed-format strings (postal codes, phone numbers, identifiers) and a comparison-free sort is needed, starting from the most significant part of the key.',
     },
     {
-      ru: 'Как учебный пример разницы между LSD- и MSD-поразрядной сортировкой — почтовая сортировка иллюстрирует MSD-подход на интуитивно понятном примере реальной почтовой сортировочной машины.',
-      en: 'As a teaching example of the difference between LSD and MSD radix sort — postman sort illustrates the MSD approach through the intuitive example of a real postal sorting machine.',
+      ru: 'Как учебный пример разницы между LSD- и MSD-поразрядной сортировкой - почтовая сортировка иллюстрирует MSD-подход на интуитивно понятном примере реальной почтовой сортировочной машины.',
+      en: 'As a teaching example of the difference between LSD and MSD radix sort - postman sort illustrates the MSD approach through the intuitive example of a real postal sorting machine.',
     },
   ],
 
   realWorldExamples: [
     {
-      ru: '**Почтовые сортировочные машины (mail sorting machines)**, используемые почтовыми службами по всему миру, физически раскладывают письма по лоткам сначала по первым цифрам индекса, а затем уточняют раскладку по следующим цифрам — именно этот процесс и дал алгоритму название.',
-      en: '**Mail sorting machines** used by postal services worldwide physically route letters into bins first by the leading digits of the ZIP/postal code, then refine the routing using subsequent digits — this exact process is what gives the algorithm its name.',
+      ru: '**Почтовые сортировочные машины (mail sorting machines)**, используемые почтовыми службами по всему миру, физически раскладывают письма по лоткам сначала по первым цифрам индекса, а затем уточняют раскладку по следующим цифрам - именно этот процесс и дал алгоритму название.',
+      en: '**Mail sorting machines** used by postal services worldwide physically route letters into bins first by the leading digits of the ZIP/postal code, then refine the routing using subsequent digits - this exact process is what gives the algorithm its name.',
     },
     {
       ru: '**MSD radix sort в базах данных и системах с префиксными индексами** (например, сортировка строк по префиксу) применяет тот же принцип «сначала самая значимая часть ключа», что удобно сочетается со структурами данных вроде trie.',
@@ -192,8 +192,8 @@ export const postmanSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'Это MSD-подход (most-significant-digit-first) — грубая раскладка идёт по старшей цифре, а затем уточняется по следующим, как в реальной почтовой сортировке.',
-        en: 'This is the MSD (most-significant-digit-first) approach — the coarse pass uses the leading digit, then refines using the following digits, just like real postal sorting.',
+        ru: 'Это MSD-подход (most-significant-digit-first) - грубая раскладка идёт по старшей цифре, а затем уточняется по следующим, как в реальной почтовой сортировке.',
+        en: 'This is the MSD (most-significant-digit-first) approach - the coarse pass uses the leading digit, then refines using the following digits, just like real postal sorting.',
       },
       hint: {
         ru: 'Подумайте, как почтальон сортирует письма: начинает ли он с первой цифры индекса или с последней?',
@@ -216,11 +216,11 @@ export const postmanSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'Radix sort в этом курсе — классический LSD-вариант; почтовая сортировка — MSD-вариант с рекурсивным уточнением внутри каждой корзины.',
+        ru: 'Radix sort в этом курсе - классический LSD-вариант; почтовая сортировка - MSD-вариант с рекурсивным уточнением внутри каждой корзины.',
         en: 'The radix sort covered elsewhere is the classic LSD variant; postman sort is the MSD variant, with recursive refinement inside each bucket.',
       },
       hint: {
-        ru: 'LSD и MSD — это аббревиатуры, указывающие направление обхода разрядов. С какого конца начинает почтовая сортировка?',
+        ru: 'LSD и MSD - это аббревиатуры, указывающие направление обхода разрядов. С какого конца начинает почтовая сортировка?',
         en: 'LSD and MSD are abbreviations indicating the direction digits are traversed. Which end does postman sort start from?',
       },
     },
@@ -236,7 +236,7 @@ export const postmanSort = {
         },
         { ru: 'После ровно трёх уровней рекурсии, независимо от числа разрядов', en: 'After exactly three levels of recursion, regardless of the digit count' },
         { ru: 'Когда сумма элементов корзины становится чётной по значению', en: 'When the sum of the bucket\'s elements becomes even-valued' },
-        { ru: 'Никогда — рекурсия продолжается бесконечно на любом входе', en: 'Never — the recursion continues indefinitely on any input' },
+        { ru: 'Никогда - рекурсия продолжается бесконечно на любом входе', en: 'Never - the recursion continues indefinitely on any input' },
       ],
       correct: 0,
       explanation: {
@@ -244,8 +244,8 @@ export const postmanSort = {
         en: 'A single-element bucket is already trivially ordered, and running out of digits means there\'s nothing left to split on.',
       },
       hint: {
-        ru: 'Какое минимальное условие делает дальнейшую сортировку корзины бессмысленной — по числу элементов или по числу оставшихся разрядов?',
-        en: 'What minimal condition makes further sorting of a bucket pointless — regarding element count or remaining digit positions?',
+        ru: 'Какое минимальное условие делает дальнейшую сортировку корзины бессмысленной - по числу элементов или по числу оставшихся разрядов?',
+        en: 'What minimal condition makes further sorting of a bucket pointless - regarding element count or remaining digit positions?',
       },
     },
     {
@@ -254,7 +254,7 @@ export const postmanSort = {
         en: 'What is the time complexity of postman sort?',
       },
       options: [
-        { ru: 'O(n·k), где k — число разрядов', en: 'O(n·k), where k is the digit count' },
+        { ru: 'O(n·k), где k - число разрядов', en: 'O(n·k), where k is the digit count' },
         { ru: 'O(n²), как у простых сортировок сравнением', en: 'O(n²), same as simple comparison sorts' },
         { ru: 'O(log n), благодаря бинарному делению корзин', en: 'O(log n), thanks to the binary division of buckets' },
         { ru: 'O(1), поскольку разряды обрабатываются параллельно', en: 'O(1), since digit positions are processed in parallel' },
@@ -275,7 +275,7 @@ export const postmanSort = {
         en: 'Is postman sort a comparison-based sort?',
       },
       options: [
-        { ru: 'Нет — она распределяет элементы по цифрам, не сравнивая их напрямую друг с другом', en: 'No — it distributes elements by digit value, without directly comparing them to each other' },
+        { ru: 'Нет - она распределяет элементы по цифрам, не сравнивая их напрямую друг с другом', en: 'No - it distributes elements by digit value, without directly comparing them to each other' },
         { ru: 'Да, точно так же, как быстрая сортировка, постоянно сравнивающая пары элементов друг с другом', en: 'Yes, exactly like quicksort, which constantly compares pairs of elements against each other' },
         { ru: 'Да, но исключительно для отрицательных чисел, где прямое сравнение оказывается совершенно неизбежным', en: 'Yes, but only for negative numbers, where direct comparison turns out to be completely unavoidable' },
         { ru: 'Это полностью зависит от конкретного языка реализации и используемой аппаратной платформы', en: 'It entirely depends on the specific implementation language and the hardware platform being used' },
@@ -296,10 +296,10 @@ export const postmanSort = {
         en: 'What is the space complexity of postman sort?',
       },
       options: [
-        { ru: 'O(n + k), где k — основание системы счисления', en: 'O(n + k), where k is the base of the numeral system' },
-        { ru: 'O(1) — алгоритм сортирует полностью на месте', en: 'O(1) — the algorithm sorts entirely in place' },
-        { ru: 'O(n²) — из-за вложенных корзин на каждом уровне рекурсии', en: 'O(n²) — due to nested buckets at every recursion level' },
-        { ru: 'O(log n) — только стек рекурсии, без дополнительных массивов', en: 'O(log n) — only the recursion stack, no extra arrays' },
+        { ru: 'O(n + k), где k - основание системы счисления', en: 'O(n + k), where k is the base of the numeral system' },
+        { ru: 'O(1) - алгоритм сортирует полностью на месте', en: 'O(1) - the algorithm sorts entirely in place' },
+        { ru: 'O(n²) - из-за вложенных корзин на каждом уровне рекурсии', en: 'O(n²) - due to nested buckets at every recursion level' },
+        { ru: 'O(log n) - только стек рекурсии, без дополнительных массивов', en: 'O(log n) - only the recursion stack, no extra arrays' },
       ],
       correct: 0,
       explanation: {
@@ -328,8 +328,8 @@ export const postmanSort = {
         en: 'LSD always makes exactly k passes over all elements regardless of their values. MSD recursively processes only non-empty buckets and stops as soon as a bucket contains one element.',
       },
       hint: {
-        ru: 'Что происходит с корзиной, в которой после очередного разряда остался всего один элемент — нужно ли её дальше дробить?',
-        en: 'What happens to a bucket that ends up with just one element after a digit pass — does it need further splitting?',
+        ru: 'Что происходит с корзиной, в которой после очередного разряда остался всего один элемент - нужно ли её дальше дробить?',
+        en: 'What happens to a bucket that ends up with just one element after a digit pass - does it need further splitting?',
       },
     },
     {
@@ -340,12 +340,12 @@ export const postmanSort = {
       options: [
         { ru: 'Оба обрабатывают ключи символ за символом (или цифру за цифрой) начиная с самого значимого', en: 'Both process keys character by character (or digit by digit) starting from the most significant' },
         { ru: 'Trie используется внутри почтовой сортировки как обязательная промежуточная структура данных', en: 'A trie is used internally by postman sort as a mandatory intermediate data structure' },
-        { ru: 'Они не связаны — trie применяется только для текстового поиска, а не для сортировки', en: 'They are unrelated — tries are only used for text search and never applied to sorting at all always' },
+        { ru: 'Они не связаны - trie применяется только для текстового поиска, а не для сортировки', en: 'They are unrelated - tries are only used for text search and never applied to sorting at all always' },
         { ru: 'Оба требуют O(n²) памяти при работе с числами большого диапазона значений', en: 'Both require O(n²) memory when dealing with numbers from a large value range' },
       ],
       correct: 0,
       explanation: {
-        ru: 'Почтовая сортировка неявно строит trie-подобную структуру: каждый уровень рекурсии соответствует одному уровню дерева, где узлы — это значения очередной цифры.',
+        ru: 'Почтовая сортировка неявно строит trie-подобную структуру: каждый уровень рекурсии соответствует одному уровню дерева, где узлы - это значения очередной цифры.',
         en: 'Postman sort implicitly builds a trie-like structure: each recursion level corresponds to one level of the tree, where nodes are digit values.',
       },
       hint: {
@@ -370,8 +370,8 @@ export const postmanSort = {
         en: 'Radix-based algorithms rely on integer or positional key structure. For floating-point numbers, either integer conversion or special bit-representation tricks are needed.',
       },
       hint: {
-        ru: 'Что именно читает алгоритм из числа на каждом шаге — и есть ли такая структура у вещественных чисел?',
-        en: 'What exactly does the algorithm read from a number at each step — and do floating-point numbers have that structure?',
+        ru: 'Что именно читает алгоритм из числа на каждом шаге - и есть ли такая структура у вещественных чисел?',
+        en: 'What exactly does the algorithm read from a number at each step - and do floating-point numbers have that structure?',
       },
     },
     {

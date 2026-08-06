@@ -15,13 +15,13 @@ export const bucketSort = {
   },
 
   problem: {
-    ru: 'Сортировка подсчётом и поразрядная сортировка отлично работают с целыми числами, но что делать с равномерно распределёнными вещественными числами, скажем, в диапазоне [0, 1)? Считать по каждому значению бессмысленно — значений бесконечно много. Нужен способ использовать знание о распределении данных, не требуя дискретных ключей.',
-    en: 'Counting sort and radix sort work great with integers, but what about uniformly distributed floating-point numbers, say in the range [0, 1)? Counting each individual value makes no sense — there are infinitely many. A way is needed to exploit knowledge of the data\'s distribution without requiring discrete keys.',
+    ru: 'Сортировка подсчётом и поразрядная сортировка отлично работают с целыми числами, но что делать с равномерно распределёнными вещественными числами, скажем, в диапазоне [0, 1)? Считать по каждому значению бессмысленно - значений бесконечно много. Нужен способ использовать знание о распределении данных, не требуя дискретных ключей.',
+    en: 'Counting sort and radix sort work great with integers, but what about uniformly distributed floating-point numbers, say in the range [0, 1)? Counting each individual value makes no sense - there are infinitely many. A way is needed to exploit knowledge of the data\'s distribution without requiring discrete keys.',
   },
 
   solution: {
-    ru: 'Диапазон возможных значений делится на k равных интервалов — «корзин». Каждый элемент попадает в корзину, соответствующую его значению (например, `floor(value * k)` для чисел из [0, 1)). Если исходные данные распределены равномерно, в каждой корзине окажется примерно n/k элементов — небольшое количество, которое можно быстро отсортировать простым алгоритмом (обычно insertion sort, эффективным на маленьких массивах). После сортировки всех корзин их содержимое просто соединяется по порядку от первой к последней — результат уже отсортирован.',
-    en: 'The range of possible values is divided into k equal intervals — "buckets." Each element lands in the bucket matching its value (e.g. `floor(value * k)` for numbers in [0, 1)). If the source data is uniformly distributed, each bucket ends up with roughly n/k elements — a small amount that a simple algorithm (usually insertion sort, efficient on small arrays) can sort quickly. After all buckets are sorted, their contents are simply concatenated from first to last — the result is already sorted.',
+    ru: 'Диапазон возможных значений делится на k равных интервалов - «корзин». Каждый элемент попадает в корзину, соответствующую его значению (например, `floor(value * k)` для чисел из [0, 1)). Если исходные данные распределены равномерно, в каждой корзине окажется примерно n/k элементов - небольшое количество, которое можно быстро отсортировать простым алгоритмом (обычно insertion sort, эффективным на маленьких массивах). После сортировки всех корзин их содержимое просто соединяется по порядку от первой к последней - результат уже отсортирован.',
+    en: 'The range of possible values is divided into k equal intervals - "buckets." Each element lands in the bucket matching its value (e.g. `floor(value * k)` for numbers in [0, 1)). If the source data is uniformly distributed, each bucket ends up with roughly n/k elements - a small amount that a simple algorithm (usually insertion sort, efficient on small arrays) can sort quickly. After all buckets are sorted, their contents are simply concatenated from first to last - the result is already sorted.',
   },
 
   steps: [
@@ -107,8 +107,8 @@ export const bucketSort = {
       en: 'Easy to parallelize: each bucket can be sorted independently on a separate thread or core.',
     },
     {
-      ru: 'Гибок в выборе внутреннего алгоритма сортировки корзин — можно подобрать его под характер данных.',
-      en: 'Flexible in the choice of inner bucket-sorting algorithm — it can be tuned to the data\'s characteristics.',
+      ru: 'Гибок в выборе внутреннего алгоритма сортировки корзин - можно подобрать его под характер данных.',
+      en: 'Flexible in the choice of inner bucket-sorting algorithm - it can be tuned to the data\'s characteristics.',
     },
   ],
   cons: [
@@ -128,8 +128,8 @@ export const bucketSort = {
 
   whenToUse: [
     {
-      ru: 'Когда данные заведомо равномерно распределены на известном интервале — измерения датчиков, случайные числа, нормализованные оценки.',
-      en: 'When the data is known to be uniformly distributed over a known interval — sensor readings, random numbers, normalized scores.',
+      ru: 'Когда данные заведомо равномерно распределены на известном интервале - измерения датчиков, случайные числа, нормализованные оценки.',
+      en: 'When the data is known to be uniformly distributed over a known interval - sensor readings, random numbers, normalized scores.',
     },
     {
       ru: 'Когда сортировку нужно распараллелить, а данные естественно разбиваются на независимые диапазоны.',
@@ -178,15 +178,15 @@ export const bucketSort = {
         en: 'What happens to performance if nearly all elements land in one bucket?',
       },
       options: [
-        { ru: 'Сложность деградирует до O(n²) — вся нагрузка в одной корзине', en: 'Complexity degrades to O(n²) — like sorting one large bucket' },
+        { ru: 'Сложность деградирует до O(n²) - вся нагрузка в одной корзине', en: 'Complexity degrades to O(n²) - like sorting one large bucket' },
         { ru: 'Алгоритм завершается с ошибкой переполнения буфера корзины', en: 'The algorithm crashes with a bucket buffer overflow error' },
         { ru: 'Ничего не меняется, сложность так и остаётся линейной O(n + k)', en: 'Nothing changes, complexity stays exactly linear at O(n + k)' },
         { ru: 'Сложность неожиданно улучшается до O(log n)', en: 'Complexity unexpectedly improves down to O(log n)' },
       ],
       correct: 0,
       explanation: {
-        ru: 'Если одна корзина содержит почти все n элементов, внутренняя сортировка (например, insertion sort) выполняется за O(n²) на этой корзине — распределение по корзинам не дало никакого выигрыша.',
-        en: 'If one bucket holds nearly all n elements, the inner sort (e.g. insertion sort) runs in O(n²) on that bucket — distributing into buckets gave no benefit.',
+        ru: 'Если одна корзина содержит почти все n элементов, внутренняя сортировка (например, insertion sort) выполняется за O(n²) на этой корзине - распределение по корзинам не дало никакого выигрыша.',
+        en: 'If one bucket holds nearly all n elements, the inner sort (e.g. insertion sort) runs in O(n²) on that bucket - distributing into buckets gave no benefit.',
       },
       hint: {
         ru: 'Если одна корзина содержит n элементов, что происходит при сортировке этой корзины insertion sort\'ом?',
@@ -199,15 +199,15 @@ export const bucketSort = {
         en: 'Which algorithm is typically used to sort the contents of an individual bucket?',
       },
       options: [
-        { ru: 'Простой алгоритм вроде insertion sort — корзины обычно маленькие', en: 'A simple algorithm like insertion sort — buckets are usually small' },
+        { ru: 'Простой алгоритм вроде insertion sort - корзины обычно маленькие', en: 'A simple algorithm like insertion sort - buckets are usually small' },
         { ru: 'Обязательно merge sort, независимо от размера отдельной корзины', en: 'Merge sort, mandatorily, no matter how small the individual bucket is' },
         { ru: 'Ещё один рекурсивный вызов самой блочной сортировки заново', en: 'Another recursive call back into bucket sort itself, applied again' },
-        { ru: 'Сортировка вообще не нужна — все корзины уже гарантированно упорядочены', en: 'No sorting is needed inside a bucket, they are already guaranteed ordered' },
+        { ru: 'Сортировка вообще не нужна - все корзины уже гарантированно упорядочены', en: 'No sorting is needed inside a bucket, they are already guaranteed ordered' },
       ],
       correct: 0,
       explanation: {
-        ru: 'При равномерном распределении каждая корзина содержит примерно n/k элементов — на таких маленьких массивах простые O(n²) алгоритмы вроде insertion sort работают быстро и с минимальными накладными расходами.',
-        en: 'With uniform distribution, each bucket holds roughly n/k elements — on such small arrays, simple O(n²) algorithms like insertion sort run fast with minimal overhead.',
+        ru: 'При равномерном распределении каждая корзина содержит примерно n/k элементов - на таких маленьких массивах простые O(n²) алгоритмы вроде insertion sort работают быстро и с минимальными накладными расходами.',
+        en: 'With uniform distribution, each bucket holds roughly n/k elements - on such small arrays, simple O(n²) algorithms like insertion sort run fast with minimal overhead.',
       },
       hint: {
         ru: 'Если корзина содержит всего несколько элементов, нужен ли сложный алгоритм сортировки или достаточно простого?',
@@ -227,8 +227,8 @@ export const bucketSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'После распределения элементов по корзинам сортировка каждой корзины не зависит от других — их можно раздать по потокам или узлам вычислительного кластера.',
-        en: 'Once elements are distributed into buckets, sorting each bucket doesn\'t depend on the others — they can be handed off to separate threads or cluster nodes.',
+        ru: 'После распределения элементов по корзинам сортировка каждой корзины не зависит от других - их можно раздать по потокам или узлам вычислительного кластера.',
+        en: 'Once elements are distributed into buckets, sorting each bucket doesn\'t depend on the others - they can be handed off to separate threads or cluster nodes.',
       },
       hint: {
         ru: 'После шага распределения нужны ли корзины друг другу для сортировки своего содержимого?',
@@ -262,15 +262,15 @@ export const bucketSort = {
         en: 'What is the space complexity of bucket sort?',
       },
       options: [
-        { ru: 'O(n + k) — на хранение n элементов в k корзинах', en: 'O(n + k) — for storing n elements across k buckets' },
-        { ru: 'O(1) — все операции выполняются на месте без дополнительной памяти', en: 'O(1) — all operations run in place without any extra memory' },
-        { ru: 'O(n²) — каждый элемент сравнивается со всеми остальными', en: 'O(n²) — each element is compared against all others' },
-        { ru: 'O(log n) — только на рекурсивный стек вызовов алгоритма', en: 'O(log n) — only for the algorithm\'s recursive call stack' },
+        { ru: 'O(n + k) - на хранение n элементов в k корзинах', en: 'O(n + k) - for storing n elements across k buckets' },
+        { ru: 'O(1) - все операции выполняются на месте без дополнительной памяти', en: 'O(1) - all operations run in place without any extra memory' },
+        { ru: 'O(n²) - каждый элемент сравнивается со всеми остальными', en: 'O(n²) - each element is compared against all others' },
+        { ru: 'O(log n) - только на рекурсивный стек вызовов алгоритма', en: 'O(log n) - only for the algorithm\'s recursive call stack' },
       ],
       correct: 0,
       explanation: {
-        ru: 'Нужно хранить все n элементов в корзинах и сами k корзин — итоговая память O(n + k).',
-        en: 'All n elements must be stored in buckets plus the k bucket structures themselves — total memory is O(n + k).',
+        ru: 'Нужно хранить все n элементов в корзинах и сами k корзин - итоговая память O(n + k).',
+        en: 'All n elements must be stored in buckets plus the k bucket structures themselves - total memory is O(n + k).',
       },
       hint: {
         ru: 'Сколько памяти нужно для хранения n элементов, разложенных по k корзинам?',
@@ -283,7 +283,7 @@ export const bucketSort = {
         en: 'Why can bucket sort run faster than O(n log n)?',
       },
       options: [
-        { ru: 'Она не сравнивает попарно — использует знание о диапазоне значений', en: 'It is not a comparison sort and exploits knowledge of the value range' },
+        { ru: 'Она не сравнивает попарно - использует знание о диапазоне значений', en: 'It is not a comparison sort and exploits knowledge of the value range' },
         { ru: 'Она нарушает теорему об информационной нижней оценке для сортировок', en: 'It violates the information-theoretic lower bound for sorting in all cases' },
         { ru: 'Она всегда делает меньше сравнений, чем любой другой алгоритм', en: 'It always makes fewer comparisons than any other algorithm' },
         { ru: 'Она использует аппаратные инструкции, недоступные другим алгоритмам', en: 'It uses hardware instructions unavailable to other algorithms' },
@@ -311,8 +311,8 @@ export const bucketSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'Малое число корзин означает больше элементов в каждой корзине — внутренняя сортировка (insertion sort) на большой корзине работает медленно, снижая общую производительность.',
-        en: 'Too few buckets means more elements per bucket — the inner sort (insertion sort) on a large bucket is slow, reducing overall performance.',
+        ru: 'Малое число корзин означает больше элементов в каждой корзине - внутренняя сортировка (insertion sort) на большой корзине работает медленно, снижая общую производительность.',
+        en: 'Too few buckets means more elements per bucket - the inner sort (insertion sort) on a large bucket is slow, reducing overall performance.',
       },
       hint: {
         ru: 'Если корзин мало, что происходит со средним числом элементов в каждой корзине?',
@@ -326,7 +326,7 @@ export const bucketSort = {
       },
       options: [
         { ru: 'Да, если внутренняя сортировка каждой корзины устойчива', en: 'Yes, if the inner sort used for each bucket is stable' },
-        { ru: 'Нет никогда — распределение по корзинам всегда нарушает порядок', en: 'No, never — distributing into buckets always breaks the order' },
+        { ru: 'Нет никогда - распределение по корзинам всегда нарушает порядок', en: 'No, never - distributing into buckets always breaks the order' },
         { ru: 'Только если все элементы уникальны и нет повторяющихся значений', en: 'Only if all elements are unique and there are no repeated values' },
         { ru: 'Зависит исключительно от числа корзин, а не от алгоритма внутри', en: 'Depends solely on the number of buckets, not on the inner algorithm' },
       ],
@@ -348,8 +348,8 @@ export const bucketSort = {
       options: [
         { ru: 'При равномерном распределении на известном интервале', en: 'Under uniform distribution over a known interval' },
         { ru: 'При нормальном (гауссовом) распределении с пиком в центре', en: 'Under a normal (Gaussian) distribution with a peak in the center' },
-        { ru: 'При уже отсортированных данных — как у insertion sort', en: 'On already-sorted data — the same as insertion sort' },
-        { ru: 'При обратно отсортированных данных — наихудший случай для bubble sort', en: 'On reverse-sorted data — the worst case for bubble sort' },
+        { ru: 'При уже отсортированных данных - как у insertion sort', en: 'On already-sorted data - the same as insertion sort' },
+        { ru: 'При обратно отсортированных данных - наихудший случай для bubble sort', en: 'On reverse-sorted data - the worst case for bubble sort' },
       ],
       correct: 0,
       explanation: {

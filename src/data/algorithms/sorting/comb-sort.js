@@ -10,8 +10,8 @@ export const combSort = {
   tags: ['comparison', 'in-place', 'unstable'],
 
   intent: {
-    ru: 'Сортировка расчёской — это улучшение пузырьковой сортировки: она сравнивает элементы, отстоящие друг от друга на убывающий промежуток (gap), а не только соседей, что устраняет главную слабость bubble sort — маленькие элементы («черепахи»), застревающие в конце.',
-    en: 'Comb sort is an improvement on bubble sort: it compares elements a shrinking gap apart instead of only neighbors, removing bubble sort\'s main weakness — small elements ("turtles") stuck near the end.',
+    ru: 'Сортировка расчёской - это улучшение пузырьковой сортировки: она сравнивает элементы, отстоящие друг от друга на убывающий промежуток (gap), а не только соседей, что устраняет главную слабость bubble sort - маленькие элементы («черепахи»), застревающие в конце.',
+    en: 'Comb sort is an improvement on bubble sort: it compares elements a shrinking gap apart instead of only neighbors, removing bubble sort\'s main weakness - small elements ("turtles") stuck near the end.',
   },
 
   problem: {
@@ -109,8 +109,8 @@ export const combSort = {
       en: 'Fixes bubble sort\'s "turtle" problem, giving a noticeable speed-up while staying almost as simple to implement.',
     },
     {
-      ru: 'Сортирует на месте — требует лишь O(1) дополнительной памяти.',
-      en: 'Sorts in place — needs only O(1) extra memory.',
+      ru: 'Сортирует на месте - требует лишь O(1) дополнительной памяти.',
+      en: 'Sorts in place - needs only O(1) extra memory.',
     },
     {
       ru: 'На практике часто быстрее сортировки Шелла на случайных данных при том же уровне простоты кода.',
@@ -127,8 +127,8 @@ export const combSort = {
       en: 'Worst case is still O(n²), same as plain bubble sort.',
     },
     {
-      ru: 'Коэффициент сжатия 1.3 подобран эмпирически — нет строгого теоретического обоснования, почему именно это значение оптимально.',
-      en: 'The 1.3 shrink factor is empirically chosen — there\'s no rigorous theoretical proof that this exact value is optimal.',
+      ru: 'Коэффициент сжатия 1.3 подобран эмпирически - нет строгого теоретического обоснования, почему именно это значение оптимально.',
+      en: 'The 1.3 shrink factor is empirically chosen - there\'s no rigorous theoretical proof that this exact value is optimal.',
     },
   ],
 
@@ -149,8 +149,8 @@ export const combSort = {
       en: '**Game engines and small utilities**, where an existing bubble sort implementation needs a quick speed-up without rewriting it as a different algorithm from scratch.',
     },
     {
-      ru: '**Учебные материалы по оптимизации алгоритмов** — классический пример того, как небольшое изменение (gap вместо соседей) убирает конкретный класс худших случаев.',
-      en: '**Algorithm-optimization teaching material** — a classic example of how one small change (gap instead of neighbors) removes a specific class of worst cases.',
+      ru: '**Учебные материалы по оптимизации алгоритмов** - классический пример того, как небольшое изменение (gap вместо соседей) убирает конкретный класс худших случаев.',
+      en: '**Algorithm-optimization teaching material** - a classic example of how one small change (gap instead of neighbors) removes a specific class of worst cases.',
     },
   ],
 
@@ -163,7 +163,7 @@ export const combSort = {
         en: 'What bubble sort weakness does comb sort fix?',
       },
       options: [
-        { ru: '«Черепах» — маленькие элементы, застревающие в конце массива', en: '"Turtles" — small elements getting stuck near the end of the array' },
+        { ru: '«Черепах» - маленькие элементы, застревающие в конце массива', en: '"Turtles" - small elements getting stuck near the end of the array' },
         { ru: 'Избыточное использование памяти, как в сортировке слиянием', en: 'Excessive memory usage, similar to what merge sort requires' },
         { ru: 'Отсутствие поддержки отрицательных чисел без дополнительной обработки знака', en: 'Lack of support for negative numbers without extra sign handling' },
         { ru: 'Невозможность сортировки строк без предварительного преобразования в числа', en: 'Inability to sort strings without first converting them to numbers' },
@@ -191,7 +191,7 @@ export const combSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'Уменьшение gap делением на ~1.3 — эмпирически найденное значение, дающее хороший баланс между скоростью схождения к gap=1 и качеством перемешивания.',
+        ru: 'Уменьшение gap делением на ~1.3 - эмпирически найденное значение, дающее хороший баланс между скоростью схождения к gap=1 и качеством перемешивания.',
         en: 'Shrinking the gap by dividing by ~1.3 is an empirically found value giving a good balance between converging to gap=1 quickly and mixing elements well.',
       },
       hint: {
@@ -212,8 +212,8 @@ export const combSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'При gap = 1 сравниваются только соседние элементы — это в точности определение bubble sort, но выполняется оно на уже почти упорядоченном массиве.',
-        en: 'At gap = 1, only adjacent elements are compared — that\'s exactly bubble sort, but it runs on an already nearly sorted array.',
+        ru: 'При gap = 1 сравниваются только соседние элементы - это в точности определение bubble sort, но выполняется оно на уже почти упорядоченном массиве.',
+        en: 'At gap = 1, only adjacent elements are compared - that\'s exactly bubble sort, but it runs on an already nearly sorted array.',
       },
       hint: {
         ru: 'Когда gap равен 1, какое расстояние между сравниваемыми элементами? Какой алгоритм сравнивает исключительно соседей?',
@@ -226,7 +226,7 @@ export const combSort = {
         en: 'Is comb sort stable?',
       },
       options: [
-        { ru: 'Нет — перестановки через gap могут изменить порядок равных элементов', en: 'No — gapped swaps can change the order of equal elements' },
+        { ru: 'Нет - перестановки через gap могут изменить порядок равных элементов', en: 'No - gapped swaps can change the order of equal elements' },
         { ru: 'Да, как обычный bubble sort, ведь оба используют только обмены соседей', en: 'Yes, same as plain bubble sort, since both only ever swap adjacent-looking pairs' },
         { ru: 'Только при чётном значении gap, из-за симметрии сравнений', en: 'Only when the gap is even, due to the symmetry of the comparisons' },
         { ru: 'Только на финальном проходе с gap=1, когда сравниваются соседи', en: 'Only during the final gap=1 pass, when neighbors are compared' },
@@ -296,8 +296,8 @@ export const combSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'Сортировка Шелла уменьшает gap для сортировки вставками, тогда как сортировка расчёской уменьшает gap для пузырьковой сортировки — общая идея та же, базовый примитив разный.',
-        en: 'Shell sort shrinks the gap for insertion sort, while comb sort shrinks it for bubble sort — the overarching idea is the same, but the underlying primitive differs.',
+        ru: 'Сортировка Шелла уменьшает gap для сортировки вставками, тогда как сортировка расчёской уменьшает gap для пузырьковой сортировки - общая идея та же, базовый примитив разный.',
+        en: 'Shell sort shrinks the gap for insertion sort, while comb sort shrinks it for bubble sort - the overarching idea is the same, but the underlying primitive differs.',
       },
       hint: {
         ru: 'Оба алгоритма применяют идею «сравнивать через убывающий gap». Чем отличается то, что происходит при каждом сравнении?',
@@ -331,15 +331,15 @@ export const combSort = {
         en: 'Why does the algorithm stop only after gap equals 1 AND a pass makes no swaps?',
       },
       options: [
-        { ru: 'Gap=1 не гарантирует результат — нужно убедиться, что при gap=1 больше нечего менять', en: 'Because gap=1 alone does not guarantee sorted order — it must be confirmed that nothing needs swapping at gap=1' },
+        { ru: 'Gap=1 не гарантирует результат - нужно убедиться, что при gap=1 больше нечего менять', en: 'Because gap=1 alone does not guarantee sorted order - it must be confirmed that nothing needs swapping at gap=1' },
         { ru: 'Потому что каждый проход с gap=1 сортирует ровно один дополнительный элемент на своём месте', en: 'Because each gap=1 pass puts exactly one additional element into its correct place regardless of input size or order' },
         { ru: 'Из-за ограничений языка: цикл должен выполниться хотя бы один раз при gap=1', en: 'Due to a language constraint: the loop must execute at least once at gap=1' },
         { ru: 'Потому что массив всегда полностью отсортирован уже после первого прохода с gap=1', en: 'Because the array is always fully sorted after the very first gap=1 pass' },
       ],
       correct: 0,
       explanation: {
-        ru: 'Gap=1 означает, что следующий проход будет по соседям, но сам массив может ещё быть неупорядочен — только отсутствие перестановок при gap=1 служит доказательством сортировки.',
-        en: 'Gap=1 means the next pass will compare neighbors, but the array may still be disordered — only a swap-free pass at gap=1 proves the array is sorted.',
+        ru: 'Gap=1 означает, что следующий проход будет по соседям, но сам массив может ещё быть неупорядочен - только отсутствие перестановок при gap=1 служит доказательством сортировки.',
+        en: 'Gap=1 means the next pass will compare neighbors, but the array may still be disordered - only a swap-free pass at gap=1 proves the array is sorted.',
       },
       hint: {
         ru: 'Что именно доказывает, что массив отсортирован: сам факт gap=1 или то, что при gap=1 ничего не пришлось менять?',
@@ -352,10 +352,10 @@ export const combSort = {
         en: 'What is the space complexity of comb sort?',
       },
       options: [
-        { ru: 'O(1) — требуется лишь несколько переменных для gap и флага', en: 'O(1) — only a few variables for the gap and a flag are needed' },
-        { ru: 'O(n) — для хранения вспомогательной копии массива при перестановках', en: 'O(n) — to store an auxiliary array copy during the permutation phase' },
-        { ru: 'O(log n) — из-за стека вызовов при рекурсивном уменьшении gap', en: 'O(log n) — due to the call stack when gap is reduced recursively' },
-        { ru: 'O(n log n) — из-за числа проходов, умноженного на размер массива', en: 'O(n log n) — because the number of passes multiplied by array size' },
+        { ru: 'O(1) - требуется лишь несколько переменных для gap и флага', en: 'O(1) - only a few variables for the gap and a flag are needed' },
+        { ru: 'O(n) - для хранения вспомогательной копии массива при перестановках', en: 'O(n) - to store an auxiliary array copy during the permutation phase' },
+        { ru: 'O(log n) - из-за стека вызовов при рекурсивном уменьшении gap', en: 'O(log n) - due to the call stack when gap is reduced recursively' },
+        { ru: 'O(n log n) - из-за числа проходов, умноженного на размер массива', en: 'O(n log n) - because the number of passes multiplied by array size' },
       ],
       correct: 0,
       explanation: {

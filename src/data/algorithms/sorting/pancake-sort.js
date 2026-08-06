@@ -10,18 +10,18 @@ export const pancakeSort = {
   tags: ['comparison', 'in-place', 'unstable', 'reversal-based'],
 
   intent: {
-    ru: 'Блинная сортировка сортирует массив, используя только одну операцию — «переворот» (flip) префикса массива, как переворачивание стопки блинов лопаткой: перевернуть верхние k блинов сразу, не трогая остальные.',
-    en: 'Pancake sort sorts an array using only one operation — "flipping" a prefix of the array, like flipping a stack of pancakes with a spatula: flip the top k pancakes all at once, without touching the rest.',
+    ru: 'Блинная сортировка сортирует массив, используя только одну операцию - «переворот» (flip) префикса массива, как переворачивание стопки блинов лопаткой: перевернуть верхние k блинов сразу, не трогая остальные.',
+    en: 'Pancake sort sorts an array using only one operation - "flipping" a prefix of the array, like flipping a stack of pancakes with a spatula: flip the top k pancakes all at once, without touching the rest.',
   },
 
   problem: {
-    ru: 'Представьте стопку блинов разного размера, которые нужно расставить по возрастанию размера сверху вниз, но единственное разрешённое действие — просунуть лопатку под какой-то блин и перевернуть всю стопку блинов над ней. Нельзя вытащить блин из середины стопки или поменять местами два произвольных блина — только переворот целого верхнего сегмента. Как этой одной операцией добиться полной сортировки за конечное число шагов?',
-    en: 'Imagine a stack of differently sized pancakes that must be arranged by increasing size from top to bottom, but the only allowed move is to slide a spatula under some pancake and flip the entire stack of pancakes above it. You cannot pull a pancake out of the middle of the stack or swap two arbitrary pancakes — only flip a whole top segment. How can this single operation achieve a full sort in a finite number of moves?',
+    ru: 'Представьте стопку блинов разного размера, которые нужно расставить по возрастанию размера сверху вниз, но единственное разрешённое действие - просунуть лопатку под какой-то блин и перевернуть всю стопку блинов над ней. Нельзя вытащить блин из середины стопки или поменять местами два произвольных блина - только переворот целого верхнего сегмента. Как этой одной операцией добиться полной сортировки за конечное число шагов?',
+    en: 'Imagine a stack of differently sized pancakes that must be arranged by increasing size from top to bottom, but the only allowed move is to slide a spatula under some pancake and flip the entire stack of pancakes above it. You cannot pull a pancake out of the middle of the stack or swap two arbitrary pancakes - only flip a whole top segment. How can this single operation achieve a full sort in a finite number of moves?',
   },
 
   solution: {
-    ru: 'На каждом шаге рассматривается ещё не отсортированный префикс массива размером `size` (изначально — весь массив). В нём находится позиция максимального элемента. Если максимум уже стоит в конце этого префикса — переходим к следующему, уменьшенному префиксу. Иначе выполняются два переворота: сначала переворачивается префикс до позиции максимума (это переносит максимум на самый верх, то есть в начало массива), затем переворачивается весь префикс размера `size` (это переносит максимум с начала прямо на последнюю позицию префикса — его законное место). После этого `size` уменьшается на единицу, и процесс повторяется для оставшейся неотсортированной части.',
-    en: 'At each step, the still-unsorted prefix of size `size` (initially the whole array) is examined. The position of its maximum element is found. If the maximum already sits at the end of this prefix, move on to the next, smaller prefix. Otherwise two flips are performed: first, flip the prefix up to the maximum\'s position (this brings the maximum to the very top, i.e., the start of the array); then flip the entire prefix of size `size` (this carries the maximum from the start straight to the last position of the prefix — its rightful place). Then `size` is decreased by one, and the process repeats for the remaining unsorted portion.',
+    ru: 'На каждом шаге рассматривается ещё не отсортированный префикс массива размером `size` (изначально - весь массив). В нём находится позиция максимального элемента. Если максимум уже стоит в конце этого префикса - переходим к следующему, уменьшенному префиксу. Иначе выполняются два переворота: сначала переворачивается префикс до позиции максимума (это переносит максимум на самый верх, то есть в начало массива), затем переворачивается весь префикс размера `size` (это переносит максимум с начала прямо на последнюю позицию префикса - его законное место). После этого `size` уменьшается на единицу, и процесс повторяется для оставшейся неотсортированной части.',
+    en: 'At each step, the still-unsorted prefix of size `size` (initially the whole array) is examined. The position of its maximum element is found. If the maximum already sits at the end of this prefix, move on to the next, smaller prefix. Otherwise two flips are performed: first, flip the prefix up to the maximum\'s position (this brings the maximum to the very top, i.e., the start of the array); then flip the entire prefix of size `size` (this carries the maximum from the start straight to the last position of the prefix - its rightful place). Then `size` is decreased by one, and the process repeats for the remaining unsorted portion.',
   },
 
   steps: [
@@ -35,22 +35,22 @@ export const pancakeSort = {
     {
       title: { ru: 'Перевернуть до максимума', en: 'Flip up to the maximum' },
       explanation: {
-        ru: 'Перевернуть префикс до найденной позиции — максимум оказывается в самом начале массива.',
-        en: 'Flip the prefix up to the found position — the maximum ends up at the very start of the array.',
+        ru: 'Перевернуть префикс до найденной позиции - максимум оказывается в самом начале массива.',
+        en: 'Flip the prefix up to the found position - the maximum ends up at the very start of the array.',
       },
     },
     {
       title: { ru: 'Перевернуть весь текущий префикс', en: 'Flip the whole current prefix' },
       explanation: {
-        ru: 'Перевернуть весь префикс размера size — максимум перемещается с начала на своё законное последнее место в этом префиксе.',
-        en: 'Flip the entire prefix of size size — the maximum moves from the start to its rightful last place within that prefix.',
+        ru: 'Перевернуть весь префикс размера size - максимум перемещается с начала на своё законное последнее место в этом префиксе.',
+        en: 'Flip the entire prefix of size size - the maximum moves from the start to its rightful last place within that prefix.',
       },
     },
     {
       title: { ru: 'Уменьшить границу префикса', en: 'Shrink the prefix boundary' },
       explanation: {
-        ru: 'Уменьшить size на единицу — последний элемент теперь на своём месте и больше не рассматривается.',
-        en: 'Decrease size by one — the last element is now in place and no longer considered.',
+        ru: 'Уменьшить size на единицу - последний элемент теперь на своём месте и больше не рассматривается.',
+        en: 'Decrease size by one - the last element is now in place and no longer considered.',
       },
     },
     {
@@ -114,8 +114,8 @@ export const pancakeSort = {
 
   pros: [
     {
-      ru: 'Использует единственную операцию (переворот префикса), что делает его отличным примером сортировки с ограниченным набором разрешённых действий — классическая задача в теории алгоритмов.',
-      en: 'Uses a single operation (prefix flip), making it an excellent example of sorting under a restricted set of allowed moves — a classic problem in algorithm theory.',
+      ru: 'Использует единственную операцию (переворот префикса), что делает его отличным примером сортировки с ограниченным набором разрешённых действий - классическая задача в теории алгоритмов.',
+      en: 'Uses a single operation (prefix flip), making it an excellent example of sorting under a restricted set of allowed moves - a classic problem in algorithm theory.',
     },
     {
       ru: 'Сортирует на месте с O(1) дополнительной памяти.',
@@ -128,22 +128,22 @@ export const pancakeSort = {
   ],
   cons: [
     {
-      ru: 'O(n²) сравнений в среднем и худшем случае — не быстрее обычной сортировки выбором.',
-      en: 'O(n²) comparisons on average and worst case — no faster than plain selection sort.',
+      ru: 'O(n²) сравнений в среднем и худшем случае - не быстрее обычной сортировки выбором.',
+      en: 'O(n²) comparisons on average and worst case - no faster than plain selection sort.',
     },
     {
       ru: 'Неустойчив: переворот префикса меняет относительный порядок равных элементов.',
       en: 'Unstable: flipping a prefix changes the relative order of equal elements.',
     },
     {
-      ru: 'Нахождение минимального числа переворотов для сортировки произвольной перестановки («блинная задача», pancake problem) — открытая NP-трудная задача с неизвестной точной формулой; показанный алгоритм даёт лишь простую, но не минимальную по числу переворотов стратегию.',
+      ru: 'Нахождение минимального числа переворотов для сортировки произвольной перестановки («блинная задача», pancake problem) - открытая NP-трудная задача с неизвестной точной формулой; показанный алгоритм даёт лишь простую, но не минимальную по числу переворотов стратегию.',
       en: 'Finding the minimum number of flips to sort an arbitrary permutation (the "pancake problem") is an open, NP-hard problem with no known exact formula; the algorithm shown gives a simple but not flip-minimal strategy.',
     },
   ],
 
   whenToUse: [
     {
-      ru: 'Когда единственная доступная операция — это переворот префикса (например, задачи с ограничением на модель вычислений или роботизированные системы, физически способные только «перевернуть верхний блок»).',
+      ru: 'Когда единственная доступная операция - это переворот префикса (например, задачи с ограничением на модель вычислений или роботизированные системы, физически способные только «перевернуть верхний блок»).',
       en: 'When the only available operation is a prefix flip (for example, problems with a restricted computation model, or robotic systems that can physically only "flip the top block").',
     },
     {
@@ -158,8 +158,8 @@ export const pancakeSort = {
       en: '**An early paper by Bill Gates and Christos Papadimitriou (1979)** proposed an algorithm and a bound on the number of flips for the "pancake problem," which became a classic in algorithm theory.',
     },
     {
-      ru: '**Перестройка сегментов ДНК в биоинформатике** моделируется похожей задачей о развороте (сортировка перестановок реверсиями) — переворот отрезка последовательности вместо отдельных перестановок элементов.',
-      en: '**DNA segment rearrangement in bioinformatics** is modeled by a similar reversal problem (sorting permutations by reversals) — flipping a segment of the sequence rather than swapping individual elements.',
+      ru: '**Перестройка сегментов ДНК в биоинформатике** моделируется похожей задачей о развороте (сортировка перестановок реверсиями) - переворот отрезка последовательности вместо отдельных перестановок элементов.',
+      en: '**DNA segment rearrangement in bioinformatics** is modeled by a similar reversal problem (sorting permutations by reversals) - flipping a segment of the sequence rather than swapping individual elements.',
     },
   ],
 
@@ -194,7 +194,7 @@ export const pancakeSort = {
       },
       options: [
         {
-          ru: 'Первый переворот доставляет максимум в начало, второй — переносит его на нужное место в конце префикса',
+          ru: 'Первый переворот доставляет максимум в начало, второй - переносит его на нужное место в конце префикса',
           en: 'The first flip brings the maximum to the start, the second carries it to its correct place at the end of the prefix',
         },
         { ru: 'Один-единственный переворот всегда сортирует весь массив полностью, поэтому второй переворот выполняется лишь для дополнительной проверки итогового результата', en: 'A single flip always sorts the entire array completely on its own, so the second flip is only ever performed to double-check the final result' },
@@ -203,7 +203,7 @@ export const pancakeSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'Переворот префикса может переместить элемент только на позицию 0 или на текущий конец префикса, поэтому максимум сначала выводится в начало, а затем — в конец.',
+        ru: 'Переворот префикса может переместить элемент только на позицию 0 или на текущий конец префикса, поэтому максимум сначала выводится в начало, а затем - в конец.',
         en: 'A prefix flip can only move an element to position 0 or to the current end of the prefix, so the maximum is first brought to the start, then to the end.',
       },
       hint: {
@@ -238,7 +238,7 @@ export const pancakeSort = {
         en: 'Is pancake sort stable?',
       },
       options: [
-        { ru: 'Нет — переворот префикса меняет относительный порядок равных элементов', en: 'No — flipping a prefix changes the relative order of equal elements' },
+        { ru: 'Нет - переворот префикса меняет относительный порядок равных элементов', en: 'No - flipping a prefix changes the relative order of equal elements' },
         { ru: 'Да, она всегда полностью сохраняет исходный относительный порядок равных элементов', en: 'Yes, it always fully preserves the original relative order of equal elements' },
         { ru: 'Только в частном случае массивов, вообще не содержащих никаких повторяющихся значений', en: 'Only in the special case of arrays containing no duplicate values whatsoever' },
         { ru: 'Понятие устойчивости вообще не определено и неприменимо для данного конкретного алгоритма', en: 'The concept of stability isn\'t defined or applicable for this particular algorithm at all' },
@@ -270,8 +270,8 @@ export const pancakeSort = {
         en: 'Finding the maximum in the prefix at each of the n steps gives a quadratic number of comparisons, just like selection sort.',
       },
       hint: {
-        ru: 'На каждом из n шагов нужно найти максимум линейным перебором — что это даёт суммарно?',
-        en: 'At each of n steps, the maximum is found by linear scan — what does that give in total?',
+        ru: 'На каждом из n шагов нужно найти максимум линейным перебором - что это даёт суммарно?',
+        en: 'At each of n steps, the maximum is found by linear scan - what does that give in total?',
       },
     },
     {
@@ -287,11 +287,11 @@ export const pancakeSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'На каждом шаге выполняется не более двух переворотов, а шагов n−1, поэтому верхняя граница — 2(n−1) переворотов.',
+        ru: 'На каждом шаге выполняется не более двух переворотов, а шагов n−1, поэтому верхняя граница - 2(n−1) переворотов.',
         en: 'At each of the n−1 steps at most two flips are made, so the upper bound is 2(n−1) flips.',
       },
       hint: {
-        ru: 'Если на каждом из n−1 шагов выполняется не более двух переворотов, то суммарный максимум — это сколько?',
+        ru: 'Если на каждом из n−1 шагов выполняется не более двух переворотов, то суммарный максимум - это сколько?',
         en: 'If at most two flips are made per step and there are n−1 steps, what is the total maximum?',
       },
     },
@@ -301,18 +301,18 @@ export const pancakeSort = {
         en: 'What happens if the maximum is already at the last position of the current prefix?',
       },
       options: [
-        { ru: 'Перевороты не выполняются — алгоритм сразу переходит к меньшему префиксу', en: 'No flips are made — the algorithm immediately moves to the smaller prefix' },
+        { ru: 'Перевороты не выполняются - алгоритм сразу переходит к меньшему префиксу', en: 'No flips are made - the algorithm immediately moves to the smaller prefix' },
         { ru: 'Всё равно выполняется один переворот для проверки правильности положения', en: 'One flip is still made to verify the element is in the correct position' },
         { ru: 'Весь массив переворачивается, чтобы убедиться в его полной отсортированности', en: 'The entire array is flipped to confirm it is fully sorted' },
         { ru: 'Алгоритм переходит к следующей итерации, но увеличивает, а не уменьшает размер префикса', en: 'The algorithm moves to the next iteration but increases rather than decreases the prefix size' },
       ],
       correct: 0,
       explanation: {
-        ru: 'Если максимум уже на нужном месте, никаких переворотов не нужно — он уже «уложен» и граница префикса просто уменьшается.',
-        en: 'If the maximum is already in place, no flips are needed — it is already "settled" and the prefix boundary simply shrinks.',
+        ru: 'Если максимум уже на нужном месте, никаких переворотов не нужно - он уже «уложен» и граница префикса просто уменьшается.',
+        en: 'If the maximum is already in place, no flips are needed - it is already "settled" and the prefix boundary simply shrinks.',
       },
       hint: {
-        ru: 'Цель шага — поставить максимум на конец префикса. Что делать, если он уже там?',
+        ru: 'Цель шага - поставить максимум на конец префикса. Что делать, если он уже там?',
         en: 'The goal of each step is to place the maximum at the end of the prefix. What if it is already there?',
       },
     },
@@ -325,7 +325,7 @@ export const pancakeSort = {
         { ru: 'Реверсии сегментов ДНК формально аналогичны сортировке переворотами', en: 'DNA segment rearrangement by reversals is formally analogous to sorting by flips' },
         { ru: 'Алгоритм используется для выравнивания белковых последовательностей в базах данных', en: 'The algorithm is used to align protein sequences in databases' },
         { ru: 'Блинная сортировка применяется для сжатия геномных данных перед хранением', en: 'Pancake sort is applied to compress genomic data before storage' },
-        { ru: 'Никакой реальной связи нет — это просто отдалённая метафора без практического значения', en: 'There is no real connection — it is merely a distant metaphor without practical significance' },
+        { ru: 'Никакой реальной связи нет - это просто отдалённая метафора без практического значения', en: 'There is no real connection - it is merely a distant metaphor without practical significance' },
       ],
       correct: 0,
       explanation: {
@@ -371,8 +371,8 @@ export const pancakeSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'Билл Гейтс и Христос Пападимитриу опубликовали статью о блинной задаче в 1979 году — это единственная научная публикация Гейтса.',
-        en: 'Bill Gates and Christos Papadimitriou published a paper on the pancake problem in 1979 — it is Gates\'s only academic publication.',
+        ru: 'Билл Гейтс и Христос Пападимитриу опубликовали статью о блинной задаче в 1979 году - это единственная научная публикация Гейтса.',
+        en: 'Bill Gates and Christos Papadimitriou published a paper on the pancake problem in 1979 - it is Gates\'s only academic publication.',
       },
       hint: {
         ru: 'Этот соавтор позже стал соучредителем одной из крупнейших технологических компаний в мире.',

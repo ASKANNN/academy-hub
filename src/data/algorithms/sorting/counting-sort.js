@@ -10,18 +10,18 @@ export const countingSort = {
   tags: ['non-comparison', 'stable', 'integer-keys'],
 
   intent: {
-    ru: 'Сортировка подсчётом не сравнивает элементы друг с другом — она считает, сколько раз встречается каждое значение, и по этим подсчётам напрямую вычисляет финальную позицию каждого элемента.',
-    en: 'Counting sort never compares elements against each other — it counts how many times each value occurs, and uses those counts to compute each element\'s final position directly.',
+    ru: 'Сортировка подсчётом не сравнивает элементы друг с другом - она считает, сколько раз встречается каждое значение, и по этим подсчётам напрямую вычисляет финальную позицию каждого элемента.',
+    en: 'Counting sort never compares elements against each other - it counts how many times each value occurs, and uses those counts to compute each element\'s final position directly.',
   },
 
   problem: {
-    ru: 'Теоретический предел любой сортировки, основанной на попарных сравнениях, — O(n log n): это доказывается через дерево решений. Но если заранее известно, что значения — это целые числа из небольшого диапазона (например, оценки от 0 до 100 или возраст людей), сравнивать их вообще не обязательно — можно посчитать, сколько раз встречается каждое значение.',
-    en: 'The theoretical limit of any comparison-based sort is O(n log n) — this is provable via a decision-tree argument. But if it\'s known in advance that values are integers from a small range (e.g. scores 0–100, or people\'s ages), comparisons aren\'t needed at all — you can just count how many times each value occurs.',
+    ru: 'Теоретический предел любой сортировки, основанной на попарных сравнениях, - O(n log n): это доказывается через дерево решений. Но если заранее известно, что значения - это целые числа из небольшого диапазона (например, оценки от 0 до 100 или возраст людей), сравнивать их вообще не обязательно - можно посчитать, сколько раз встречается каждое значение.',
+    en: 'The theoretical limit of any comparison-based sort is O(n log n) - this is provable via a decision-tree argument. But if it\'s known in advance that values are integers from a small range (e.g. scores 0-100, or people\'s ages), comparisons aren\'t needed at all - you can just count how many times each value occurs.',
   },
 
   solution: {
-    ru: 'Алгоритм заводит вспомогательный массив `count` длиной в диапазон возможных значений и проходит по входному массиву, увеличивая `count[значение]` для каждого элемента. Затем `count` превращается в массив префиксных сумм — `count[v]` теперь означает «сколько элементов ≤ v», то есть последнюю позицию значения v в отсортированном массиве. После этого исходный массив проходится справа налево: каждый элемент кладётся в выходной массив на позицию `count[значение] - 1`, а счётчик уменьшается — обход справа налево нужен именно для устойчивости сортировки.',
-    en: 'The algorithm builds a helper `count` array sized to the range of possible values, then walks the input incrementing `count[value]` for each element. Next, `count` is turned into a prefix-sum array — `count[v]` now means "how many elements are ≤ v," i.e. the last position value v takes in the sorted output. The original array is then walked right to left: each element is placed into the output array at `count[value] - 1`, and the counter is decremented — the right-to-left walk is specifically what makes the sort stable.',
+    ru: 'Алгоритм заводит вспомогательный массив `count` длиной в диапазон возможных значений и проходит по входному массиву, увеличивая `count[значение]` для каждого элемента. Затем `count` превращается в массив префиксных сумм - `count[v]` теперь означает «сколько элементов ≤ v», то есть последнюю позицию значения v в отсортированном массиве. После этого исходный массив проходится справа налево: каждый элемент кладётся в выходной массив на позицию `count[значение] - 1`, а счётчик уменьшается - обход справа налево нужен именно для устойчивости сортировки.',
+    en: 'The algorithm builds a helper `count` array sized to the range of possible values, then walks the input incrementing `count[value]` for each element. Next, `count` is turned into a prefix-sum array - `count[v]` now means "how many elements are ≤ v," i.e. the last position value v takes in the sorted output. The original array is then walked right to left: each element is placed into the output array at `count[value] - 1`, and the counter is decremented - the right-to-left walk is specifically what makes the sort stable.',
   },
 
   steps: [
@@ -42,8 +42,8 @@ export const countingSort = {
     {
       title: { ru: 'Построить префиксные суммы', en: 'Build prefix sums' },
       explanation: {
-        ru: 'Превратить `count` в массив накопленных сумм — теперь `count[v]` даёт позицию, где заканчивается диапазон значения v в отсортированном массиве.',
-        en: 'Turn `count` into a running-sum array — now `count[v]` gives the position where value v\'s range ends in the sorted output.',
+        ru: 'Превратить `count` в массив накопленных сумм - теперь `count[v]` даёт позицию, где заканчивается диапазон значения v в отсортированном массиве.',
+        en: 'Turn `count` into a running-sum array - now `count[v]` gives the position where value v\'s range ends in the sorted output.',
       },
     },
     {
@@ -105,26 +105,26 @@ export const countingSort = {
 
   pros: [
     {
-      ru: 'Линейная сложность O(n + k) — быстрее теоретического предела O(n log n) для сравнивающих сортировок, если k не слишком велико.',
-      en: 'Linear O(n + k) complexity — beats the O(n log n) comparison-sort lower bound when k isn\'t too large.',
+      ru: 'Линейная сложность O(n + k) - быстрее теоретического предела O(n log n) для сравнивающих сортировок, если k не слишком велико.',
+      en: 'Linear O(n + k) complexity - beats the O(n log n) comparison-sort lower bound when k isn\'t too large.',
     },
     {
       ru: 'Устойчив: при правильном обходе (справа налево) равные элементы сохраняют исходный порядок.',
       en: 'Stable: with the right-to-left walk, equal elements keep their original relative order.',
     },
     {
-      ru: 'Простая и предсказуемая логика без рекурсии — время выполнения не зависит от исходного порядка элементов.',
-      en: 'Simple, predictable, non-recursive logic — runtime doesn\'t depend on the initial order of elements.',
+      ru: 'Простая и предсказуемая логика без рекурсии - время выполнения не зависит от исходного порядка элементов.',
+      en: 'Simple, predictable, non-recursive logic - runtime doesn\'t depend on the initial order of elements.',
     },
   ],
   cons: [
     {
-      ru: 'Требует O(k) дополнительной памяти, где k — диапазон значений; для больших или разреженных диапазонов это может быть непрактично.',
+      ru: 'Требует O(k) дополнительной памяти, где k - диапазон значений; для больших или разреженных диапазонов это может быть непрактично.',
       en: 'Requires O(k) extra memory, where k is the value range; impractical for large or sparse ranges.',
     },
     {
-      ru: 'Работает только с целочисленными (или сводимыми к целым) ключами известного диапазона — не годится для произвольных сравнимых объектов.',
-      en: 'Only works with integer (or integer-reducible) keys of a known range — not applicable to arbitrary comparable objects.',
+      ru: 'Работает только с целочисленными (или сводимыми к целым) ключами известного диапазона - не годится для произвольных сравнимых объектов.',
+      en: 'Only works with integer (or integer-reducible) keys of a known range - not applicable to arbitrary comparable objects.',
     },
     {
       ru: 'Если диапазон значений k намного больше числа элементов n, алгоритм становится медленнее и прожорливее по памяти, чем O(n log n) сортировки.',
@@ -134,12 +134,12 @@ export const countingSort = {
 
   whenToUse: [
     {
-      ru: 'Когда сортируемые значения — целые числа из заранее известного и не слишком большого диапазона (оценки, возраст, ранги).',
+      ru: 'Когда сортируемые значения - целые числа из заранее известного и не слишком большого диапазона (оценки, возраст, ранги).',
       en: 'When the values being sorted are integers from a known, reasonably small range (grades, ages, ranks).',
     },
     {
-      ru: 'Как строительный блок для radix sort — сортировка подсчётом по одному разряду это его внутренний шаг.',
-      en: 'As a building block for radix sort — counting sort on a single digit is its internal step.',
+      ru: 'Как строительный блок для radix sort - сортировка подсчётом по одному разряду это его внутренний шаг.',
+      en: 'As a building block for radix sort - counting sort on a single digit is its internal step.',
     },
   ],
 
@@ -149,8 +149,8 @@ export const countingSort = {
       en: '**Radix sort** uses counting sort as a subroutine to order numbers by each digit.',
     },
     {
-      ru: '**Обработка изображений** — построение гистограммы яркости пикселей (значения 0–255) и сортировка пикселей по яркости используют по сути тот же принцип подсчёта.',
-      en: '**Image processing** — building a pixel-brightness histogram (values 0–255) and sorting pixels by brightness use essentially the same counting principle.',
+      ru: '**Обработка изображений** - построение гистограммы яркости пикселей (значения 0-255) и сортировка пикселей по яркости используют по сути тот же принцип подсчёта.',
+      en: '**Image processing** - building a pixel-brightness histogram (values 0-255) and sorting pixels by brightness use essentially the same counting principle.',
     },
   ],
 
@@ -170,7 +170,7 @@ export const countingSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'Нижняя граница O(n log n) доказывается для сортировок, которые определяют порядок через попарные сравнения. Подсчёт вхождений — принципиально другой механизм, на который эта граница не распространяется.',
+        ru: 'Нижняя граница O(n log n) доказывается для сортировок, которые определяют порядок через попарные сравнения. Подсчёт вхождений - принципиально другой механизм, на который эта граница не распространяется.',
         en: 'The O(n log n) lower bound is proven for sorts that determine order via pairwise comparisons. Counting occurrences is a fundamentally different mechanism, so the bound doesn\'t apply.',
       },
       hint: {
@@ -191,7 +191,7 @@ export const countingSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'k — это размер вспомогательного массива `count`, который равен диапазону значений (max - min + 1). Если k сопоставим с n, сложность фактически линейна.',
+        ru: 'k - это размер вспомогательного массива `count`, который равен диапазону значений (max - min + 1). Если k сопоставим с n, сложность фактически линейна.',
         en: 'k is the size of the helper `count` array, equal to the value range (max - min + 1). When k is comparable to n, the complexity is effectively linear.',
       },
       hint: {
@@ -205,7 +205,7 @@ export const countingSort = {
         en: 'Why is the output array filled by walking the input right to left?',
       },
       options: [
-        { ru: 'Сохранить устойчивость — относительный порядок равных элементов', en: 'To preserve stability — the relative order of equal elements' },
+        { ru: 'Сохранить устойчивость - относительный порядок равных элементов', en: 'To preserve stability - the relative order of equal elements' },
         { ru: 'Это ускоряет выполнение алгоритма за счёт лучшей локальности кэша', en: 'It speeds up execution thanks to better cache locality' },
         { ru: 'Иначе алгоритм не сможет обработать отрицательные числа', en: 'Otherwise the algorithm can\'t handle negative numbers' },
         { ru: 'Это требование языка программирования при работе с массивами', en: 'It\'s a requirement of the programming language when working with arrays' },
@@ -229,7 +229,7 @@ export const countingSort = {
         { ru: 'Когда диапазон k намного больше числа элементов n', en: 'When the value range k is much larger than the element count n' },
         { ru: 'Когда массив уже почти отсортирован перед запуском', en: 'When the array is already nearly sorted before the run starts' },
         { ru: 'Когда все элементы одинаковы и сравнивать нечего', en: 'When all elements are identical and there is nothing to compare' },
-        { ru: 'Когда n — чётное число, что усложняет разбиение на пары', en: 'When n is an even number, which complicates pairing elements' },
+        { ru: 'Когда n - чётное число, что усложняет разбиение на пары', en: 'When n is an even number, which complicates pairing elements' },
       ],
       correct: 0,
       explanation: {
@@ -254,8 +254,8 @@ export const countingSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'Сортировка подсчётом требует дискретных ключей известного диапазона — строки можно сортировать посимвольно (это и есть идея LSD radix sort), но не напрямую одним проходом подсчёта.',
-        en: 'Counting sort needs discrete keys of a known range — strings can be sorted character by character (this is exactly the LSD radix sort idea), but not directly in a single counting pass.',
+        ru: 'Сортировка подсчётом требует дискретных ключей известного диапазона - строки можно сортировать посимвольно (это и есть идея LSD radix sort), но не напрямую одним проходом подсчёта.',
+        en: 'Counting sort needs discrete keys of a known range - strings can be sorted character by character (this is exactly the LSD radix sort idea), but not directly in a single counting pass.',
       },
       hint: {
         ru: 'Алгоритм использует значение элемента как индекс в массиве count. Что нужно для этого знать о значениях?',
@@ -317,8 +317,8 @@ export const countingSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'Обход слева направо разместит более ранние равные элементы на более высоких индексах, нарушив их исходный порядок, — сортировка станет нестабильной, но результат всё равно будет отсортирован.',
-        en: 'Walking left to right places earlier equal elements at higher indices, breaking their original order — the sort becomes unstable, but the result is still sorted.',
+        ru: 'Обход слева направо разместит более ранние равные элементы на более высоких индексах, нарушив их исходный порядок, - сортировка станет нестабильной, но результат всё равно будет отсортирован.',
+        en: 'Walking left to right places earlier equal elements at higher indices, breaking their original order - the sort becomes unstable, but the result is still sorted.',
       },
       hint: {
         ru: 'Подумайте конкретно о двух одинаковых элементах. Как их расположение в выходе изменится, если обходить массив в другом направлении?',
@@ -331,10 +331,10 @@ export const countingSort = {
         en: 'What is the space complexity of counting sort?',
       },
       options: [
-        { ru: 'O(n + k) — для выходного массива и массива count размером в диапазон значений', en: 'O(n + k) — for the output array and the count array sized to the value range' },
-        { ru: 'O(1) — алгоритм сортирует данные прямо на месте без дополнительных структур', en: 'O(1) — the algorithm sorts in place without any extra structures' },
-        { ru: 'O(log n) — за счёт стека рекурсивных вызовов при разбиении диапазона пополам', en: 'O(log n) — from the recursive call stack when splitting the range in half always' },
-        { ru: 'O(n²) — потому что для каждого элемента хранится его полная история сравнений', en: 'O(n²) — because the full comparison history of each element is stored' },
+        { ru: 'O(n + k) - для выходного массива и массива count размером в диапазон значений', en: 'O(n + k) - for the output array and the count array sized to the value range' },
+        { ru: 'O(1) - алгоритм сортирует данные прямо на месте без дополнительных структур', en: 'O(1) - the algorithm sorts in place without any extra structures' },
+        { ru: 'O(log n) - за счёт стека рекурсивных вызовов при разбиении диапазона пополам', en: 'O(log n) - from the recursive call stack when splitting the range in half always' },
+        { ru: 'O(n²) - потому что для каждого элемента хранится его полная история сравнений', en: 'O(n²) - because the full comparison history of each element is stored' },
       ],
       correct: 0,
       explanation: {
@@ -352,15 +352,15 @@ export const countingSort = {
         en: 'Why is the minimum value subtracted from each element when indexing into the count array?',
       },
       options: [
-        { ru: 'Сдвинуть диапазон к нулю — не выделять память под значения ниже минимума', en: 'To shift the value range to start at zero and avoid allocating memory for values below the minimum' },
+        { ru: 'Сдвинуть диапазон к нулю - не выделять память под значения ниже минимума', en: 'To shift the value range to start at zero and avoid allocating memory for values below the minimum' },
         { ru: 'Чтобы ускорить вычисление индекса при помощи битового сдвига вместо деления', en: 'To speed up index computation using a bit shift instead of division regardless of input size or order' },
         { ru: 'Потому что отрицательные индексы массива требуют коррекции знака', en: 'Because negative array indices require a sign correction' },
         { ru: 'Чтобы гарантировать, что максимальный элемент всегда попадёт в последнюю ячейку', en: 'To guarantee the maximum element always lands in the last cell' },
       ],
       correct: 0,
       explanation: {
-        ru: 'Если минимальное значение равно, например, 50, то без вычитания первые 50 ячеек массива count были бы пусты — вычитание минимума убирает этот мёртвый балласт.',
-        en: 'If the minimum value is, say, 50, then without subtraction the first 50 cells of count would be empty — subtracting the minimum removes this dead space.',
+        ru: 'Если минимальное значение равно, например, 50, то без вычитания первые 50 ячеек массива count были бы пусты - вычитание минимума убирает этот мёртвый балласт.',
+        en: 'If the minimum value is, say, 50, then without subtraction the first 50 cells of count would be empty - subtracting the minimum removes this dead space.',
       },
       hint: {
         ru: 'Что было бы размером массива count, если бы он индексировался напрямую значениями, а не их смещением относительно минимума?',

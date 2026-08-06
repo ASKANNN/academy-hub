@@ -10,8 +10,8 @@ export const patienceSort = {
   tags: ['comparison', 'not-in-place', 'unstable'],
 
   intent: {
-    ru: 'Пасьянсная сортировка вдохновлена карточным пасьянсом «солитёр»: карты раскладываются по стопкам так, чтобы верх каждой стопки не убывал сверху вниз, а затем стопки сливаются как в merge sort — попутно алгоритм даёт изящный способ найти длиннейшую возрастающую подпоследовательность.',
-    en: 'Patience sort is inspired by the solitaire card game: cards are dealt into piles so each pile\'s top never decreases as cards are added, then the piles are merged like in merge sort — as a side effect, the algorithm gives an elegant way to find the longest increasing subsequence.',
+    ru: 'Пасьянсная сортировка вдохновлена карточным пасьянсом «солитёр»: карты раскладываются по стопкам так, чтобы верх каждой стопки не убывал сверху вниз, а затем стопки сливаются как в merge sort - попутно алгоритм даёт изящный способ найти длиннейшую возрастающую подпоследовательность.',
+    en: 'Patience sort is inspired by the solitaire card game: cards are dealt into piles so each pile\'s top never decreases as cards are added, then the piles are merged like in merge sort - as a side effect, the algorithm gives an elegant way to find the longest increasing subsequence.',
   },
 
   problem: {
@@ -20,7 +20,7 @@ export const patienceSort = {
   },
 
   solution: {
-    ru: 'Элементы по очереди «раскладываются» на стопки: каждая карта кладётся на первую слева стопку, чей верх больше или равен ей (поиск такой стопки — бинарный, O(log n)); если подходящей стопки нет, начинается новая стопка. В результате получается несколько стопок, каждая из которых по построению убывает сверху вниз. Финальный шаг — слить эти стопки, как k отсортированных списков, многократно забирая минимальный верхний элемент среди всех стопок (эффективно — через кучу).',
+    ru: 'Элементы по очереди «раскладываются» на стопки: каждая карта кладётся на первую слева стопку, чей верх больше или равен ей (поиск такой стопки - бинарный, O(log n)); если подходящей стопки нет, начинается новая стопка. В результате получается несколько стопок, каждая из которых по построению убывает сверху вниз. Финальный шаг - слить эти стопки, как k отсортированных списков, многократно забирая минимальный верхний элемент среди всех стопок (эффективно - через кучу).',
     en: 'Elements are "dealt" one by one onto piles: each card goes on the leftmost pile whose top is greater than or equal to it (finding that pile is a binary search, O(log n)); if no pile fits, a new pile is started. This produces several piles, each decreasing top-to-bottom by construction. The final step merges these piles like k sorted lists, repeatedly taking the minimum top element across all piles (efficiently, via a heap).',
   },
 
@@ -42,7 +42,7 @@ export const patienceSort = {
     {
       title: { ru: 'Положить карту или начать стопку', en: 'Place the card or start a pile' },
       explanation: {
-        ru: 'Если подходящая стопка найдена — положить карту на неё; иначе создать новую стопку справа от всех.',
+        ru: 'Если подходящая стопка найдена - положить карту на неё; иначе создать новую стопку справа от всех.',
         en: 'If a fitting pile is found, place the card on it; otherwise create a new pile to the right of all existing ones.',
       },
     },
@@ -121,7 +121,7 @@ export const patienceSort = {
 
   pros: [
     {
-      ru: 'Побочный продукт алгоритма — число стопок равно длине самой длинной строго убывающей подпоследовательности сверху вниз, что даёт основу для эффективного O(n log n) поиска LIS (longest increasing subsequence).',
+      ru: 'Побочный продукт алгоритма - число стопок равно длине самой длинной строго убывающей подпоследовательности сверху вниз, что даёт основу для эффективного O(n log n) поиска LIS (longest increasing subsequence).',
       en: 'A side effect of the algorithm: the number of piles equals the length of the longest strictly decreasing top-to-bottom run, giving the basis for an efficient O(n log n) longest-increasing-subsequence (LIS) algorithm.',
     },
     {
@@ -135,8 +135,8 @@ export const patienceSort = {
   ],
   cons: [
     {
-      ru: 'Требует O(n) дополнительной памяти под стопки — не сортирует на месте.',
-      en: 'Needs O(n) extra memory for the piles — doesn\'t sort in place.',
+      ru: 'Требует O(n) дополнительной памяти под стопки - не сортирует на месте.',
+      en: 'Needs O(n) extra memory for the piles - doesn\'t sort in place.',
     },
     {
       ru: 'Неустойчив: относительный порядок равных элементов из разных стопок при слиянии не гарантируется.',
@@ -150,12 +150,12 @@ export const patienceSort = {
 
   whenToUse: [
     {
-      ru: 'Когда наряду с сортировкой нужна длиннейшая возрастающая подпоследовательность — пасьянсная сортировка решает обе задачи по сути одним алгоритмом.',
-      en: 'When the longest increasing subsequence is needed alongside sorting — patience sort essentially solves both with one algorithm.',
+      ru: 'Когда наряду с сортировкой нужна длиннейшая возрастающая подпоследовательность - пасьянсная сортировка решает обе задачи по сути одним алгоритмом.',
+      en: 'When the longest increasing subsequence is needed alongside sorting - patience sort essentially solves both with one algorithm.',
     },
     {
-      ru: 'Как наглядная демонстрация связи между карточными играми, жадными стратегиями и гарантией O(n log n) — популярна в учебных курсах по анализу алгоритмов.',
-      en: 'As a vivid demonstration of the connection between card games, greedy strategies, and an O(n log n) guarantee — popular in algorithm-analysis courses.',
+      ru: 'Как наглядная демонстрация связи между карточными играми, жадными стратегиями и гарантией O(n log n) - популярна в учебных курсах по анализу алгоритмов.',
+      en: 'As a vivid demonstration of the connection between card games, greedy strategies, and an O(n log n) guarantee - popular in algorithm-analysis courses.',
     },
   ],
 
@@ -209,7 +209,7 @@ export const patienceSort = {
         },
         { ru: 'Количество отдельных перестановок элементов, нужных для полной сортировки всего массива целиком', en: 'The number of individual element swaps needed to fully sort the entire array from start to finish' },
         { ru: 'Число элементов, которые уже были отсортированы заранее до самого начала процесса раскладки', en: 'The number of elements that were already sorted beforehand, well before the dealing process even began' },
-        { ru: 'Совершенно ничего — это просто бессмысленный побочный эффект без какого-либо практического применения', en: 'Absolutely nothing — it\'s just a meaningless side effect with no practical application whatsoever' },
+        { ru: 'Совершенно ничего - это просто бессмысленный побочный эффект без какого-либо практического применения', en: 'Absolutely nothing - it\'s just a meaningless side effect with no practical application whatsoever' },
       ],
       correct: 0,
       explanation: {
@@ -217,8 +217,8 @@ export const patienceSort = {
         en: 'This is the key observation linking patience sort to the longest-increasing-subsequence (LIS) problem.',
       },
       hint: {
-        ru: 'Число стопок связано с известной задачей на подпоследовательности — какой именно?',
-        en: 'The number of piles is related to a well-known subsequence problem — which one?',
+        ru: 'Число стопок связано с известной задачей на подпоследовательности - какой именно?',
+        en: 'The number of piles is related to a well-known subsequence problem - which one?',
       },
     },
     {
@@ -241,8 +241,8 @@ export const patienceSort = {
         en: 'This is a k-way merge: each pile is already ordered, so repeatedly picking the minimum top yields a fully sorted result, similar to merging in merge sort.',
       },
       hint: {
-        ru: 'Каждая стопка уже упорядочена — как объединить несколько упорядоченных списков в один, не пересортировывая их?',
-        en: 'Each pile is already ordered — how do you combine several ordered lists into one without re-sorting?',
+        ru: 'Каждая стопка уже упорядочена - как объединить несколько упорядоченных списков в один, не пересортировывая их?',
+        en: 'Each pile is already ordered - how do you combine several ordered lists into one without re-sorting?',
       },
     },
     {
@@ -251,19 +251,19 @@ export const patienceSort = {
         en: 'Is patience sort an in-place sort?',
       },
       options: [
-        { ru: 'Нет — требует O(n) дополнительной памяти под стопки', en: 'No — it needs O(n) extra memory for the piles' },
+        { ru: 'Нет - требует O(n) дополнительной памяти под стопки', en: 'No - it needs O(n) extra memory for the piles' },
         { ru: 'Да, всегда работает без дополнительной памяти, как quicksort', en: 'Yes, it always works with no extra memory, like quicksort' },
         { ru: 'Только если во входном массиве нет дубликатов значений', en: 'Only if the input array has no duplicate values' },
         { ru: 'Только для массивов длиной меньше 100 элементов', en: 'Only for arrays shorter than 100 elements' },
       ],
       correct: 0,
       explanation: {
-        ru: 'Стопки — это отдельная структура данных поверх исходного массива, поэтому память растёт линейно с n.',
+        ru: 'Стопки - это отдельная структура данных поверх исходного массива, поэтому память растёт линейно с n.',
         en: 'The piles are a separate data structure on top of the original array, so memory grows linearly with n.',
       },
       hint: {
-        ru: 'Стопки хранятся отдельно от входного массива — входит ли это в понятие «на месте»?',
-        en: 'The piles are stored separately from the input array — does that fit the definition of "in-place"?',
+        ru: 'Стопки хранятся отдельно от входного массива - входит ли это в понятие «на месте»?',
+        en: 'The piles are stored separately from the input array - does that fit the definition of "in-place"?',
       },
     },
     {
@@ -282,7 +282,7 @@ export const patienceSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'Правило «класть карту на первую подходящую стопку» — это в точности упрощённая стратегия одного из пасьянсов.',
+        ru: 'Правило «класть карту на первую подходящую стопку» - это в точности упрощённая стратегия одного из пасьянсов.',
         en: 'The "place the card on the first fitting pile" rule is exactly the simplified strategy of one solitaire variant.',
       },
       hint: {
@@ -298,7 +298,7 @@ export const patienceSort = {
       options: [
         { ru: 'Число стопок равно длине LIS (возрастающей подпоследовательности) входа', en: 'The number of piles equals the length of the longest increasing subsequence (LIS) of the input' },
         { ru: 'Число стопок равно числу инверсий в исходном массиве', en: 'The number of piles equals the number of inversions in the original array' },
-        { ru: 'LIS никак не связана с пасьянсной сортировкой — это совпадение терминов', en: 'LIS has nothing to do with patience sort — the apparent connection is merely a coincidence of terminology' },
+        { ru: 'LIS никак не связана с пасьянсной сортировкой - это совпадение терминов', en: 'LIS has nothing to do with patience sort - the apparent connection is merely a coincidence of terminology' },
         { ru: 'Число стопок равно квадрату длины LIS входного массива', en: 'The number of piles equals the square of the LIS length of the input array' },
       ],
       correct: 0,
@@ -324,12 +324,12 @@ export const patienceSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'Верхние элементы стопок всегда образуют возрастающую последовательность (иначе карта легла бы раньше), поэтому по ним можно проводить бинарный поиск за O(log k), где k — текущее число стопок.',
+        ru: 'Верхние элементы стопок всегда образуют возрастающую последовательность (иначе карта легла бы раньше), поэтому по ним можно проводить бинарный поиск за O(log k), где k - текущее число стопок.',
         en: 'Pile tops always form an increasing sequence (otherwise the card would have been placed earlier), so binary search over them takes O(log k), where k is the current number of piles.',
       },
       hint: {
-        ru: 'Верхние карты стопок упорядочены между собой — какой метод поиска оптимален для упорядоченного набора?',
-        en: 'Pile tops are ordered among themselves — which search method is optimal for an ordered set?',
+        ru: 'Верхние карты стопок упорядочены между собой - какой метод поиска оптимален для упорядоченного набора?',
+        en: 'Pile tops are ordered among themselves - which search method is optimal for an ordered set?',
       },
     },
     {
@@ -338,15 +338,15 @@ export const patienceSort = {
         en: 'How does patience sort behave on a fully sorted input?',
       },
       options: [
-        { ru: 'Образуется ровно одна стопка, а слияние тривиально — алгоритм адаптивен', en: 'Exactly one pile forms and merging is trivial — the algorithm is adaptive' },
-        { ru: 'Образуется n стопок по одной карте — это наихудший случай для пасьянсной сортировки', en: 'Exactly n piles of one card each form — this is the worst case for patience sort' },
+        { ru: 'Образуется ровно одна стопка, а слияние тривиально - алгоритм адаптивен', en: 'Exactly one pile forms and merging is trivial - the algorithm is adaptive' },
+        { ru: 'Образуется n стопок по одной карте - это наихудший случай для пасьянсной сортировки', en: 'Exactly n piles of one card each form - this is the worst case for patience sort' },
         { ru: 'Алгоритм обнаруживает упорядоченность и завершает работу немедленно без раскладки', en: 'The algorithm detects the order and terminates immediately without dealing' },
         { ru: 'Число стопок равно log n, как в сбалансированном дереве', en: 'The number of piles equals log n, as in a balanced tree' },
       ],
       correct: 0,
       explanation: {
-        ru: 'При возрастающем входе каждая следующая карта меньше или равна верху последней стопки, поэтому всегда находится первая же стопка — в итоге стопка одна.',
-        en: 'For increasing input every next card is less than or equal to the last pile\'s top, so the first pile always fits — resulting in a single pile.',
+        ru: 'При возрастающем входе каждая следующая карта меньше или равна верху последней стопки, поэтому всегда находится первая же стопка - в итоге стопка одна.',
+        en: 'For increasing input every next card is less than or equal to the last pile\'s top, so the first pile always fits - resulting in a single pile.',
       },
       hint: {
         ru: 'Если каждая следующая карта меньше верха текущей стопки, сколько стопок в итоге образуется?',

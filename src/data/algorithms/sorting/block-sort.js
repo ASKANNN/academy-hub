@@ -10,7 +10,7 @@ export const blockSort = {
   tags: ['comparison', 'in-place', 'stable', 'merge-based'],
 
   intent: {
-    ru: 'Блочная сортировка (семейство алгоритмов, к которому относится WikiSort) — это устойчивая сортировка слиянием, которая сливает два отсортированных участка на месте, без вспомогательного массива размером O(n), в отличие от классического merge sort.',
+    ru: 'Блочная сортировка (семейство алгоритмов, к которому относится WikiSort) - это устойчивая сортировка слиянием, которая сливает два отсортированных участка на месте, без вспомогательного массива размером O(n), в отличие от классического merge sort.',
     en: 'Block sort (the family of algorithms WikiSort belongs to) is a stable merge sort that merges two sorted runs in place, without an O(n) auxiliary array, unlike classic merge sort.',
   },
 
@@ -20,16 +20,16 @@ export const blockSort = {
   },
 
   solution: {
-    ru: 'Идея блочного слияния — переставлять сами элементы внутри массива вместо копирования в буфер. Простейший вариант: при слиянии двух участков [lo, mid) и [mid, hi), как только элемент из правого участка оказывается меньше текущего элемента левого, весь блок между ними сдвигается на одну позицию вправо (поворот подмассива), а меньший элемент занимает освободившееся место. Настоящий WikiSort идёт дальше и переставляет не отдельные элементы, а целые блоки размера ≈√n за один шаг, что и даёт полную гарантию O(n log n) при O(1) памяти — здесь показан упрощённый, но корректный и устойчивый вариант той же идеи на уровне отдельных элементов.',
-    en: 'The idea behind block merging is to rearrange the elements themselves within the array instead of copying into a buffer. The simplest version: while merging two runs [lo, mid) and [mid, hi), as soon as an element from the right run is smaller than the current element of the left run, the whole block between them shifts one position right (a subarray rotation), and the smaller element takes the freed spot. Real WikiSort goes further and rearranges whole blocks of size ≈√n at a time, which is what gives the full O(n log n) guarantee at O(1) memory — shown here is a simplified but correct and stable version of the same idea at the level of individual elements.',
+    ru: 'Идея блочного слияния - переставлять сами элементы внутри массива вместо копирования в буфер. Простейший вариант: при слиянии двух участков [lo, mid) и [mid, hi), как только элемент из правого участка оказывается меньше текущего элемента левого, весь блок между ними сдвигается на одну позицию вправо (поворот подмассива), а меньший элемент занимает освободившееся место. Настоящий WikiSort идёт дальше и переставляет не отдельные элементы, а целые блоки размера ≈√n за один шаг, что и даёт полную гарантию O(n log n) при O(1) памяти - здесь показан упрощённый, но корректный и устойчивый вариант той же идеи на уровне отдельных элементов.',
+    en: 'The idea behind block merging is to rearrange the elements themselves within the array instead of copying into a buffer. The simplest version: while merging two runs [lo, mid) and [mid, hi), as soon as an element from the right run is smaller than the current element of the left run, the whole block between them shifts one position right (a subarray rotation), and the smaller element takes the freed spot. Real WikiSort goes further and rearranges whole blocks of size ≈√n at a time, which is what gives the full O(n log n) guarantee at O(1) memory - shown here is a simplified but correct and stable version of the same idea at the level of individual elements.',
   },
 
   steps: [
     {
       title: { ru: 'Разбить на минимальные прогоны', en: 'Split into minimal runs' },
       explanation: {
-        ru: 'Считать каждый отдельный элемент отсортированным подмассивом длины 1 — начальным «прогоном».',
-        en: 'Treat each individual element as a sorted subarray of length 1 — an initial "run".',
+        ru: 'Считать каждый отдельный элемент отсортированным подмассивом длины 1 - начальным «прогоном».',
+        en: 'Treat each individual element as a sorted subarray of length 1 - an initial "run".',
       },
     },
     {
@@ -42,8 +42,8 @@ export const blockSort = {
     {
       title: { ru: 'Сравнить и сдвинуть блок', en: 'Compare and shift the block' },
       explanation: {
-        ru: 'Когда элемент правого прогона меньше текущего элемента левого, сдвинуть блок между ними на одну позицию и вставить меньший элемент — это и есть поворот подмассива.',
-        en: 'When a right-run element is smaller than the current left-run element, shift the block between them by one position and insert the smaller element — this is the subarray rotation.',
+        ru: 'Когда элемент правого прогона меньше текущего элемента левого, сдвинуть блок между ними на одну позицию и вставить меньший элемент - это и есть поворот подмассива.',
+        en: 'When a right-run element is smaller than the current left-run element, shift the block between them by one position and insert the smaller element - this is the subarray rotation.',
       },
     },
     {
@@ -123,22 +123,22 @@ def block_sort(arr):
 
   pros: [
     {
-      ru: 'Устойчив и работает по существу на месте — полноценный WikiSort достигает O(1) дополнительной памяти, сохраняя гарантию O(n log n) и устойчивость merge sort.',
-      en: 'Stable and essentially in-place — the full WikiSort achieves O(1) extra memory while keeping merge sort\'s O(n log n) guarantee and stability.',
+      ru: 'Устойчив и работает по существу на месте - полноценный WikiSort достигает O(1) дополнительной памяти, сохраняя гарантию O(n log n) и устойчивость merge sort.',
+      en: 'Stable and essentially in-place - the full WikiSort achieves O(1) extra memory while keeping merge sort\'s O(n log n) guarantee and stability.',
     },
     {
       ru: 'Не имеет патологического худшего случая, в отличие от quicksort, и не жертвует устойчивостью, в отличие от heap sort и intro sort.',
       en: 'Has no pathological worst case, unlike quicksort, and doesn\'t sacrifice stability, unlike heap sort and introsort.',
     },
     {
-      ru: 'Как и Timsort, естественно строится на прогонах — можно комбинировать с обнаружением уже упорядоченных участков для адаптивности.',
-      en: 'Like Timsort, it naturally builds on runs — it can be combined with detecting already-ordered stretches for adaptivity.',
+      ru: 'Как и Timsort, естественно строится на прогонах - можно комбинировать с обнаружением уже упорядоченных участков для адаптивности.',
+      en: 'Like Timsort, it naturally builds on runs - it can be combined with detecting already-ordered stretches for adaptivity.',
     },
   ],
   cons: [
     {
-      ru: 'Упрощённая версия, показанная здесь, сдвигает элементы по одному, что в худшем случае даёт O(n) на одно слияние блока (то есть O(n²/log n) суммарно для отдельных патологических входов) — полноценный WikiSort избегает этого перестановкой блоков размера √n.',
-      en: 'The simplified version shown here shifts elements one at a time, giving O(n) worst case per block merge (i.e., O(n²/log n) total for certain pathological inputs) — the full WikiSort avoids this by rearranging blocks of size √n.',
+      ru: 'Упрощённая версия, показанная здесь, сдвигает элементы по одному, что в худшем случае даёт O(n) на одно слияние блока (то есть O(n²/log n) суммарно для отдельных патологических входов) - полноценный WikiSort избегает этого перестановкой блоков размера √n.',
+      en: 'The simplified version shown here shifts elements one at a time, giving O(n) worst case per block merge (i.e., O(n²/log n) total for certain pathological inputs) - the full WikiSort avoids this by rearranging blocks of size √n.',
     },
     {
       ru: 'Полная реализация WikiSort со всеми оптимизациями (блочный своп, буфер для внутреннего слияния, бинарный поиск вставки) значительно сложнее в разработке и отладке, чем обычный merge sort.',
@@ -152,8 +152,8 @@ def block_sort(arr):
 
   whenToUse: [
     {
-      ru: 'Когда одновременно нужны устойчивость, гарантия худшего случая O(n log n) и жёсткое ограничение памяти — сочетание, которое merge sort, quicksort и heap sort по отдельности не дают.',
-      en: 'When stability, an O(n log n) worst-case guarantee, and a hard memory constraint are all required at once — a combination merge sort, quicksort, and heap sort don\'t provide individually.',
+      ru: 'Когда одновременно нужны устойчивость, гарантия худшего случая O(n log n) и жёсткое ограничение памяти - сочетание, которое merge sort, quicksort и heap sort по отдельности не дают.',
+      en: 'When stability, an O(n log n) worst-case guarantee, and a hard memory constraint are all required at once - a combination merge sort, quicksort, and heap sort don\'t provide individually.',
     },
     {
       ru: 'Во встраиваемых системах, где выделение O(n) буфера для сортировки недопустимо, но стабильность сортировки критична (например, сортировка записей по нескольким ключам).',
@@ -163,12 +163,12 @@ def block_sort(arr):
 
   realWorldExamples: [
     {
-      ru: '**WikiSort** — открытая реализация 2014 года (Mike McFadden), названная в честь совместной разработки идеи на Wikipedia; демонстрирует, что O(1)-памятный устойчивый merge sort практически реализуем.',
-      en: '**WikiSort** — an open-source 2014 implementation (by Mike McFadden), named after the collaborative development of the idea on Wikipedia; demonstrates that an O(1)-memory stable merge sort is practically achievable.',
+      ru: '**WikiSort** - открытая реализация 2014 года (Mike McFadden), названная в честь совместной разработки идеи на Wikipedia; демонстрирует, что O(1)-памятный устойчивый merge sort практически реализуем.',
+      en: '**WikiSort** - an open-source 2014 implementation (by Mike McFadden), named after the collaborative development of the idea on Wikipedia; demonstrates that an O(1)-memory stable merge sort is practically achievable.',
     },
     {
-      ru: '**Grailsort** и другие блочные сортировки** — семейство алгоритмов, вдохновлённых работой Хуанга и Ланглуа (Huang-Langston) по слиянию блоков, используемых в исследовательских и embedded-контекстах.',
-      en: '**Grailsort and other block-merge sorts** — a family of algorithms inspired by Huang and Langston\'s block-merging work, used in research and embedded contexts.',
+      ru: '**Grailsort** и другие блочные сортировки** - семейство алгоритмов, вдохновлённых работой Хуанга и Ланглуа (Huang-Langston) по слиянию блоков, используемых в исследовательских и embedded-контекстах.',
+      en: '**Grailsort and other block-merge sorts** - a family of algorithms inspired by Huang and Langston\'s block-merging work, used in research and embedded contexts.',
     },
   ],
 
@@ -195,7 +195,7 @@ def block_sort(arr):
         en: 'Classic merge sort copies data into an auxiliary array while merging; block sort rearranges elements in place, avoiding that.',
       },
       hint: {
-        ru: 'Merge sort — устойчивый и O(n log n), но за что он «платит» при слиянии двух участков?',
+        ru: 'Merge sort - устойчивый и O(n log n), но за что он «платит» при слиянии двух участков?',
         en: 'Merge sort is stable and O(n log n), but what does it "pay" when merging two runs?',
       },
     },
@@ -215,7 +215,7 @@ def block_sort(arr):
       ],
       correct: 0,
       explanation: {
-        ru: 'Сдвиг блока — это поворот подмассива на месте, который вставляет меньший элемент на нужную позицию без выделения новой памяти.',
+        ru: 'Сдвиг блока - это поворот подмассива на месте, который вставляет меньший элемент на нужную позицию без выделения новой памяти.',
         en: 'The block shift is an in-place subarray rotation that inserts the smaller element at the right position without allocating new memory.',
       },
       hint: {
@@ -239,7 +239,7 @@ def block_sort(arr):
       ],
       correct: 0,
       explanation: {
-        ru: 'Перестановка целых блоков вместо отдельных элементов — ключевая оптимизация, которая избегает O(n) сдвигов на каждое слияние в худшем случае.',
+        ru: 'Перестановка целых блоков вместо отдельных элементов - ключевая оптимизация, которая избегает O(n) сдвигов на каждое слияние в худшем случае.',
         en: 'Rearranging whole blocks instead of individual elements is the key optimization that avoids O(n) shifts per merge in the worst case.',
       },
       hint: {
@@ -253,7 +253,7 @@ def block_sort(arr):
         en: 'Is block sort stable?',
       },
       options: [
-        { ru: 'Да — равные из левого участка остаются перед равными из правого', en: 'Yes — equal elements from the left run always stay before equal ones from the right' },
+        { ru: 'Да - равные из левого участка остаются перед равными из правого', en: 'Yes - equal elements from the left run always stay before equal ones from the right' },
         { ru: 'Нет, как и heap sort, из-за постоянных перестановок элементов внутри кучи', en: 'No, like heap sort, because of how elements are constantly rearranged inside the heap' },
         { ru: 'Только для чисел, но не для строк или более сложных составных объектов', en: 'Only for numbers, not for strings or more complex composite objects' },
         { ru: 'Зависит от размера входного массива и выбранного заранее размера блока', en: 'It depends on the input array\'s size and the block size chosen beforehand' },
@@ -264,7 +264,7 @@ def block_sort(arr):
         en: 'The merge condition `a[i] <= a[j]` favors the left element on ties, which is exactly what preserves stability.',
       },
       hint: {
-        ru: 'Посмотрите на условие слияния: что происходит, когда два элемента равны — какой из них попадёт в результат первым?',
+        ru: 'Посмотрите на условие слияния: что происходит, когда два элемента равны - какой из них попадёт в результат первым?',
         en: 'Look at the merge condition: when two elements are equal, which one ends up in the result first?',
       },
     },
@@ -284,12 +284,12 @@ def block_sort(arr):
       ],
       correct: 0,
       explanation: {
-        ru: 'Quicksort не гарантирует O(n log n) в худшем случае, heap sort неустойчив, а обычный merge sort требует O(n) памяти — блочная сортировка совмещает все три свойства.',
-        en: 'Quicksort doesn\'t guarantee O(n log n) worst case, heap sort is unstable, and plain merge sort needs O(n) memory — block sort combines all three properties.',
+        ru: 'Quicksort не гарантирует O(n log n) в худшем случае, heap sort неустойчив, а обычный merge sort требует O(n) памяти - блочная сортировка совмещает все три свойства.',
+        en: 'Quicksort doesn\'t guarantee O(n log n) worst case, heap sort is unstable, and plain merge sort needs O(n) memory - block sort combines all three properties.',
       },
       hint: {
-        ru: 'Найдите слабость каждого из трёх конкурентов: quicksort, heap sort, merge sort — и проверьте, какой из них лишён каждой из этих слабостей.',
-        en: 'Find the weakness of each competitor — quicksort, heap sort, merge sort — and check which of those weaknesses block sort avoids.',
+        ru: 'Найдите слабость каждого из трёх конкурентов: quicksort, heap sort, merge sort - и проверьте, какой из них лишён каждой из этих слабостей.',
+        en: 'Find the weakness of each competitor - quicksort, heap sort, merge sort - and check which of those weaknesses block sort avoids.',
       },
     },
     {
@@ -305,8 +305,8 @@ def block_sort(arr):
       ],
       correct: 0,
       explanation: {
-        ru: 'На патологических входах каждый сдвиг блока стоит O(n), а таких сдвигов может быть O(n / log n) на каждом уровне — итого O(n² / log n), что хуже, чем у полного WikiSort.',
-        en: 'On pathological inputs, each block shift costs O(n), and there can be O(n / log n) such shifts per level — giving O(n² / log n) total, worse than full WikiSort.',
+        ru: 'На патологических входах каждый сдвиг блока стоит O(n), а таких сдвигов может быть O(n / log n) на каждом уровне - итого O(n² / log n), что хуже, чем у полного WikiSort.',
+        en: 'On pathological inputs, each block shift costs O(n), and there can be O(n / log n) such shifts per level - giving O(n² / log n) total, worse than full WikiSort.',
       },
       hint: {
         ru: 'Сдвиг одного элемента стоит O(n) в худшем случае. Сколько таких сдвигов может быть за всё время работы?',
@@ -326,8 +326,8 @@ def block_sort(arr):
       ],
       correct: 0,
       explanation: {
-        ru: 'Во встроенных системах памяти мало, а стабильность порядка записей часто критична — блочная сортировка даёт оба свойства без O(n) буфера.',
-        en: 'In embedded systems memory is scarce and record-order stability is often critical — block sort delivers both without an O(n) buffer.',
+        ru: 'Во встроенных системах памяти мало, а стабильность порядка записей часто критична - блочная сортировка даёт оба свойства без O(n) буфера.',
+        en: 'In embedded systems memory is scarce and record-order stability is often critical - block sort delivers both without an O(n) buffer.',
       },
       hint: {
         ru: 'Что является главным ограничением во встроенных системах и почему merge sort там неудобен?',
@@ -347,7 +347,7 @@ def block_sort(arr):
       ],
       correct: 0,
       explanation: {
-        ru: 'Поворот подмассива — ключевая идея: когда нужно вставить элемент правого участка раньше, блок сдвигается вправо, освобождая место без дополнительной памяти.',
+        ru: 'Поворот подмассива - ключевая идея: когда нужно вставить элемент правого участка раньше, блок сдвигается вправо, освобождая место без дополнительной памяти.',
         en: 'Subarray rotation is the key idea: when a right-run element must be inserted earlier, the block shifts right to make room without extra memory.',
       },
       hint: {
@@ -393,7 +393,7 @@ def block_sort(arr):
         en: 'Block swaps of size √n avoid O(n) shifts per elementary merge, preserving the O(n log n) guarantee at O(1) memory.',
       },
       hint: {
-        ru: 'Узкое место упрощённой версии — сдвиг по одному элементу. Как WikiSort делает это же быстрее?',
+        ru: 'Узкое место упрощённой версии - сдвиг по одному элементу. Как WikiSort делает это же быстрее?',
         en: 'The bottleneck of the simplified version is shifting one element at a time. How does WikiSort do the same thing faster?',
       },
     },

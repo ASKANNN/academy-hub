@@ -20,8 +20,8 @@ export const insertionSort = {
   },
 
   solution: {
-    ru: 'Массив делится на отсортированную часть слева (изначально из одного элемента) и неотсортированную часть справа. На каждом шаге берётся первый элемент неотсортированной части и сдвигается влево через отсортированную часть до тех пор, пока не найдётся элемент меньше него — туда он и вставляется. Отсортированная часть растёт на один элемент за шаг.',
-    en: 'The array is split into a sorted left part (initially a single element) and an unsorted right part. On each step, the first element of the unsorted part is taken and shifted left through the sorted part until an element smaller than it is found — that is where it gets inserted. The sorted part grows by one element per step.',
+    ru: 'Массив делится на отсортированную часть слева (изначально из одного элемента) и неотсортированную часть справа. На каждом шаге берётся первый элемент неотсортированной части и сдвигается влево через отсортированную часть до тех пор, пока не найдётся элемент меньше него - туда он и вставляется. Отсортированная часть растёт на один элемент за шаг.',
+    en: 'The array is split into a sorted left part (initially a single element) and an unsorted right part. On each step, the first element of the unsorted part is taken and shifted left through the sorted part until an element smaller than it is found - that is where it gets inserted. The sorted part grows by one element per step.',
   },
 
   steps: [
@@ -91,8 +91,8 @@ export const insertionSort = {
 
   pros: [
     {
-      ru: 'На почти отсортированных данных приближается к O(n) — каждый новый элемент сдвигается всего на пару позиций.',
-      en: 'Approaches O(n) on nearly sorted data — each new element only shifts a couple of positions.',
+      ru: 'На почти отсортированных данных приближается к O(n) - каждый новый элемент сдвигается всего на пару позиций.',
+      en: 'Approaches O(n) on nearly sorted data - each new element only shifts a couple of positions.',
     },
     {
       ru: 'Онлайн-алгоритм: может сортировать данные по мере их поступления, не имея всего массива заранее.',
@@ -109,11 +109,11 @@ export const insertionSort = {
   ],
   cons: [
     {
-      ru: 'O(n²) в среднем и худшем случае — на случайных или обратно отсортированных больших массивах медленный.',
-      en: 'O(n²) average and worst case — slow on random or reverse-sorted large arrays.',
+      ru: 'O(n²) в среднем и худшем случае - на случайных или обратно отсортированных больших массивах медленный.',
+      en: 'O(n²) average and worst case - slow on random or reverse-sorted large arrays.',
     },
     {
-      ru: 'Сдвиг элементов в массиве — операция O(n) в худшем случае на каждой вставке, что дороже, чем перестановка местами в сортировке выбором.',
+      ru: 'Сдвиг элементов в массиве - операция O(n) в худшем случае на каждой вставке, что дороже, чем перестановка местами в сортировке выбором.',
       en: 'Shifting array elements is an O(n) operation in the worst case per insertion, more expensive than a single swap in selection sort.',
     },
   ],
@@ -135,8 +135,8 @@ export const insertionSort = {
       en: '**Timsort** (used by Python\'s `sorted()` and Java\'s `Arrays.sort()` for objects) uses insertion sort on small "runs" before merging them.',
     },
     {
-      ru: '**Сортировка карт в руке** — классическая аналогия, буквально описывающая механику алгоритма.',
-      en: '**Sorting a hand of playing cards** — the classic analogy that literally describes the algorithm\'s mechanics.',
+      ru: '**Сортировка карт в руке** - классическая аналогия, буквально описывающая механику алгоритма.',
+      en: '**Sorting a hand of playing cards** - the classic analogy that literally describes the algorithm\'s mechanics.',
     },
   ],
 
@@ -149,76 +149,19 @@ export const insertionSort = {
         en: 'What is the time complexity of insertion sort on an already sorted array?',
       },
       options: [
-        { ru: 'O(n) — лучший случай', en: 'O(n) — best case' },
-        { ru: 'O(n²) — как и всегда', en: 'O(n²) — same as always' },
+        { ru: 'O(n) - лучший случай', en: 'O(n) - best case' },
+        { ru: 'O(n²) - как и всегда', en: 'O(n²) - same as always' },
         { ru: 'O(n log n)', en: 'O(n log n)' },
         { ru: 'O(1)', en: 'O(1)' },
       ],
       correct: 0,
       explanation: {
-        ru: 'Если каждый следующий элемент уже больше предыдущего, внутренний цикл сдвига ни разу не выполняется — алгоритм делает всего n−1 сравнение.',
-        en: 'If every next element is already greater than the previous one, the inner shifting loop never runs — the algorithm makes only n−1 comparisons.',
+        ru: 'Если каждый следующий элемент уже больше предыдущего, внутренний цикл сдвига ни разу не выполняется - алгоритм делает всего n−1 сравнение.',
+        en: 'If every next element is already greater than the previous one, the inner shifting loop never runs - the algorithm makes only n−1 comparisons.',
       },
       hint: {
         ru: 'Подумай, сколько раз условие `a[j] > current` окажется истинным, если массив уже отсортирован.',
         en: 'Think about how many times the condition `a[j] > current` can be true if the array is already sorted.',
-      },
-    },
-    {
-      question: {
-        ru: 'Что значит, что сортировка вставками — «онлайн-алгоритм»?',
-        en: 'What does it mean that insertion sort is an "online algorithm"?',
-      },
-      options: [
-        {
-          ru: 'Она может сортировать элементы по мере их поступления, не имея всего массива заранее',
-          en: 'It can sort elements as they arrive, without having the entire array upfront',
-        },
-        { ru: 'Она требует подключения к интернету для синхронизации промежуточных результатов сортировки', en: 'It requires an internet connection to synchronize intermediate sorting results' },
-        { ru: 'Она работает только с числами с плавающей точкой из-за особенностей округления при сравнении', en: 'It only works with floating-point numbers because of rounding quirks in the comparisons' },
-        { ru: 'Она использует облачные вычисления для распределения сравнений между узлами', en: 'It uses cloud computing to distribute comparisons across nodes' },
-      ],
-      correct: 0,
-      explanation: {
-        ru: 'Отсортированная часть массива в любой момент валидна сама по себе — можно вставлять новые элементы по одному, не пересчитывая всё заново.',
-        en: 'The sorted part of the array is valid on its own at any point — new elements can be inserted one at a time without recomputing everything.',
-      },
-      hint: {
-        ru: 'Подумай, остаётся ли отсортированная часть корректно упорядоченной на каждом промежуточном шаге, а не только в самом конце.',
-        en: 'Think about whether the sorted part stays correctly ordered at every intermediate step, not just at the very end.',
-      },
-    },
-    {
-      question: {
-        ru: 'Почему Timsort использует сортировку вставками для маленьких подмассивов?',
-        en: 'Why does Timsort use insertion sort for small subarrays?',
-      },
-      options: [
-        {
-          ru: 'На маленьких n накладные расходы более сложных алгоритмов не окупаются, а вставками быстро и просто',
-          en: 'At small n, the overhead of more complex algorithms doesn\'t pay off, while insertion sort is fast and simple',
-        },
-        {
-          ru: 'Потому что она работает за O(n log n), точно так же как и слияние прогонов в самом Timsort на больших массивах',
-          en: 'Because it runs in O(n log n), exactly the same as the run-merging step in Timsort itself on large arrays',
-        },
-        {
-          ru: 'Потому что она использует заметно меньше памяти, чем любой другой алгоритм сортировки, что критично для встроенных систем',
-          en: 'Because it uses noticeably less memory than any other sorting algorithm, which matters greatly for embedded systems',
-        },
-        {
-          ru: 'Это в корне не так, Timsort никогда не использует сортировку вставками — это распространённое заблуждение среди новичков в программировании',
-          en: "That's fundamentally not true, Timsort never uses insertion sort at all — a common misconception among beginner programmers",
-        },
-      ],
-      correct: 0,
-      explanation: {
-        ru: 'На маленьких подмассивах (обычно до ~32-64 элементов) практическая скорость сортировки вставками из-за низких констант превосходит асимптотически более быстрые, но более «тяжёлые» алгоритмы.',
-        en: 'On small subarrays (typically up to ~32-64 elements), insertion sort\'s low constant factors make it practically faster than asymptotically superior but "heavier" algorithms.',
-      },
-      hint: {
-        ru: 'Подумай о разнице между асимптотической сложностью и реальной скоростью на маленьком n, где константы решают многое.',
-        en: 'Think about the difference between asymptotic complexity and real speed at small n, where constant factors matter a lot.',
       },
     },
     {
@@ -247,6 +190,96 @@ export const insertionSort = {
     },
     {
       question: {
+        ru: 'Какова временная сложность сортировки вставками на массиве, отсортированном в обратном порядке?',
+        en: 'What is the time complexity of insertion sort on a reverse-sorted array?',
+      },
+      options: [
+        {
+          ru: 'O(n²) - каждый новый элемент сдвигается через всю отсортированную часть',
+          en: 'O(n²) - each new element shifts across the entire already-sorted part',
+        },
+        {
+          ru: 'O(n log n) - благодаря бинарному поиску места вставки для каждого элемента',
+          en: 'O(n log n) - thanks to a binary search for the insertion point of each element',
+        },
+        {
+          ru: 'O(n) - точно так же, как и на уже отсортированном по возрастанию массиве',
+          en: 'O(n) - exactly the same as on an already ascending-sorted array',
+        },
+        {
+          ru: 'O(1) - потому что сортировка происходит мгновенно независимо от размера',
+          en: 'O(1) - because the sort completes instantly regardless of array size',
+        },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'На развёрнутом массиве каждый следующий элемент меньше всех уже отсортированных, поэтому сдвигается до самого начала - суммарно получается квадратичное число операций, худший случай алгоритма.',
+        en: "On a reverse-sorted array, every next element is smaller than everything already sorted, so it shifts all the way to the front - the total work is quadratic, the algorithm's worst case.",
+      },
+      hint: {
+        ru: 'Подумай, как далеко придётся сдвигаться самому маленькому из оставшихся элементов, если он всегда меньше уже отсортированной части.',
+        en: 'Think about how far the smallest remaining element has to travel if it is always smaller than everything already placed.',
+      },
+    },
+    {
+      question: {
+        ru: 'Что значит, что сортировка вставками - «онлайн-алгоритм»?',
+        en: 'What does it mean that insertion sort is an "online algorithm"?',
+      },
+      options: [
+        {
+          ru: 'Она может сортировать элементы по мере их поступления, не имея всего массива заранее',
+          en: 'It can sort elements as they arrive, without having the entire array upfront',
+        },
+        { ru: 'Она требует подключения к интернету для синхронизации промежуточных результатов сортировки', en: 'It requires an internet connection to synchronize intermediate sorting results' },
+        { ru: 'Она работает только с числами с плавающей точкой из-за особенностей округления при сравнении', en: 'It only works with floating-point numbers because of rounding quirks in the comparisons' },
+        { ru: 'Она использует облачные вычисления для распределения сравнений между узлами', en: 'It uses cloud computing to distribute comparisons across nodes' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Отсортированная часть массива в любой момент валидна сама по себе - можно вставлять новые элементы по одному, не пересчитывая всё заново.',
+        en: 'The sorted part of the array is valid on its own at any point - new elements can be inserted one at a time without recomputing everything.',
+      },
+      hint: {
+        ru: 'Подумай, остаётся ли отсортированная часть корректно упорядоченной на каждом промежуточном шаге, а не только в самом конце.',
+        en: 'Think about whether the sorted part stays correctly ordered at every intermediate step, not just at the very end.',
+      },
+    },
+    {
+      question: {
+        ru: 'Почему Timsort использует сортировку вставками для маленьких подмассивов?',
+        en: 'Why does Timsort use insertion sort for small subarrays?',
+      },
+      options: [
+        {
+          ru: 'На маленьких n накладные расходы более сложных алгоритмов не окупаются, а вставками быстро и просто',
+          en: "At small n, the overhead of more complex algorithms doesn't pay off, while insertion sort is fast and simple",
+        },
+        {
+          ru: 'Потому что она работает за O(n log n), точно так же как и слияние прогонов в самом Timsort на больших массивах',
+          en: 'Because it runs in O(n log n), exactly the same as the run-merging step in Timsort itself on large arrays',
+        },
+        {
+          ru: 'Потому что она использует заметно меньше памяти, чем любой другой алгоритм сортировки, что критично для встроенных систем',
+          en: 'Because it uses noticeably less memory than any other sorting algorithm, which matters greatly for embedded systems',
+        },
+        {
+          ru: 'Это в корне не так, Timsort никогда не использует сортировку вставками - это распространённое заблуждение среди новичков в программировании',
+          en: "That's fundamentally not true, Timsort never uses insertion sort at all - a common misconception among beginner programmers",
+        },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'На маленьких подмассивах (обычно до ~32-64 элементов) практическая скорость сортировки вставками из-за низких констант превосходит асимптотически более быстрые, но более «тяжёлые» алгоритмы.',
+        en: 'On small subarrays (typically up to ~32-64 elements), insertion sort\'s low constant factors make it practically faster than asymptotically superior but "heavier" algorithms.',
+      },
+      hint: {
+        ru: 'Подумай о разнице между асимптотической сложностью и реальной скоростью на маленьком n, где константы решают многое.',
+        en: 'Think about the difference between asymptotic complexity and real speed at small n, where constant factors matter a lot.',
+      },
+    },
+    {
+      question: {
         ru: 'Сортировка вставками устойчива (stable). Почему?',
         en: 'Insertion sort is stable. Why?',
       },
@@ -261,45 +294,12 @@ export const insertionSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'Цикл сдвига останавливается на условии `a[j] > current` (строгое сравнение) — равные элементы не сдвигаются, поэтому их относительный порядок сохраняется.',
-        en: 'The shift loop stops on `a[j] > current` (strict comparison) — equal elements don\'t get shifted past, so their relative order is preserved.',
+        ru: 'Цикл сдвига останавливается на условии `a[j] > current` (строгое сравнение) - равные элементы не сдвигаются, поэтому их относительный порядок сохраняется.',
+        en: "The shift loop stops on `a[j] > current` (strict comparison) - equal elements don't get shifted past, so their relative order is preserved.",
       },
       hint: {
         ru: 'Подумай, что произойдёт с циклом сдвига, если он встретит элемент, равный вставляемому значению.',
         en: 'Think about what happens to the shift loop when it encounters an element equal to the value being inserted.',
-      },
-    },
-    {
-      question: {
-        ru: 'Какова временная сложность сортировки вставками на массиве, отсортированном в обратном порядке?',
-        en: 'What is the time complexity of insertion sort on a reverse-sorted array?',
-      },
-      options: [
-        {
-          ru: 'O(n²) — каждый новый элемент сдвигается через всю отсортированную часть',
-          en: 'O(n²) — each new element shifts across the entire already-sorted part',
-        },
-        {
-          ru: 'O(n log n) — благодаря бинарному поиску места вставки для каждого элемента',
-          en: 'O(n log n) — thanks to a binary search for the insertion point of each element',
-        },
-        {
-          ru: 'O(n) — точно так же, как и на уже отсортированном по возрастанию массиве',
-          en: 'O(n) — exactly the same as on an already ascending-sorted array',
-        },
-        {
-          ru: 'O(1) — потому что сортировка происходит мгновенно независимо от размера',
-          en: 'O(1) — because the sort completes instantly regardless of array size',
-        },
-      ],
-      correct: 0,
-      explanation: {
-        ru: 'На развёрнутом массиве каждый следующий элемент меньше всех уже отсортированных, поэтому сдвигается до самого начала — суммарно получается квадратичное число операций, худший случай алгоритма.',
-        en: 'On a reverse-sorted array, every next element is smaller than everything already sorted, so it shifts all the way to the front — the total work is quadratic, the algorithm\'s worst case.',
-      },
-      hint: {
-        ru: 'Подумай, как далеко придётся сдвигаться самому маленькому из оставшихся элементов, если он всегда меньше уже отсортированной части.',
-        en: 'Think about how far the smallest remaining element has to travel if it is always smaller than everything already placed.',
       },
     },
     {
@@ -309,8 +309,8 @@ export const insertionSort = {
       },
       options: [
         {
-          ru: 'С числом инверсий — пар элементов, стоящих в неправильном относительном порядке',
-          en: 'The number of inversions — pairs of elements standing in the wrong relative order',
+          ru: 'С числом инверсий - пар элементов, стоящих в неправильном относительном порядке',
+          en: 'The number of inversions - pairs of elements standing in the wrong relative order',
         },
         {
           ru: 'Только с длиной всего массива целиком, и больше ни с чем другим',
@@ -327,18 +327,18 @@ export const insertionSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'Для каждого элемента число сдвигов равно количеству элементов слева от него, которые больше него самого, — то есть числу инверсий, в которых он участвует. Сумма по всем элементам даёт общее число инверсий массива.',
-        en: 'For each element, the number of shifts equals the number of elements to its left that are greater than it — i.e. the number of inversions it takes part in. Summed over all elements, this gives the array\'s total inversion count.',
+        ru: 'Для каждого элемента число сдвигов равно количеству элементов слева от него, которые больше него самого, - то есть числу инверсий, в которых он участвует. Сумма по всем элементам даёт общее число инверсий массива.',
+        en: "For each element, the number of shifts equals the number of elements to its left that are greater than it - i.e. the number of inversions it takes part in. Summed over all elements, this gives the array's total inversion count.",
       },
       hint: {
-        ru: 'Подумай про пары элементов, стоящие «не в том порядке» друг относительно друга — как это обычно называется в теории сортировки.',
-        en: 'Think about pairs of elements standing "out of order" relative to each other — what that is usually called in sorting theory.',
+        ru: 'Подумай про пары элементов, стоящие «не в том порядке» друг относительно друга - как это обычно называется в теории сортировки.',
+        en: 'Think about pairs of elements standing "out of order" relative to each other - what that is usually called in sorting theory.',
       },
     },
     {
       question: {
         ru: 'Бинарная сортировка вставками ищет место вставки бинарным поиском за O(log n). Почему это не ускоряет алгоритм до O(n log n)?',
-        en: 'Binary insertion sort finds the insertion point via binary search in O(log n). Why doesn\'t this speed the algorithm up to O(n log n)?',
+        en: "Binary insertion sort finds the insertion point via binary search in O(log n). Why doesn't this speed the algorithm up to O(n log n)?",
       },
       options: [
         {
@@ -360,8 +360,8 @@ export const insertionSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'Бинарный поиск сокращает число сравнений до O(log n) за вставку, но освобождение места под новый элемент по-прежнему требует сдвига до O(n) элементов — именно сдвиг, а не поиск, определяет асимптотику, поэтому в худшем случае остаётся O(n²).',
-        en: 'Binary search cuts comparisons down to O(log n) per insertion, but making room for the new element still requires shifting up to O(n) elements — it\'s the shifting, not the search, that dominates the asymptotics, so the worst case stays O(n²).',
+        ru: 'Бинарный поиск сокращает число сравнений до O(log n) за вставку, но освобождение места под новый элемент по-прежнему требует сдвига до O(n) элементов - именно сдвиг, а не поиск, определяет асимптотику, поэтому в худшем случае остаётся O(n²).',
+        en: "Binary search cuts comparisons down to O(log n) per insertion, but making room for the new element still requires shifting up to O(n) elements - it's the shifting, not the search, that dominates the asymptotics, so the worst case stays O(n²).",
       },
       hint: {
         ru: 'Подумай, ускоряет ли более быстрый поиск позиции ещё и перемещение всех элементов, которые нужно сдвинуть, чтобы освободить эту позицию.',
@@ -375,8 +375,8 @@ export const insertionSort = {
       },
       options: [
         {
-          ru: 'Нет — вставка узла в найденную позицию стоит O(1), сдвигать нечего',
-          en: 'No — inserting a node at the found position costs O(1), there is nothing to shift',
+          ru: 'Нет - вставка узла в найденную позицию стоит O(1), сдвигать нечего',
+          en: 'No - inserting a node at the found position costs O(1), there is nothing to shift',
         },
         {
           ru: 'Да, сдвиг элементов всегда обязателен независимо от используемой структуры данных',
@@ -393,12 +393,12 @@ export const insertionSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'В связном списке, как только найдена позиция вставки, «вклеить» туда новый узел — это просто переставить пару указателей, O(1). Поиск позиции всё ещё требует до O(n) обхода, но дорогостоящего сдвига остальных элементов, как в массиве, не происходит.',
-        en: 'In a linked list, once the insertion point is found, splicing in the new node is just re-pointing a couple of pointers — O(1). Finding the position still takes up to O(n) traversal, but there is no expensive shifting of the remaining elements like in an array.',
+        ru: 'В связном списке, как только найдена позиция вставки, «вклеить» туда новый узел - это просто переставить пару указателей, O(1). Поиск позиции всё ещё требует до O(n) обхода, но дорогостоящего сдвига остальных элементов, как в массиве, не происходит.',
+        en: 'In a linked list, once the insertion point is found, splicing in the new node is just re-pointing a couple of pointers - O(1). Finding the position still takes up to O(n) traversal, but there is no expensive shifting of the remaining elements like in an array.',
       },
       hint: {
-        ru: 'Подумай, что на самом деле означает «сдвиг» для непрерывного массива в памяти — и есть ли у связного списка такое же ограничение.',
-        en: 'Think about what "shifting" actually means for a contiguous array in memory — and whether a linked list has the same constraint.',
+        ru: 'Подумай, что на самом деле означает «сдвиг» для непрерывного массива в памяти - и есть ли у связного списка такое же ограничение.',
+        en: 'Think about what "shifting" actually means for a contiguous array in memory - and whether a linked list has the same constraint.',
       },
     },
     {
@@ -416,7 +416,7 @@ export const insertionSort = {
           en: 'Both algorithms always do exactly the same fixed amount of work regardless of how ordered the original input data already happens to be',
         },
         {
-          ru: 'Сортировка выбором адаптируется к порядку входных данных, а сортировка вставками — совершенно нет',
+          ru: 'Сортировка выбором адаптируется к порядку входных данных, а сортировка вставками - совершенно нет',
           en: 'Selection sort adapts to the order of the input data, while insertion sort absolutely does not',
         },
         {

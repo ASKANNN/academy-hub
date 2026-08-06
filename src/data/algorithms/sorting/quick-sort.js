@@ -10,18 +10,18 @@ export const quickSort = {
   tags: ['divide-and-conquer', 'in-place', 'unstable'],
 
   intent: {
-    ru: 'Быстрая сортировка выбирает опорный элемент, разбивает массив на элементы меньше и больше опорного, а затем рекурсивно сортирует каждую часть — почти всегда на месте и с очень низкими константными накладными расходами.',
-    en: 'Quick sort picks a pivot, partitions the array into elements smaller and larger than the pivot, then recursively sorts each part — almost always in place, with very low constant overhead.',
+    ru: 'Быстрая сортировка выбирает опорный элемент, разбивает массив на элементы меньше и больше опорного, а затем рекурсивно сортирует каждую часть - почти всегда на месте и с очень низкими константными накладными расходами.',
+    en: 'Quick sort picks a pivot, partitions the array into elements smaller and larger than the pivot, then recursively sorts each part - almost always in place, with very low constant overhead.',
   },
 
   problem: {
-    ru: 'Сортировка слиянием гарантирует O(n log n), но платит за это O(n) дополнительной памяти на каждом слиянии. Нужен алгоритм с той же асимптотикой в среднем случае, но сортирующий на месте — то есть почти не потребляющий дополнительной памяти, что критично для больших массивов в памяти с ограниченным объёмом.',
-    en: 'Merge sort guarantees O(n log n) but pays for it with O(n) extra memory per merge. What is needed is an algorithm with the same average-case asymptotics that sorts in place — using almost no extra memory, which matters for large arrays under tight memory limits.',
+    ru: 'Сортировка слиянием гарантирует O(n log n), но платит за это O(n) дополнительной памяти на каждом слиянии. Нужен алгоритм с той же асимптотикой в среднем случае, но сортирующий на месте - то есть почти не потребляющий дополнительной памяти, что критично для больших массивов в памяти с ограниченным объёмом.',
+    en: 'Merge sort guarantees O(n log n) but pays for it with O(n) extra memory per merge. What is needed is an algorithm with the same average-case asymptotics that sorts in place - using almost no extra memory, which matters for large arrays under tight memory limits.',
   },
 
   solution: {
-    ru: 'Выбирается опорный элемент (pivot) — например, последний элемент подмассива. Массив переставляется («партиционируется») так, что все элементы меньше опорного оказываются слева от него, а все больше — справа; сам опорный элемент встаёт на своё окончательное отсортированное место. Затем алгоритм рекурсивно применяется к левой и правой частям отдельно, до подмассивов длины 0 или 1.',
-    en: 'A pivot element is chosen — e.g. the last element of the subarray. The array is rearranged ("partitioned") so all elements smaller than the pivot end up to its left, all larger ones to its right, and the pivot itself lands in its final sorted position. The algorithm then recurses independently on the left and right parts, down to subarrays of length 0 or 1.',
+    ru: 'Выбирается опорный элемент (pivot) - например, последний элемент подмассива. Массив переставляется («партиционируется») так, что все элементы меньше опорного оказываются слева от него, а все больше - справа; сам опорный элемент встаёт на своё окончательное отсортированное место. Затем алгоритм рекурсивно применяется к левой и правой частям отдельно, до подмассивов длины 0 или 1.',
+    en: 'A pivot element is chosen - e.g. the last element of the subarray. The array is rearranged ("partitioned") so all elements smaller than the pivot end up to its left, all larger ones to its right, and the pivot itself lands in its final sorted position. The algorithm then recurses independently on the left and right parts, down to subarrays of length 0 or 1.',
   },
 
   steps: [
@@ -35,7 +35,7 @@ export const quickSort = {
     {
       title: { ru: 'Партиционировать', en: 'Partition' },
       explanation: {
-        ru: 'Пройти по подмассиву, переставляя элементы так, чтобы меньшие опорного оказались слева от него, большие — справа.',
+        ru: 'Пройти по подмассиву, переставляя элементы так, чтобы меньшие опорного оказались слева от него, большие - справа.',
         en: 'Walk through the subarray, rearranging elements so smaller-than-pivot values end up on its left, larger ones on its right.',
       },
     },
@@ -56,8 +56,8 @@ export const quickSort = {
     {
       title: { ru: 'Рекурсия справа', en: 'Recurse right' },
       explanation: {
-        ru: 'Применить тот же алгоритм к подмассиву элементов правее опорного — до тех пор, пока все подмассивы не станут длины 0 или 1.',
-        en: 'Apply the same algorithm to the subarray of elements to the right of the pivot — until every subarray has length 0 or 1.',
+        ru: 'Применить тот же алгоритм к подмассиву элементов правее опорного - до тех пор, пока все подмассивы не станут длины 0 или 1.',
+        en: 'Apply the same algorithm to the subarray of elements to the right of the pivot - until every subarray has length 0 or 1.',
       },
     },
   ],
@@ -114,8 +114,8 @@ def partition(arr, low, high):
 
   pros: [
     {
-      ru: 'Сортирует на месте — O(log n) памяти на стек рекурсии против O(n) у сортировки слиянием.',
-      en: 'Sorts in place — O(log n) memory for the recursion stack versus O(n) for merge sort.',
+      ru: 'Сортирует на месте - O(log n) памяти на стек рекурсии против O(n) у сортировки слиянием.',
+      en: 'Sorts in place - O(log n) memory for the recursion stack versus O(n) for merge sort.',
     },
     {
       ru: 'На практике часто быстрее сортировки слиянием благодаря низким константам и хорошей работе с кэшем процессора.',
@@ -128,16 +128,16 @@ def partition(arr, low, high):
   ],
   cons: [
     {
-      ru: 'Худший случай O(n²) — возникает, если опорный элемент раз за разом оказывается наименьшим или наибольшим (например, на уже отсортированном массиве при наивном выборе опорного).',
-      en: 'Worst case O(n²) — happens when the pivot repeatedly ends up smallest or largest (e.g. on an already-sorted array with a naive pivot choice).',
+      ru: 'Худший случай O(n²) - возникает, если опорный элемент раз за разом оказывается наименьшим или наибольшим (например, на уже отсортированном массиве при наивном выборе опорного).',
+      en: 'Worst case O(n²) - happens when the pivot repeatedly ends up smallest or largest (e.g. on an already-sorted array with a naive pivot choice).',
     },
     {
       ru: 'Неустойчив: партиционирование может изменить относительный порядок равных элементов.',
       en: 'Unstable: partitioning can change the relative order of equal elements.',
     },
     {
-      ru: 'Производительность сильно зависит от стратегии выбора опорного элемента — плохая стратегия сводит алгоритм к квадратичному.',
-      en: 'Performance is highly sensitive to the pivot-selection strategy — a bad strategy degrades it to quadratic.',
+      ru: 'Производительность сильно зависит от стратегии выбора опорного элемента - плохая стратегия сводит алгоритм к квадратичному.',
+      en: 'Performance is highly sensitive to the pivot-selection strategy - a bad strategy degrades it to quadratic.',
     },
   ],
 
@@ -158,14 +158,86 @@ def partition(arr, low, high):
       en: '**`Array.prototype.sort` in many JavaScript engines** historically used quicksort variants for primitive types (now more often Timsort/hybrids).',
     },
     {
-      ru: '**Introsort** (используется в C++ `std::sort`) начинает с быстрой сортировки и переключается на heapsort, если рекурсия становится подозрительно глубокой — защита от худшего случая.',
-      en: '**Introsort** (used by C++\'s `std::sort`) starts with quicksort and switches to heapsort if recursion gets suspiciously deep — a safeguard against the worst case.',
+      ru: '**Introsort** (используется в C++ `std::sort`) начинает с быстрой сортировки и переключается на heapsort, если рекурсия становится подозрительно глубокой - защита от худшего случая.',
+      en: '**Introsort** (used by C++\'s `std::sort`) starts with quicksort and switches to heapsort if recursion gets suspiciously deep - a safeguard against the worst case.',
     },
   ],
 
   relatedAlgorithms: ['merge-sort', 'selection-sort'],
 
   quiz: [
+    {
+      question: {
+        ru: 'Является ли быстрая сортировка устойчивой (stable)?',
+        en: 'Is quicksort stable?',
+      },
+      options: [
+        { ru: 'Нет - перестановки при разбиении могут изменить относительный порядок равных элементов', en: 'No - swaps during partitioning can change the relative order of equal elements' },
+        { ru: 'Да - при разбиении равные элементы никогда не меняют свой относительный порядок', en: 'Yes - equal elements never change their relative order during partitioning' },
+        { ru: 'Зависит от версии: рандомизированная устойчива, а с фиксированным опорным - нет', en: 'It depends on the version: randomized quicksort is stable, fixed-pivot quicksort is not' },
+        { ru: 'Только если все элементы массива различны', en: 'Only if all elements of the array are distinct' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Операция swap во время разбиения может «перебросить» равные по значению элементы через опорный, меняя их взаимный порядок - отсюда нестабильность.',
+        en: 'The swap operation during partitioning can leap-frog equal-valued elements past the pivot, changing their mutual order - hence the instability.',
+      },
+      hint: {
+        ru: 'Подумай, что операция обмена (swap) может сделать с относительным порядком двух равных по значению элементов.',
+        en: 'Think about what a swap operation can do to the relative order of two equal-valued elements.',
+      },
+    },
+    {
+      question: {
+        ru: 'Сколько дополнительной памяти использует быстрая сортировка в среднем случае?',
+        en: 'How much extra memory does quicksort use in the average case?',
+      },
+      options: [
+        { ru: 'O(log n) - на стек рекурсии', en: 'O(log n) - for the recursion stack' },
+        {
+          ru: 'O(n) - столько же дополнительной памяти, сколько требуется сортировке слиянием для слияния',
+          en: 'O(n) - the same amount of extra memory that merge sort needs for merging its subarrays',
+        },
+        {
+          ru: 'O(1) - потому что рекурсивные вызовы полностью оптимизируются компилятором',
+          en: 'O(1) - because recursive calls are optimized away entirely by the compiler',
+        },
+        {
+          ru: 'O(n log n) - по числу сравнений, выполняемых в процессе сортировки',
+          en: 'O(n log n) - matching the number of comparisons made during sorting',
+        },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'Партиционирование происходит на месте, но каждый рекурсивный вызов занимает кадр стека - при сбалансированном разбиении глубина рекурсии составляет O(log n).',
+        en: 'Partitioning happens in place, but each recursive call takes a stack frame - with balanced splits, recursion depth is O(log n).',
+      },
+      hint: {
+        ru: 'Раздели вопрос на два: занимает ли память само партиционирование, и занимает ли память сам механизм рекурсивных вызовов.',
+        en: 'Split the question in two: does the partitioning itself use memory, and does the recursive call mechanism itself use memory?',
+      },
+    },
+    {
+      question: {
+        ru: 'Какова средняя и лучшая временная сложность быстрой сортировки?',
+        en: 'What is the average-case and best-case time complexity of quicksort?',
+      },
+      options: [
+        { ru: 'O(n log n) - при равномерных разбиениях дерево рекурсии имеет глубину log n', en: 'O(n log n) - with balanced splits the recursion tree has depth log n' },
+        { ru: 'O(n²) - она всегда деградирует в квадратичную, так как использует обмен элементами', en: 'O(n²) - it always degrades to quadratic because it relies on element swaps' },
+        { ru: 'O(n) - потому что партиционирование является линейным проходом по массиву', en: 'O(n) - because partitioning is a single linear pass over the array' },
+        { ru: 'O(n log² n) - из-за двойного логарифмического множителя глубины рекурсии', en: 'O(n log² n) - due to a double logarithmic factor in recursion depth' },
+      ],
+      correct: 0,
+      explanation: {
+        ru: 'При сбалансированных разбиениях глубина рекурсии равна O(log n), а каждый уровень выполняет O(n) работы при партиционировании - итого O(n log n). Это же значение является и лучшим случаем.',
+        en: 'With balanced splits, recursion depth is O(log n), and each level does O(n) work during partitioning - total O(n log n). This is also the best-case value.',
+      },
+      hint: {
+        ru: 'Подумай, какова глубина рекурсии при идеальном разбиении пополам и сколько работы выполняется на каждом уровне.',
+        en: 'Think about what the recursion depth is with ideal half-splits, and how much work happens at each level.',
+      },
+    },
     {
       question: {
         ru: 'Что гарантированно верно об опорном элементе сразу после шага партиционирования?',
@@ -191,7 +263,7 @@ def partition(arr, low, high):
       ],
       correct: 0,
       explanation: {
-        ru: 'Партиционирование расставляет все меньшие элементы слева, большие — справа от опорного, поэтому его текущая позиция и есть его финальное место в отсортированном массиве.',
+        ru: 'Партиционирование расставляет все меньшие элементы слева, большие - справа от опорного, поэтому его текущая позиция и есть его финальное место в отсортированном массиве.',
         en: 'Partitioning places all smaller elements to the left and all larger ones to the right of the pivot, so its current position is exactly its final place in the sorted array.',
       },
       hint: {
@@ -218,8 +290,8 @@ def partition(arr, low, high):
           en: 'When the array length is an exact power of two, such as 16, 32, or 1024 elements',
         },
         {
-          ru: 'Это невозможно — quicksort математически гарантированно всегда работает за O(n log n), независимо от входных данных',
-          en: 'This is impossible — quicksort is mathematically guaranteed to always run in O(n log n) time, regardless of input',
+          ru: 'Это невозможно - quicksort математически гарантированно всегда работает за O(n log n), независимо от входных данных',
+          en: 'This is impossible - quicksort is mathematically guaranteed to always run in O(n log n) time, regardless of input',
         },
       ],
       correct: 0,
@@ -228,71 +300,8 @@ def partition(arr, low, high):
         en: 'In that case, every partition splits the array into parts of size 0 and n−1 instead of roughly equal halves, and recursion depth becomes O(n) instead of O(log n).',
       },
       hint: {
-        ru: 'Подумай про наивный выбор опорного (например, последний элемент) на уже отсортированном массиве — каким он всегда будет оказываться?',
-        en: 'Think about a naive pivot choice (e.g. the last element) on an already sorted array — what will it always turn out to be?',
-      },
-    },
-    {
-      question: {
-        ru: 'Сколько дополнительной памяти использует быстрая сортировка в среднем случае?',
-        en: 'How much extra memory does quicksort use in the average case?',
-      },
-      options: [
-        { ru: 'O(log n) — на стек рекурсии', en: 'O(log n) — for the recursion stack' },
-        {
-          ru: 'O(n) — столько же дополнительной памяти, сколько требуется сортировке слиянием для слияния',
-          en: 'O(n) — the same amount of extra memory that merge sort needs for merging its subarrays',
-        },
-        {
-          ru: 'O(1) — потому что рекурсивные вызовы полностью оптимизируются компилятором',
-          en: 'O(1) — because recursive calls are optimized away entirely by the compiler',
-        },
-        {
-          ru: 'O(n log n) — по числу сравнений, выполняемых в процессе сортировки',
-          en: 'O(n log n) — matching the number of comparisons made during sorting',
-        },
-      ],
-      correct: 0,
-      explanation: {
-        ru: 'Партиционирование происходит на месте, но каждый рекурсивный вызов занимает кадр стека — при сбалансированном разбиении глубина рекурсии составляет O(log n).',
-        en: 'Partitioning happens in place, but each recursive call takes a stack frame — with balanced splits, recursion depth is O(log n).',
-      },
-      hint: {
-        ru: 'Раздели вопрос на два: занимает ли память само партиционирование, и занимает ли память сам механизм рекурсивных вызовов.',
-        en: 'Split the question in two: does the partitioning itself use memory, and does the recursive call mechanism itself use memory?',
-      },
-    },
-    {
-      question: {
-        ru: 'Почему быстрая сортировка считается неустойчивой?',
-        en: 'Why is quicksort considered unstable?',
-      },
-      options: [
-        {
-          ru: 'Перестановки при разбиении могут изменить относительный порядок равных элементов',
-          en: 'Swaps during partitioning can change the relative order of equal elements',
-        },
-        {
-          ru: 'Она использует случайные числа, чтобы каждый раз менять порядок выполняемых сравнений',
-          en: 'It uses random numbers to decide the order of comparisons on every single run',
-        },
-        {
-          ru: 'Она никогда не завершает выполнение целиком, если в массиве есть повторяющиеся значения',
-          en: 'It never finishes running at all when the array contains duplicate or repeated values',
-        },
-        {
-          ru: 'Она не сортирует на месте, что требует полной отдельной копии массива заранее',
-          en: 'It doesn\'t sort in place at all, requiring a full separate copy of the array beforehand',
-        },
-      ],
-      correct: 0,
-      explanation: {
-        ru: 'В процессе перестановки элементов вокруг опорного равные по значению элементы могут «обменяться местами» друг с другом, теряя исходный порядок.',
-        en: 'While rearranging elements around the pivot, equal-valued elements can get swapped past each other, losing their original order.',
-      },
-      hint: {
-        ru: 'Подумай, что операция обмена (swap) может сделать с относительным порядком двух равных по значению элементов.',
-        en: 'Think about what a swap operation can do to the relative order of two equal-valued elements.',
+        ru: 'Подумай про наивный выбор опорного (например, последний элемент) на уже отсортированном массиве - каким он всегда будет оказываться?',
+        en: 'Think about a naive pivot choice (e.g. the last element) on an already sorted array - what will it always turn out to be?',
       },
     },
     {
@@ -330,39 +339,6 @@ def partition(arr, low, high):
     },
     {
       question: {
-        ru: 'Почему выбор первого или последнего элемента опорным особенно плох на уже отсортированном (или обратно отсортированном) массиве?',
-        en: 'Why is picking the first or last element as the pivot especially bad on an already sorted (or reverse-sorted) array?',
-      },
-      options: [
-        {
-          ru: 'Такой выбор всегда даёт максимально несбалансированное разбиение на этом входе, приводя к O(n²)',
-          en: 'This choice always produces the most unbalanced possible split on this input, leading to O(n²)',
-        },
-        {
-          ru: 'Выбор опорного элемента вообще никак не влияет на производительность при любом расположении данных',
-          en: 'Pivot choice never affects performance at all, regardless of how the input array is arranged',
-        },
-        {
-          ru: 'Это делает алгоритм неустойчивым именно в этом случае, хотя в остальных случаях он устойчив',
-          en: 'It makes the algorithm unstable specifically in this case, though it stays stable otherwise',
-        },
-        {
-          ru: 'Это влияет на корректность конечного отсортированного результата целиком, а не только на скорость выполнения алгоритма',
-          en: 'It affects the correctness of the final sorted result entirely, not merely how fast the algorithm runs',
-        },
-      ],
-      correct: 0,
-      explanation: {
-        ru: 'На уже отсортированном массиве последний элемент всегда оказывается наибольшим, а первый — наименьшим. Партиционирование каждый раз отделяет ровно один элемент, оставляя n−1 для рекурсии — именно та структура, что даёт худший случай O(n²).',
-        en: 'On an already sorted array, the last element is always the largest, and the first is always the smallest. Partitioning peels off exactly one element every time, leaving n−1 for recursion — precisely the structure behind the O(n²) worst case.',
-      },
-      hint: {
-        ru: 'Подумай, что произойдёт, если массив уже упорядочен, а опорным всегда выбирать один из его концов.',
-        en: 'Think about what happens if the array is already ordered and you always pick one of its ends as the pivot.',
-      },
-    },
-    {
-      question: {
         ru: 'Как случайный выбор опорного элемента (или медиана из трёх) решает проблему худшего случая quicksort?',
         en: "How does randomized pivot selection (or median-of-three) address quicksort's worst-case problem?",
       },
@@ -386,8 +362,8 @@ def partition(arr, low, high):
       ],
       correct: 0,
       explanation: {
-        ru: 'Случайный выбор опорного (или медиана из первого/среднего/последнего элементов) не меняет теоретический худший случай O(n²) — он всё ещё существует для какого-то расположения элементов. Но он делает крайне маловероятным, чтобы конкретный фиксированный вход раз за разом его вызывал.',
-        en: 'Randomizing the pivot (or taking the median of the first/middle/last elements) does not change the theoretical O(n²) worst case — it still exists for some arrangement of elements. But it makes it extremely unlikely that any specific fixed input will repeatedly trigger it.',
+        ru: 'Случайный выбор опорного (или медиана из первого/среднего/последнего элементов) не меняет теоретический худший случай O(n²) - он всё ещё существует для какого-то расположения элементов. Но он делает крайне маловероятным, чтобы конкретный фиксированный вход раз за разом его вызывал.',
+        en: 'Randomizing the pivot (or taking the median of the first/middle/last elements) does not change the theoretical O(n²) worst case - it still exists for some arrangement of elements. But it makes it extremely unlikely that any specific fixed input will repeatedly trigger it.',
       },
       hint: {
         ru: 'Подумай, устраняет ли рандомизация худший случай полностью, или лишь делает крайне маловероятным его срабатывание на конкретном входе.',
@@ -452,8 +428,8 @@ def partition(arr, low, high):
       ],
       correct: 0,
       explanation: {
-        ru: 'Партиционирование quicksort работает прямо внутри исходного массива — хорошая локальность кэша и минимум обращений к памяти. Сортировка слиянием на каждом шаге выделяет и копирует данные во временные массивы. Число сравнений асимптотически одинаково, но quicksort обычно выигрывает по константам и эффективности на реальном железе.',
-        en: "Quicksort's partitioning works directly within the original array — good cache locality and minimal memory traffic. Merge sort allocates and copies into temporary arrays at every step. The comparison count is asymptotically the same, but quicksort typically wins on constant factors and real hardware efficiency.",
+        ru: 'Партиционирование quicksort работает прямо внутри исходного массива - хорошая локальность кэша и минимум обращений к памяти. Сортировка слиянием на каждом шаге выделяет и копирует данные во временные массивы. Число сравнений асимптотически одинаково, но quicksort обычно выигрывает по константам и эффективности на реальном железе.',
+        en: "Quicksort's partitioning works directly within the original array - good cache locality and minimal memory traffic. Merge sort allocates and copies into temporary arrays at every step. The comparison count is asymptotically the same, but quicksort typically wins on constant factors and real hardware efficiency.",
       },
       hint: {
         ru: 'Подумай, что физически происходит в памяти во время партиционирования quicksort по сравнению со слиянием в merge sort.',

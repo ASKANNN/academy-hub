@@ -10,32 +10,32 @@ export const bitonicSort = {
   tags: ['comparison', 'sorting-network', 'parallelizable', 'divide-and-conquer'],
 
   intent: {
-    ru: 'Битоническая сортировка строит массив из «битонических» последовательностей — тех, что сначала монотонно возрастают, а потом монотонно убывают (или наоборот) — и сливает их фиксированной сетью сравнений, у которой заранее известны все пары элементов для сравнения, независимо от значений самих элементов.',
-    en: 'Bitonic sort builds up "bitonic" sequences — ones that first monotonically increase, then monotonically decrease (or vice versa) — and merges them with a fixed comparison network whose comparison pairs are known in advance, independent of the actual element values.',
+    ru: 'Битоническая сортировка строит массив из «битонических» последовательностей - тех, что сначала монотонно возрастают, а потом монотонно убывают (или наоборот) - и сливает их фиксированной сетью сравнений, у которой заранее известны все пары элементов для сравнения, независимо от значений самих элементов.',
+    en: 'Bitonic sort builds up "bitonic" sequences - ones that first monotonically increase, then monotonically decrease (or vice versa) - and merges them with a fixed comparison network whose comparison pairs are known in advance, independent of the actual element values.',
   },
 
   problem: {
-    ru: 'Большинство быстрых алгоритмов сортировки (быстрая, сортировка слиянием) выбирают, что сравнивать дальше, в зависимости от результатов предыдущих сравнений — это затрудняет их аппаратную реализацию или выполнение на GPU, где заранее хочется знать полную и неизменную последовательность операций сравнения, чтобы выполнять их параллельно, независимо от входных данных.',
-    en: 'Most fast sorting algorithms (quicksort, merge sort) decide what to compare next based on the outcome of previous comparisons — this makes them awkward to implement in hardware or on a GPU, where a fixed, data-independent sequence of comparisons, known in advance, is what allows many of them to run in parallel.',
+    ru: 'Большинство быстрых алгоритмов сортировки (быстрая, сортировка слиянием) выбирают, что сравнивать дальше, в зависимости от результатов предыдущих сравнений - это затрудняет их аппаратную реализацию или выполнение на GPU, где заранее хочется знать полную и неизменную последовательность операций сравнения, чтобы выполнять их параллельно, независимо от входных данных.',
+    en: 'Most fast sorting algorithms (quicksort, merge sort) decide what to compare next based on the outcome of previous comparisons - this makes them awkward to implement in hardware or on a GPU, where a fixed, data-independent sequence of comparisons, known in advance, is what allows many of them to run in parallel.',
   },
 
   solution: {
-    ru: 'Массив (дополненный до размера, равного степени двойки) рекурсивно делится на две половины: левая сортируется по возрастанию, правая — по убыванию. Вместе они образуют битоническую последовательность (сначала растёт, потом падает). Такую последовательность можно слить в отсортированный порядок с помощью «битонического слияния»: сравнить и, если нужно, поменять местами каждый элемент первой половины с соответствующим элементом второй половины, затем рекурсивно слить каждую половину так же. Ключевое свойство: результат такого слияния всегда правильно отсортирован, а пары сравнений полностью фиксированы заранее — это и есть сеть сравнений.',
-    en: 'The array (padded to a power-of-two size) is recursively split into two halves: the left half sorted ascending, the right half sorted descending. Together they form a bitonic sequence (rising, then falling). Such a sequence can be merged into fully sorted order via "bitonic merge": compare and, if needed, swap each element of the first half with the corresponding element of the second half, then recursively merge each half the same way. The key property is that this merge always produces a correctly sorted result, and the comparison pairs are completely fixed in advance — that fixed structure is the comparison network.',
+    ru: 'Массив (дополненный до размера, равного степени двойки) рекурсивно делится на две половины: левая сортируется по возрастанию, правая - по убыванию. Вместе они образуют битоническую последовательность (сначала растёт, потом падает). Такую последовательность можно слить в отсортированный порядок с помощью «битонического слияния»: сравнить и, если нужно, поменять местами каждый элемент первой половины с соответствующим элементом второй половины, затем рекурсивно слить каждую половину так же. Ключевое свойство: результат такого слияния всегда правильно отсортирован, а пары сравнений полностью фиксированы заранее - это и есть сеть сравнений.',
+    en: 'The array (padded to a power-of-two size) is recursively split into two halves: the left half sorted ascending, the right half sorted descending. Together they form a bitonic sequence (rising, then falling). Such a sequence can be merged into fully sorted order via "bitonic merge": compare and, if needed, swap each element of the first half with the corresponding element of the second half, then recursively merge each half the same way. The key property is that this merge always produces a correctly sorted result, and the comparison pairs are completely fixed in advance - that fixed structure is the comparison network.',
   },
 
   steps: [
     {
       title: { ru: 'Дополнить до степени двойки', en: 'Pad to a power of two' },
       explanation: {
-        ru: 'Дополнить массив фиктивными элементами, большими любого настоящего, чтобы его размер стал степенью двойки — этого требует классическая сеть.',
-        en: 'Pad the array with sentinel elements larger than any real one, so its size becomes a power of two — required by the classic network.',
+        ru: 'Дополнить массив фиктивными элементами, большими любого настоящего, чтобы его размер стал степенью двойки - этого требует классическая сеть.',
+        en: 'Pad the array with sentinel elements larger than any real one, so its size becomes a power of two - required by the classic network.',
       },
     },
     {
       title: { ru: 'Построить битоническую последовательность', en: 'Build a bitonic sequence' },
       explanation: {
-        ru: 'Рекурсивно отсортировать левую половину по возрастанию, а правую — по убыванию, получив в сумме битоническую последовательность.',
+        ru: 'Рекурсивно отсортировать левую половину по возрастанию, а правую - по убыванию, получив в сумме битоническую последовательность.',
         en: 'Recursively sort the left half ascending and the right half descending, producing a combined bitonic sequence.',
       },
     },
@@ -49,15 +49,15 @@ export const bitonicSort = {
     {
       title: { ru: 'Слить рекурсивно', en: 'Merge recursively' },
       explanation: {
-        ru: 'Каждая из двух получившихся половин снова является битонической последовательностью — рекурсивно слить каждую из них тем же способом.',
-        en: 'Each of the two resulting halves is itself a bitonic sequence — recursively merge each one the same way.',
+        ru: 'Каждая из двух получившихся половин снова является битонической последовательностью - рекурсивно слить каждую из них тем же способом.',
+        en: 'Each of the two resulting halves is itself a bitonic sequence - recursively merge each one the same way.',
       },
     },
     {
       title: { ru: 'Отбросить дополнение', en: 'Drop the padding' },
       explanation: {
-        ru: 'После завершения сети сравнений отбросить фиктивные элементы — оставшиеся элементы отсортированы.',
-        en: 'Once the comparison network finishes, drop the sentinel elements — the remaining elements are sorted.',
+        ru: 'После завершения сети сравнений отбросить фиктивные элементы - оставшиеся элементы отсортированы.',
+        en: 'Once the comparison network finishes, drop the sentinel elements - the remaining elements are sorted.',
       },
     },
   ],
@@ -136,12 +136,12 @@ export const bitonicSort = {
 
   pros: [
     {
-      ru: 'Сеть сравнений полностью фиксирована заранее и не зависит от значений элементов — идеально подходит для параллельного или аппаратного выполнения (GPU, FPGA, SIMD).',
-      en: 'The comparison network is completely fixed in advance and independent of element values — ideal for parallel or hardware execution (GPU, FPGA, SIMD).',
+      ru: 'Сеть сравнений полностью фиксирована заранее и не зависит от значений элементов - идеально подходит для параллельного или аппаратного выполнения (GPU, FPGA, SIMD).',
+      en: 'The comparison network is completely fixed in advance and independent of element values - ideal for parallel or hardware execution (GPU, FPGA, SIMD).',
     },
     {
-      ru: 'Гарантированная сложность O(n log² n) вне зависимости от исходного порядка элементов — нет отдельного «худшего случая», как у быстрой сортировки.',
-      en: 'Guaranteed O(n log² n) complexity regardless of the initial ordering — there\'s no separate "worst case" the way there is for quicksort.',
+      ru: 'Гарантированная сложность O(n log² n) вне зависимости от исходного порядка элементов - нет отдельного «худшего случая», как у быстрой сортировки.',
+      en: 'Guaranteed O(n log² n) complexity regardless of the initial ordering - there\'s no separate "worst case" the way there is for quicksort.',
     },
     {
       ru: 'При достаточном числе параллельных процессоров все сравнения одного уровня сети выполняются одновременно, снижая реальное время выполнения до O(log² n).',
@@ -150,12 +150,12 @@ export const bitonicSort = {
   ],
   cons: [
     {
-      ru: 'Требует дополнения массива до размера, равного степени двойки — на данных произвольного размера часть сравнений выполняется впустую с фиктивными элементами.',
-      en: 'Requires padding the array to a power-of-two size — on arbitrary-sized data, some comparisons are wasted on sentinel elements.',
+      ru: 'Требует дополнения массива до размера, равного степени двойки - на данных произвольного размера часть сравнений выполняется впустую с фиктивными элементами.',
+      en: 'Requires padding the array to a power-of-two size - on arbitrary-sized data, some comparisons are wasted on sentinel elements.',
     },
     {
-      ru: 'На обычном последовательном процессоре с одним потоком выполняет больше сравнений, чем сортировка слиянием (O(n log² n) против O(n log n)) — параллельность здесь ключевое преимущество, а не сама по себе последовательная скорость.',
-      en: 'On an ordinary single-threaded processor it performs more comparisons than merge sort (O(n log² n) vs O(n log n)) — the parallelism is the key advantage here, not raw sequential speed.',
+      ru: 'На обычном последовательном процессоре с одним потоком выполняет больше сравнений, чем сортировка слиянием (O(n log² n) против O(n log n)) - параллельность здесь ключевое преимущество, а не сама по себе последовательная скорость.',
+      en: 'On an ordinary single-threaded processor it performs more comparisons than merge sort (O(n log² n) vs O(n log n)) - the parallelism is the key advantage here, not raw sequential speed.',
     },
     {
       ru: 'Не является устойчивой сортировкой: фиксированная сеть сравнений не сохраняет исходный относительный порядок равных элементов.',
@@ -221,7 +221,7 @@ export const bitonicSort = {
         { ru: 'Классическая сеть построена рекурсивным делением пополам и требует этого размера входа', en: 'The classic bitonic comparison network is built by recursive halving and requires this size' },
         { ru: 'Иначе сортировка даёт неверный результат для отрицательных чисел из-за переполнения при сравнении', en: 'Otherwise the sort gives an incorrect result for negative numbers due to comparison overflow' },
         { ru: 'Это ускоряет работу на обычном процессоре с одним потоком, как и в случае с merge sort', en: 'It speeds up execution on an ordinary single-threaded processor, the same way it does for merge sort' },
-        { ru: 'Дополнение не нужно, это просто архитектурная особенность конкретной, не самой удачной реализации', en: 'Padding isn\'t actually needed — it\'s just an implementation quirk of one particular, suboptimal version' },
+        { ru: 'Дополнение не нужно, это просто архитектурная особенность конкретной, не самой удачной реализации', en: 'Padding isn\'t actually needed - it\'s just an implementation quirk of one particular, suboptimal version' },
       ],
       correct: 0,
       explanation: {
@@ -284,7 +284,7 @@ export const bitonicSort = {
         en: 'Is bitonic sort stable?',
       },
       options: [
-        { ru: 'Нет — фиксированная сеть сравнений не сохраняет исходный порядок равных элементов', en: 'No — the fixed comparison network doesn\'t preserve the original order of equal elements' },
+        { ru: 'Нет - фиксированная сеть сравнений не сохраняет исходный порядок равных элементов', en: 'No - the fixed comparison network doesn\'t preserve the original order of equal elements' },
         { ru: 'Да, всегда сохраняет порядок равных элементов, точно так же, как это делает merge sort', en: 'Yes, it always preserves the order of equal elements, exactly the way merge sort does' },
         { ru: 'Только если массив уже отсортирован перед началом работы алгоритма сравнения', en: 'Only if the array is already sorted before the comparison algorithm starts running' },
         { ru: 'Устойчивость не определена для сетей сравнений вообще, поскольку это чисто аппаратное понятие', en: 'Stability is undefined for comparison networks in general, since it\'s a purely hardware-level notion' },
@@ -312,8 +312,8 @@ export const bitonicSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'При достаточном числе процессоров все сравнения одного уровня сети выполняются одновременно — реальное время сводится к глубине сети O(log² n).',
-        en: 'With enough processors, all comparisons at one network level run simultaneously — actual time reduces to the network depth O(log² n).',
+        ru: 'При достаточном числе процессоров все сравнения одного уровня сети выполняются одновременно - реальное время сводится к глубине сети O(log² n).',
+        en: 'With enough processors, all comparisons at one network level run simultaneously - actual time reduces to the network depth O(log² n).',
       },
       hint: {
         ru: 'Если все сравнения одного уровня выполняются одновременно, что определяет реальное время выполнения?',
@@ -333,11 +333,11 @@ export const bitonicSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'Сеть сравнений — это набор компараторов (пар индексов), порядок и выбор которых полностью определён до запуска алгоритма, независимо от входных данных.',
+        ru: 'Сеть сравнений - это набор компараторов (пар индексов), порядок и выбор которых полностью определён до запуска алгоритма, независимо от входных данных.',
         en: 'A comparison network is a set of comparators (index pairs) whose order and selection are fully determined before the algorithm runs, regardless of the input.',
       },
       hint: {
-        ru: 'Ключевое слово — «заранее». Что именно известно ещё до того, как алгоритм получил данные?',
+        ru: 'Ключевое слово - «заранее». Что именно известно ещё до того, как алгоритм получил данные?',
         en: 'The key word is "in advance." What exactly is known before the algorithm even sees the data?',
       },
     },
@@ -371,7 +371,7 @@ export const bitonicSort = {
         { ru: 'GPU и FPGA, где важна предсказуемая структура операций', en: 'GPUs and FPGAs, where a predictable operation structure matters' },
         { ru: 'Исключительно одноядерных процессорах без поддержки SIMD', en: 'Exclusively single-core processors without SIMD support' },
         { ru: 'Квантовых компьютерах, так как требует суперпозиции состояний', en: 'Quantum computers, since it requires superposition of quantum states to operate' },
-        { ru: 'Только в учебных симуляторах, реальных применений нет', en: 'Only in teaching simulators — no real-world use exists' },
+        { ru: 'Только в учебных симуляторах, реальных применений нет', en: 'Only in teaching simulators - no real-world use exists' },
       ],
       correct: 0,
       explanation: {
@@ -389,15 +389,15 @@ export const bitonicSort = {
         en: 'What is the space complexity of bitonic sort?',
       },
       options: [
-        { ru: 'O(n) — на дополненный массив и рекурсивный стек вызовов', en: 'O(n) — for the padded array and the recursive call stack' },
-        { ru: 'O(1) — все операции выполняются на месте без каких-либо вспомогательных структур', en: 'O(1) — all operations happen in place with no auxiliary structures at all' },
-        { ru: 'O(n log n) — пропорционально числу уровней сети и размеру массива', en: 'O(n log n) — proportional to the number of network levels times the array size' },
-        { ru: 'O(n²) — из-за хранения всех пар элементов для сравнения', en: 'O(n²) — due to storing all element pairs to compare' },
+        { ru: 'O(n) - на дополненный массив и рекурсивный стек вызовов', en: 'O(n) - for the padded array and the recursive call stack' },
+        { ru: 'O(1) - все операции выполняются на месте без каких-либо вспомогательных структур', en: 'O(1) - all operations happen in place with no auxiliary structures at all' },
+        { ru: 'O(n log n) - пропорционально числу уровней сети и размеру массива', en: 'O(n log n) - proportional to the number of network levels times the array size' },
+        { ru: 'O(n²) - из-за хранения всех пар элементов для сравнения', en: 'O(n²) - due to storing all element pairs to compare' },
       ],
       correct: 0,
       explanation: {
-        ru: 'Основная память — это дополненная копия массива размером до 2n, плюс стек рекурсии глубиной O(log² n) — итого O(n).',
-        en: 'The main memory is the padded copy of up to 2n elements, plus a recursion stack of depth O(log² n) — giving O(n) overall.',
+        ru: 'Основная память - это дополненная копия массива размером до 2n, плюс стек рекурсии глубиной O(log² n) - итого O(n).',
+        en: 'The main memory is the padded copy of up to 2n elements, plus a recursion stack of depth O(log² n) - giving O(n) overall.',
       },
       hint: {
         ru: 'Нужна ли копия массива для дополнения? Насколько глубока рекурсия?',

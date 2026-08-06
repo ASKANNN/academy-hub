@@ -10,18 +10,18 @@ export const flashSort = {
   tags: ['distribution', 'classification', 'in-place-ish', 'numeric'],
 
   intent: {
-    ru: 'Флэш-сортировка — алгоритм распределяющей сортировки, который сначала грубо раскидывает элементы по «классам» на основе их значения, переставляет их почти на нужные места за один проход, а затем сортировкой вставками устраняет оставшийся мелкий беспорядок внутри каждого класса.',
+    ru: 'Флэш-сортировка - алгоритм распределяющей сортировки, который сначала грубо раскидывает элементы по «классам» на основе их значения, переставляет их почти на нужные места за один проход, а затем сортировкой вставками устраняет оставшийся мелкий беспорядок внутри каждого класса.',
     en: 'Flashsort is a distribution sort that first roughly buckets elements into "classes" based on their value, permutes them into nearly their final positions in a single pass, and then uses insertion sort to clean up the remaining small-scale disorder within each class.',
   },
 
   problem: {
-    ru: 'Сортировки сравнениями тратят время на попарные сравнения элементов, даже когда заранее известно, что данные — числа с более или менее равномерным распределением. Корзинная сортировка использует эту информацию, но выделяет под каждую корзину отдельный список, требуя дополнительной памяти и накладных расходов на её заполнение и последующую сборку. Хочется алгоритма, который использует ту же идею классификации по значению, но переставляет элементы прямо внутри исходного массива, без отдельных списков-корзин.',
+    ru: 'Сортировки сравнениями тратят время на попарные сравнения элементов, даже когда заранее известно, что данные - числа с более или менее равномерным распределением. Корзинная сортировка использует эту информацию, но выделяет под каждую корзину отдельный список, требуя дополнительной памяти и накладных расходов на её заполнение и последующую сборку. Хочется алгоритма, который использует ту же идею классификации по значению, но переставляет элементы прямо внутри исходного массива, без отдельных списков-корзин.',
     en: "Comparison sorts spend time on pairwise comparisons even when it's known in advance that the data is numeric and more or less evenly distributed. Bucket sort exploits that information but allocates a separate list per bucket, requiring extra memory and overhead to fill and later reassemble. What's wanted is an algorithm that uses the same value-classification idea but permutes elements directly within the original array, without separate bucket lists.",
   },
 
   solution: {
-    ru: 'Массив делится на m «классов» по значению, и для каждого элемента заранее вычисляется, в какой класс он попадает. Строится массив границ классов (сколько элементов должно оказаться в каждом классе и левее него) — это похоже на подсчитывающую сортировку. Затем выполняется единственный проход циклических перестановок: элемент берётся, вычисляется класс, к которому он относится, и он ставится на границу этого класса, вытесняя оттуда другой элемент, который, в свою очередь, ставится на границу своего класса, и так далее, пока цепочка не замкнётся. После этого элементы почти отсортированы — внутри каждого класса возможен небольшой беспорядок, который устраняется финальным проходом сортировки вставками по всему массиву.',
-    en: "The array is divided into m value-based \"classes\", and for each element it's precomputed which class it falls into. A boundary array is built (how many elements should end up in each class and to its left) — similar to counting sort. Then a single pass of cyclic permutations is performed: an element is picked, its class is computed, and it's placed at that class's boundary, displacing another element there, which is in turn placed at its own class's boundary, and so on until the chain closes. After this, the elements are nearly sorted — some small disorder remains within each class, which is cleaned up by a final insertion sort pass over the whole array.",
+    ru: 'Массив делится на m «классов» по значению, и для каждого элемента заранее вычисляется, в какой класс он попадает. Строится массив границ классов (сколько элементов должно оказаться в каждом классе и левее него) - это похоже на подсчитывающую сортировку. Затем выполняется единственный проход циклических перестановок: элемент берётся, вычисляется класс, к которому он относится, и он ставится на границу этого класса, вытесняя оттуда другой элемент, который, в свою очередь, ставится на границу своего класса, и так далее, пока цепочка не замкнётся. После этого элементы почти отсортированы - внутри каждого класса возможен небольшой беспорядок, который устраняется финальным проходом сортировки вставками по всему массиву.',
+    en: "The array is divided into m value-based \"classes\", and for each element it's precomputed which class it falls into. A boundary array is built (how many elements should end up in each class and to its left) - similar to counting sort. Then a single pass of cyclic permutations is performed: an element is picked, its class is computed, and it's placed at that class's boundary, displacing another element there, which is in turn placed at its own class's boundary, and so on until the chain closes. After this, the elements are nearly sorted - some small disorder remains within each class, which is cleaned up by a final insertion sort pass over the whole array.",
   },
 
   steps: [
@@ -35,8 +35,8 @@ export const flashSort = {
     {
       title: { ru: 'Построить накопленные границы классов', en: 'Build cumulative class boundaries' },
       explanation: {
-        ru: 'Превратить счётчики классов в границы — индекс, на который должен встать последний элемент каждого класса.',
-        en: 'Turn the per-class counts into boundaries — the index where the last element of each class should end up.',
+        ru: 'Превратить счётчики классов в границы - индекс, на который должен встать последний элемент каждого класса.',
+        en: 'Turn the per-class counts into boundaries - the index where the last element of each class should end up.',
       },
     },
     {
@@ -155,8 +155,8 @@ export const flashSort = {
 
   pros: [
     {
-      ru: 'В среднем случае для равномерно распределённых числовых данных работает за линейное время O(n) — значительно быстрее универсальных O(n log n) сортировок сравнениями.',
-      en: 'On average, for evenly distributed numeric data, runs in linear time O(n) — notably faster than general-purpose O(n log n) comparison sorts.',
+      ru: 'В среднем случае для равномерно распределённых числовых данных работает за линейное время O(n) - значительно быстрее универсальных O(n log n) сортировок сравнениями.',
+      en: 'On average, for evenly distributed numeric data, runs in linear time O(n) - notably faster than general-purpose O(n log n) comparison sorts.',
     },
     {
       ru: 'Переставляет элементы прямо внутри исходного массива (не считая небольшого вспомогательного массива границ классов), в отличие от корзинной сортировки со списками-корзинами.',
@@ -169,23 +169,23 @@ export const flashSort = {
   ],
   cons: [
     {
-      ru: 'В худшем случае (например, когда почти все элементы попадают в один класс из-за сильно неравномерного распределения) деградирует до O(n²) — так же, как обычная сортировка вставками.',
-      en: 'In the worst case (for example, when almost all elements fall into a single class due to a heavily skewed distribution), it degrades to O(n²) — same as plain insertion sort.',
+      ru: 'В худшем случае (например, когда почти все элементы попадают в один класс из-за сильно неравномерного распределения) деградирует до O(n²) - так же, как обычная сортировка вставками.',
+      en: 'In the worst case (for example, when almost all elements fall into a single class due to a heavily skewed distribution), it degrades to O(n²) - same as plain insertion sort.',
     },
     {
-      ru: 'Требует, чтобы элементы поддерживали вычитание и умножение на константу (числовые ключи) — не подходит для произвольных объектов, сравнимых только оператором «меньше».',
-      en: 'Requires elements to support subtraction and multiplication by a constant (numeric keys) — not suited to arbitrary objects that only support "less than" comparisons.',
+      ru: 'Требует, чтобы элементы поддерживали вычитание и умножение на константу (числовые ключи) - не подходит для произвольных объектов, сравнимых только оператором «меньше».',
+      en: 'Requires elements to support subtraction and multiplication by a constant (numeric keys) - not suited to arbitrary objects that only support "less than" comparisons.',
     },
     {
-      ru: 'Логика циклических перестановок сложнее для понимания и отладки, чем у большинства других сортировок — легко ошибиться в границах при собственной реализации.',
-      en: "The cyclic-permutation logic is harder to follow and debug than most other sorts — it's easy to get the boundary bookkeeping wrong in a from-scratch implementation.",
+      ru: 'Логика циклических перестановок сложнее для понимания и отладки, чем у большинства других сортировок - легко ошибиться в границах при собственной реализации.',
+      en: "The cyclic-permutation logic is harder to follow and debug than most other sorts - it's easy to get the boundary bookkeeping wrong in a from-scratch implementation.",
     },
   ],
 
   whenToUse: [
     {
-      ru: 'При сортировке больших массивов числовых данных, распределение которых предположительно близко к равномерному — там, где линейное среднее время окупает риск худшего случая.',
-      en: 'When sorting large arrays of numeric data whose distribution is expected to be close to uniform — where the linear average-case runtime is worth the worst-case risk.',
+      ru: 'При сортировке больших массивов числовых данных, распределение которых предположительно близко к равномерному - там, где линейное среднее время окупает риск худшего случая.',
+      en: 'When sorting large arrays of numeric data whose distribution is expected to be close to uniform - where the linear average-case runtime is worth the worst-case risk.',
     },
     {
       ru: 'В системах, где память под отдельные списки-корзины нежелательна, но выигрыш от классификации по значению всё же нужен.',
@@ -195,8 +195,8 @@ export const flashSort = {
 
   realWorldExamples: [
     {
-      ru: '**Обработка больших массивов сенсорных или измерительных данных** с известным диапазоном значений — классификация по классам хорошо ложится на такие данные.',
-      en: '**Processing large arrays of sensor or measurement data** with a known value range — classification into classes fits such data well.',
+      ru: '**Обработка больших массивов сенсорных или измерительных данных** с известным диапазоном значений - классификация по классам хорошо ложится на такие данные.',
+      en: '**Processing large arrays of sensor or measurement data** with a known value range - classification into classes fits such data well.',
     },
     {
       ru: '**Академические сравнения алгоритмов сортировки** часто включают Флэш-сортировку как пример распределяющей сортировки, конкурирующей по скорости с быстрой сортировкой на подходящих данных.',
@@ -241,8 +241,8 @@ export const flashSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'Элемент ставится на границу своего класса, вытесняя другой элемент, который переставляется на границу уже своего класса — так строится цепочка.',
-        en: "An element is placed at its class's boundary, displacing another element, which is then placed at its own class's boundary — forming a chain.",
+        ru: 'Элемент ставится на границу своего класса, вытесняя другой элемент, который переставляется на границу уже своего класса - так строится цепочка.',
+        en: "An element is placed at its class's boundary, displacing another element, which is then placed at its own class's boundary - forming a chain.",
       },
       hint: {
         ru: 'Что происходит с элементом, который уже занимал целевую позицию нового элемента? Куда он отправляется?',
@@ -265,8 +265,8 @@ export const flashSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'После классификации элементы находятся близко к финальным позициям, но не точно на них — сортировка вставками эффективно доводит порядок до точного.',
-        en: "After classification, elements are close to their final positions but not exactly there — insertion sort efficiently finishes the ordering.",
+        ru: 'После классификации элементы находятся близко к финальным позициям, но не точно на них - сортировка вставками эффективно доводит порядок до точного.',
+        en: "After classification, elements are close to their final positions but not exactly there - insertion sort efficiently finishes the ordering.",
       },
       hint: {
         ru: 'Классификация раскладывает элементы по «правильным регионам», но не внутри них. Что остаётся сделать?',
@@ -373,8 +373,8 @@ export const flashSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'Формула `floor(c1 * (value - min))` предполагает числовое вычитание и умножение — операции, не определённые для строк без явного преобразования в числа.',
-        en: 'The formula `floor(c1 * (value - min))` assumes numeric subtraction and multiplication — operations not defined for strings without explicit conversion to numbers.',
+        ru: 'Формула `floor(c1 * (value - min))` предполагает числовое вычитание и умножение - операции, не определённые для строк без явного преобразования в числа.',
+        en: 'The formula `floor(c1 * (value - min))` assumes numeric subtraction and multiplication - operations not defined for strings without explicit conversion to numbers.',
       },
       hint: {
         ru: 'Что именно делает формула классификации с каждым значением? Применимо ли это к строкам?',
@@ -387,7 +387,7 @@ export const flashSort = {
         en: 'How is the number of classes m typically chosen in flashsort?',
       },
       options: [
-        { ru: 'Около 0.45·n — эмпирически найденный баланс скорости и памяти', en: 'Roughly 0.45·n — an empirically found value giving a good balance' },
+        { ru: 'Около 0.45·n - эмпирически найденный баланс скорости и памяти', en: 'Roughly 0.45·n - an empirically found value giving a good balance' },
         { ru: 'Всегда ровно 2, чтобы разделить массив на нижнюю и верхнюю половины', en: 'Always exactly 2, to split the array into a lower and upper half' },
         { ru: 'Равно log₂(n), аналогично глубине дерева при сортировке слиянием', en: 'Equal to log₂(n), analogous to the tree depth in merge sort' },
         { ru: 'Равно квадратному корню из n для минимизации суммы сравнений и памяти', en: 'Equal to the square root of n to minimize the sum of comparisons and memory' },
@@ -398,7 +398,7 @@ export const flashSort = {
         en: 'The value m ≈ 0.45·n was found empirically: it gives classes small enough for fast insertion sort without requiring an excessively large auxiliary array L.',
       },
       hint: {
-        ru: 'Больше классов — меньше элементов в каждом, но больший массив L. Меньше классов — наоборот. Какое соотношение оказалось оптимальным?',
+        ru: 'Больше классов - меньше элементов в каждом, но больший массив L. Меньше классов - наоборот. Какое соотношение оказалось оптимальным?',
         en: 'More classes means fewer elements per class but a larger L array. Fewer classes means the opposite. What ratio turned out optimal?',
       },
     },
@@ -415,8 +415,8 @@ export const flashSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'Если min === max, все элементы одинаковы и массив уже «отсортирован» — специальная проверка перед вычислением c1 позволяет избежать деления на ноль и лишней работы.',
-        en: 'If min === max, all elements are equal and the array is already "sorted" — a special check before computing c1 avoids division by zero and unnecessary work.',
+        ru: 'Если min === max, все элементы одинаковы и массив уже «отсортирован» - специальная проверка перед вычислением c1 позволяет избежать деления на ноль и лишней работы.',
+        en: 'If min === max, all elements are equal and the array is already "sorted" - a special check before computing c1 avoids division by zero and unnecessary work.',
       },
       hint: {
         ru: 'Посмотрите на формулу c1 = (m-1) / (max - min). Что происходит, если знаменатель равен нулю?',

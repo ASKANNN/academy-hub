@@ -10,18 +10,18 @@ export const strandSort = {
   tags: ['comparison', 'merge-based', 'stable', 'linked-list-friendly'],
 
   intent: {
-    ru: 'Сортировка прядями раз за разом вытягивает из входных данных максимально длинную уже возрастающую подпоследовательность («прядь»), а затем сливает её с результатом — так же, как последний шаг сортировки слиянием, но без предварительного деления массива пополам.',
-    en: 'Strand sort repeatedly pulls the longest already-increasing subsequence (a "strand") out of the input, then merges it into the result — much like the final merge step of merge sort, but without first splitting the array in half.',
+    ru: 'Сортировка прядями раз за разом вытягивает из входных данных максимально длинную уже возрастающую подпоследовательность («прядь»), а затем сливает её с результатом - так же, как последний шаг сортировки слиянием, но без предварительного деления массива пополам.',
+    en: 'Strand sort repeatedly pulls the longest already-increasing subsequence (a "strand") out of the input, then merges it into the result - much like the final merge step of merge sort, but without first splitting the array in half.',
   },
 
   problem: {
     ru: 'Сортировка слиянием эффективно объединяет уже отсортированные части, но сначала слепо делит массив пополам, не глядя на то, что в данных уже может быть естественный порядок. Если во входных данных уже встречаются длинные возрастающие участки (частично отсортированные данные, объединение нескольких предварительно отсортированных источников), хочется алгоритма, который распознаёт и использует эти участки напрямую, а не проходит через ненужное деление.',
-    en: 'Merge sort efficiently combines already-sorted pieces, but first blindly splits the array in half, ignoring any order that might already exist in the data. If the input already contains long increasing runs (partially sorted data, several pre-sorted sources being combined), an algorithm that recognizes and uses those runs directly — rather than going through pointless splitting — is more appealing.',
+    en: 'Merge sort efficiently combines already-sorted pieces, but first blindly splits the array in half, ignoring any order that might already exist in the data. If the input already contains long increasing runs (partially sorted data, several pre-sorted sources being combined), an algorithm that recognizes and uses those runs directly - rather than going through pointless splitting - is more appealing.',
   },
 
   solution: {
-    ru: 'Из оставшихся (ещё не обработанных) элементов извлекается «прядь»: первый элемент берётся всегда, а следующие добавляются к пряди, только если они не меньше последнего элемента пряди — так формируется самая длинная возрастающая подпоследовательность, встречающаяся по порядку в оставшихся данных. Все элементы, не попавшие в прядь, остаются для следующей итерации. Готовая прядь сливается (как в сортировке слиянием) с уже накопленным результатом. Процесс повторяется, пока не останется необработанных элементов.',
-    en: 'A "strand" is pulled from the remaining (not-yet-processed) elements: the first element is always taken, and subsequent elements join the strand only if they are not smaller than the strand\'s last element — this forms the longest increasing subsequence that appears in order within the remaining data. Elements that don\'t join the strand are kept for the next iteration. The finished strand is then merged (as in merge sort) into the result accumulated so far. This repeats until no elements remain.',
+    ru: 'Из оставшихся (ещё не обработанных) элементов извлекается «прядь»: первый элемент берётся всегда, а следующие добавляются к пряди, только если они не меньше последнего элемента пряди - так формируется самая длинная возрастающая подпоследовательность, встречающаяся по порядку в оставшихся данных. Все элементы, не попавшие в прядь, остаются для следующей итерации. Готовая прядь сливается (как в сортировке слиянием) с уже накопленным результатом. Процесс повторяется, пока не останется необработанных элементов.',
+    en: 'A "strand" is pulled from the remaining (not-yet-processed) elements: the first element is always taken, and subsequent elements join the strand only if they are not smaller than the strand\'s last element - this forms the longest increasing subsequence that appears in order within the remaining data. Elements that don\'t join the strand are kept for the next iteration. The finished strand is then merged (as in merge sort) into the result accumulated so far. This repeats until no elements remain.',
   },
 
   steps: [
@@ -56,8 +56,8 @@ export const strandSort = {
     {
       title: { ru: 'Повторить до конца', en: 'Repeat until done' },
       explanation: {
-        ru: 'Процесс повторяется, пока не останется необработанных элементов — тогда результат полностью отсортирован.',
-        en: 'The process repeats until no elements remain unprocessed — at that point the result is fully sorted.',
+        ru: 'Процесс повторяется, пока не останется необработанных элементов - тогда результат полностью отсортирован.',
+        en: 'The process repeats until no elements remain unprocessed - at that point the result is fully sorted.',
       },
     },
   ],
@@ -134,8 +134,8 @@ def merge(a, b):
       en: 'Stable: the merge step preserves the relative order of equal elements.',
     },
     {
-      ru: 'Естественно подходит для связных списков — извлечение пряди и слияние выполняются через перестановку ссылок, без произвольного доступа по индексу, который нужен большинству других алгоритмов сортировки.',
-      en: 'Naturally suited to linked lists — extracting a strand and merging can be done by relinking pointers, without the random index access most other sorting algorithms need.',
+      ru: 'Естественно подходит для связных списков - извлечение пряди и слияние выполняются через перестановку ссылок, без произвольного доступа по индексу, который нужен большинству других алгоритмов сортировки.',
+      en: 'Naturally suited to linked lists - extracting a strand and merging can be done by relinking pointers, without the random index access most other sorting algorithms need.',
     },
   ],
   cons: [
@@ -144,8 +144,8 @@ def merge(a, b):
       en: 'On random data (with no long natural increasing runs) it degrades to O(n²), since each strand ends up short.',
     },
     {
-      ru: 'Требует O(n) дополнительной памяти для промежуточных прядей и результата — не сортирует на месте.',
-      en: 'Requires O(n) extra memory for the intermediate strands and result — does not sort in place.',
+      ru: 'Требует O(n) дополнительной памяти для промежуточных прядей и результата - не сортирует на месте.',
+      en: 'Requires O(n) extra memory for the intermediate strands and result - does not sort in place.',
     },
     {
       ru: 'Менее предсказуем по производительности, чем сортировка слиянием, так как число и длина прядей зависят от структуры входных данных.',
@@ -166,8 +166,8 @@ def merge(a, b):
 
   realWorldExamples: [
     {
-      ru: '**Слияние нескольких предварительно отсортированных журналов или очередей событий** — если каждый источник уже упорядочен, стратегия «вытянуть длинную возрастающую цепочку и слить» эффективно объединяет их.',
-      en: '**Merging several pre-sorted logs or event queues** — when each source is already ordered, the "pull out a long increasing chain and merge" strategy combines them efficiently.',
+      ru: '**Слияние нескольких предварительно отсортированных журналов или очередей событий** - если каждый источник уже упорядочен, стратегия «вытянуть длинную возрастающую цепочку и слить» эффективно объединяет их.',
+      en: '**Merging several pre-sorted logs or event queues** - when each source is already ordered, the "pull out a long increasing chain and merge" strategy combines them efficiently.',
     },
     {
       ru: '**Реализации сортировки для связных списков** нередко используют идею прядей, поскольку извлечение подпоследовательности через перестановку указателей естественно для списков и избегает накладных расходов на произвольный доступ по индексу.',
@@ -198,8 +198,8 @@ def merge(a, b):
         en: 'The strand is built greedily: the first element is always taken, and the next joins only if it is not smaller than the last one added.',
       },
       hint: {
-        ru: 'Прядь строится жадно — подумайте, какое условие добавления элемента сохраняет возрастающий порядок.',
-        en: 'The strand is built greedily — think about what condition for adding an element keeps the order increasing.',
+        ru: 'Прядь строится жадно - подумайте, какое условие добавления элемента сохраняет возрастающий порядок.',
+        en: 'The strand is built greedily - think about what condition for adding an element keeps the order increasing.',
       },
     },
     {
@@ -219,8 +219,8 @@ def merge(a, b):
         en: 'Since both the strand and the accumulated result are already individually sorted, they can be merged in linear time like any two sorted lists.',
       },
       hint: {
-        ru: 'Оба списка — прядь и результат — уже отсортированы. Какая операция объединяет два отсортированных списка?',
-        en: 'Both lists — the strand and the result — are already sorted. What operation combines two sorted lists?',
+        ru: 'Оба списка - прядь и результат - уже отсортированы. Какая операция объединяет два отсортированных списка?',
+        en: 'Both lists - the strand and the result - are already sorted. What operation combines two sorted lists?',
       },
     },
     {
@@ -267,7 +267,7 @@ def merge(a, b):
         en: 'Unlike algorithms that rely on indexing (such as quicksort), extracting a strand is naturally expressed through pointer relinking.',
       },
       hint: {
-        ru: 'Вспомните, что главная слабость связных списков — отсутствие быстрого доступа по индексу.',
+        ru: 'Вспомните, что главная слабость связных списков - отсутствие быстрого доступа по индексу.',
         en: 'Recall that the main weakness of linked lists is the lack of fast index-based access.',
       },
     },
@@ -298,10 +298,10 @@ def merge(a, b):
         en: 'What is the best-case time complexity of strand sort and when is it achieved?',
       },
       options: [
-        { ru: 'O(n) — когда весь массив уже отсортирован и образует одну прядь', en: 'O(n) — when the whole array is already sorted and forms a single strand' },
-        { ru: 'O(log n) — когда массив содержит ровно два возрастающих участка', en: 'O(log n) — when the array contains exactly two increasing runs in all cases' },
-        { ru: 'O(n log n) — лучший случай совпадает со средним', en: 'O(n log n) — the best case equals the average case' },
-        { ru: 'O(1) — когда массив пуст или содержит один элемент', en: 'O(1) — when the array is empty or has a single element' },
+        { ru: 'O(n) - когда весь массив уже отсортирован и образует одну прядь', en: 'O(n) - when the whole array is already sorted and forms a single strand' },
+        { ru: 'O(log n) - когда массив содержит ровно два возрастающих участка', en: 'O(log n) - when the array contains exactly two increasing runs in all cases' },
+        { ru: 'O(n log n) - лучший случай совпадает со средним', en: 'O(n log n) - the best case equals the average case' },
+        { ru: 'O(1) - когда массив пуст или содержит один элемент', en: 'O(1) - when the array is empty or has a single element' },
       ],
       correct: 0,
       explanation: {
@@ -319,15 +319,15 @@ def merge(a, b):
         en: 'Is strand sort stable?',
       },
       options: [
-        { ru: 'Да — слияние берёт элемент из левого списка при равенстве, сохраняя порядок', en: 'Yes — the merge takes from the left list on ties, preserving order' },
-        { ru: 'Нет — порядок равных элементов не определён из-за произвольного выбора пряди', en: 'No — the order of equal elements is undefined due to arbitrary strand selection' },
-        { ru: 'Зависит от реализации — не является свойством самого алгоритма', en: 'Depends on the implementation — it is not a property of the algorithm itself' },
-        { ru: 'Нет — элементы переставляются по значению, что нарушает исходный порядок', en: 'No — elements are rearranged by value, which breaks the original order' },
+        { ru: 'Да - слияние берёт элемент из левого списка при равенстве, сохраняя порядок', en: 'Yes - the merge takes from the left list on ties, preserving order' },
+        { ru: 'Нет - порядок равных элементов не определён из-за произвольного выбора пряди', en: 'No - the order of equal elements is undefined due to arbitrary strand selection' },
+        { ru: 'Зависит от реализации - не является свойством самого алгоритма', en: 'Depends on the implementation - it is not a property of the algorithm itself' },
+        { ru: 'Нет - элементы переставляются по значению, что нарушает исходный порядок', en: 'No - elements are rearranged by value, which breaks the original order' },
       ],
       correct: 0,
       explanation: {
-        ru: 'Условие x >= strand[-1] пропускает равные элементы в прядь, а слияние при равенстве берёт из левого (ранее накопленного) списка — вместе это обеспечивает устойчивость.',
-        en: 'The condition x >= strand[-1] admits equal elements into the strand, and the merge on ties takes from the left (already-accumulated) list — together these ensure stability.',
+        ru: 'Условие x >= strand[-1] пропускает равные элементы в прядь, а слияние при равенстве берёт из левого (ранее накопленного) списка - вместе это обеспечивает устойчивость.',
+        en: 'The condition x >= strand[-1] admits equal elements into the strand, and the merge on ties takes from the left (already-accumulated) list - together these ensure stability.',
       },
       hint: {
         ru: 'Подумайте, что происходит при слиянии, когда два равных элемента находятся в разных списках.',
@@ -347,8 +347,8 @@ def merge(a, b):
       ],
       correct: 0,
       explanation: {
-        ru: 'Именно эти элементы, пропущенные текущей прядью, образуют оставшийся список для следующего шага — они будут захвачены в последующих прядях.',
-        en: 'These elements skipped by the current strand form the remaining list for the next step — they will be captured in subsequent strands.',
+        ru: 'Именно эти элементы, пропущенные текущей прядью, образуют оставшийся список для следующего шага - они будут захвачены в последующих прядях.',
+        en: 'These elements skipped by the current strand form the remaining list for the next step - they will be captured in subsequent strands.',
       },
       hint: {
         ru: 'Алгоритм должен обработать все элементы, иначе результат был бы неполным.',
@@ -364,7 +364,7 @@ def merge(a, b):
         { ru: 'Она использует уже существующий порядок в данных, а не слепо делит массив пополам', en: 'It uses the order already present in the data rather than blindly splitting the array' },
         { ru: 'Она всегда работает за O(n log n), тогда как слияние бывает медленнее', en: 'It always runs in O(n log n), while merge sort can be slower regardless of input size or order' },
         { ru: 'Она сортирует массив на месте, а сортировка слиянием требует дополнительной памяти', en: 'It sorts in place, while merge sort requires extra memory' },
-        { ru: 'Она нестабильна, а сортировка слиянием — устойчива', en: 'It is unstable, while merge sort is stable' },
+        { ru: 'Она нестабильна, а сортировка слиянием - устойчива', en: 'It is unstable, while merge sort is stable' },
       ],
       correct: 0,
       explanation: {
@@ -382,15 +382,15 @@ def merge(a, b):
         en: 'What is the space complexity of strand sort?',
       },
       options: [
-        { ru: 'O(n) — промежуточные пряди и результат занимают O(n) памяти', en: 'O(n) — intermediate strands and the result occupy linear memory' },
-        { ru: 'O(1) — сортировка выполняется полностью на месте', en: 'O(1) — the sort runs entirely in place' },
-        { ru: 'O(log n) — только стек рекурсии без вспомогательных массивов', en: 'O(log n) — only the recursion stack without auxiliary arrays' },
-        { ru: 'O(n²) — каждая прядь хранит копию всего оставшегося массива', en: 'O(n²) — each strand stores a copy of the whole remaining array always' },
+        { ru: 'O(n) - промежуточные пряди и результат занимают O(n) памяти', en: 'O(n) - intermediate strands and the result occupy linear memory' },
+        { ru: 'O(1) - сортировка выполняется полностью на месте', en: 'O(1) - the sort runs entirely in place' },
+        { ru: 'O(log n) - только стек рекурсии без вспомогательных массивов', en: 'O(log n) - only the recursion stack without auxiliary arrays' },
+        { ru: 'O(n²) - каждая прядь хранит копию всего оставшегося массива', en: 'O(n²) - each strand stores a copy of the whole remaining array always' },
       ],
       correct: 0,
       explanation: {
-        ru: 'Алгоритм хранит прядь, список оставшихся элементов и накопленный результат — суммарно O(n) дополнительной памяти.',
-        en: 'The algorithm stores the strand, the remaining-elements list, and the accumulated result — O(n) extra memory in total.',
+        ru: 'Алгоритм хранит прядь, список оставшихся элементов и накопленный результат - суммарно O(n) дополнительной памяти.',
+        en: 'The algorithm stores the strand, the remaining-elements list, and the accumulated result - O(n) extra memory in total.',
       },
       hint: {
         ru: 'Подумайте, сколько элементов суммарно хранится в пряди, в оставшемся списке и в результате одновременно.',

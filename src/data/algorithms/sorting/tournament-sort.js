@@ -10,18 +10,18 @@ export const tournamentSort = {
   tags: ['comparison', 'not-in-place', 'unstable', 'heap-based'],
 
   intent: {
-    ru: 'Турнирная сортировка — вариант сортировки выбором, который находит минимум не за O(n) линейным проходом, а за O(log n) с помощью бинарного дерева турнира, где каждый внутренний узел хранит «победителя» сравнения своих потомков.',
+    ru: 'Турнирная сортировка - вариант сортировки выбором, который находит минимум не за O(n) линейным проходом, а за O(log n) с помощью бинарного дерева турнира, где каждый внутренний узел хранит «победителя» сравнения своих потомков.',
     en: 'Tournament sort is a variant of selection sort that finds the minimum not with an O(n) linear scan but in O(log n) using a binary tournament tree, where every internal node stores the "winner" of its children\'s comparison.',
   },
 
   problem: {
-    ru: 'Обычная сортировка выбором находит минимум оставшейся части массива за O(n) проходом, повторяя это n раз, что даёт O(n²). При этом информация о сравнениях, сделанных на предыдущем проходе, полностью выбрасывается — на следующем проходе всё сравнивается заново. Нужен способ переиспользовать результаты прошлых сравнений, чтобы находить следующий минимум быстрее.',
-    en: 'Plain selection sort finds the minimum of the remaining array with an O(n) scan, repeated n times, for O(n²) total. The comparisons made on one pass are thrown away entirely — the next pass compares everything again from scratch. A way to reuse the results of past comparisons is needed to find the next minimum faster.',
+    ru: 'Обычная сортировка выбором находит минимум оставшейся части массива за O(n) проходом, повторяя это n раз, что даёт O(n²). При этом информация о сравнениях, сделанных на предыдущем проходе, полностью выбрасывается - на следующем проходе всё сравнивается заново. Нужен способ переиспользовать результаты прошлых сравнений, чтобы находить следующий минимум быстрее.',
+    en: 'Plain selection sort finds the minimum of the remaining array with an O(n) scan, repeated n times, for O(n²) total. The comparisons made on one pass are thrown away entirely - the next pass compares everything again from scratch. A way to reuse the results of past comparisons is needed to find the next minimum faster.',
   },
 
   solution: {
-    ru: 'Все элементы становятся листьями полного бинарного дерева (дерева турнира). Каждый внутренний узел хранит индекс «победителя» — меньшего из двух потомков, как в турнирной сетке на выбывание. Корень дерева всегда содержит глобальный минимум. После извлечения минимума его лист заменяется на +∞, и обновить дерево нужно только вдоль пути от этого листа до корня — O(log n) вместо O(n). Повторяя это n раз, получаем полностью отсортированный массив за O(n log n).',
-    en: 'All elements become leaves of a complete binary tree (the tournament tree). Every internal node stores the index of the "winner" — the smaller of its two children — like a single-elimination tournament bracket. The tree\'s root always holds the global minimum. After extracting the minimum, its leaf is replaced with +∞, and only the path from that leaf to the root needs updating — O(log n) instead of O(n). Repeating this n times yields a fully sorted array in O(n log n).',
+    ru: 'Все элементы становятся листьями полного бинарного дерева (дерева турнира). Каждый внутренний узел хранит индекс «победителя» - меньшего из двух потомков, как в турнирной сетке на выбывание. Корень дерева всегда содержит глобальный минимум. После извлечения минимума его лист заменяется на +∞, и обновить дерево нужно только вдоль пути от этого листа до корня - O(log n) вместо O(n). Повторяя это n раз, получаем полностью отсортированный массив за O(n log n).',
+    en: 'All elements become leaves of a complete binary tree (the tournament tree). Every internal node stores the index of the "winner" - the smaller of its two children - like a single-elimination tournament bracket. The tree\'s root always holds the global minimum. After extracting the minimum, its leaf is replaced with +∞, and only the path from that leaf to the root needs updating - O(log n) instead of O(n). Repeating this n times yields a fully sorted array in O(n log n).',
   },
 
   steps: [
@@ -35,8 +35,8 @@ export const tournamentSort = {
     {
       title: { ru: 'Извлечь корень', en: 'Extract the root' },
       explanation: {
-        ru: 'Корень дерева содержит индекс листа с минимальным значением во всём массиве — записать это значение в результат.',
-        en: 'The tree\'s root holds the index of the leaf with the minimum value in the whole array — write that value to the result.',
+        ru: 'Корень дерева содержит индекс листа с минимальным значением во всём массиве - записать это значение в результат.',
+        en: 'The tree\'s root holds the index of the leaf with the minimum value in the whole array - write that value to the result.',
       },
     },
     {
@@ -49,8 +49,8 @@ export const tournamentSort = {
     {
       title: { ru: 'Пересчитать путь до корня', en: 'Recompute the path to the root' },
       explanation: {
-        ru: 'Двигаясь от изменённого листа вверх, пересчитать победителя в каждом предке на пути — всего O(log n) сравнений.',
-        en: 'Walking up from the changed leaf, recompute the winner at each ancestor on the path — only O(log n) comparisons total.',
+        ru: 'Двигаясь от изменённого листа вверх, пересчитать победителя в каждом предке на пути - всего O(log n) сравнений.',
+        en: 'Walking up from the changed leaf, recompute the winner at each ancestor on the path - only O(log n) comparisons total.',
       },
     },
     {
@@ -143,18 +143,18 @@ export const tournamentSort = {
       en: 'Each minimum extraction takes O(log n) instead of O(n), giving a guaranteed O(n log n) for the whole algorithm without merge-sort-style recursion.',
     },
     {
-      ru: 'Естественно обобщается на k-путевое слияние (turnament winner tree) — та же идея используется во внешней сортировке для слияния множества отсортированных файлов.',
-      en: 'Naturally generalizes to k-way merging (a tournament winner tree) — the same idea is used in external sorting to merge many sorted runs at once.',
+      ru: 'Естественно обобщается на k-путевое слияние (turnament winner tree) - та же идея используется во внешней сортировке для слияния множества отсортированных файлов.',
+      en: 'Naturally generalizes to k-way merging (a tournament winner tree) - the same idea is used in external sorting to merge many sorted runs at once.',
     },
     {
-      ru: 'Дерево турнира по структуре — частный случай priority queue, поэтому алгоритм легко объяснить через уже знакомую идею кучи.',
+      ru: 'Дерево турнира по структуре - частный случай priority queue, поэтому алгоритм легко объяснить через уже знакомую идею кучи.',
       en: 'The tournament tree is structurally a special case of a priority queue, so the algorithm is easy to explain via the already-familiar heap idea.',
     },
   ],
   cons: [
     {
-      ru: 'Требует O(n) дополнительной памяти для дерева — не сортирует на месте, в отличие от heap sort с той же гарантией O(n log n).',
-      en: 'Needs O(n) extra memory for the tree — doesn\'t sort in place, unlike heap sort with the same O(n log n) guarantee.',
+      ru: 'Требует O(n) дополнительной памяти для дерева - не сортирует на месте, в отличие от heap sort с той же гарантией O(n log n).',
+      en: 'Needs O(n) extra memory for the tree - doesn\'t sort in place, unlike heap sort with the same O(n log n) guarantee.',
     },
     {
       ru: 'На практике медленнее heap sort и quicksort из-за накладных расходов на структуру дерева и худшей локальности памяти.',
@@ -168,8 +168,8 @@ export const tournamentSort = {
 
   whenToUse: [
     {
-      ru: 'Когда нужно многократно находить и удалять минимум из динамически меняющегося набора — не только для одноразовой сортировки, но как структура данных (winner tree).',
-      en: 'When repeatedly finding and removing the minimum from a dynamically changing set — not just for one-off sorting, but as a data structure (a winner tree).',
+      ru: 'Когда нужно многократно находить и удалять минимум из динамически меняющегося набора - не только для одноразовой сортировки, но как структура данных (winner tree).',
+      en: 'When repeatedly finding and removing the minimum from a dynamically changing set - not just for one-off sorting, but as a data structure (a winner tree).',
     },
     {
       ru: 'Как учебный мост между сортировкой выбором и приоритетными очередями/кучами: помогает понять, зачем вообще нужна O(log n) структура для повторного извлечения минимума.',
@@ -211,7 +211,7 @@ export const tournamentSort = {
         en: 'The tournament tree keeps the results of past comparisons, so after extracting the minimum only the path to the root needs recomputing.',
       },
       hint: {
-        ru: 'Главная слабость сортировки выбором — то, что результаты каждого прохода забываются. Как дерево решает эту проблему?',
+        ru: 'Главная слабость сортировки выбором - то, что результаты каждого прохода забываются. Как дерево решает эту проблему?',
         en: 'The main weakness of selection sort is that each pass\'s results are forgotten. How does the tree address this?',
       },
     },
@@ -228,7 +228,7 @@ export const tournamentSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'Замена на +∞ — простой способ «выключить» уже отсортированный элемент, не меняя структуру дерева.',
+        ru: 'Замена на +∞ - простой способ «выключить» уже отсортированный элемент, не меняя структуру дерева.',
         en: 'Replacing with +∞ is a simple way to "switch off" an already-sorted element without changing the tree\'s structure.',
       },
       hint: {
@@ -249,7 +249,7 @@ export const tournamentSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'Нужно пересчитать только путь от листа до корня, а высота полного бинарного дерева с n листьями — O(log n).',
+        ru: 'Нужно пересчитать только путь от листа до корня, а высота полного бинарного дерева с n листьями - O(log n).',
         en: 'Only the path from the leaf to the root needs recomputing, and a complete binary tree with n leaves has height O(log n).',
       },
       hint: {
@@ -263,8 +263,8 @@ export const tournamentSort = {
         en: 'How much extra memory does tournament sort require?',
       },
       options: [
-        { ru: 'O(n) — для хранения дерева турнира', en: 'O(n) — to store the tournament tree' },
-        { ru: 'O(1) — сортирует полностью на месте, без единого дополнительного узла', en: 'O(1) — sorts entirely in place, without a single extra node' },
+        { ru: 'O(n) - для хранения дерева турнира', en: 'O(n) - to store the tournament tree' },
+        { ru: 'O(1) - сортирует полностью на месте, без единого дополнительного узла', en: 'O(1) - sorts entirely in place, without a single extra node' },
         { ru: 'O(log n), потому что хранится только один путь дерева', en: 'O(log n), because only a single tree path is kept in memory' },
         { ru: 'O(n²), из-за постоянной полной пересборки дерева', en: 'O(n²), due to constantly rebuilding the whole tree completely' },
       ],
@@ -274,8 +274,8 @@ export const tournamentSort = {
         en: 'Unlike heap sort, the tournament tree is built as a separate structure on top of the original array, not inside it.',
       },
       hint: {
-        ru: 'Полное бинарное дерево с n листьями имеет порядка 2n узлов — сколько это памяти?',
-        en: 'A complete binary tree with n leaves has roughly 2n nodes — how much memory is that?',
+        ru: 'Полное бинарное дерево с n листьями имеет порядка 2n узлов - сколько это памяти?',
+        en: 'A complete binary tree with n leaves has roughly 2n nodes - how much memory is that?',
       },
     },
     {
@@ -308,10 +308,10 @@ export const tournamentSort = {
         en: 'Is tournament sort stable?',
       },
       options: [
-        { ru: 'Нет — победитель при равенстве задаётся позицией в дереве, не порядком', en: 'No — on equal values the winner is determined by tree structure, not element order' },
-        { ru: 'Да — слияние в дереве всегда берёт из левого поддерева при равенстве', en: 'Yes — the tree merge always takes from the left subtree on ties' },
-        { ru: 'Зависит от реализации — устойчивость можно обеспечить дополнительной логикой', en: 'Depends on the implementation — stability can be ensured with extra logic in all cases' },
-        { ru: 'Да — дерево турнира гарантирует исходный порядок равных значений', en: 'Yes — the tournament tree guarantees the original order of equal values' },
+        { ru: 'Нет - победитель при равенстве задаётся позицией в дереве, не порядком', en: 'No - on equal values the winner is determined by tree structure, not element order' },
+        { ru: 'Да - слияние в дереве всегда берёт из левого поддерева при равенстве', en: 'Yes - the tree merge always takes from the left subtree on ties' },
+        { ru: 'Зависит от реализации - устойчивость можно обеспечить дополнительной логикой', en: 'Depends on the implementation - stability can be ensured with extra logic in all cases' },
+        { ru: 'Да - дерево турнира гарантирует исходный порядок равных значений', en: 'Yes - the tournament tree guarantees the original order of equal values' },
       ],
       correct: 0,
       explanation: {
@@ -319,8 +319,8 @@ export const tournamentSort = {
         en: 'Tournament sort is unstable: among equal values, the winner depends on tree position, not on the original element order.',
       },
       hint: {
-        ru: 'Вспомните, как определяется «победитель» при равных значениях — зависит ли это от исходной позиции элемента?',
-        en: 'Recall how the "winner" is determined when values are equal — does this depend on the element\'s original position?',
+        ru: 'Вспомните, как определяется «победитель» при равных значениях - зависит ли это от исходной позиции элемента?',
+        en: 'Recall how the "winner" is determined when values are equal - does this depend on the element\'s original position?',
       },
     },
     {
@@ -352,12 +352,12 @@ export const tournamentSort = {
       options: [
         { ru: 'Дерево турнира хранится отдельно, что ухудшает локальность кэша', en: 'The tournament tree is stored separately from the array, worsening cache locality' },
         { ru: 'Турнирная сортировка использует больше сравнений, чем пирамидальная', en: 'Tournament sort uses more comparisons than heap sort' },
-        { ru: 'Пирамидальная сортировка работает за O(n), а турнирная — за O(n log n)', en: 'Heap sort runs in O(n) while tournament sort runs in O(n log n) regardless of input' },
+        { ru: 'Пирамидальная сортировка работает за O(n), а турнирная - за O(n log n)', en: 'Heap sort runs in O(n) while tournament sort runs in O(n log n) regardless of input' },
         { ru: 'Турнирная сортировка несовместима с современными процессорами', en: 'Tournament sort is incompatible with modern processors' },
       ],
       correct: 0,
       explanation: {
-        ru: 'Heap sort сортирует прямо внутри входного массива, обращаясь к соседним ячейкам памяти, тогда как дерево турнира — отдельная структура с худшей локальностью кэша.',
+        ru: 'Heap sort сортирует прямо внутри входного массива, обращаясь к соседним ячейкам памяти, тогда как дерево турнира - отдельная структура с худшей локальностью кэша.',
         en: 'Heap sort sorts directly inside the input array, accessing nearby memory cells, whereas the tournament tree is a separate structure with worse cache locality.',
       },
       hint: {
@@ -378,7 +378,7 @@ export const tournamentSort = {
       ],
       correct: 0,
       explanation: {
-        ru: 'Построение дерева снизу вверх — стандартный способ за O(n): листья уже содержат элементы, а внутренние узлы заполняются поочерёдно от нижнего уровня к корню.',
+        ru: 'Построение дерева снизу вверх - стандартный способ за O(n): листья уже содержат элементы, а внутренние узлы заполняются поочерёдно от нижнего уровня к корню.',
         en: 'Building the tree bottom-up in O(n) is the standard approach: leaves already hold elements, and internal nodes are filled level by level up to the root.',
       },
       hint: {
@@ -392,10 +392,10 @@ export const tournamentSort = {
         en: 'What is the overall time complexity of tournament sort for an array of n elements?',
       },
       options: [
-        { ru: 'O(n log n) — построение O(n) плюс n извлечений по O(log n) каждое', en: 'O(n log n) — O(n) build plus n extractions of O(log n) each' },
-        { ru: 'O(n²) — каждое извлечение минимума требует линейного прохода по дереву', en: 'O(n²) — each minimum extraction requires a linear pass over the tree' },
-        { ru: 'O(n) — дерево строится один раз и все извлечения бесплатны', en: 'O(n) — the tree is built once and all extractions are free' },
-        { ru: 'O(log n) — только высота дерева определяет сложность', en: 'O(log n) — only the tree height determines the complexity' },
+        { ru: 'O(n log n) - построение O(n) плюс n извлечений по O(log n) каждое', en: 'O(n log n) - O(n) build plus n extractions of O(log n) each' },
+        { ru: 'O(n²) - каждое извлечение минимума требует линейного прохода по дереву', en: 'O(n²) - each minimum extraction requires a linear pass over the tree' },
+        { ru: 'O(n) - дерево строится один раз и все извлечения бесплатны', en: 'O(n) - the tree is built once and all extractions are free' },
+        { ru: 'O(log n) - только высота дерева определяет сложность', en: 'O(log n) - only the tree height determines the complexity' },
       ],
       correct: 0,
       explanation: {

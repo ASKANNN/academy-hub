@@ -10,13 +10,13 @@ export const sortingNetwork = {
   tags: ['comparison', 'sorting-network', 'parallelizable', 'divide-and-conquer'],
 
   intent: {
-    ru: 'Нечётно-чётная сортировка слиянием Батчера строит сортирующую сеть — фиксированную, заранее известную последовательность операций «сравнить и при необходимости поменять местами» — но, в отличие от битонической сортировки, использует другую схему слияния двух уже отсортированных половин, основанную на разделении элементов по чётности их позиции.',
-    en: "Batcher's odd-even mergesort builds a sorting network — a fixed, known-in-advance sequence of \"compare and swap if needed\" operations — but, unlike bitonic sort, uses a different scheme for merging two already-sorted halves, based on splitting elements by the parity of their position.",
+    ru: 'Нечётно-чётная сортировка слиянием Батчера строит сортирующую сеть - фиксированную, заранее известную последовательность операций «сравнить и при необходимости поменять местами» - но, в отличие от битонической сортировки, использует другую схему слияния двух уже отсортированных половин, основанную на разделении элементов по чётности их позиции.',
+    en: "Batcher's odd-even mergesort builds a sorting network - a fixed, known-in-advance sequence of \"compare and swap if needed\" operations - but, unlike bitonic sort, uses a different scheme for merging two already-sorted halves, based on splitting elements by the parity of their position.",
   },
 
   problem: {
-    ru: 'Обычное слияние двух отсортированных последовательностей (как в сортировке слиянием) требует последовательного продвижения двух указателей и решения на каждом шаге, откуда брать следующий элемент, — а это, опять же, зависимость от данных, которая плохо ложится на параллельное или аппаратное исполнение. Нужна схема слияния, которая, как и в битонической сортировке, задаётся заранее фиксированным набором сравнений, но использует другую, зачастую более компактную комбинаторную структуру.',
-    en: 'Ordinary merging of two sorted sequences (as in merge sort) requires advancing two pointers sequentially and deciding at each step where to take the next element from — again a data dependency that maps poorly onto parallel or hardware execution. What is needed is a merge scheme that, like bitonic sort, is defined by a fixed set of comparisons known in advance, but uses a different, often more compact combinatorial structure.',
+    ru: 'Обычное слияние двух отсортированных последовательностей (как в сортировке слиянием) требует последовательного продвижения двух указателей и решения на каждом шаге, откуда брать следующий элемент, - а это, опять же, зависимость от данных, которая плохо ложится на параллельное или аппаратное исполнение. Нужна схема слияния, которая, как и в битонической сортировке, задаётся заранее фиксированным набором сравнений, но использует другую, зачастую более компактную комбинаторную структуру.',
+    en: 'Ordinary merging of two sorted sequences (as in merge sort) requires advancing two pointers sequentially and deciding at each step where to take the next element from - again a data dependency that maps poorly onto parallel or hardware execution. What is needed is a merge scheme that, like bitonic sort, is defined by a fixed set of comparisons known in advance, but uses a different, often more compact combinatorial structure.',
   },
 
   solution: {
@@ -49,15 +49,15 @@ export const sortingNetwork = {
     {
       title: { ru: 'Финальный проход сравнений', en: 'Final comparison pass' },
       explanation: {
-        ru: 'Сравнить и при необходимости поменять местами каждую соседнюю пару (i, i+1) — это исправляет немногочисленные оставшиеся нарушения порядка.',
-        en: 'Compare and, if needed, swap every neighboring pair (i, i+1) — this fixes the few remaining order violations.',
+        ru: 'Сравнить и при необходимости поменять местами каждую соседнюю пару (i, i+1) - это исправляет немногочисленные оставшиеся нарушения порядка.',
+        en: 'Compare and, if needed, swap every neighboring pair (i, i+1) - this fixes the few remaining order violations.',
       },
     },
     {
       title: { ru: 'Отбросить дополнение', en: 'Drop the padding' },
       explanation: {
-        ru: 'После завершения сети сравнений отбросить фиктивные элементы дополнения — оставшиеся элементы отсортированы.',
-        en: 'Once the comparison network finishes, drop the sentinel padding elements — the remaining elements are sorted.',
+        ru: 'После завершения сети сравнений отбросить фиктивные элементы дополнения - оставшиеся элементы отсортированы.',
+        en: 'Once the comparison network finishes, drop the sentinel padding elements - the remaining elements are sorted.',
       },
     },
   ],
@@ -142,16 +142,16 @@ export const sortingNetwork = {
 
   pros: [
     {
-      ru: 'Как и битоническая сортировка, задаётся полностью фиксированной, независимой от данных сетью сравнений — подходит для параллельного и аппаратного исполнения.',
-      en: 'Like bitonic sort, defined by a completely fixed, data-independent comparison network — suited to parallel and hardware execution.',
+      ru: 'Как и битоническая сортировка, задаётся полностью фиксированной, независимой от данных сетью сравнений - подходит для параллельного и аппаратного исполнения.',
+      en: 'Like bitonic sort, defined by a completely fixed, data-independent comparison network - suited to parallel and hardware execution.',
     },
     {
       ru: 'Асимптотически использует примерно вдвое меньше отдельных операций сравнения, чем классическая битоническая сеть, при том же порядке роста O(n log² n).',
       en: 'Asymptotically uses roughly half as many individual comparison operations as the classic bitonic network, at the same O(n log² n) growth order.',
     },
     {
-      ru: 'Гарантированная сложность вне зависимости от входных данных — нет отдельного «худшего случая».',
-      en: 'Guaranteed complexity regardless of the input — there\'s no separate "worst case."',
+      ru: 'Гарантированная сложность вне зависимости от входных данных - нет отдельного «худшего случая».',
+      en: 'Guaranteed complexity regardless of the input - there\'s no separate "worst case."',
     },
   ],
   cons: [
@@ -171,8 +171,8 @@ export const sortingNetwork = {
 
   whenToUse: [
     {
-      ru: 'Там же, где и битоническая сортировка — при сортировке на параллельном оборудовании или в задачах, требующих статической, заранее скомпилированной последовательности сравнений, но с чуть меньшим общим числом операций.',
-      en: 'The same places bitonic sort is used — sorting on parallel hardware, or problems needing a static, precompiled comparison sequence, but with a slightly lower total operation count.',
+      ru: 'Там же, где и битоническая сортировка - при сортировке на параллельном оборудовании или в задачах, требующих статической, заранее скомпилированной последовательности сравнений, но с чуть меньшим общим числом операций.',
+      en: 'The same places bitonic sort is used - sorting on parallel hardware, or problems needing a static, precompiled comparison sequence, but with a slightly lower total operation count.',
     },
     {
       ru: 'Как учебный пример второй классической конструкции сортирующей сети, показывающий, что фиксированные сети сравнений можно строить разными способами с разными компромиссами.',
@@ -207,8 +207,8 @@ export const sortingNetwork = {
       ],
       correct: 0,
       explanation: {
-        ru: 'Элементы на чётных и на нечётных позициях сливаются раздельно и рекурсивно, а затем один финальный проход исправляет оставшиеся нарушения — отсюда и название алгоритма.',
-        en: 'Elements at even and odd positions are merged separately and recursively, and a final pass then fixes the remaining violations — hence the algorithm\'s name.',
+        ru: 'Элементы на чётных и на нечётных позициях сливаются раздельно и рекурсивно, а затем один финальный проход исправляет оставшиеся нарушения - отсюда и название алгоритма.',
+        en: 'Elements at even and odd positions are merged separately and recursively, and a final pass then fixes the remaining violations - hence the algorithm\'s name.',
       },
       hint: {
         ru: 'Название алгоритма «нечётно-чётное слияние» уже содержит подсказку: по какому свойству позиций разделяются элементы?',
@@ -227,11 +227,11 @@ export const sortingNetwork = {
         },
         { ru: 'Она вообще никогда не использует рекурсию ни на каком этапе построения', en: 'It never uses recursion at all at any stage of the network construction' },
         { ru: 'Она работает исключительно с уже полностью отсортированными входными массивами', en: 'It only works correctly on input arrays that are already fully sorted' },
-        { ru: 'Она никак вообще не отличается — это просто два разных названия для одного и того же самого алгоритма', en: 'It doesn\'t differ at all — it\'s simply two different names for the exact same underlying algorithm' },
+        { ru: 'Она никак вообще не отличается - это просто два разных названия для одного и того же самого алгоритма', en: 'It doesn\'t differ at all - it\'s simply two different names for the exact same underlying algorithm' },
       ],
       correct: 0,
       explanation: {
-        ru: 'Оба алгоритма — сети сравнений с фиксированной структурой, но именно детали построения сети слияния и определяют, сколько всего нужно компараторов.',
+        ru: 'Оба алгоритма - сети сравнений с фиксированной структурой, но именно детали построения сети слияния и определяют, сколько всего нужно компараторов.',
         en: 'Both algorithms are comparison networks with a fixed structure, but the details of the merge network construction are what determine the total comparator count.',
       },
       hint: {
@@ -276,12 +276,12 @@ export const sortingNetwork = {
       ],
       correct: 0,
       explanation: {
-        ru: 'Тот же порядок роста, что и у битонической сортировки — O(log² n) уровней сети, каждый требует O(n) сравнений.',
-        en: 'The same growth order as bitonic sort — O(log² n) network levels, each requiring O(n) comparisons.',
+        ru: 'Тот же порядок роста, что и у битонической сортировки - O(log² n) уровней сети, каждый требует O(n) сравнений.',
+        en: 'The same growth order as bitonic sort - O(log² n) network levels, each requiring O(n) comparisons.',
       },
       hint: {
-        ru: 'Сколько уровней рекурсии нужно для разбиения n элементов — и сколько сравнений на каждом уровне?',
-        en: 'How many recursion levels are needed to split n elements — and how many comparisons per level?',
+        ru: 'Сколько уровней рекурсии нужно для разбиения n элементов - и сколько сравнений на каждом уровне?',
+        en: 'How many recursion levels are needed to split n elements - and how many comparisons per level?',
       },
     },
     {
@@ -304,8 +304,8 @@ export const sortingNetwork = {
         en: 'It is precisely the fixed, known-in-advance comparison network that unites them into the class of "sorting networks," suited to parallel execution.',
       },
       hint: {
-        ru: 'Что принципиально отличает сортирующие сети от обычных алгоритмов — зависит ли последовательность сравнений от значений элементов?',
-        en: 'What fundamentally distinguishes sorting networks from ordinary algorithms — does the comparison sequence depend on element values?',
+        ru: 'Что принципиально отличает сортирующие сети от обычных алгоритмов - зависит ли последовательность сравнений от значений элементов?',
+        en: 'What fundamentally distinguishes sorting networks from ordinary algorithms - does the comparison sequence depend on element values?',
       },
     },
     {
@@ -325,8 +325,8 @@ export const sortingNetwork = {
         en: 'Odd-even merge (and bitonic merge) are based on recursive halving that must work at every level. A non-power-of-two size breaks this symmetry.',
       },
       hint: {
-        ru: 'Что происходит при рекурсивном делении нечётного числа элементов пополам — получаются ли равные половины?',
-        en: 'What happens when you recursively split an odd number of elements in half — do you always get equal halves?',
+        ru: 'Что происходит при рекурсивном делении нечётного числа элементов пополам - получаются ли равные половины?',
+        en: 'What happens when you recursively split an odd number of elements in half - do you always get equal halves?',
       },
     },
     {
@@ -335,9 +335,9 @@ export const sortingNetwork = {
         en: "Is Batcher's sorting network a stable algorithm?",
       },
       options: [
-        { ru: 'Нет — фиксированная схема сравнений может менять порядок равных элементов', en: 'No — the fixed comparison scheme can change the relative order of equal elements' },
-        { ru: 'Да — все компараторы сети сохраняют порядок равных элементов по определению', en: 'Yes — all network comparators preserve the order of equal elements by definition' },
-        { ru: 'Зависит от размера массива: для n ≤ 8 устойчива, для больших n — нет', en: 'It depends on array size: stable for n ≤ 8, unstable for larger n' },
+        { ru: 'Нет - фиксированная схема сравнений может менять порядок равных элементов', en: 'No - the fixed comparison scheme can change the relative order of equal elements' },
+        { ru: 'Да - все компараторы сети сохраняют порядок равных элементов по определению', en: 'Yes - all network comparators preserve the order of equal elements by definition' },
+        { ru: 'Зависит от размера массива: для n ≤ 8 устойчива, для больших n - нет', en: 'It depends on array size: stable for n ≤ 8, unstable for larger n' },
         { ru: 'Устойчивость неприменима к алгоритмам, выполняемым на аппаратном обеспечении', en: 'Stability does not apply to algorithms executed on hardware' },
       ],
       correct: 0,
@@ -367,8 +367,8 @@ export const sortingNetwork = {
         en: 'Since the comparison set is fixed and data-independent, each comparator can be implemented as a separate logic circuit. Independent comparators at the same network level operate simultaneously.',
       },
       hint: {
-        ru: 'Если все операции сравнения известны заранее и некоторые из них независимы — что можно сделать с такими операциями на параллельном оборудовании?',
-        en: 'If all comparison operations are known in advance and some of them are independent — what can be done with those operations on parallel hardware?',
+        ru: 'Если все операции сравнения известны заранее и некоторые из них независимы - что можно сделать с такими операциями на параллельном оборудовании?',
+        en: 'If all comparison operations are known in advance and some of them are independent - what can be done with those operations on parallel hardware?',
       },
     },
     {
@@ -380,16 +380,16 @@ export const sortingNetwork = {
         { ru: 'Последовательность сравнений фиксирована и не зависит от входных данных', en: 'The comparison sequence in the network is fixed and does not change based on the input data' },
         { ru: 'Сортирующая сеть всегда выбирает следующее сравнение случайным образом', en: 'A sorting network always selects the next comparison at random' },
         { ru: 'Обычный алгоритм выполняет больше сравнений, чем сортирующая сеть, при любом входе', en: 'An ordinary algorithm always performs more comparisons than a sorting network on any input always' },
-        { ru: 'Никакой разницы нет — оба подхода принимают одинаковые решения при одинаковых данных', en: 'There is no difference — both approaches make the same decisions given the same data' },
+        { ru: 'Никакой разницы нет - оба подхода принимают одинаковые решения при одинаковых данных', en: 'There is no difference - both approaches make the same decisions given the same data' },
       ],
       correct: 0,
       explanation: {
-        ru: 'В обычных алгоритмах (quicksort, mergesort) следующее сравнение зависит от результата предыдущего. В сортирующей сети все сравнения определены заранее — входные данные влияют только на то, произойдёт ли обмен при каждом конкретном сравнении.',
-        en: 'In ordinary algorithms (quicksort, mergesort) the next comparison depends on the result of the previous one. In a sorting network all comparisons are predefined — input data only affects whether a swap occurs at each specific comparison.',
+        ru: 'В обычных алгоритмах (quicksort, mergesort) следующее сравнение зависит от результата предыдущего. В сортирующей сети все сравнения определены заранее - входные данные влияют только на то, произойдёт ли обмен при каждом конкретном сравнении.',
+        en: 'In ordinary algorithms (quicksort, mergesort) the next comparison depends on the result of the previous one. In a sorting network all comparisons are predefined - input data only affects whether a swap occurs at each specific comparison.',
       },
       hint: {
-        ru: 'В quicksort следующий шаг зависит от того, как элемент сравнился с опорным. В сортирующей сети — зависит ли следующий шаг от результата текущего сравнения?',
-        en: 'In quicksort the next step depends on how an element compared to the pivot. In a sorting network — does the next step depend on the current comparison\'s result?',
+        ru: 'В quicksort следующий шаг зависит от того, как элемент сравнился с опорным. В сортирующей сети - зависит ли следующий шаг от результата текущего сравнения?',
+        en: 'In quicksort the next step depends on how an element compared to the pivot. In a sorting network - does the next step depend on the current comparison\'s result?',
       },
     },
     {
@@ -398,9 +398,9 @@ export const sortingNetwork = {
         en: 'How many comparison levels (network depth) does odd-even sort use for n elements?',
       },
       options: [
-        { ru: 'O(log² n) уровней — как у битонической сети', en: 'O(log² n) levels — matching the asymptotic depth of the bitonic network' },
-        { ru: 'O(n) уровней — по одному уровню на каждый элемент массива', en: 'O(n) levels — one level for each element in the array' },
-        { ru: 'O(log n) уровней — как и у оптимальной сортирующей сети', en: 'O(log n) levels — the same as an optimal sorting network regardless of input' },
+        { ru: 'O(log² n) уровней - как у битонической сети', en: 'O(log² n) levels - matching the asymptotic depth of the bitonic network' },
+        { ru: 'O(n) уровней - по одному уровню на каждый элемент массива', en: 'O(n) levels - one level for each element in the array' },
+        { ru: 'O(log n) уровней - как и у оптимальной сортирующей сети', en: 'O(log n) levels - the same as an optimal sorting network regardless of input' },
         { ru: 'Ровно n/2 уровней независимо от содержания массива', en: 'Exactly n/2 levels regardless of the array contents' },
       ],
       correct: 0,
