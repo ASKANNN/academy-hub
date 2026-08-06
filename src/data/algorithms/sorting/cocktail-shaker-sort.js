@@ -61,6 +61,7 @@ export const cocktailShakerSort = {
       },
     },
   ],
+  stepBreakpoints: [2, 16, 30, 45],
 
   implementation: {
     javascript: `function cocktailShakerSort(arr) {

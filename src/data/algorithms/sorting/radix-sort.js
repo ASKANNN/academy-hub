@@ -61,6 +61,7 @@ export const radixSort = {
       },
     },
   ],
+  stepBreakpoints: [2, 4, 7, 9],
 
   implementation: {
     javascript: `function radixSort(arr) {

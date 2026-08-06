@@ -61,6 +61,7 @@ export const stoogeSort = {
       },
     },
   ],
+  stepBreakpoints: [2, 42, 83, 116],
 
   implementation: {
     javascript: `function stoogeSort(arr) {

@@ -61,6 +61,7 @@ export const shellSort = {
       },
     },
   ],
+  stepBreakpoints: [2, 13, 24, 34],
 
   implementation: {
     javascript: `function shellSort(arr) {

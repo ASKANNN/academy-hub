@@ -61,6 +61,7 @@ export const heapSort = {
       },
     },
   ],
+  stepBreakpoints: [3, 14, 29, 44],
 
   implementation: {
     javascript: `function heapSort(arr) {

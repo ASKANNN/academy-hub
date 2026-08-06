@@ -61,6 +61,7 @@ export const bitonicSort = {
       },
     },
   ],
+  stepBreakpoints: [2, 31, 61, 86],
 
   implementation: {
     javascript: `function bitonicSort(arr) {

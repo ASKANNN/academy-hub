@@ -61,6 +61,7 @@ export const mergeSort = {
       },
     },
   ],
+  stepBreakpoints: [2, 16, 30, 41],
 
   implementation: {
     javascript: `function mergeSort(arr) {

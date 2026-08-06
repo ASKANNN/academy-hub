@@ -61,6 +61,7 @@ export const bucketSort = {
       },
     },
   ],
+  stepBreakpoints: [3, 10, 13, 16],
 
   implementation: {
     javascript: `function bucketSort(arr, bucketCount = Math.ceil(Math.sqrt(arr.length)) || 1) {

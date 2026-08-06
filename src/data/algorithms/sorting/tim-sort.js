@@ -61,6 +61,7 @@ export const timSort = {
       },
     },
   ],
+  stepBreakpoints: [2, 8, 26, 40],
 
   implementation: {
     javascript: `const MIN_RUN = 32;

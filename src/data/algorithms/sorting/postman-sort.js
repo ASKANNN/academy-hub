@@ -61,6 +61,7 @@ export const postmanSort = {
       },
     },
   ],
+  stepBreakpoints: [3, 11, 14, 17],
 
   implementation: {
     javascript: `function postmanSort(arr) {

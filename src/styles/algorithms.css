@@ -635,7 +635,7 @@
     grid-template-areas:
       "shuffle shuffle step"
       "prev    play   next";
-    grid-template-columns: 44px 1fr auto;
+    grid-template-columns: 44px 1fr 44px;
     gap: var(--space-2);
     align-items: center;
   }

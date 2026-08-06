@@ -61,6 +61,7 @@ export const sortingNetwork = {
       },
     },
   ],
+  stepBreakpoints: [2, 25, 49, 69],
 
   implementation: {
     javascript: `function sortingNetwork(arr) {

@@ -61,6 +61,7 @@ export const gnomeSort = {
       },
     },
   ],
+  stepBreakpoints: [3, 24, 45, 62],
 
   implementation: {
     javascript: `function gnomeSort(arr) {

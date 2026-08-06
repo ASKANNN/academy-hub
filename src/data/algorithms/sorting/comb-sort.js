@@ -61,6 +61,7 @@ export const combSort = {
       },
     },
   ],
+  stepBreakpoints: [2, 16, 30, 41],
 
   implementation: {
     javascript: `function combSort(arr) {

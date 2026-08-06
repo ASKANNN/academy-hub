@@ -61,6 +61,7 @@ export const strandSort = {
       },
     },
   ],
+  stepBreakpoints: [10, 12, 19, 29],
 
   implementation: {
     javascript: `function strandSort(arr) {

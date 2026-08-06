@@ -61,6 +61,7 @@ export const oddEvenSort = {
       },
     },
   ],
+  stepBreakpoints: [6, 22, 39, 53],
 
   implementation: {
     javascript: `function oddEvenSort(arr) {

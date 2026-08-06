@@ -61,6 +61,7 @@ export const cycleSort = {
       },
     },
   ],
+  stepBreakpoints: [9, 36, 64, 87],
 
   implementation: {
     javascript: `function cycleSort(arr) {

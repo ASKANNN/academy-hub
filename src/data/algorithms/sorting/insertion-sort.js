@@ -61,6 +61,7 @@ export const insertionSort = {
       },
     },
   ],
+  stepBreakpoints: [2, 4, 21, 31],
 
   implementation: {
     javascript: `function insertionSort(arr) {

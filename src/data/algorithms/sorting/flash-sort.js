@@ -61,6 +61,7 @@ export const flashSort = {
       },
     },
   ],
+  stepBreakpoints: [2, 7, 13, 18],
 
   implementation: {
     javascript: `function flashSort(arr) {

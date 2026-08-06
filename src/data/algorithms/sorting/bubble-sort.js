@@ -61,6 +61,7 @@ export const bubbleSort = {
       },
     },
   ],
+  stepBreakpoints: [2, 16, 31, 47],
 
   implementation: {
     javascript: `function bubbleSort(arr) {

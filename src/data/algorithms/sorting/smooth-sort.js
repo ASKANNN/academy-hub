@@ -61,6 +61,7 @@ export const smoothSort = {
       },
     },
   ],
+  stepBreakpoints: [2, 15, 29, 40],
 
   implementation: {
     javascript: `// Упрощённая учебная реализация: строит лес куч Леонардо

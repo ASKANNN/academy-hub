@@ -61,6 +61,7 @@ export const librarySort = {
       },
     },
   ],
+  stepBreakpoints: [2, 11, 21, 29],
 
   implementation: {
     javascript: `function librarySort(arr) {

@@ -19,7 +19,7 @@ function shuffleArray(base) {
   return arr;
 }
 
-export function AlgorithmVisualizer({ slug, t, steps, lang }) {
+export function AlgorithmVisualizer({ slug, t, steps, lang, stepBreakpoints }) {
   const [array, setArray] = useState(() => sampleFor(slug));
   const frames = useMemo(() => generateSteps(slug, array), [slug, array]);
   const [step, setStep] = useState(0);
@@ -53,7 +53,9 @@ export function AlgorithmVisualizer({ slug, t, steps, lang }) {
   const max = Math.max(...current.array);
 
   const conceptStep = steps?.length
-    ? Math.min(Math.floor((step * steps.length) / frames.length), steps.length - 1)
+    ? (stepBreakpoints?.length
+        ? stepBreakpoints.filter((b) => step >= b).length
+        : Math.min(Math.floor((step * steps.length) / frames.length), steps.length - 1))
     : 0;
 
   return (

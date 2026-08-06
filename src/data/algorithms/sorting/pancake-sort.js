@@ -61,6 +61,7 @@ export const pancakeSort = {
       },
     },
   ],
+  stepBreakpoints: [9, 14, 36, 54],
 
   implementation: {
     javascript: `function pancakeSort(arr) {

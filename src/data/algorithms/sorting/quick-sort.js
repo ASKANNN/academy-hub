@@ -61,6 +61,7 @@ export const quickSort = {
       },
     },
   ],
+  stepBreakpoints: [3, 14, 18, 27],
 
   implementation: {
     javascript: `function quickSort(arr, low = 0, high = arr.length - 1) {

@@ -61,6 +61,7 @@ export const blockSort = {
       },
     },
   ],
+  stepBreakpoints: [2, 17, 33, 46],
 
   implementation: {
     javascript: `function mergeInPlace(a, lo, mid, hi) {

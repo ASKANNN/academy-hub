@@ -61,6 +61,7 @@ export const patienceSort = {
       },
     },
   ],
+  stepBreakpoints: [3, 23, 26, 29],
 
   implementation: {
     javascript: `function patienceSort(arr) {

@@ -61,6 +61,7 @@ export const tournamentSort = {
       },
     },
   ],
+  stepBreakpoints: [3, 55, 66, 77],
 
   implementation: {
     javascript: `function tournamentSort(arr) {

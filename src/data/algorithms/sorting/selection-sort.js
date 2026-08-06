@@ -61,6 +61,7 @@ export const selectionSort = {
       },
     },
   ],
+  stepBreakpoints: [9, 11, 24, 36],
 
   implementation: {
     javascript: `function selectionSort(arr) {

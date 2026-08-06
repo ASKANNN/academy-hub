@@ -61,6 +61,7 @@ export const countingSort = {
       },
     },
   ],
+  stepBreakpoints: [3, 10, 13, 16],
 
   implementation: {
     javascript: `function countingSort(arr) {
