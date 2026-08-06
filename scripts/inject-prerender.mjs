@@ -1,11 +1,3 @@
-// Build-time step, runs on Vercel too — no browser involved. Takes the
-// committed snapshots (see scripts/generate-snapshot.mjs, one page.json per
-// route under prerendered/) and writes a full dist/<route>/index.html per
-// route: #root filled with the snapshot's markup, plus title/description/
-// canonical/OG tags overwritten to match that route. Vercel's static file
-// serving resolves directory index.html files before falling back to the
-// vercel.json catch-all rewrite, so each route gets its own prerendered HTML
-// without any routing config changes.
 import { readFile, writeFile, mkdir, readdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve, join, relative } from 'node:path';
