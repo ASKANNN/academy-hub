@@ -446,14 +446,20 @@
 .detail-section {
   display: flex;
   flex-direction: column;
-  gap: var(--space-8);
+  gap: var(--space-6);
+}
+
+.detail-section > div + div {
+  border-top: 1px solid var(--color-border-subtle);
+  padding-top: var(--space-8);
 }
 
 .detail-section__title {
   font-size: var(--text-2xl);
-  font-weight: var(--font-weight-semibold);
+  font-weight: var(--font-weight-bold);
+  letter-spacing: var(--tracking-tight);
   color: var(--color-text-primary);
-  margin-bottom: var(--space-4);
+  margin-bottom: var(--space-5);
 }
 
 .detail-section p {
@@ -461,6 +467,16 @@
   color: var(--color-text-secondary);
   line-height: var(--line-height-relaxed);
 }
+
+.detail-section div > p:first-of-type {
+  color: var(--color-text-primary);
+  line-height: 1.8;
+}
+
+.detail-section div > p + p {
+  margin-top: var(--space-4);
+}
+
 
 .detail-list {
   list-style: none;
