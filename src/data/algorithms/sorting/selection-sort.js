@@ -303,7 +303,7 @@ export const selectionSort = {
     ],
     realWorld: [
       {
-        ru: 'В **встроенных системах** сортировка выбором занимает живую нишу. Типичный пример - **медианный фильтр** на микроконтроллере: собери 7-9 последних показаний АЦП (датчик температуры, давления), отсортируй, возьми средний элемент. При n=7 алгоритм делает **21 сравнение и не более 6 перестановок**. На ARM Cortex-M0 с flash на 100k циклов это принципиально: лишние записи укорачивают жизнь прошивки на реальных проектах - STM32, Arduino, ESP32.',
+        ru: '**Встроенные системы** - одна из реальных ниш алгоритма. Типичный пример - **медианный фильтр** на микроконтроллере: собери 7-9 последних показаний АЦП (датчик температуры, давления), отсортируй, возьми средний элемент. При n=7 алгоритм делает **21 сравнение и не более 6 перестановок**. На ARM Cortex-M0 с flash на 100k циклов это принципиально: лишние записи укорачивают жизнь прошивки на реальных проектах - STM32, Arduino, ESP32.',
         en: 'In **embedded systems**, selection sort occupies a live niche. A typical example is a **median filter** on a microcontroller: collect 7-9 recent ADC readings (temperature or pressure sensor), sort them, take the middle element. At n=7 the algorithm makes **21 comparisons and at most 6 swaps**. On an ARM Cortex-M0 with 100k-cycle flash, this matters: extra writes shorten firmware lifetime on real projects - STM32, Arduino, ESP32.',
       },
       {
@@ -319,7 +319,7 @@ export const selectionSort = {
         en: '**Stable selection sort** appears in teaching libraries and specialized implementations. Instead of a direct boundary swap, this variant shifts elements between the minimum and the boundary right (like insertion sort) and inserts the minimum in place. Stability is achieved, but write count grows to O(n²). In standard libraries (Python, Java, C++), stable sorting is implemented via **Timsort**, not stable selection sort.',
       },
       {
-        ru: 'В **соревновательном программировании** (Codeforces, LeetCode) сортировка выбором встречается как основа задачи «минимальное число перестановок для сортировки». Задача напрямую моделирует алгоритм: число инверсий указывает, сколько перестановок нужно. Это же свойство - гарантированно ограниченное число обменов - используют в задачах, где стоимость перестановки задана явно и нужно минимизировать суммарные расходы.',
+        ru: '**Соревновательное программирование** (Codeforces, LeetCode) - ещё одна ниша для этого алгоритма: задача «минимальное число перестановок для сортировки» напрямую моделирует его работу. Число инверсий в массиве указывает, сколько перестановок нужно. Это же свойство - гарантированно ограниченное число обменов - используют в задачах, где стоимость перестановки задана явно и нужно минимизировать суммарные расходы.',
         en: 'In **competitive programming** (Codeforces, LeetCode), selection sort appears as the basis for "minimum number of swaps to sort." The problem directly models the algorithm: the number of inversions tells how many swaps are needed. The same bounded-swap property is used in problems where swap cost is explicitly given and total cost must be minimized.',
       },
       {
