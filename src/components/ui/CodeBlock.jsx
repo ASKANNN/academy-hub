@@ -1,14 +1,37 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Highlight, themes } from 'prism-react-renderer';
 
 const LANGUAGE_LABELS = { javascript: 'JavaScript', python: 'Python' };
 const PRISM_LANGUAGE = { javascript: 'javascript', python: 'python' };
 
-export function CodeBlock({ code, defaultLanguage, theme = 'dark' }) {
+export function CodeBlock({ code, defaultLanguage, activeLanguage, onLanguageChange, activeLines, theme = 'dark' }) {
   const languages = Object.keys(code);
-  const [active, setActive] = useState(defaultLanguage ?? languages[0]);
-  const [copied, setCopied] = useState(false);
+  const [internalLang, setInternalLang] = useState(defaultLanguage ?? languages[0]);
+  const isControlled = activeLanguage !== undefined;
+  const active = isControlled ? activeLanguage : internalLang;
+  const preRef = useRef(null);
 
+  function handleLangChange(lang) {
+    if (isControlled) {
+      onLanguageChange?.(lang);
+    } else {
+      setInternalLang(lang);
+    }
+  }
+
+  useEffect(() => {
+    if (!activeLines || !preRef.current) return;
+    const activeLine = preRef.current.querySelector('.is-active-line');
+    if (!activeLine) return;
+    const pre = preRef.current;
+    const preRect = pre.getBoundingClientRect();
+    const lineRect = activeLine.getBoundingClientRect();
+    const lineTop = lineRect.top - preRect.top + pre.scrollTop;
+    const target = lineTop - pre.clientHeight / 2 + lineRect.height / 2;
+    pre.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
+  }, [activeLines]);
+
+  const [copied, setCopied] = useState(false);
   async function handleCopy() {
     await navigator.clipboard.writeText(code[active]);
     setCopied(true);
@@ -30,7 +53,7 @@ export function CodeBlock({ code, defaultLanguage, theme = 'dark' }) {
                 role="tab"
                 aria-selected={lang === active}
                 className={`code-block__lang-tab ${lang === active ? 'is-active' : ''}`}
-                onClick={() => setActive(lang)}
+                onClick={() => handleLangChange(lang)}
               >
                 {LANGUAGE_LABELS[lang] ?? lang}
               </button>
@@ -47,14 +70,24 @@ export function CodeBlock({ code, defaultLanguage, theme = 'dark' }) {
         theme={theme === 'dark' ? themes.vsDark : themes.vsLight}
       >
         {({ className, style, tokens, getLineProps, getTokenProps }) => (
-          <pre className={`code-block__pre ${className}`} style={style}>
-            {tokens.map((line, i) => (
-              <div key={i} {...getLineProps({ line })}>
-                {line.map((token, key) => (
-                  <span key={key} {...getTokenProps({ token })} />
-                ))}
-              </div>
-            ))}
+          <pre ref={preRef} className={`code-block__pre ${className}`} style={style}>
+            {tokens.map((line, i) => {
+              const lineNo = i + 1;
+              const isActive = Array.isArray(activeLines) && lineNo >= activeLines[0] && lineNo <= activeLines[1];
+              const lineProps = getLineProps({ line });
+              return (
+                <div
+                  key={i}
+                  {...lineProps}
+                  data-line={lineNo}
+                  className={`code-block__line${isActive ? ' is-active-line' : ''}${lineProps.className ? ' ' + lineProps.className : ''}`}
+                >
+                  {line.map((token, key) => (
+                    <span key={key} {...getTokenProps({ token })} />
+                  ))}
+                </div>
+              );
+            })}
           </pre>
         )}
       </Highlight>

@@ -8,6 +8,7 @@ import { AlgorithmCard } from '../components/algorithms/AlgorithmCard.jsx';
 import { AlgorithmIcon } from '../components/algorithms/AlgorithmIcon.jsx';
 import { AlgorithmVisualizer } from '../components/algorithms/AlgorithmVisualizer.jsx';
 import { CodeBlock } from '../components/ui/CodeBlock.jsx';
+import { WalkthroughBlock } from '../components/ui/WalkthroughBlock.jsx';
 import { Tabs } from '../components/ui/Tabs.jsx';
 import { Quiz } from '../components/ui/Quiz.jsx';
 import { RichText } from '../components/ui/RichText.jsx';
@@ -112,15 +113,21 @@ export default function AlgorithmDetailPage() {
                     <>
                       <div>
                         <h3 className="detail-section__title">{t.sectionDeepDive}</h3>
-                        <p><RichText text={algorithm.details.deepDive[lang] ?? algorithm.details.deepDive.ru} /></p>
+                        {Array.isArray(algorithm.details.deepDive)
+                          ? algorithm.details.deepDive.map((para, i) => <p key={i}><RichText text={para[lang] ?? para.ru} /></p>)
+                          : <p><RichText text={algorithm.details.deepDive[lang] ?? algorithm.details.deepDive.ru} /></p>}
                       </div>
                       <div>
                         <h3 className="detail-section__title">{t.sectionDetailsWhenToUse}</h3>
-                        <p><RichText text={algorithm.details.whenToUse[lang] ?? algorithm.details.whenToUse.ru} /></p>
+                        {Array.isArray(algorithm.details.whenToUse)
+                          ? algorithm.details.whenToUse.map((para, i) => <p key={i}><RichText text={para[lang] ?? para.ru} /></p>)
+                          : <p><RichText text={algorithm.details.whenToUse[lang] ?? algorithm.details.whenToUse.ru} /></p>}
                       </div>
                       <div>
                         <h3 className="detail-section__title">{t.sectionRealWorldDetails}</h3>
-                        <p><RichText text={algorithm.details.realWorld[lang] ?? algorithm.details.realWorld.ru} /></p>
+                        {Array.isArray(algorithm.details.realWorld)
+                          ? algorithm.details.realWorld.map((para, i) => <p key={i}><RichText text={para[lang] ?? para.ru} /></p>)
+                          : <p><RichText text={algorithm.details.realWorld[lang] ?? algorithm.details.realWorld.ru} /></p>}
                       </div>
                     </>
                   )}
@@ -163,7 +170,9 @@ export default function AlgorithmDetailPage() {
             {
               key: 'implementation',
               label: t.sectionImplementation,
-              content: <CodeBlock code={algorithm.implementation} theme={theme} />,
+              content: algorithm.walkthrough
+                ? <WalkthroughBlock code={algorithm.implementation} walkthrough={algorithm.walkthrough} lang={lang} theme={theme} t={t} />
+                : <CodeBlock code={algorithm.implementation} theme={theme} />,
             },
             {
               key: 'prosCons',
