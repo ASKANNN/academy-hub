@@ -60,6 +60,11 @@ export function AlgorithmVisualizer({ slug, t, steps, lang, stepBreakpoints }) {
 
   return (
     <div className="visualizer">
+      <div className="visualizer__topbar">
+        <span className="visualizer__step-count">
+          {t.visualizerStep} {step + 1} / {frames.length}
+        </span>
+      </div>
       <div className="visualizer__bars">
         {current.array.map((value, index) => {
           const isActive = current.active.includes(index);
@@ -77,7 +82,7 @@ export function AlgorithmVisualizer({ slug, t, steps, lang, stepBreakpoints }) {
       </div>
       {steps?.length > 0 && (
         <p key={conceptStep} className="visualizer__step-label">
-          {steps[conceptStep].title[lang] ?? steps[conceptStep].title.ru}
+          <strong>{conceptStep + 1}. {steps[conceptStep].title[lang] ?? steps[conceptStep].title.ru}</strong>
         </p>
       )}
       <div className="visualizer__controls">
@@ -116,9 +121,6 @@ export function AlgorithmVisualizer({ slug, t, steps, lang, stepBreakpoints }) {
         >
           →
         </button>
-        <span className="visualizer__step-count">
-          {t.visualizerStep} {step + 1} / {frames.length}
-        </span>
       </div>
     </div>
   );
