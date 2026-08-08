@@ -35,7 +35,7 @@ export function CodeBlock({ code, defaultLanguage, activeLanguage, onLanguageCha
   async function handleCopy() {
     await navigator.clipboard.writeText(code[active]);
     setCopied(true);
-    setTimeout(() => setCopied(false), 1500);
+    setTimeout(() => setCopied(false), 2000);
   }
 
   return (
@@ -60,7 +60,7 @@ export function CodeBlock({ code, defaultLanguage, activeLanguage, onLanguageCha
             ))}
           </div>
         )}
-        <button type="button" className="code-block__copy" onClick={handleCopy}>
+        <button type="button" className={`code-block__copy${copied ? ' is-copied' : ''}`} onClick={handleCopy}>
           {copied ? '✓' : 'copy'}
         </button>
       </div>

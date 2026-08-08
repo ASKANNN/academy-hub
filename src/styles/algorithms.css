@@ -567,6 +567,10 @@
   background-color: var(--code-btn-hover-bg);
   border-color: var(--code-btn-hover-border);
 }
+.code-block__copy.is-copied {
+  color: var(--color-success);
+  border-color: var(--color-success);
+}
 
 .code-block__pre {
   margin: 0;
