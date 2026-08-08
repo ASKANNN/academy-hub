@@ -108,6 +108,22 @@ export default function AlgorithmDetailPage() {
                     <h3 className="detail-section__title">{t.sectionSolution}</h3>
                     <p><RichText text={algorithm.solution[lang] ?? algorithm.solution.ru} /></p>
                   </div>
+                  {algorithm.details && (
+                    <>
+                      <div>
+                        <h3 className="detail-section__title">{t.sectionDeepDive}</h3>
+                        <p><RichText text={algorithm.details.deepDive[lang] ?? algorithm.details.deepDive.ru} /></p>
+                      </div>
+                      <div>
+                        <h3 className="detail-section__title">{t.sectionDetailsWhenToUse}</h3>
+                        <p><RichText text={algorithm.details.whenToUse[lang] ?? algorithm.details.whenToUse.ru} /></p>
+                      </div>
+                      <div>
+                        <h3 className="detail-section__title">{t.sectionRealWorldDetails}</h3>
+                        <p><RichText text={algorithm.details.realWorld[lang] ?? algorithm.details.realWorld.ru} /></p>
+                      </div>
+                    </>
+                  )}
                   <div>
                     <h3 className="detail-section__title">{t.sectionWhenToUse}</h3>
                     <ul className="detail-list">
