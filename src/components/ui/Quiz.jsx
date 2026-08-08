@@ -115,9 +115,12 @@ export function Quiz({ quiz, lang, t, reportUrl = '' }) {
 
   useEffect(() => {
     if (step < 0) return;
-    const el = quizRef.current;
-    if (!el) return;
-    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY, behavior: 'smooth' });
+    const id = setTimeout(() => {
+      const el = quizRef.current;
+      if (!el) return;
+      window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY, behavior: 'instant' });
+    }, 0);
+    return () => clearTimeout(id);
   }, [step]);
 
   function reset() {
