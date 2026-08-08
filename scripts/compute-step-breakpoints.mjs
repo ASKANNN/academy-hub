@@ -14,8 +14,6 @@ const SLUG_TO_FILE = {
   bogosort: 'bogo-sort.js',
   flashsort: 'flash-sort.js',
 };
-
-// bogosort has random frame count each run — stepBreakpoints would be wrong; skip it
 const SKIP_SLUGS = new Set(['bogosort']);
 
 const ALL_SLUGS = [
