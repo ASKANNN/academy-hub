@@ -517,13 +517,17 @@
 .code-block__dots {
   display: flex;
   gap: 6px;
+  align-items: center;
 }
 .code-block__dots span {
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   border-radius: var(--radius-full);
-  background-color: var(--code-border);
+  flex-shrink: 0;
 }
+.code-block__dots span:nth-child(1) { background-color: #ff5f57; }
+.code-block__dots span:nth-child(2) { background-color: #febc2e; }
+.code-block__dots span:nth-child(3) { background-color: #28c840; }
 
 .code-block__lang-tabs {
   display: flex;
