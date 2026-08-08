@@ -42,7 +42,7 @@ export function WalkthroughBlock({ code, walkthrough, lang, theme, t }) {
           <div className="walkthrough__steps">
             <div className="walkthrough__step">
               <p className="walkthrough__progress">{t.walkthroughStep(step + 1, total)}</p>
-              <h4 className="walkthrough__title">{current.title[lang] ?? current.title.ru}</h4>
+              <h4 className="walkthrough__title"><RichText text={current.title[lang] ?? current.title.ru} /></h4>
               <p className="walkthrough__explanation">
                 <RichText text={current.explanation[lang] ?? current.explanation.ru} />
               </p>
