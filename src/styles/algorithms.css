@@ -632,7 +632,7 @@
 }
 
 .visualizer__step-label {
-  min-height: 2.4em;
+  min-height: 46px;
   padding: var(--space-2) 0;
   font-size: var(--text-sm);
   color: var(--color-text-secondary);
@@ -653,6 +653,9 @@
 }
 
 @media (max-width: 599px) {
+  .visualizer__step-label {
+    min-height: 76px;
+  }
   .visualizer__controls {
     display: grid;
     grid-template-areas:
