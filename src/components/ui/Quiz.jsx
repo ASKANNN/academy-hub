@@ -115,7 +115,9 @@ export function Quiz({ quiz, lang, t, reportUrl = '' }) {
 
   useEffect(() => {
     if (step < 0) return;
-    quizRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const el = quizRef.current;
+    if (!el) return;
+    window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY, behavior: 'smooth' });
   }, [step]);
 
   function reset() {
