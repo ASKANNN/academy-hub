@@ -140,6 +140,7 @@ export function Quiz({ quiz, lang, t, reportUrl = '' }) {
   }
 
   function handleNext() {
+    nextBtnRef.current?.blur();
     setSelected(null);
     setHintOpen(false);
     setStep((s) => s + 1);
