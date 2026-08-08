@@ -99,6 +99,7 @@ export function Quiz({ quiz, lang, t, reportUrl = '' }) {
   const [score, setScore] = useState(0);
   const [hintOpen, setHintOpen] = useState(false);
   const nextBtnRef = useRef(null);
+  const quizRef = useRef(null);
 
   const isIntro = step === -1;
   const isResult = step >= total;
@@ -111,6 +112,11 @@ export function Quiz({ quiz, lang, t, reportUrl = '' }) {
   useEffect(() => {
     if (selected !== null) nextBtnRef.current?.focus({ preventScroll: true });
   }, [selected]);
+
+  useEffect(() => {
+    if (step < 0) return;
+    quizRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [step]);
 
   function reset() {
     setStep(-1);
@@ -146,7 +152,7 @@ export function Quiz({ quiz, lang, t, reportUrl = '' }) {
 
   if (isIntro) {
     return (
-      <div className="quiz quiz--intro">
+      <div ref={quizRef} className="quiz quiz--intro">
         <button type="button" className="btn btn--primary" onClick={() => setStep(0)}>
           {t.quizStart}
         </button>
@@ -158,7 +164,7 @@ export function Quiz({ quiz, lang, t, reportUrl = '' }) {
   if (isResult) {
     const tier = getTier(score, total);
     return (
-      <div className="quiz">
+      <div ref={quizRef} className="quiz">
         <div className={`quiz__results is-${tier}`}>
           <div className="quiz__result-icon" aria-hidden="true">
             {TIER_ICON[tier]}
@@ -181,7 +187,7 @@ export function Quiz({ quiz, lang, t, reportUrl = '' }) {
   const isCorrect = selected === question.correct;
 
   return (
-    <div className="quiz">
+    <div ref={quizRef} className="quiz">
       <p className="quiz__progress">{step + 1} / {total}</p>
       <div className="quiz__prompt-row">
         <p className="quiz__question">{question.question[lang] ?? question.question.ru}</p>

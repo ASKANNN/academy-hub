@@ -1308,7 +1308,6 @@
 
 .walkthrough__prev,
 .walkthrough__next {
-  flex: 1;
   justify-content: center;
   display: inline-flex;
   align-items: center;
@@ -1346,6 +1345,10 @@
   }
   .walkthrough__explanation {
     min-height: 11em;
+  }
+  .walkthrough__prev,
+  .walkthrough__next {
+    flex: 1;
   }
 }
 
