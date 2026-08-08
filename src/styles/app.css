@@ -61,6 +61,11 @@
   animation-delay: calc(0.52s + min(var(--card-index, 0) * 0.045s, 0.9s));
 }
 
+.page-content.is-revealed .algorithm-card-link {
+  animation: revealUp 0.50s cubic-bezier(0, 0, 0.2, 1) both;
+  animation-delay: min(calc(var(--card-index, 0) * 60ms), 400ms);
+}
+
 .page-content.is-revealed .footer {
   animation: revealUp 0.60s 1.16s cubic-bezier(0, 0, 0.2, 1) both;
 }
