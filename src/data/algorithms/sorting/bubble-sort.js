@@ -15,12 +15,12 @@ export const bubbleSort = {
   },
 
   problem: {
-    ru: 'Есть массив чисел в произвольном порядке - например `[5, 2, 8, 1]` - и его нужно упорядочить по возрастанию. Самая простая **мысленная модель**: сравнивать пары **соседних элементов** и переставлять их местами, если левый больше правого. Вопрос в том, как повторять это действие так, чтобы за **конечное число проходов** массив гарантированно стал отсортированным.',
+    ru: 'Дан массив чисел в произвольном порядке, например `[5, 2, 8, 1]`. Нужно упорядочить его по возрастанию. Простейшая идея: брать пары **соседних элементов** и менять их местами, если левый больше правого. Вопрос в том, как повторять это действие так, чтобы за **конечное число проходов** массив гарантированно стал отсортированным.',
     en: 'Given an array of numbers in arbitrary order - say `[5, 2, 8, 1]` - you need it sorted ascending. The simplest **mental model**: compare **neighboring pairs** and swap them when the left one is bigger. The question is how to repeat that action so the array is guaranteed sorted after a **finite number of passes**.',
   },
 
   solution: {
-    ru: 'На каждом **проходе** алгоритм сравнивает пары соседних элементов слева направо и меняет их местами, если они стоят в неправильном порядке. После первого прохода самый большой элемент гарантированно **«всплывает»** в конец массива - отсюда и **название алгоритма**. Проходы повторяются, каждый раз укорачиваясь на один элемент справа, пока за целый проход не произойдёт ни одной **перестановки** - это сигнал, что массив уже отсортирован.',
+    ru: 'На каждом **проходе** алгоритм сравнивает пары соседних элементов слева направо и меняет их местами, если они стоят в неправильном порядке. После первого прохода самый большой элемент гарантированно **«всплывает»** в конец массива - отсюда и **название алгоритма**. Проходы повторяются, каждый раз исключая один элемент справа, пока за целый проход не произойдёт ни одной **перестановки** - это сигнал, что массив уже отсортирован.',
     en: 'On each **pass**, the algorithm compares neighboring pairs left to right and swaps them when they are in the wrong order. After the first pass, the largest element is guaranteed to have **"bubbled"** to the end - hence the **algorithm\'s name**. Passes repeat, each one shrinking by one element from the right, until a full pass makes zero **swaps** - the signal that the array is already sorted.',
   },
 
@@ -295,7 +295,7 @@ export const bubbleSort = {
         en: '**Teaching tool** - bubble sort is ideal for explaining the very idea of **comparison sorting**: the mechanics are transparent, the "bubbling" animation is intuitive, and you can draw it on a whiteboard in a minute. Virtually every algorithms course starts with it - and for good reason.',
       },
       {
-        ru: '**Production-код** - применима только для очень маленьких массивов (**n < 10-15**) или данных, которые заведомо почти отсортированы. При n < 10 разница между O(n²) и O(n log n) практически не ощутима: константные факторы и накладные расходы на вызов функции нивелируют асимптотическое преимущество.',
+        ru: '**Production-код** - применима только для очень маленьких массивов (**n < 10-15**) или данных, которые заведомо почти отсортированы. При n < 10 разница между O(n²) и O(n log n) практически не ощутима: константы и оверхед вызова съедают асимптотическое преимущество.',
         en: '**Production code** - only applicable for very small arrays (**n < 10-15**) or data known to be nearly sorted. When n < 10, the difference between O(n²) and O(n log n) is practically imperceptible: constant factors and function call overhead negate the asymptotic advantage.',
       },
       {
@@ -321,7 +321,7 @@ export const bubbleSort = {
     ],
     realWorld: [
       {
-        ru: 'В промышленном коде пузырьковая сортировка встречается редко, но её идея повлияла на более практичные варианты. Самый известный - **Cocktail Shaker Sort** (шейкерная, или двунаправленная пузырьковая). Она чередует направление прохода: сначала слева направо (выталкивая большие элементы вправо), потом справа налево (выталкивая маленькие элементы влево). Это напрямую решает проблему **«черепах»**.',
+        ru: 'На практике пузырьковая сортировка встречается редко, но её идея повлияла на более практичные варианты. Самый известный - **Cocktail Shaker Sort** (шейкерная, или двунаправленная пузырьковая). Она чередует направление прохода: сначала слева направо (выталкивая большие элементы вправо), потом справа налево (выталкивая маленькие элементы влево). Это напрямую решает проблему **«черепах»**.',
         en: 'In production code bubble sort appears rarely, but its idea influenced more practical variants. The most well-known is **Cocktail Shaker Sort** (bidirectional bubble sort). It alternates pass direction: first left to right (pushing large elements right), then right to left (pushing small elements left). This directly addresses the **"turtle" problem**.',
       },
       {
