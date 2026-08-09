@@ -134,6 +134,109 @@ export const bitonicSort = {
     return a[:n]`,
   },
 
+  walkthrough: {
+    javascript: [
+      {
+        lines: [2, 3],
+        title: { ru: 'Базовый случай', en: 'Base case' },
+        explanation: {
+          ru: 'Массив длиной 0 или 1 уже отсортирован по определению - `n <= 1` сразу возвращает копию `[...arr]`, не запуская сеть сравнений вообще.',
+          en: 'An array of length 0 or 1 is sorted by definition - `n <= 1` immediately returns a copy `[...arr]` without ever building the comparison network.',
+        },
+      },
+      {
+        lines: [5, 8],
+        title: { ru: 'Дополнение до степени двойки', en: 'Pad to a power of two' },
+        explanation: {
+          ru: 'Цикл `while (size < n) size *= 2` находит ближайшую степень двойки не меньше `n`. `sentinel` - значение больше любого элемента массива, оно дополняет массив справа через spread-оператор в `a`, чтобы сеть, рассчитанная на степень двойки, получила подходящий вход.',
+          en: 'The loop `while (size < n) size *= 2` finds the nearest power of two that is at least `n`. `sentinel` is a value larger than any array element; it pads the array on the right via the spread operator into `a`, so the network, which assumes a power-of-two size, gets a valid input.',
+        },
+      },
+      {
+        lines: [10, 14],
+        title: { ru: 'compareAndSwap: один компаратор сети', en: 'compareAndSwap: a single network comparator' },
+        explanation: {
+          ru: 'Элементарный «кирпичик» всей сети: сравнивает `a[i]` и `a[j]` и меняет их местами, если порядок неверный для направления `dir`. При `dir === 1` требуется возрастание, при `dir === 0` - убывание. Флаг `dir` превращает одну и ту же функцию в компаратор для обеих половин сети.',
+          en: 'The elementary building block of the whole network: it compares `a[i]` and `a[j]` and swaps them if the order is wrong for direction `dir`. `dir === 1` means ascending, `dir === 0` means descending. The `dir` flag turns the same function into a comparator for either half of the network.',
+        },
+      },
+      {
+        lines: [16, 23],
+        title: { ru: 'bitonicMerge: слияние битонической последовательности', en: 'bitonicMerge: merging a bitonic sequence' },
+        explanation: {
+          ru: '`k = cnt / 2` делит текущий блок пополам. Цикл `for (i = lo; i < lo + k; i++)` сравнивает каждый элемент первой половины с элементом на позиции `i + k` во второй - это и есть шаг «сравнить половины». После этого обе половины сами становятся битоническими последовательностями меньшего размера и рекурсивно сливаются тем же способом (строки 20-21).',
+          en: '`k = cnt / 2` splits the current block in half. The loop `for (i = lo; i < lo + k; i++)` compares each element of the first half against the element at position `i + k` in the second - this is the "compare the halves" step. Both halves then become bitonic sequences of half the size and are recursively merged the same way (lines 20-21).',
+        },
+      },
+      {
+        lines: [25, 32],
+        title: { ru: 'bitonicSortRec: строим и сливаем', en: 'bitonicSortRec: build, then merge' },
+        explanation: {
+          ru: 'Левая половина (`lo`, `k`) рекурсивно сортируется по возрастанию (`dir = 1`), правая - по убыванию (`dir = 0`). Вместе они образуют битоническую последовательность. Строка 30 вызывает `bitonicMerge` на весь блок с направлением `dir`, полученным извне.',
+          en: 'The left half (`lo`, `k`) is recursively sorted ascending (`dir = 1`), the right half descending (`dir = 0`). Together they form a bitonic sequence. Line 30 calls `bitonicMerge` on the whole block with the direction `dir` passed in from the caller.',
+        },
+      },
+      {
+        lines: [34, 35],
+        title: { ru: 'Запуск и отбрасывание дополнения', en: 'Kick off and drop the padding' },
+        explanation: {
+          ru: '`bitonicSortRec(0, size, 1)` запускает построение сети на весь дополненный массив с направлением «по возрастанию». `a.slice(0, n)` отбрасывает фиктивные `sentinel`-элементы, оставляя только исходные `n` значений в отсортированном порядке.',
+          en: '`bitonicSortRec(0, size, 1)` kicks off the network on the whole padded array with an ascending direction. `a.slice(0, n)` drops the sentinel elements, leaving only the original `n` values in sorted order.',
+        },
+      },
+    ],
+    python: [
+      {
+        lines: [2, 4],
+        title: { ru: 'Базовый случай', en: 'Base case' },
+        explanation: {
+          ru: '`n = len(arr)` вычисляется один раз. Если `n <= 1`, массив уже отсортирован по определению - функция сразу возвращает `list(arr)`, независимую копию, не строя сеть сравнений.',
+          en: '`n = len(arr)` is computed once. If `n <= 1`, the array is already sorted by definition - the function returns `list(arr)`, an independent copy, without building any comparison network.',
+        },
+      },
+      {
+        lines: [6, 10],
+        title: { ru: 'Дополнение до степени двойки', en: 'Pad to a power of two' },
+        explanation: {
+          ru: 'Цикл `while size < n: size *= 2` находит ближайшую степень двойки. `sentinel = max(arr) + 1` больше любого настоящего элемента. `a = list(arr) + [sentinel] * (size - n)` дополняет копию массива справа фиктивными значениями до нужного размера.',
+          en: 'The loop `while size < n: size *= 2` finds the nearest power of two. `sentinel = max(arr) + 1` is larger than any real element. `a = list(arr) + [sentinel] * (size - n)` pads a copy of the array on the right with dummy values up to the required size.',
+        },
+      },
+      {
+        lines: [12, 14],
+        title: { ru: 'compare_and_swap: один компаратор', en: 'compare_and_swap: one comparator' },
+        explanation: {
+          ru: 'Сравнивает `a[i]` и `a[j]` и меняет их местами через `a[i], a[j] = a[j], a[i]`, если порядок нарушен для направления `dir_` (суффикс `_`, потому что `dir` - имя встроенной функции Python). При `dir_ == 1` требуется возрастание, при `dir_ == 0` - убывание.',
+          en: 'Compares `a[i]` and `a[j]` and swaps them via `a[i], a[j] = a[j], a[i]` if the order is wrong for direction `dir_` (the trailing underscore avoids shadowing Python\'s built-in `dir`). `dir_ == 1` means ascending, `dir_ == 0` means descending.',
+        },
+      },
+      {
+        lines: [16, 22],
+        title: { ru: 'bitonic_merge: слияние', en: 'bitonic_merge: merging' },
+        explanation: {
+          ru: '`k = cnt // 2` делит блок пополам целочисленным делением. `range(lo, lo + k)` перебирает позиции первой половины, сравнивая каждую с парной позицией `i + k` во второй - шаг «сравнить половины». Затем обе половины рекурсивно сливаются тем же способом (строки 21-22).',
+          en: '`k = cnt // 2` splits the block in half using integer division. `range(lo, lo + k)` walks the positions of the first half, comparing each against its paired position `i + k` in the second half - the "compare the halves" step. Both halves are then recursively merged the same way (lines 21-22).',
+        },
+      },
+      {
+        lines: [24, 29],
+        title: { ru: 'bitonic_sort_rec: строим и сливаем', en: 'bitonic_sort_rec: build, then merge' },
+        explanation: {
+          ru: 'Левая половина сортируется рекурсивно по возрастанию (`dir_=1`), правая - по убыванию (`dir_=0`), образуя вместе битоническую последовательность. Строка 29 сливает весь блок вызовом `bitonic_merge` с направлением, переданным извне.',
+          en: 'The left half is recursively sorted ascending (`dir_=1`), the right half descending (`dir_=0`), together forming a bitonic sequence. Line 29 merges the whole block via `bitonic_merge` with the direction passed in from the caller.',
+        },
+      },
+      {
+        lines: [31, 32],
+        title: { ru: 'Запуск и обрезка', en: 'Kick off and trim' },
+        explanation: {
+          ru: '`bitonic_sort_rec(0, size, 1)` строит сеть на весь дополненный массив с направлением «по возрастанию». `a[:n]` отбрасывает `sentinel`-элементы срезом, возвращая только исходные `n` значений.',
+          en: '`bitonic_sort_rec(0, size, 1)` builds the network over the whole padded array with an ascending direction. `a[:n]` drops the sentinel elements via a slice, returning only the original `n` values.',
+        },
+      },
+    ],
+  },
+
   pros: [
     {
       ru: 'Сеть сравнений полностью фиксирована заранее и не зависит от значений элементов - идеально подходит для параллельного или аппаратного выполнения (GPU, FPGA, SIMD).',
@@ -185,6 +288,83 @@ export const bitonicSort = {
     },
   ],
 
+  details: {
+    deepDive: [
+      {
+        ru: 'Представь две стрелки, направленные друг к другу: одна последовательность растёт слева направо, другая падает. Вместе они образуют **битоническую последовательность** - подъём, потом спуск (или наоборот). Один-единственный элемент тоже считается битонической последовательностью тривиально - его не с чем сравнивать. Из этих тривиальных «атомов» и строится вся сеть снизу вверх.',
+        en: 'Picture two arrows pointing toward each other: one sequence rising left to right, the other falling. Together they form a **bitonic sequence** - a rise, then a fall (or the reverse). A single element also counts as a bitonic sequence trivially, since there is nothing to compare it against. The whole network is built bottom-up from these trivial "atoms".',
+      },
+      {
+        ru: 'Построение идёт снизу вверх, блоками возрастающего размера. Для блока из 2 элементов один сортируется по возрастанию, второй - по убыванию: вместе они уже битоническая пара. Для блока из 4 - две готовые битонические пары сортируются в противоположных направлениях и снова образуют битоническую последовательность вдвое длиннее. Так на каждом уровне размер блока удваивается, пока не охватит весь массив.',
+        en: 'Construction proceeds bottom-up, in blocks of doubling size. For a block of 2 elements, one is sorted ascending and the other descending: together they are already a bitonic pair. For a block of 4, two ready-made bitonic pairs are sorted in opposite directions and again form a bitonic sequence twice as long. At each level, the block size doubles until it spans the whole array.',
+      },
+      {
+        ru: 'Слияние битонической последовательности длиной `cnt` работает так: сравнить элемент `i` первой половины с элементом `i + k` второй (`k = cnt / 2`) и поменять местами при необходимости. После этого шага - и это ключевое свойство сети - **все элементы первой половины меньше или равны всем элементам второй** (для возрастающего направления), а обе половины сами остаются битоническими последовательностями. Значит, их можно слить рекурсивно тем же способом, пока размер блока не станет равным 1.',
+        en: 'Merging a bitonic sequence of length `cnt` works like this: compare element `i` of the first half against element `i + k` of the second (`k = cnt / 2`) and swap if needed. After this step - and this is the key property of the network - **every element of the first half is less than or equal to every element of the second** (for the ascending direction), while both halves remain bitonic sequences themselves. That means they can be merged recursively the same way, down to blocks of size 1.',
+      },
+      {
+        ru: 'Почему это вообще корректно для произвольных чисел, а не только для наглядного примера? Здесь помогает классический приём теории сетей сравнений - **принцип ноля-единицы** (zero-one principle): если сеть компараторов правильно сортирует любую последовательность из нулей и единиц, она правильно сортирует и любую последовательность произвольных чисел. Доказательство для 0/1-последовательностей проще, потому что таких последовательностей конечное число - его придумал **Кен Бэтчер** в 1968 году вместе с самой сетью.',
+        en: 'Why does this work at all for arbitrary numbers, not just the illustrative example? A classic technique from sorting-network theory helps here - the **zero-one principle**: if a comparator network correctly sorts every sequence of zeros and ones, it correctly sorts every sequence of arbitrary numbers too. The proof for 0/1 sequences is simpler because there are finitely many of them, and it was devised by **Ken Batcher** in 1968 alongside the network itself.',
+      },
+      {
+        ru: 'Сложность складывается из двух множителей. Построение битонических блоков удвоенного размера требует **log₂ n** уровней. Слияние блока размера `cnt` само рекурсивное и требует ещё **log₂ cnt** уровней сравнений. Итого получается **log² n** уровней сети, на каждом из которых выполняется O(n) сравнений - отсюда общая сложность **O(n log² n)**, немного хуже, чем O(n log n) у merge sort.',
+        en: 'The complexity comes from two multiplied factors. Building bitonic blocks of doubling size takes **log₂ n** levels. Merging a block of size `cnt` is itself recursive and needs another **log₂ cnt** levels of comparisons. That gives **log² n** network levels total, each doing O(n) comparisons - hence the overall **O(n log² n)** complexity, slightly worse than merge sort\'s O(n log n).',
+      },
+      {
+        ru: 'Дополнение до степени двойки - не случайность реализации, а прямое следствие того, как строится сеть: каждый уровень делит блок ровно пополам (`k = cnt / 2`), и это деление предполагается точным. Для произвольного `n` (например, 13) массив дополняют фиктивными **sentinel**-элементами, заведомо большими любого настоящего значения, до ближайшей степени двойки (16). После завершения сети эти элементы просто отбрасываются - они всегда оказываются в конце отсортированного результата.',
+        en: 'Padding to a power of two is not an implementation accident but a direct consequence of how the network is built: every level splits a block exactly in half (`k = cnt / 2`), and that split is assumed to be exact. For an arbitrary `n` (say, 13), the array is padded with **sentinel** elements guaranteed to be larger than any real value, up to the nearest power of two (16). Once the network finishes, these elements are simply dropped - they always end up at the end of the sorted result.',
+      },
+      {
+        ru: 'Ключевое отличие от «обычных» быстрых алгоритмов - в том, что именно измеряет сложность. У merge sort и quicksort O(n log n) - это последовательная работа одного процессора. У битонической сети O(n log² n) - тоже последовательная работа, но при наличии n/2 параллельных компараторов **реальное время** выполнения сводится к **глубине сети**, O(log² n), потому что все сравнения одного уровня независимы друг от друга и выполняются одновременно. Именно эта параллельная глубина, а не общее число сравнений, делает сеть привлекательной для GPU и FPGA.',
+        en: 'The key difference from "ordinary" fast algorithms is what the complexity actually measures. For merge sort and quicksort, O(n log n) is the sequential work of a single processor. For a bitonic network, O(n log² n) is also sequential work, but given n/2 parallel comparators, the **actual running time** collapses to the **network depth**, O(log² n), because every comparison at one level is independent of the others and runs simultaneously. It is this parallel depth, not the total comparison count, that makes the network attractive for GPUs and FPGAs.',
+      },
+    ],
+    whenToUse: [
+      {
+        ru: '**Параллельное оборудование** - главная и практически единственная причина выбирать битоническую сортировку. На GPU-шейдерах, FPGA и SIMD-инструкциях важна не общая скорость на одном ядре, а **предсказуемая, статическая последовательность операций без ветвлений по данным** - именно это и даёт фиксированная сеть сравнений.',
+        en: '**Parallel hardware** is the primary, almost sole reason to choose bitonic sort. On GPU shaders, FPGAs, and SIMD instructions, what matters is not raw single-core speed but a **predictable, static sequence of operations with no data-dependent branching** - exactly what a fixed comparison network provides.',
+      },
+      {
+        ru: '**Заранее известный, фиксированный размер входа** - ещё одно условие, при котором сеть особенно выгодна. Если размер данных известен на этапе компиляции (например, сортировка 256 частиц в шейдере), сеть можно полностью развернуть без циклов и условных переходов - компилятор превращает её в прямую последовательность инструкций.',
+        en: '**A known, fixed input size** is another condition where the network really pays off. If the data size is known at compile time (say, sorting 256 particles in a shader), the network can be fully unrolled without loops or branches - the compiler turns it into a straight sequence of instructions.',
+      },
+      {
+        ru: '**Обычный последовательный процессор** - худший сценарий для битонической сортировки. Она делает O(n log² n) сравнений против O(n log n) у merge sort, то есть **на однопоточном CPU почти всегда медленнее** при большом n. Без параллельного железа выигрыш в предсказуемости не окупает лишние сравнения.',
+        en: '**An ordinary single-threaded processor** is the worst scenario for bitonic sort. It performs O(n log² n) comparisons against merge sort\'s O(n log n), meaning it is **almost always slower on single-threaded CPUs** at large n. Without parallel hardware, the predictability gain does not pay for the extra comparisons.',
+      },
+      {
+        ru: '**Три оси сравнения** с соседями по классу: скорость на одном ядре - хуже quicksort и merge sort (лишний множитель log n). Параллельная глубина - лучше почти всех сравнительных сортировок, потому что merge sort имеет O(n) последовательных шагов слияния, а сеть - O(log² n). Предсказуемость - максимальная: пары сравнений известны до запуска, в отличие от quicksort, где выбор опорного элемента зависит от данных.',
+        en: '**Three comparison axes** against its comparison-sort peers: single-core speed - worse than quicksort and merge sort (an extra log n factor). Parallel depth - better than almost all comparison sorts, since merge sort has O(n) sequential merge steps while the network has O(log² n). Predictability - maximal: comparison pairs are known before execution, unlike quicksort, where pivot choice depends on the data.',
+      },
+      {
+        ru: '**Данные переменного размера в рантайме** - ситуация, где преимущество сети частично теряется. Дополнение до степени двойки означает, что при n=17 сеть фактически работает с 32 элементами, тратя сравнения на фиктивные sentinel-значения. При сильно нерегулярных размерах данных это может съедать заметную часть выигрыша от параллелизма.',
+        en: '**Data with a size that varies at runtime** is a case where the network\'s advantage partially erodes. Padding to a power of two means that for n=17 the network effectively operates on 32 elements, spending comparisons on dummy sentinel values. With highly irregular data sizes, this can eat into a meaningful share of the parallelism gain.',
+      },
+    ],
+    realWorld: [
+      {
+        ru: '**Игровые движки** - одна из самых заметных практических ниш. Битоническая сортировка через compute-шейдеры используется для сортировки частиц по глубине перед рендерингом прозрачности (order-independent transparency): без сортировки полупрозрачные частицы накладываются в неверном порядке и дают визуальные артефакты. Такой подход применяется в системах частиц Unreal Engine и Unity DOTS - счёт может идти на сотни тысяч частиц за кадр.',
+        en: '**Game engines** are one of the most visible practical niches. Bitonic sort via compute shaders is used to sort particles by depth before rendering transparency (order-independent transparency): without sorting, semi-transparent particles composite in the wrong order and produce visual artifacts. This approach appears in the particle systems of Unreal Engine and Unity DOTS, sometimes handling hundreds of thousands of particles per frame.',
+      },
+      {
+        ru: 'Историю сети задал один человек: в 1968 году **Кен Бэтчер** опубликовал статью «Sorting Networks and Their Applications», где представил и битоническую сеть, и родственную ей odd-even mergesort. Обе были придуманы для аппаратных сортирующих устройств задолго до появления современных GPU - идея «сравнения без ветвлений» родилась именно из ограничений железа 1960-х.',
+        en: 'The network\'s history traces to one person: in 1968, **Ken Batcher** published "Sorting Networks and Their Applications," introducing both the bitonic network and its relative, odd-even mergesort. Both were designed for hardware sorting devices long before modern GPUs existed - the idea of branch-free comparison was born directly from 1960s hardware constraints.',
+      },
+      {
+        ru: 'До появления современных GPU-библиотек сортировки (вроде **Thrust** для CUDA) программисты реализовывали сортировку на видеокартах через пиксельные шейдеры - в известной статье «Improved GPU Sorting» (GPU Gems 2, 2005) именно битоническая сеть использовалась как основа, потому что старые шейдерные конвейеры вообще не поддерживали условные переходы по данным.',
+        en: 'Before modern GPU sorting libraries existed (like **Thrust** for CUDA), programmers implemented GPU sorting through pixel shaders - the well-known "Improved GPU Sorting" article (GPU Gems 2, 2005) used the bitonic network as its foundation precisely because older shader pipelines did not support data-dependent branching at all.',
+      },
+      {
+        ru: '**Сетевое оборудование и FPGA-системы** используют сети сравнений (включая варианты битонической) там, где нужна предсказуемая задержка - например, при построении приоритетных очередей пакетов на коммутаторах или в системах с жёсткими требованиями по latency, таких как FPGA-платформы для алгоритмической торговли, где ранжирование заявок должно укладываться в наносекунды без единого условного перехода.',
+        en: '**Network hardware and FPGA systems** use comparison networks (bitonic variants included) wherever latency must be predictable - for example, building priority queues of packets on switches, or in hard-real-time systems like FPGA platforms for algorithmic trading, where ranking orders must fit within nanoseconds without a single conditional branch.',
+      },
+      {
+        ru: 'При этом ни в одной массовой стандартной библиотеке для CPU (V8, CPython, Java) битоническая сортировка не применяется - там правят Timsort и introsort, потому что на одном ядре лишний множитель log n в сложности перевешивает предсказуемость. Битоническая сеть остаётся узкоспециализированным инструментом именно для параллельного и аппаратного мира, а не заменой универсальным алгоритмам.',
+        en: 'That said, no mainstream CPU standard library (V8, CPython, Java) uses bitonic sort - Timsort and introsort rule there, because on a single core the extra log n factor outweighs the predictability. The bitonic network remains a narrowly specialized tool for the parallel and hardware world, not a replacement for general-purpose algorithms.',
+      },
+    ],
+  },
+
   relatedAlgorithms: ['merge-sort', 'heap-sort'],
 
   quiz: [
@@ -208,8 +388,8 @@ export const bitonicSort = {
         en: 'Exactly this shape (a "mountain" or "valley") is what lets the sequence be correctly merged in a single bitonic-merge pass.',
       },
       hint: {
-        ru: 'Представьте профиль горы: сначала подъём, потом спуск. Определение дано в разделе «Суть».',
-        en: 'Picture a mountain profile: first a rise, then a fall. The definition is in the "Intent" tab.',
+        ru: 'Представьте профиль горы: сначала подъём, потом спуск. Определение - в начале раздела «Как это работает».',
+        en: 'Picture a mountain profile: first a rise, then a fall. The definition opens the "How it works" section.',
       },
     },
     {
@@ -229,8 +409,8 @@ export const bitonicSort = {
         en: 'The recursive cnt/2 split at every network level assumes a power of two; for arbitrary n, the array is padded with sentinel elements.',
       },
       hint: {
-        ru: 'Подумайте, как сеть строится рекурсивным делением пополам - шаг 1 в разделе «Визуализация».',
-        en: 'Think about how the network is built by splitting in half - see step 1 in the "Visualization" tab.',
+        ru: 'Подумайте, как сеть строится рекурсивным делением пополам - объяснено в разделе «Как это работает».',
+        en: 'Think about how the network is built by splitting in half - explained in the "How it works" section.',
       },
     },
     {
@@ -253,8 +433,8 @@ export const bitonicSort = {
         en: 'A fixed, data-independent comparison structure lets many processors execute them simultaneously without branching.',
       },
       hint: {
-        ru: 'Что мешает обычным алгоритмам запускать сравнения параллельно? Ответ - в разделе «Суть», в описании проблемы.',
-        en: 'What prevents ordinary algorithms from running comparisons in parallel? See the problem description in the "Intent" tab.',
+        ru: 'Что мешает обычным алгоритмам запускать сравнения параллельно? Разбор параллельной глубины - в разделе «Как это работает».',
+        en: 'What prevents ordinary algorithms from running comparisons in parallel? See the parallel-depth breakdown in "How it works".',
       },
     },
     {
@@ -337,8 +517,8 @@ export const bitonicSort = {
         en: 'A comparison network is a set of comparators (index pairs) whose order and selection are fully determined before the algorithm runs, regardless of the input.',
       },
       hint: {
-        ru: 'Ключевое слово - «заранее». Определение есть в разделе «Суть».',
-        en: 'The key word is "in advance." The definition is in the "Intent" tab.',
+        ru: 'Ключевое слово - «заранее». Определение есть в разделе «Как это работает».',
+        en: 'The key word is "in advance." The definition is in the "How it works" section.',
       },
     },
     {
@@ -379,8 +559,8 @@ export const bitonicSort = {
         en: 'The absence of data-dependent branches and the fixed operation structure make bitonic sort ideal for GPU shaders, FPGAs, and SIMD instructions.',
       },
       hint: {
-        ru: 'Какое оборудование выигрывает от отсутствия условных переходов? Примеры перечислены в разделе «Суть».',
-        en: 'What hardware benefits from having no conditional branches? Examples are listed in the "Intent" tab.',
+        ru: 'Какое оборудование выигрывает от отсутствия условных переходов? Примеры (игровые движки, FPGA) перечислены в разделе «Когда применять» и «Примеры в коде».',
+        en: 'What hardware benefits from having no conditional branches? Examples (game engines, FPGAs) are listed in the "When to use" and "In code" sections.',
       },
     },
     {
