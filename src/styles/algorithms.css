@@ -932,6 +932,18 @@
 .quiz__results.is-warn .quiz__result-icon { color: var(--color-warning); }
 .quiz__results.is-fail .quiz__result-icon { color: var(--color-error); }
 
+.quiz__results .btn--secondary {
+  background-color: var(--color-bg-surface);
+  border-color: var(--color-border-strong);
+  color: var(--color-text-primary);
+}
+.quiz__results .btn--secondary:hover {
+  background-color: var(--color-bg-subtle);
+}
+.quiz__results.is-pass .btn--secondary { border-color: var(--color-success); }
+.quiz__results.is-warn .btn--secondary { border-color: var(--color-warning); }
+.quiz__results.is-fail .btn--secondary { border-color: var(--color-error); }
+
 .quiz__result-title {
   font-size: var(--text-xl);
   font-weight: var(--font-weight-bold);
