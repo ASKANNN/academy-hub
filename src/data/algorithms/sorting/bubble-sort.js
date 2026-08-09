@@ -371,8 +371,8 @@ export const bubbleSort = {
         en: 'By comparing left-to-right and pushing larger elements rightward, the algorithm guarantees the largest element gets pushed to the end in a single pass.',
       },
       hint: {
-        ru: 'Подумай, что происходит с элементом, когда он оказывается больше своего соседа при каждом сравнении - куда он «двигается»?',
-        en: "Think about what happens to an element whenever it's bigger than its neighbor at each comparison - which direction does it keep moving?",
+        ru: 'Подумай, что происходит с элементом, когда он оказывается больше своего соседа при каждом сравнении - куда он «двигается»? Ответ разобран в разделе «Как это работает».',
+        en: 'Think about what happens to an element whenever it\'s bigger than its neighbor at each comparison - which direction does it keep moving? See the "How it works" section.',
       },
     },
     {
@@ -392,8 +392,8 @@ export const bubbleSort = {
         en: 'In the worst case (reverse-sorted array), the algorithm needs the full number of passes and comparisons - quadratic in the array size.',
       },
       hint: {
-        ru: 'Посчитай, сколько сравнений потребуется, если после каждого прохода массив остаётся в обратном порядке.',
-        en: 'Count how many comparisons are needed if the array stays reverse-ordered after every pass.',
+        ru: 'Посчитай, сколько сравнений потребуется, если после каждого прохода массив остаётся в обратном порядке. Подробный разбор - в разделе «Как это работает».',
+        en: 'Count how many comparisons are needed if the array stays reverse-ordered after every pass. See the "How it works" section for the full breakdown.',
       },
     },
     {
@@ -413,8 +413,8 @@ export const bubbleSort = {
         en: 'All swaps happen directly in the original array; only a couple of temporary variables are needed to exchange values.',
       },
       hint: {
-        ru: 'Обрати внимание, используется ли отдельная структура данных для хранения промежуточных результатов, или всё происходит прямо в исходном массиве.',
-        en: 'Notice whether any separate data structure holds intermediate results, or whether everything happens directly in the original array.',
+        ru: 'Обрати внимание, используется ли отдельная структура данных для хранения промежуточных результатов, или всё происходит прямо в исходном массиве. Это прямо указано в разделе «Плюсы и минусы».',
+        en: 'Notice whether any separate data structure holds intermediate results, or whether everything happens directly in the original array. Stated directly in the "Pros & Cons" tab.',
       },
     },
     {
@@ -434,8 +434,8 @@ export const bubbleSort = {
         en: 'If a full pass makes no swaps, the array is already sorted - the algorithm can break out early, bringing the best case down to O(n).',
       },
       hint: {
-        ru: 'Что означает отсутствие перестановок за целый проход с точки зрения порядка массива?',
-        en: "What does zero swaps during an entire pass tell you about the array's order?",
+        ru: 'Что означает отсутствие перестановок за целый проход с точки зрения порядка массива? Смотри разбор кода в разделе «Реализация».',
+        en: "What does zero swaps during an entire pass tell you about the array's order? See the code walkthrough in the \"Implementation\" tab.",
       },
     },
     {
@@ -444,10 +444,10 @@ export const bubbleSort = {
         en: 'Why is bubble sort stable?',
       },
       options: [
-        { ru: 'Условие обмена строго больше (>): равные соседние элементы никогда не меняются местами', en: 'The swap condition is strictly greater than (>): equal adjacent elements are never swapped' },
-        { ru: 'Она делает чётное число перестановок за каждый проход, так что каждый элемент в итоге возвращается на место', en: 'It always makes an even number of swaps per pass, so every element eventually returns to its original slot' },
-        { ru: 'Она сравнивает каждый элемент одновременно по значению и по исходному индексу, используя составной ключ', en: 'It compares each element by both its value and its original index at once, treating the pair as a compound sort key' },
-        { ru: 'Она перемещает все дубликаты значений в начало массива за подготовительный шаг до основного цикла сортировки', en: 'It relocates all duplicate-value elements to the front in a preprocessing step that runs before the main sort loop begins' },
+        { ru: 'Обмен идёт при строгом >, поэтому равные соседние элементы не меняются местами', en: 'The swap uses strict >, so equal adjacent elements are never swapped' },
+        { ru: 'Каждый проход делает чётное число перестановок, поэтому элементы возвращаются на исходные места', en: 'Every pass makes an even number of swaps, so elements end up back in their original slots' },
+        { ru: 'Алгоритм сравнивает элементы по составному ключу «значение + исходный индекс»', en: 'The algorithm compares elements using a compound key of "value + original index"' },
+        { ru: 'Перед сортировкой все дубликаты переносятся в начало массива', en: 'All duplicate values are moved to the front of the array before sorting starts' },
       ],
       correct: 0,
       explanation: {
@@ -455,8 +455,8 @@ export const bubbleSort = {
         en: 'The algorithm swaps neighbors only when a[j] > a[j+1] (strict inequality). When a[j] === a[j+1] no swap occurs, so the relative order of equal elements is always preserved.',
       },
       hint: {
-        ru: 'Посмотри на условие обмена в реализации - что происходит, когда два соседних элемента равны по значению?',
-        en: 'Look at the swap condition in the implementation - what happens when two neighboring elements are equal in value?',
+        ru: 'Посмотри на условие обмена в разделе «Реализация» - что происходит, когда два соседних элемента равны по значению?',
+        en: 'Look at the swap condition in the "Implementation" tab - what happens when two neighboring elements are equal in value?',
       },
     },
     {
@@ -476,8 +476,8 @@ export const bubbleSort = {
         en: 'If the array is already sorted, the very first pass finds no pair to swap, the flag stays `false`, and the algorithm finishes after a single linear pass.',
       },
       hint: {
-        ru: 'Подумай, что покажет самый первый проход, если сравнивать уже упорядоченные соседние элементы.',
-        en: 'Think about what the very first pass finds when comparing neighbors that are already in order.',
+        ru: 'Подумай, что покажет самый первый проход, если сравнивать уже упорядоченные соседние элементы. Механика разобрана в разделе «Как это работает».',
+        en: 'Think about what the very first pass finds when comparing neighbors that are already in order. Walked through in the "How it works" section.',
       },
     },
     {
@@ -497,8 +497,8 @@ export const bubbleSort = {
         en: 'Each full pass is guaranteed to place one more element correctly at the end, so after n - 1 passes the single remaining element must already be in its place.',
       },
       hint: {
-        ru: 'Подумай, сколько элементов остаётся «непроверенными», если каждый проход фиксирует ровно один элемент справа.',
-        en: 'Think about how many elements remain unchecked if each pass locks exactly one more element on the right.',
+        ru: 'Подумай, сколько элементов остаётся «непроверенными», если каждый проход фиксирует ровно один элемент справа. Доказательство - в разделе «Как это работает».',
+        en: 'Think about how many elements remain unchecked if each pass locks exactly one more element on the right. The proof is in the "How it works" section.',
       },
     },
     {
@@ -518,8 +518,8 @@ export const bubbleSort = {
         en: "Bubble sort can shift an element leftward by at most one position per pass. A small element near the right end forces at least one swap on each of the n-1 passes - the `swapped` flag is set to `true` every time, so early exit never triggers.",
       },
       hint: {
-        ru: 'Подумай, насколько быстро элемент может переместиться к началу массива за один проход пузырьковой сортировки.',
-        en: 'Think about how far left an element can travel in a single bubble sort pass.',
+        ru: 'Подумай, насколько быстро элемент может переместиться к началу массива за один проход пузырьковой сортировки. «Черепахи» подробно разобраны в разделе «Как это работает».',
+        en: 'Think about how far left an element can travel in a single bubble sort pass. Turtles are covered in the "How it works" section.',
       },
     },
     {
@@ -542,8 +542,8 @@ export const bubbleSort = {
         en: "Bubble sort swaps any adjacent out-of-order pair - up to O(n²) swaps total. Selection sort does at most one swap per pass - up to n-1 total, which matters when writes are expensive (flash memory).",
       },
       hint: {
-        ru: 'Подумай, сколько перестановок каждый алгоритм делает за один проход по непросортированной части массива.',
-        en: 'Think about how many swaps each algorithm makes during a single pass over the unsorted portion.',
+        ru: 'Подумай, сколько перестановок каждый алгоритм делает за один проход по непросортированной части массива. Сравнение чисел перестановок - в разделе «Когда применять».',
+        en: 'Think about how many swaps each algorithm makes during a single pass over the unsorted portion. The swap-count comparison is in the "When to use" section.',
       },
     },
     {
@@ -553,20 +553,20 @@ export const bubbleSort = {
       },
       options: [
         {
-          ru: 'Чередует проходы вперёд и назад, сдвигая малые элементы у правого края влево за один проход вместо n-1 отдельных проходов',
-          en: 'It alternates forward and backward passes, so a small element near the right end moves left in one backward pass instead of advancing just one position per pass',
+          ru: 'Чередует проходы вперёд и назад, быстрее вынося мелкие элементы к началу',
+          en: 'It alternates forward and backward passes, moving small elements forward faster',
         },
         {
-          ru: 'Резервирует дополнительный буфер размером n и копирует элементы в него перед каждым проходом, сокращая тем самым число нужных сравнений',
-          en: 'It reserves an extra buffer of size n and copies elements into it before each pass, which reduces the total number of comparisons the algorithm has to perform',
+          ru: 'Резервирует буфер размером n и копирует туда элементы перед каждым проходом',
+          en: 'It reserves a buffer of size n and copies elements into it before each pass',
         },
         {
-          ru: 'Разбивает неотсортированную часть на две половины и обрабатывает все сравнения в обеих половинах одновременно через два независимых указателя',
-          en: 'It splits the unsorted portion into two halves and processes comparisons in both halves simultaneously using two independent pointer threads running in parallel',
+          ru: 'Делит массив на две половины и сравнивает их параллельно через два указателя',
+          en: 'It splits the array into two halves and compares them in parallel using two pointers',
         },
         {
-          ru: 'Снижает сложность худшего случая с O(n²) до O(n log n), обнаруживая на первом проходе уже отсортированные подмассивы и пропуская их',
-          en: 'It reduces worst-case complexity from O(n²) to O(n log n) by detecting already-sorted subarrays on the first forward pass and skipping over them entirely',
+          ru: 'Снижает худший случай до O(n log n), пропуская уже отсортированные подмассивы',
+          en: 'It reduces the worst case to O(n log n) by skipping already-sorted subarrays',
         },
       ],
       correct: 0,
@@ -575,8 +575,8 @@ export const bubbleSort = {
         en: "Plain bubble sort moves a 'turtle' (small element near the right end) only one position left per pass. Cocktail shaker sort on its backward pass (right to left) moves it many positions at once, while still being O(n²) in the worst case.",
       },
       hint: {
-        ru: 'Представь маленький элемент в самом конце массива в обычной пузырьковой - сколько проходов ему нужно, чтобы добраться до начала?',
-        en: 'Picture a small element sitting at the very end of the array in plain bubble sort - how many passes does it take to reach the front?',
+        ru: 'Представь маленький элемент в самом конце массива в обычной пузырьковой - сколько проходов ему нужно, чтобы добраться до начала? Механика Cocktail Shaker Sort описана в разделе «Примеры в коде».',
+        en: 'Picture a small element sitting at the very end of the array in plain bubble sort - how many passes does it take to reach the front? Cocktail Shaker Sort is explained in the "In code" section.',
       },
     },
   ],

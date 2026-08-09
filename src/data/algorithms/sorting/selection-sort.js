@@ -349,8 +349,8 @@ export const selectionSort = {
         en: 'Selection sort always scans the entire remaining unsorted range on every step - the number of comparisons is fixed at n(n-1)/2 regardless of element order. There is no "good" case.',
       },
       hint: {
-        ru: 'Подумай, может ли внутренний цикл поиска минимума пропустить часть массива хотя бы в одном случае.',
-        en: 'Think about whether the inner loop searching for the minimum can ever skip part of the array in any case.',
+        ru: 'Подумай, может ли внутренний цикл поиска минимума пропустить часть массива хотя бы в одном случае. Доказательство - в разделе «Как это работает».',
+        en: 'Think about whether the inner loop searching for the minimum can ever skip part of the array in any case. See the "How it works" section for the proof.',
       },
     },
     {
@@ -382,8 +382,8 @@ export const selectionSort = {
         en: "This is the loop invariant that makes the algorithm correct: once an element is placed at the boundary and the boundary advances, that element is never touched again.",
       },
       hint: {
-        ru: 'Подумай, что остаётся неизменным для элементов, уже оказавшихся слева от текущей границы шага.',
-        en: "Think about what stays unchanged for elements that already ended up left of the current step's boundary.",
+        ru: 'Подумай, что остаётся неизменным для элементов, уже оказавшихся слева от текущей границы шага. Инвариант разобран в разделе «Как это работает».',
+        en: "Think about what stays unchanged for elements that already ended up left of the current step's boundary. Explained in the \"How it works\" section.",
       },
     },
     {
@@ -412,8 +412,8 @@ export const selectionSort = {
         en: 'Each of the n-1 steps scans the entire remaining unsorted range: (n-1) + (n-2) + ... + 1 = n(n - 1) / 2 comparisons - this sum does not depend on how the elements are arranged.',
       },
       hint: {
-        ru: 'Просуммируй, сколько элементов просматривается на каждом из n-1 шагов.',
-        en: 'Sum up how many elements get scanned on each of the n-1 steps.',
+        ru: 'Просуммируй, сколько элементов просматривается на каждом из n-1 шагов. Подсчёт разобран в разделе «Как это работает».',
+        en: 'Sum up how many elements get scanned on each of the n-1 steps. Worked out in the "How it works" section.',
       },
     },
     {
@@ -433,8 +433,8 @@ export const selectionSort = {
         en: 'Each of the n-1 steps performs at most one swap - the minimum is exchanged with the boundary element.',
       },
       hint: {
-        ru: 'Подумай, сколько перестановок происходит за один шаг, и сколько всего таких шагов в алгоритме.',
-        en: 'Think about how many swaps happen per step, and how many steps the algorithm takes in total.',
+        ru: 'Подумай, сколько перестановок происходит за один шаг, и сколько всего таких шагов в алгоритме. Подробности - в разделе «Как это работает».',
+        en: 'Think about how many swaps happen per step, and how many steps the algorithm takes in total. Details are in the "How it works" section.',
       },
     },
     {
@@ -444,20 +444,20 @@ export const selectionSort = {
       },
       options: [
         {
-          ru: 'Перестановка минимума с границей может «перепрыгнуть» через равный элемент и изменить его относительный порядок',
-          en: 'Swapping the minimum with the boundary can "jump over" an equal element and change its relative order',
+          ru: 'Обмен минимума с границей может «перепрыгнуть» через равный элемент, изменив его порядок',
+          en: 'Swapping the minimum with the boundary can "jump over" an equal element, changing its order',
         },
         {
-          ru: 'Алгоритм использует случайные числа для выбора следующего элемента на каждом шаге, что делает результат непредсказуемым',
-          en: 'The algorithm uses random numbers to decide the next element to process at every step, making the result unpredictable',
+          ru: 'На каждом шаге алгоритм случайным образом выбирает следующий элемент для обработки',
+          en: 'On every step the algorithm randomly picks the next element to process',
         },
         {
-          ru: 'Он не сортирует на месте, требуя отдельного вспомогательного массива для результата размером с исходный',
-          en: 'It does not sort in place, requiring a separate auxiliary array the same size as the original for the result',
+          ru: 'Он не сортирует на месте и требует отдельный вспомогательный массив такого же размера, как исходный',
+          en: 'It does not sort in place and requires a separate auxiliary array the same size as the original input',
         },
         {
-          ru: 'Он работает только с целыми числами и не может обрабатывать строки или объекты',
-          en: 'It only works with integers and cannot handle strings or arbitrary objects',
+          ru: 'Он работает только с целыми числами и не умеет обрабатывать строки или объекты',
+          en: 'It only works with integers and cannot handle strings or arbitrary objects at all',
         },
       ],
       correct: 0,
@@ -466,8 +466,8 @@ export const selectionSort = {
         en: 'If the minimum is found further in the array than an equal-valued element closer to the boundary, the swap changes their original order.',
       },
       hint: {
-        ru: 'Подумай, что происходит с равным по значению элементом, стоящим между границей и найденным минимумом, когда происходит обмен.',
-        en: 'Think about what happens to an equal-valued element sitting between the boundary and the found minimum when the swap happens.',
+        ru: 'Подумай, что происходит с равным по значению элементом, стоящим между границей и найденным минимумом, когда происходит обмен. Смотри раздел «Как это работает».',
+        en: 'Think about what happens to an equal-valued element sitting between the boundary and the found minimum when the swap happens. See the "How it works" section.',
       },
     },
     {
@@ -499,8 +499,8 @@ export const selectionSort = {
         en: "Unlike bubble sort with early exit, selection sort always searches for the minimum across the whole remaining part - comparisons don't depend on the initial order.",
       },
       hint: {
-        ru: 'Подумай, может ли внутренний цикл поиска минимума когда-нибудь пропустить часть неотсортированного участка.',
-        en: 'Think about whether the inner minimum-search loop can ever skip part of the unsorted range.',
+        ru: 'Подумай, может ли внутренний цикл поиска минимума когда-нибудь пропустить часть неотсортированного участка. Ответ - в разделе «Как это работает».',
+        en: 'Think about whether the inner minimum-search loop can ever skip part of the unsorted range. See the "How it works" section.',
       },
     },
     {
@@ -532,8 +532,8 @@ export const selectionSort = {
         en: "Minimizing the number of swaps is the algorithm's main advantage, so it pays off where writing costs more than reading and comparing.",
       },
       hint: {
-        ru: 'Вспомни главное преимущество алгоритма из его описания - что именно он минимизирует ценой большего числа сравнений.',
-        en: "Recall the algorithm's main advantage from its description - what exactly it minimizes at the cost of more comparisons.",
+        ru: 'Вспомни главное преимущество алгоритма из раздела «Когда применять» - что именно он минимизирует ценой большего числа сравнений.',
+        en: 'Recall the algorithm\'s main advantage from the "When to use" section - what exactly it minimizes at the cost of more comparisons.',
       },
     },
     {
@@ -565,8 +565,8 @@ export const selectionSort = {
         en: 'Both make O(n²) comparisons, but selection sort caps swaps at n-1, while bubble sort can swap on almost every comparison.',
       },
       hint: {
-        ru: 'Раздели вопрос на два отдельных счётчика: сколько сравнений и сколько перестановок делает каждый алгоритм.',
-        en: 'Split the question into two separate counters: how many comparisons and how many swaps each algorithm performs.',
+        ru: 'Раздели вопрос на два отдельных счётчика: сколько сравнений и сколько перестановок делает каждый алгоритм. Сравнение есть в разделе «Как это работает».',
+        en: 'Split the question into two separate counters: how many comparisons and how many swaps each algorithm performs. See the "How it works" section for the comparison.',
       },
     },
     {
@@ -598,8 +598,8 @@ export const selectionSort = {
         en: 'Heap sort keeps the unsorted part as a heap, so extracting the next extreme element costs O(log n) instead of a full linear scan - this is exactly what brings the total complexity down to O(n log n).',
       },
       hint: {
-        ru: 'Подумай, какая структура данных позволяет находить минимум быстрее, чем перебором всех элементов подряд.',
-        en: 'Think about what data structure lets you find a minimum faster than scanning every element one by one.',
+        ru: 'Подумай, какая структура данных позволяет находить минимум быстрее, чем перебором всех элементов подряд. Смотри раздел «Примеры в коде».',
+        en: 'Think about what data structure lets you find a minimum faster than scanning every element one by one. See the "In code" section.',
       },
     },
     {
@@ -609,20 +609,20 @@ export const selectionSort = {
       },
       options: [
         {
-          ru: 'Вставлять найденный минимум на место сдвигом элементов, а не прямым обменом с границей',
-          en: 'Insert the found minimum into place by shifting elements over, instead of directly swapping with the boundary',
+          ru: 'Сдвигать элементы, вставляя минимум на место, вместо прямого обмена с границей',
+          en: 'Shift elements to insert the minimum into place, instead of swapping with the boundary',
         },
         {
-          ru: 'Сортировать в обратном порядке, а затем полностью развернуть весь итоговый результат целиком в самом конце работы',
-          en: 'Sort in reverse order and then completely reverse the entire final result afterward at the very end of the run',
+          ru: 'Сортировать элементы в обратном порядке, а затем развернуть итоговый результат целиком',
+          en: 'Sort the elements in reverse order and then reverse the entire final result',
         },
         {
-          ru: 'Использовать два отдельных массива и постоянно копировать элементы туда и обратно между ними на каждом шаге',
-          en: 'Use two separate arrays and constantly copy elements back and forth between them at every single step',
+          ru: 'Использовать второй вспомогательный массив и постоянно копировать в него элементы на каждом шаге',
+          en: 'Use a second auxiliary array and constantly copy elements into it on every single step',
         },
         {
-          ru: 'Это принципиально невозможно сделать для данного конкретного алгоритма никаким известным способом',
-          en: 'It is fundamentally impossible to do for this particular algorithm by any known method whatsoever',
+          ru: 'Это принципиально невозможно сделать для данного алгоритма никаким способом',
+          en: 'It is fundamentally impossible to do for this algorithm by any known method',
         },
       ],
       correct: 0,
@@ -631,8 +631,8 @@ export const selectionSort = {
         en: 'Stability breaks specifically because of the direct swap, which "jumps over" an equal element. If, instead of swapping, elements are shifted to make room for the minimum (like in insertion sort), the relative order of equal elements is preserved - at the cost of up to O(n) writes per step instead of one.',
       },
       hint: {
-        ru: 'Подумай, что именно ломает устойчивость - сам обмен местами - и как избежать этого «перепрыгивания».',
-        en: 'Think about what specifically breaks stability - the swap itself - and how you would avoid that "jump".',
+        ru: 'Подумай, что именно ломает устойчивость - сам обмен местами - и как избежать этого «перепрыгивания». Смотри раздел «Как это работает».',
+        en: 'Think about what specifically breaks stability - the swap itself - and how you would avoid that "jump". See the "How it works" section.',
       },
     },
   ],
