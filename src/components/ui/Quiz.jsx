@@ -119,9 +119,10 @@ export function Quiz({ quiz, lang, t, reportUrl = '' }) {
     scrollPending.current = false;
     const el = quizRef.current;
     if (!el) return;
+    const target = el.closest('.tabs') ?? el;
     const header = document.querySelector('.header');
     const headerOffset = header ? header.getBoundingClientRect().height : 0;
-    const top = Math.round(el.getBoundingClientRect().top + window.scrollY - headerOffset - 16);
+    const top = Math.round(target.getBoundingClientRect().top + window.scrollY - headerOffset - 16);
     document.documentElement.scrollTop = top;
     document.body.scrollTop = top;
   });
