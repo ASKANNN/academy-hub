@@ -1,5 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { flushSync } from 'react-dom';
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { playErrorTone, playSuccessChime } from '../../utils/sound.js';
 
 function shuffle(list) {
@@ -101,6 +100,7 @@ export function Quiz({ quiz, lang, t, reportUrl = '' }) {
   const [hintOpen, setHintOpen] = useState(false);
   const nextBtnRef = useRef(null);
   const quizRef = useRef(null);
+  const scrollPending = useRef(false);
 
   const isIntro = step === -1;
   const isResult = step >= total;
@@ -114,14 +114,19 @@ export function Quiz({ quiz, lang, t, reportUrl = '' }) {
     if (selected !== null) nextBtnRef.current?.focus({ preventScroll: true });
   }, [selected]);
 
-  function scrollToQuiz() {
+  useLayoutEffect(() => {
+    if (!scrollPending.current) return;
+    scrollPending.current = false;
     const el = quizRef.current;
-    if (el) window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY);
-  }
+    if (!el) return;
+    const top = Math.round(el.getBoundingClientRect().top + window.scrollY);
+    document.documentElement.scrollTop = top;
+    document.body.scrollTop = top;
+  });
 
   function handleStart() {
-    flushSync(() => setStep(0));
-    scrollToQuiz();
+    scrollPending.current = true;
+    setStep(0);
   }
 
   function reset() {
@@ -145,12 +150,10 @@ export function Quiz({ quiz, lang, t, reportUrl = '' }) {
 
   function handleNext() {
     nextBtnRef.current?.blur();
-    flushSync(() => {
-      setSelected(null);
-      setHintOpen(false);
-      setStep((s) => s + 1);
-    });
-    scrollToQuiz();
+    scrollPending.current = true;
+    setSelected(null);
+    setHintOpen(false);
+    setStep((s) => s + 1);
   }
 
   const reportLink = reportUrl ? (
