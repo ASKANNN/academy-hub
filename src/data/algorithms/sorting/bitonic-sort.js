@@ -208,8 +208,8 @@ export const bitonicSort = {
         en: 'Exactly this shape (a "mountain" or "valley") is what lets the sequence be correctly merged in a single bitonic-merge pass.',
       },
       hint: {
-        ru: 'Представьте профиль горы: сначала подъём, потом спуск. Какую форму описывает последовательность?',
-        en: 'Picture a mountain profile: first a rise, then a fall. What shape does the sequence trace?',
+        ru: 'Представьте профиль горы: сначала подъём, потом спуск. Определение дано в разделе «Суть».',
+        en: 'Picture a mountain profile: first a rise, then a fall. The definition is in the "Intent" tab.',
       },
     },
     {
@@ -229,8 +229,8 @@ export const bitonicSort = {
         en: 'The recursive cnt/2 split at every network level assumes a power of two; for arbitrary n, the array is padded with sentinel elements.',
       },
       hint: {
-        ru: 'Подумайте о том, как сеть строится рекурсивным делением пополам на каждом уровне.',
-        en: 'Think about how the network is built by splitting in half at every level of recursion.',
+        ru: 'Подумайте, как сеть строится рекурсивным делением пополам - шаг 1 в разделе «Визуализация».',
+        en: 'Think about how the network is built by splitting in half - see step 1 in the "Visualization" tab.',
       },
     },
     {
@@ -253,8 +253,8 @@ export const bitonicSort = {
         en: 'A fixed, data-independent comparison structure lets many processors execute them simultaneously without branching.',
       },
       hint: {
-        ru: 'Что мешает обычным алгоритмам запускать сравнения параллельно? Что было бы нужно знать заранее?',
-        en: 'What prevents ordinary algorithms from running comparisons in parallel? What would need to be known ahead of time?',
+        ru: 'Что мешает обычным алгоритмам запускать сравнения параллельно? Ответ - в разделе «Суть», в описании проблемы.',
+        en: 'What prevents ordinary algorithms from running comparisons in parallel? See the problem description in the "Intent" tab.',
       },
     },
     {
@@ -274,8 +274,8 @@ export const bitonicSort = {
         en: 'The network consists of O(log² n) levels, each requiring O(n) comparisons, giving O(n log² n) overall.',
       },
       hint: {
-        ru: 'Сеть имеет O(log² n) уровней. Сколько сравнений выполняется на каждом уровне?',
-        en: 'The network has O(log² n) levels. How many comparisons happen at each level?',
+        ru: 'Сеть имеет O(log² n) уровней, на каждом - O(n) сравнений. Значение указано в бейджах сложности вверху страницы.',
+        en: 'The network has O(log² n) levels with O(n) comparisons each. See the complexity badges at the top of the page.',
       },
     },
     {
@@ -295,8 +295,8 @@ export const bitonicSort = {
         en: 'Like most comparison networks, bitonic sort swaps equal elements based on their position in the network, losing their original order.',
       },
       hint: {
-        ru: 'Может ли сеть с фиксированными парами сравнений «видеть» исходные позиции равных элементов?',
-        en: 'Can a network with fixed comparison pairs "see" the original positions of equal elements?',
+        ru: 'Может ли сеть с фиксированными парами сравнений «видеть» исходные позиции равных элементов? Ответ прямо указан в разделе «Плюсы и минусы».',
+        en: 'Can a network with fixed comparison pairs "see" the original positions of equal elements? Stated directly in the "Pros & Cons" tab.',
       },
     },
     {
@@ -316,8 +316,8 @@ export const bitonicSort = {
         en: 'With enough processors, all comparisons at one network level run simultaneously - actual time reduces to the network depth O(log² n).',
       },
       hint: {
-        ru: 'Если все сравнения одного уровня выполняются одновременно, что определяет реальное время выполнения?',
-        en: 'If all comparisons at one level run simultaneously, what determines the actual wall-clock time?',
+        ru: 'Если все сравнения одного уровня выполняются одновременно, что определяет реальное время выполнения? Разбор - в разделе «Плюсы и минусы».',
+        en: 'If all comparisons at one level run simultaneously, what determines the actual wall-clock time? See the "Pros & Cons" tab.',
       },
     },
     {
@@ -337,8 +337,8 @@ export const bitonicSort = {
         en: 'A comparison network is a set of comparators (index pairs) whose order and selection are fully determined before the algorithm runs, regardless of the input.',
       },
       hint: {
-        ru: 'Ключевое слово - «заранее». Что именно известно ещё до того, как алгоритм получил данные?',
-        en: 'The key word is "in advance." What exactly is known before the algorithm even sees the data?',
+        ru: 'Ключевое слово - «заранее». Определение есть в разделе «Суть».',
+        en: 'The key word is "in advance." The definition is in the "Intent" tab.',
       },
     },
     {
@@ -358,8 +358,8 @@ export const bitonicSort = {
         en: 'Sentinel elements are set larger than any real element so the network operates correctly, and they are simply dropped at the end.',
       },
       hint: {
-        ru: 'Как можно заставить сеть, рассчитанную на степень двойки, работать с произвольным n?',
-        en: 'How can you make a network designed for a power of two work on an arbitrary n?',
+        ru: 'Как заставить сеть, рассчитанную на степень двойки, работать с произвольным n? Смотри код в разделе «Реализация».',
+        en: 'How do you make a network designed for a power of two work with an arbitrary n? See the code in the "Implementation" tab.',
       },
     },
     {
@@ -379,8 +379,8 @@ export const bitonicSort = {
         en: 'The absence of data-dependent branches and the fixed operation structure make bitonic sort ideal for GPU shaders, FPGAs, and SIMD instructions.',
       },
       hint: {
-        ru: 'Какое оборудование выигрывает от отсутствия условных переходов и заранее известной последовательности операций?',
-        en: 'What hardware benefits most from having no conditional branches and a pre-known sequence of operations?',
+        ru: 'Какое оборудование выигрывает от отсутствия условных переходов? Примеры перечислены в разделе «Суть».',
+        en: 'What hardware benefits from having no conditional branches? Examples are listed in the "Intent" tab.',
       },
     },
     {
@@ -400,8 +400,8 @@ export const bitonicSort = {
         en: 'The main memory is the padded copy of up to 2n elements, plus a recursion stack of depth O(log² n) - giving O(n) overall.',
       },
       hint: {
-        ru: 'Нужна ли копия массива для дополнения? Насколько глубока рекурсия?',
-        en: 'Is a copy of the array needed for padding? How deep does the recursion go?',
+        ru: 'Нужна ли копия массива для дополнения? Значение указано в бейдже «Память» вверху страницы, код - в «Реализации».',
+        en: 'Is a copy of the array needed for padding? See the "Space" badge at the top of the page and the code in "Implementation".',
       },
     },
   ],
