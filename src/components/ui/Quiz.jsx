@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { flushSync } from 'react-dom';
 import { playErrorTone, playSuccessChime } from '../../utils/sound.js';
 
 function shuffle(list) {
@@ -113,15 +114,15 @@ export function Quiz({ quiz, lang, t, reportUrl = '' }) {
     if (selected !== null) nextBtnRef.current?.focus({ preventScroll: true });
   }, [selected]);
 
-  useEffect(() => {
-    if (step < 0) return;
-    const id = setTimeout(() => {
-      const el = quizRef.current;
-      if (!el) return;
-      window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY, behavior: 'instant' });
-    }, 0);
-    return () => clearTimeout(id);
-  }, [step]);
+  function scrollToQuiz() {
+    const el = quizRef.current;
+    if (el) window.scrollTo(0, el.getBoundingClientRect().top + window.scrollY);
+  }
+
+  function handleStart() {
+    flushSync(() => setStep(0));
+    scrollToQuiz();
+  }
 
   function reset() {
     setStep(-1);
@@ -144,9 +145,12 @@ export function Quiz({ quiz, lang, t, reportUrl = '' }) {
 
   function handleNext() {
     nextBtnRef.current?.blur();
-    setSelected(null);
-    setHintOpen(false);
-    setStep((s) => s + 1);
+    flushSync(() => {
+      setSelected(null);
+      setHintOpen(false);
+      setStep((s) => s + 1);
+    });
+    scrollToQuiz();
   }
 
   const reportLink = reportUrl ? (
@@ -159,7 +163,7 @@ export function Quiz({ quiz, lang, t, reportUrl = '' }) {
   if (isIntro) {
     return (
       <div ref={quizRef} className="quiz quiz--intro">
-        <button type="button" className="btn btn--primary" onClick={() => setStep(0)}>
+        <button type="button" className="btn btn--primary" onClick={handleStart}>
           {t.quizStart}
         </button>
         {reportLink}
