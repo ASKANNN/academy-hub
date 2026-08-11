@@ -22,6 +22,12 @@
     box-shadow var(--duration-fast) var(--ease-in-out);
 }
 
+/* Deliberate one-off hex, not a token: same warm tint as .algorithm-card
+   below, tokens.css has no warm hue to reuse instead. */
+[data-theme="light"] .accordion__item {
+  background-color: #FEFBF6;
+}
+
 .accordion__item:has(.accordion__trigger:hover) {
   border-color: var(--color-border-accent);
   box-shadow: 0 0 0 1px rgba(99, 102, 241, 0.15), 0 8px 24px rgba(99, 102, 241, 0.12);
