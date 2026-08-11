@@ -169,8 +169,8 @@ def bogo_sort(arr):
         en: 'After each shuffle, it checks whether the array is sorted; if not, the shuffle is repeated.',
       },
       hint: {
-        ru: 'Алгоритм не запоминает предыдущие попытки и не использует никакой информации об элементах. Что он делает снова и снова?',
-        en: 'The algorithm remembers nothing from previous attempts and uses no information about elements. What does it do over and over?',
+        ru: 'Алгоритм не запоминает предыдущие попытки и не использует никакой информации об элементах. Что он делает снова и снова - см. раздел «Суть», подраздел «Решение».',
+        en: 'The algorithm remembers nothing from previous attempts and uses no information about elements. What does it do over and over - see the "Solution" subsection in the "Intent" tab.',
       },
     },
     {
@@ -190,8 +190,8 @@ def bogo_sort(arr):
         en: 'There are n! permutations of the array, and on average roughly n! attempts are needed, each costing O(n) to shuffle and check.',
       },
       hint: {
-        ru: 'Сколько всего возможных перестановок n элементов? Во сколько обходится каждая попытка?',
-        en: 'How many total permutations of n elements are there? How much does each attempt cost?',
+        ru: 'Сколько всего возможных перестановок n элементов и во сколько обходится каждая попытка - разобрано в разделе «Суть», подраздел «Решение».',
+        en: 'How many total permutations of n elements are there and how much does each attempt cost - explained in the "Solution" subsection of the "Intent" tab.',
       },
     },
     {
@@ -211,8 +211,8 @@ def bogo_sort(arr):
         en: 'Each shuffle is independent and random, so an arbitrarily long streak of failed attempts remains possible, though extremely unlikely.',
       },
       hint: {
-        ru: 'Если каждая попытка независима от предыдущих, может ли алгоритм «знать», что следующая попытка обязательно будет удачной?',
-        en: 'If each attempt is independent of the previous ones, can the algorithm "know" that the next attempt must succeed?',
+        ru: 'Если каждая попытка независима от предыдущих, может ли алгоритм «знать», что следующая попытка обязательно будет удачной? Это прямо названо в шаге «Нет гарантированного числа попыток» на вкладке «Визуализация», а также во втором пункте минусов на вкладке «Плюсы и минусы».',
+        en: 'If each attempt is independent of the previous ones, can the algorithm "know" the next attempt must succeed? Named directly in the "No guaranteed number of attempts" step on the "Visualization" tab, and the second "Cons" item in "Pros & Cons".',
       },
     },
     {
@@ -235,8 +235,8 @@ def bogo_sort(arr):
         en: 'Bogosort is used exclusively as a teaching illustration, not as a practical tool.',
       },
       hint: {
-        ru: 'Что можно объяснить студентам через контрпример - алгоритм, который правильный, но бесполезный?',
-        en: 'What can be taught through a counterexample - an algorithm that is correct but completely useless?',
+        ru: 'Что можно объяснить студентам через контрпример - алгоритм, который правильный, но бесполезный? Ответ - в разделе «Суть», подраздел «Когда применять».',
+        en: 'What can be taught through a counterexample - an algorithm that is correct but completely useless? See the "When to use" subsection in the "Intent" tab.',
       },
     },
     {
@@ -256,8 +256,8 @@ def bogo_sort(arr):
         en: 'The shuffle is done in place, so the extra memory does not depend on the array size.',
       },
       hint: {
-        ru: 'Создаёт ли алгоритм копии массива или дополнительные структуры данных при каждом перемешивании?',
-        en: 'Does the algorithm create copies of the array or extra data structures on each shuffle?',
+        ru: 'Создаёт ли алгоритм копии массива или дополнительные структуры данных при каждом перемешивании? Третий пункт плюсов на вкладке «Плюсы и минусы» отвечает напрямую.',
+        en: 'Does the algorithm create copies of the array or extra data structures on each shuffle? The third "Pros" item in "Pros & Cons" answers this directly.',
       },
     },
     {
@@ -277,8 +277,8 @@ def bogo_sort(arr):
         en: 'If the input is already sorted, the algorithm exits after one check costing O(n) - that is the best case.',
       },
       hint: {
-        ru: 'При каком входе алгоритм завершается как можно быстрее? Сколько шагов занимает проверка?',
-        en: 'On what input does the algorithm finish as quickly as possible? How many steps does a single check take?',
+        ru: 'При каком входе алгоритм завершается как можно быстрее? Сколько шагов занимает проверка - см. бейдж «Лучший случай» вверху страницы и шаг «Проверить, отсортирован ли массив» на вкладке «Визуализация».',
+        en: 'On what input does the algorithm finish as quickly as possible? See the "Best" complexity badge at the top of the page and the "Check whether the array is sorted" step on the "Visualization" tab.',
       },
     },
     {
@@ -298,8 +298,8 @@ def bogo_sort(arr):
         en: 'The probability of infinitely many failed attempts is zero, so the algorithm terminates with probability 1 - this is what distinguishes it from an unrealizable infinite procedure.',
       },
       hint: {
-        ru: 'Может ли цепочка независимых случайных событий с одинаковой положительной вероятностью успеха никогда не завершиться?',
-        en: 'Can a chain of independent random events each with the same positive success probability go on forever?',
+        ru: 'Может ли цепочка независимых случайных событий с одинаковой положительной вероятностью успеха никогда не завершиться? Разобрано в разделе «Суть», подраздел «Проблема».',
+        en: 'Can a chain of independent random events, each with the same positive success probability, go on forever? See the "Problem" subsection in the "Intent" tab.',
       },
     },
     {
@@ -319,8 +319,8 @@ def bogo_sort(arr):
         en: 'The expected number of attempts is on the order of n! (3! = 6, 4! = 24) - each new element multiplies the expectation by n, making the growth factorial.',
       },
       hint: {
-        ru: 'Во сколько раз 4! больше 3!? Что это говорит о скорости роста сложности?',
-        en: 'How many times larger is 4! than 3!? What does that say about how fast the complexity grows?',
+        ru: 'Во сколько раз 4! больше 3!? Бейдж «Средний случай» вверху страницы и подраздел «Решение» на вкладке «Суть» дают формулу роста.',
+        en: 'How many times larger is 4! than 3!? The "Average" complexity badge at the top and the "Solution" subsection in the "Intent" tab give the growth formula.',
       },
     },
     {
@@ -340,8 +340,8 @@ def bogo_sort(arr):
         en: 'Each shuffle uses a random number generator, so neither the attempt count nor the algorithm\'s path is reproducible on re-run.',
       },
       hint: {
-        ru: 'Зависит ли следующий шаг алгоритма от случайного числа? Что это означает для воспроизводимости?',
-        en: 'Does the algorithm\'s next step depend on a random number? What does that mean for reproducibility?',
+        ru: 'Зависит ли следующий шаг алгоритма от случайного числа? Посмотрите на шаг «Если нет - перемешать случайным образом» на вкладке «Визуализация» и на код функции `shuffle` в «Реализации».',
+        en: 'Does the algorithm\'s next step depend on a random number? Look at the "If not - shuffle randomly" step on the "Visualization" tab and the `shuffle` function code in "Implementation".',
       },
     },
     {
@@ -361,8 +361,8 @@ def bogo_sort(arr):
         en: 'The Fisher-Yates shuffle guarantees uniform distribution over all n! permutations in O(n) time - it is the standard choice for an unbiased random shuffle.',
       },
       hint: {
-        ru: 'Какой алгоритм перемешивания равномерно распределяет все перестановки и работает за O(n)?',
-        en: 'Which shuffle algorithm uniformly distributes all permutations and runs in O(n)?',
+        ru: 'Какой алгоритм перемешивания равномерно распределяет все перестановки и работает за O(n)? Назван в разделе «Суть» (подраздел «Решение») и в функции `shuffle` на вкладке «Реализация».',
+        en: 'Which shuffle algorithm uniformly distributes all permutations and runs in O(n)? Named in the "Solution" subsection of the "Intent" tab and in the `shuffle` function on the "Implementation" tab.',
       },
     },
   ],
