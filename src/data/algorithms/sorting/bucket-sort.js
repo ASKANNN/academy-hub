@@ -168,8 +168,8 @@ export const bucketSort = {
         en: 'With uniform distribution, elements spread evenly across buckets, each bucket is small, and sorting each is fast. With skewed distribution, nearly everything can land in one bucket.',
       },
       hint: {
-        ru: 'Что происходит с размером корзин при разных распределениях? Что влияет на скорость сортировки внутри корзины?',
-        en: 'What happens to bucket sizes under different distributions? What drives the speed of sorting inside a bucket?',
+        ru: 'Что происходит с размером корзин при разных распределениях? Разобрано в подразделе «Решение» на вкладке «Суть» и в первом пункте минусов на вкладке «Плюсы и минусы».',
+        en: 'What happens to bucket sizes under different distributions? See the "Solution" subsection on the "Intent" tab and the first "Cons" item on "Pros & Cons".',
       },
     },
     {
@@ -189,8 +189,8 @@ export const bucketSort = {
         en: 'If one bucket holds nearly all n elements, the inner sort (e.g. insertion sort) runs in O(n²) on that bucket - distributing into buckets gave no benefit.',
       },
       hint: {
-        ru: 'Если одна корзина содержит n элементов, что происходит при сортировке этой корзины insertion sort\'ом?',
-        en: 'If one bucket has n elements, what happens when insertion sort processes that bucket?',
+        ru: 'Если одна корзина содержит n элементов, что происходит при сортировке этой корзины insertion sort\'ом? Названо напрямую в первом пункте минусов на вкладке «Плюсы и минусы».',
+        en: 'If one bucket has n elements, what happens when insertion sort processes it? Named directly in the first "Cons" item on the "Pros & Cons" tab.',
       },
     },
     {
@@ -210,8 +210,8 @@ export const bucketSort = {
         en: 'With uniform distribution, each bucket holds roughly n/k elements - on such small arrays, simple O(n²) algorithms like insertion sort run fast with minimal overhead.',
       },
       hint: {
-        ru: 'Если корзина содержит всего несколько элементов, нужен ли сложный алгоритм сортировки или достаточно простого?',
-        en: 'If a bucket contains just a few elements, does it need a complex sorting algorithm or will a simple one do?',
+        ru: 'Если корзина содержит всего несколько элементов, нужен ли сложный алгоритм сортировки? Смотрите шаг «Отсортировать каждую корзину» на вкладке «Визуализация» и подраздел «Решение» на вкладке «Суть».',
+        en: 'If a bucket contains just a few elements, does it need a complex sorting algorithm? See the "Sort each bucket" step on the "Visualization" tab and the "Solution" subsection on "Intent".',
       },
     },
     {
@@ -231,8 +231,8 @@ export const bucketSort = {
         en: 'Once elements are distributed into buckets, sorting each bucket doesn\'t depend on the others - they can be handed off to separate threads or cluster nodes.',
       },
       hint: {
-        ru: 'После шага распределения нужны ли корзины друг другу для сортировки своего содержимого?',
-        en: 'After the distribution step, do buckets need each other to sort their own contents?',
+        ru: 'После шага распределения нужны ли корзины друг другу для сортировки своего содержимого? Названо напрямую во втором пункте плюсов на вкладке «Плюсы и минусы».',
+        en: 'After distribution, do buckets need each other to sort their own contents? Named directly in the second "Pros" item on the "Pros & Cons" tab.',
       },
     },
     {
@@ -252,8 +252,8 @@ export const bucketSort = {
         en: 'In counting sort, each counter slot maps to exactly one value; in bucket sort, each bucket spans a whole interval of values, which makes it suitable for floating-point numbers too.',
       },
       hint: {
-        ru: 'Counting sort считает вхождения каждого конкретного значения. Что делает bucket sort вместо этого?',
-        en: 'Counting sort tallies occurrences of each specific value. What does bucket sort do instead?',
+        ru: 'Counting sort считает вхождения каждого конкретного значения. Что делает bucket sort вместо этого - см. подраздел «Проблема» на вкладке «Суть».',
+        en: 'Counting sort tallies occurrences of each specific value. What does bucket sort do instead - see the "Problem" subsection on the "Intent" tab.',
       },
     },
     {
@@ -273,8 +273,8 @@ export const bucketSort = {
         en: 'All n elements must be stored in buckets plus the k bucket structures themselves - total memory is O(n + k).',
       },
       hint: {
-        ru: 'Сколько памяти нужно для хранения n элементов, разложенных по k корзинам?',
-        en: 'How much memory is needed to hold n elements distributed across k buckets?',
+        ru: 'Сколько памяти нужно для хранения n элементов, разложенных по k корзинам? Смотрите бейдж «Память» вверху страницы и второй пункт минусов на вкладке «Плюсы и минусы».',
+        en: 'How much memory is needed to hold n elements distributed across k buckets? See the "Space" complexity badge at the top and the second "Cons" item on "Pros & Cons".',
       },
     },
     {
@@ -294,8 +294,8 @@ export const bucketSort = {
         en: 'The Ω(n log n) lower bound applies only to comparison sorts; bucket sort distributes by value range rather than comparing pairs, which is how it bypasses that limit.',
       },
       hint: {
-        ru: 'Нижняя оценка Ω(n log n) применима только к алгоритмам, которые только сравнивают элементы. Чем отличается bucket sort?',
-        en: 'The Ω(n log n) lower bound only applies to algorithms that do nothing but compare elements. What does bucket sort do differently?',
+        ru: 'Нижняя оценка Ω(n log n) применима только к алгоритмам, которые только сравнивают элементы. Чем отличается bucket sort - см. бейджи сложности вверху страницы (Средний: O(n + k)) и подраздел «Решение» на вкладке «Суть».',
+        en: 'The Ω(n log n) lower bound only applies to algorithms that do nothing but compare elements. What does bucket sort do differently - see the complexity badges at the top (Average: O(n + k)) and the "Solution" subsection on "Intent".',
       },
     },
     {
@@ -315,8 +315,8 @@ export const bucketSort = {
         en: 'Too few buckets means more elements per bucket - the inner sort (insertion sort) on a large bucket is slow, reducing overall performance.',
       },
       hint: {
-        ru: 'Если корзин мало, что происходит со средним числом элементов в каждой корзине?',
-        en: 'If there are too few buckets, what happens to the average number of elements in each bucket?',
+        ru: 'Если корзин мало, что происходит со средним числом элементов в каждой корзине? Смотрите третий пункт минусов на вкладке «Плюсы и минусы».',
+        en: 'If there are too few buckets, what happens to the average number of elements per bucket? See the third "Cons" item on the "Pros & Cons" tab.',
       },
     },
     {
@@ -336,8 +336,8 @@ export const bucketSort = {
         en: 'Distribution into buckets preserves the original order of elements within each bucket when they are appended in order; final stability depends on the inner algorithm\'s stability.',
       },
       hint: {
-        ru: 'После распределения порядок элементов внутри одной корзины сохранён. Что далее влияет на устойчивость?',
-        en: 'After distribution, the order within one bucket is preserved. What then determines overall stability?',
+        ru: 'После распределения порядок элементов внутри одной корзины сохранён - см. шаг «Разложить элементы по корзинам» на вкладке «Визуализация» и код на вкладке «Реализация». Что далее влияет на устойчивость?',
+        en: 'After distribution, the order within one bucket is preserved - see the "Distribute elements into buckets" step on "Visualization" and the code on "Implementation". What then determines overall stability?',
       },
     },
     {
@@ -357,8 +357,8 @@ export const bucketSort = {
         en: 'With uniform distribution, each bucket receives roughly n/k elements, minimizing the sorting time per bucket and yielding O(n + k) overall.',
       },
       hint: {
-        ru: 'При каком распределении корзины заполняются наиболее равномерно?',
-        en: 'Under which distribution do buckets fill most evenly?',
+        ru: 'При каком распределении корзины заполняются наиболее равномерно? Названо в подразделе «Когда применять» на вкладке «Суть».',
+        en: 'Under which distribution do buckets fill most evenly? Named in the "When to use" subsection on the "Intent" tab.',
       },
     },
   ],
