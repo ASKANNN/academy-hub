@@ -97,6 +97,157 @@ export const bucketSort = {
     return result`,
   },
 
+  walkthrough: {
+    javascript: [
+      {
+        lines: [1],
+        title: { ru: 'Сигнатура и число корзин по умолчанию', en: 'Signature and default bucket count' },
+        explanation: {
+          ru: 'Второй параметр `bucketCount` по умолчанию вычисляется как `Math.ceil(Math.sqrt(arr.length))` - число корзин, приблизительно равное квадратному корню от длины массива, а не самой длине. Хвостовое `|| 1` страхует от нулевого значения, хотя при непустом массиве `Math.sqrt` уже даёт минимум 1.',
+          en: 'The second parameter `bucketCount` defaults to `Math.ceil(Math.sqrt(arr.length))` - a bucket count roughly equal to the array length\'s square root, not the length itself. The trailing `|| 1` guards against a zero value, though for a non-empty array `Math.sqrt` already yields at least 1.',
+        },
+      },
+      {
+        lines: [2],
+        title: { ru: 'Пустой массив', en: 'Empty array' },
+        explanation: {
+          ru: 'Если `arr.length === 0`, дальше идти незачем - функция сразу возвращает пустой массив, минуя вычисление `min`/`max`, которое иначе упало бы на пустом входе.',
+          en: 'If `arr.length === 0`, there is nothing left to do - the function returns an empty array immediately, skipping the `min`/`max` computation below, which would otherwise fail on empty input.',
+        },
+      },
+      {
+        lines: [3, 4],
+        title: { ru: 'Границы диапазона', en: 'Range bounds' },
+        explanation: {
+          ru: '`Math.min(...arr)` и `Math.max(...arr)` находят наименьшее и наибольшее значения массива - это границы всего диапазона, который предстоит разбить на `bucketCount` корзин.',
+          en: '`Math.min(...arr)` and `Math.max(...arr)` find the array\'s smallest and largest values - these are the bounds of the whole range that gets split into `bucketCount` buckets.',
+        },
+      },
+      {
+        lines: [5],
+        title: { ru: 'Ширина одной корзины', en: 'Width of one bucket' },
+        explanation: {
+          ru: '`range` - ширина одного интервала, вычисленная делением всего диапазона на число корзин. Добавка `+ 1` к `(max - min)` нужна для корректности индекса максимального элемента - подробный разбор в разделе «Как это работает» на вкладке «Суть».',
+          en: '`range` is the width of a single interval, computed by dividing the whole span by the bucket count. The `+ 1` added to `(max - min)` keeps the maximum element\'s index correct - see the detailed breakdown in the "How it works" section of the "Intent" tab.',
+        },
+      },
+      {
+        lines: [6],
+        title: { ru: 'Создание пустых корзин', en: 'Creating empty buckets' },
+        explanation: {
+          ru: '`Array.from({ length: bucketCount }, () => [])` создаёт `bucketCount` независимых пустых массивов. Важно вызывать `() => []` как фабрику - иначе все корзины ссылались бы на один и тот же массив.',
+          en: '`Array.from({ length: bucketCount }, () => [])` creates `bucketCount` independent empty arrays. It\'s important to call `() => []` as a factory - otherwise every bucket would reference the same shared array.',
+        },
+      },
+      {
+        lines: [8, 9],
+        title: { ru: 'Распределение: индекс корзины', en: 'Distribution: bucket index' },
+        explanation: {
+          ru: 'Цикл `for (const value of arr)` перебирает каждый элемент исходного массива. `idx = Math.floor((value - min) / range)` сдвигает значение к нулю вычитанием `min`, а затем делит на ширину корзины, чтобы получить номер интервала, в который значение попадает.',
+          en: 'The `for (const value of arr)` loop walks every element of the input array. `idx = Math.floor((value - min) / range)` shifts the value toward zero by subtracting `min`, then divides by the bucket width to get the index of the interval the value falls into.',
+        },
+      },
+      {
+        lines: [10],
+        title: { ru: 'Защита от выхода за границу', en: 'Out-of-bounds guard' },
+        explanation: {
+          ru: '`if (idx >= bucketCount) idx = bucketCount - 1` перехватывает редкий случай, когда округление с плавающей точкой всё же выдаёт `idx === bucketCount` для максимального элемента, и принудительно направляет его в последнюю корзину.',
+          en: '`if (idx >= bucketCount) idx = bucketCount - 1` catches the rare case where floating-point rounding still produces `idx === bucketCount` for the maximum element, forcing it into the last bucket instead.',
+        },
+      },
+      {
+        lines: [11],
+        title: { ru: 'Добавление элемента в корзину', en: 'Appending the element to its bucket' },
+        explanation: {
+          ru: '`buckets[idx].push(value)` кладёт элемент в вычисленную корзину, сохраняя порядок появления элементов внутри одной корзины - это обеспечивает устойчивость итогового результата, если внутренняя сортировка тоже устойчива.',
+          en: '`buckets[idx].push(value)` appends the element to its computed bucket, preserving the order elements arrived in within a single bucket - this is what makes the final result stable, provided the inner sort is stable too.',
+        },
+      },
+      {
+        lines: [14],
+        title: { ru: 'Сортировка корзин и склейка результата', en: 'Sorting buckets and concatenating the result' },
+        explanation: {
+          ru: '`buckets.flatMap((bucket) => bucket.sort((a, b) => a - b))` сортирует содержимое каждой корзины через `Array.prototype.sort` (которая в V8 для небольших массивов использует insertion sort) и сразу же соединяет все отсортированные корзины по порядку в один плоский массив - `flatMap` делает сортировку и склейку одним выражением.',
+          en: '`buckets.flatMap((bucket) => bucket.sort((a, b) => a - b))` sorts each bucket\'s contents with `Array.prototype.sort` (which V8 backs with insertion sort for small arrays) and immediately concatenates all sorted buckets in order into one flat array - `flatMap` folds the sort and the concatenation into a single expression.',
+        },
+      },
+    ],
+    python: [
+      {
+        lines: [1],
+        title: { ru: 'Сигнатура', en: 'Signature' },
+        explanation: {
+          ru: '`bucket_count=None` по умолчанию - реальное значение вычисляется на следующих строках, только если аргумент не передан явно.',
+          en: '`bucket_count=None` is the default - the real value is computed on the next lines only if the caller didn\'t pass one explicitly.',
+        },
+      },
+      {
+        lines: [2, 3],
+        title: { ru: 'Пустой список', en: 'Empty list' },
+        explanation: {
+          ru: '`if not arr: return []` - если список пуст, дальше идти незачем, функция сразу возвращает пустой список, минуя вычисление `min`/`max`, которое иначе упало бы на пустом входе.',
+          en: '`if not arr: return []` - if the list is empty, there is nothing left to do; the function returns an empty list immediately, skipping the `min`/`max` computation below, which would otherwise fail on empty input.',
+        },
+      },
+      {
+        lines: [4],
+        title: { ru: 'Число корзин по умолчанию', en: 'Default bucket count' },
+        explanation: {
+          ru: '`bucket_count = bucket_count or max(1, int(len(arr) ** 0.5))` - если `bucket_count` не передан, он вычисляется как квадратный корень длины списка (`** 0.5`), округлённый вниз через `int`, но не меньше 1.',
+          en: '`bucket_count = bucket_count or max(1, int(len(arr) ** 0.5))` - if `bucket_count` wasn\'t passed, it\'s computed as the square root of the list\'s length (`** 0.5`), truncated via `int`, but never below 1.',
+        },
+      },
+      {
+        lines: [5],
+        title: { ru: 'Границы диапазона', en: 'Range bounds' },
+        explanation: {
+          ru: '`lo, hi = min(arr), max(arr)` находит наименьшее и наибольшее значения списка - границы диапазона, который предстоит разбить на `bucket_count` корзин.',
+          en: '`lo, hi = min(arr), max(arr)` finds the list\'s smallest and largest values - the bounds of the range that gets split into `bucket_count` buckets.',
+        },
+      },
+      {
+        lines: [6],
+        title: { ru: 'Ширина одной корзины', en: 'Width of one bucket' },
+        explanation: {
+          ru: '`span = (hi - lo + 1) / bucket_count or 1` - ширина одного интервала. Добавка `+ 1` к `(hi - lo)` нужна для корректности индекса максимального элемента, тот же приём, что и в JS-версии.',
+          en: '`span = (hi - lo + 1) / bucket_count or 1` is the width of a single interval. The `+ 1` added to `(hi - lo)` keeps the maximum element\'s index correct, the same trick as in the JS version.',
+        },
+      },
+      {
+        lines: [7],
+        title: { ru: 'Создание пустых корзин', en: 'Creating empty buckets' },
+        explanation: {
+          ru: '`buckets = [[] for _ in range(bucket_count)]` - списковое включение создаёт `bucket_count` независимых пустых списков. Именно `for _ in range(...)`, а не `[[]] * bucket_count`, важно - второе создало бы `bucket_count` ссылок на один и тот же список.',
+          en: '`buckets = [[] for _ in range(bucket_count)]` - a list comprehension creates `bucket_count` independent empty lists. Using `for _ in range(...)` instead of `[[]] * bucket_count` matters - the latter would create `bucket_count` references to the same shared list.',
+        },
+      },
+      {
+        lines: [9, 10],
+        title: { ru: 'Распределение: индекс корзины', en: 'Distribution: bucket index' },
+        explanation: {
+          ru: 'Цикл `for value in arr` перебирает каждый элемент. `idx = min(int((value - lo) / span), bucket_count - 1)` сразу совмещает вычисление индекса и защиту от выхода за границу через `min(..., bucket_count - 1)` - в отличие от JS-версии, где эти две операции разнесены на отдельные строки.',
+          en: 'The `for value in arr` loop walks every element. `idx = min(int((value - lo) / span), bucket_count - 1)` folds the index computation and the out-of-bounds guard into one expression via `min(..., bucket_count - 1)` - unlike the JS version, which splits these into two separate lines.',
+        },
+      },
+      {
+        lines: [11],
+        title: { ru: 'Добавление элемента в корзину', en: 'Appending the element to its bucket' },
+        explanation: {
+          ru: '`buckets[idx].append(value)` кладёт элемент в вычисленную корзину, сохраняя порядок появления элементов внутри неё.',
+          en: '`buckets[idx].append(value)` appends the element to its computed bucket, preserving the order elements arrived in within it.',
+        },
+      },
+      {
+        lines: [13, 16],
+        title: { ru: 'Сортировка корзин и склейка результата', en: 'Sorting buckets and concatenating the result' },
+        explanation: {
+          ru: '`result = []` заводит итоговый список, а цикл `for bucket in buckets: result.extend(sorted(bucket))` сортирует содержимое каждой корзины встроенной `sorted` (Timsort) и дописывает её в конец результата - раздельно на две операции, в отличие от однострочного `flatMap` в JS-версии.',
+          en: '`result = []` starts the output list, and the `for bucket in buckets: result.extend(sorted(bucket))` loop sorts each bucket\'s contents with the built-in `sorted` (Timsort) and appends it to the end of the result - split into two separate operations, unlike the single-expression `flatMap` in the JS version.',
+        },
+      },
+    ],
+  },
+
   pros: [
     {
       ru: 'При равномерно распределённых данных даёт среднюю сложность O(n + k), обгоняя сравнивающие сортировки.',
@@ -148,6 +299,83 @@ export const bucketSort = {
     },
   ],
 
+  details: {
+    deepDive: [
+      {
+        ru: 'Заявленная средняя сложность **O(n + k)** верна только при скрытом допущении: число корзин k должно быть примерно пропорционально n, чтобы на каждую корзину в среднем приходился O(1) элемент. Реализация на этой странице задаёт `bucketCount` по умолчанию как `⌈√n⌉`, а не как n - разберём, что это меняет в реальной асимптотике.',
+        en: 'The stated average complexity of **O(n + k)** holds only under a hidden assumption: the bucket count k must be roughly proportional to n, so each bucket ends up with O(1) elements on average. This page\'s implementation defaults `bucketCount` to `⌈√n⌉`, not to n - let\'s work out what that actually changes.',
+      },
+      {
+        ru: 'Модель **«шаров по урнам»** даёт точную формулу: если n элементов случайно и равномерно раскиданы по k корзинам, ожидаемое значение суммы квадратов размеров всех корзин равно примерно **n + n²/k** (дисперсия биномиального распределения плюс квадрат среднего, просуммированные по k корзинам). Сумма квадратов важна именно потому, что insertion sort на корзине из m элементов в среднем делает порядка m² сравнений - значит, суммарная работа всех корзин пропорциональна этой же n + n²/k.',
+        en: 'The **"balls into bins"** model gives an exact formula: if n elements are scattered uniformly at random into k buckets, the expected sum of squared bucket sizes across all buckets comes out to roughly **n + n²/k** (a binomial distribution\'s variance plus the square of its mean, summed over k buckets). That sum of squares matters because insertion sort on a bucket of m elements makes on the order of m² comparisons on average - so the total work across all buckets is proportional to that same n + n²/k.',
+      },
+      {
+        ru: 'Подставим числа. При k = n сумма даёт n + n²/n = 2n - линейная работа, ради которой блочная сортировка и задумывалась. При выборе из этой реализации, k = √n, та же формула даёт n + n²/√n = n + n^1.5. Для n = 1 000 000 это n^1.5 = 10⁹ - примерно в **500 раз больше**, чем 2n = 2 000 000 операций при k = n.',
+        en: 'Plug in numbers. At k = n, the sum works out to n + n²/n = 2n - the linear work bucket sort was designed to achieve. At this implementation\'s choice of k = √n, the same formula gives n + n²/√n = n + n^1.5. For n = 1,000,000, n^1.5 = 10⁹ - roughly **500 times more** than the 2n = 2,000,000 operations at k = n.',
+      },
+      {
+        ru: 'Это не ошибка, а осознанный компромисс. При k = n пришлось бы выделить n почти пустых массивов - большинство содержало бы 0 или 1 элемент, и накладные расходы на создание и обход стольких мелких объектов на практике часто перевешивают выигрыш от более быстрой внутренней сортировки. **`√n` корзин** - популярный практический баланс между размером корзины и их количеством, применяемый во многих реализациях, даже ценой худшей асимптотики на бумаге.',
+        en: 'This isn\'t a bug, it\'s a deliberate trade-off. At k = n, n mostly-empty arrays would need to be allocated - most holding 0 or 1 element - and the overhead of creating and walking that many tiny objects often outweighs the gain from a faster inner sort in practice. **`√n` buckets** is a common practical balance between bucket size and bucket count, used in many implementations, even at the cost of worse asymptotics on paper.',
+      },
+      {
+        ru: 'Индекс корзины вычисляется как `floor((value - min) / range)`. Добавка `+ 1` к `(max - min)` в формуле `range` нужна, чтобы для максимального элемента `idx` получался строго меньше `bucketCount` - без неё `value === max` дал бы `idx === bucketCount`, что вышло бы за границы массива корзин. Из-за неточности **чисел с плавающей точкой** даже с этой поправкой округление на пограничных значениях иногда может дать `idx === bucketCount`, поэтому строка `if (idx >= bucketCount) idx = bucketCount - 1` - не избыточная подстраховка, а необходимая защита от выхода за границу.',
+        en: 'A bucket\'s index is computed as `floor((value - min) / range)`. The `+ 1` added to `(max - min)` in the `range` formula exists so that the maximum element\'s `idx` comes out strictly below `bucketCount` - without it, `value === max` would give `idx === bucketCount`, running past the end of the bucket array. Because of **floating-point** imprecision, rounding can still occasionally push `idx` to `bucketCount` at boundary values even with that correction, so the line `if (idx >= bucketCount) idx = bucketCount - 1` isn\'t redundant caution, it\'s a necessary guard against an out-of-bounds write.',
+      },
+      {
+        ru: 'Поскольку индекс всегда считается через `(value - min)`, алгоритм одинаково работает для **отрицательных чисел**, дробей и любых сдвинутых диапазонов - в отличие от counting sort, которому нужны неотрицательные целые ключи в разумных пределах. Единственное жёсткое требование - значения должны поддерживать вычитание и сравнение, то есть быть числами.',
+        en: 'Because the index is always computed via `(value - min)`, the algorithm works identically for **negative numbers**, fractions, and any shifted range - unlike counting sort, which needs non-negative integer keys within a reasonable bound. The only hard requirement is that values support subtraction and comparison, i.e. that they are numbers.',
+      },
+      {
+        ru: 'Худший случай виден на конкретном примере: массив из 1000 чисел, где 990 значений лежат в диапазоне [0, 0.01), а оставшиеся 10 - равномерно раскиданы по [0.01, 1). При 32 корзинах диапазон первой корзины - [0, 1/32) ⊃ [0, 0.01) - поглотит почти все 990 «тесных» значений, и insertion sort на корзине из ~990 элементов сделает порядка **990² ≈ 980 000 сравнений**, против нескольких десятков во всех остальных корзинах вместе взятых. Равномерность распределения - не формальность в описании алгоритма, а условие, без которого блочная сортировка вырождается в insertion sort с лишним шагом группировки.',
+        en: 'The worst case is concrete: an array of 1000 numbers where 990 values lie in [0, 0.01) and the remaining 10 are spread uniformly across [0.01, 1). With 32 buckets, the first bucket\'s range - [0, 1/32) ⊃ [0, 0.01) - swallows nearly all 990 "crowded" values, and insertion sort on that ~990-element bucket makes on the order of **990² ≈ 980,000 comparisons**, against a few dozen for every other bucket combined. Uniform distribution isn\'t a formality in the algorithm\'s description, it\'s the condition without which bucket sort degenerates into insertion sort with an extra grouping step.',
+      },
+      {
+        ru: 'Название «bucket sort» (иногда «bin sort») закрепилось в литературе к 1970-м годам; **Дональд Кнут** описывает эту семью распределяющих сортировок в третьем томе The Art of Computer Programming (1973) как естественное развитие сортировки подсчётом на непрерывные значения. Более поздний родственник - **flashsort** Карла-Дитриха Нойберта (1998, статья в Dr. Dobb\'s Journal) - идёт дальше: вычисляет индекс корзины по единственной формуле без отдельного прохода на min/max и без сортировки каждой корзины по отдельности, добиваясь среднего O(n) буквально за один проход по массиву.',
+        en: 'The name "bucket sort" (sometimes "bin sort") became standard in the literature by the 1970s; **Donald Knuth** covers this family of distribution sorts in Volume 3 of The Art of Computer Programming (1973) as a natural extension of counting sort onto continuous values. A later relative - **flashsort**, by Karl-Dietrich Neubert (1998, in Dr. Dobb\'s Journal) - goes further: it computes a bucket index from a single formula with no separate min/max pass and no per-bucket inner sort, reaching average O(n) in essentially one pass over the array.',
+      },
+    ],
+    whenToUse: [
+      {
+        ru: '**Выбор между bucket sort и radix sort** зависит от типа ключей: radix sort рассчитан на данные с фиксированной битовой шириной (целые числа, строки фиксированной длины), а bucket sort - на произвольные вещественные значения на известном интервале, где разрядов для поразрядного разбора попросту нет.',
+        en: '**Choosing between bucket sort and radix sort** comes down to key type: radix sort is built for fixed-width data (integers, fixed-length strings), while bucket sort handles arbitrary real-valued numbers on a known interval, where there are no digit positions to sort by in the first place.',
+      },
+      {
+        ru: '**Число корзин - явный параметр настройки**, не деталь реализации: слишком мало корзин (например, `√n` вместо n) сохраняет асимптотику деградировавшей до O(n^1.5) даже на идеально равномерных данных (см. разбор в разделе «Как это работает»), а слишком много корзин увеличивает накладные расходы на создание и обход почти пустых массивов.',
+        en: '**Bucket count is an explicit tuning knob**, not an implementation detail: too few buckets (e.g. `√n` instead of n) keeps the asymptotics degraded to O(n^1.5) even on perfectly uniform data (see the breakdown in "How it works"), while too many buckets raise the overhead of creating and walking mostly-empty arrays.',
+      },
+      {
+        ru: '**При известном, но не равномерном распределении** (например, нормальном с пиком в центре) корзины равной ширины перегружают центральные интервалы - решение - выбирать границы корзин по квантилям распределения, а не делить диапазон значений поровну.',
+        en: '**Under a known but non-uniform distribution** (e.g. a normal distribution peaked in the middle), equal-width buckets overload the central intervals - the fix is to set bucket boundaries by the distribution\'s quantiles instead of splitting the value range evenly.',
+      },
+      {
+        ru: '**На маленьких массивах** (n < 50-100) накладные расходы на создание корзин и последующую конкатенацию обычно перевешивают выигрыш - обычный insertion sort или встроенная сортировка языка работает быстрее без лишнего шага группировки.',
+        en: '**On small arrays** (n < 50-100), the overhead of creating buckets and concatenating them afterward usually outweighs the gain - plain insertion sort or the language\'s built-in sort runs faster without the extra grouping step.',
+      },
+      {
+        ru: '**Если распределение данных неизвестно заранее** и не может быть гарантировано равномерным, безопаснее выбрать алгоритм с гарантированным средним случаем независимо от входа (quicksort, Timsort) - ошибочное допущение равномерности не просто замедляет работу, а способно выродить сортировку до O(n²), как показано в примере с перекошенным распределением выше.',
+        en: '**When the data\'s distribution is unknown in advance** and can\'t be guaranteed uniform, it\'s safer to pick an algorithm with an input-independent average guarantee (quicksort, Timsort) - a wrong uniformity assumption doesn\'t just slow things down, it can degrade the sort to O(n²), as shown in the skewed-distribution example above.',
+      },
+    ],
+    realWorld: [
+      {
+        ru: '**GPU-параллельная блочная сортировка** - исследования по сортировке на CUDA часто используют bucket sort как первый этап: каждая корзина назначается отдельному thread block и сортируется независимо, поскольку GPU-архитектура хорошо подходит именно под такое разбиение на изолированные подзадачи.',
+        en: '**GPU-parallel bucket sort** - CUDA sorting research often uses bucket sort as a first stage: each bucket is assigned to a separate thread block and sorted independently, since GPU architecture maps naturally onto exactly this kind of independent-subtask split.',
+      },
+      {
+        ru: '**Apache Spark**\'s `repartitionByRange` разбивает строки датафрейма на партиции по диапазонам значений ключа перед параллельной сортировкой каждой партиции - тот же принцип «разложить по диапазону, затем отсортировать порознь», что и в bucket sort.',
+        en: '**Apache Spark**\'s `repartitionByRange` splits a dataframe\'s rows into partitions by key-value range before sorting each partition in parallel - the same "distribute by range, then sort separately" principle as bucket sort.',
+      },
+      {
+        ru: '**Распределённые SQL-базы данных** (CockroachDB, Google Spanner) делят пространство ключей таблицы на диапазоны и закрепляют каждый диапазон за отдельным узлом кластера - распределение по диапазону значений, а не по хэшу, концептуально то же самое разбиение на корзины.',
+        en: '**Distributed SQL databases** (CockroachDB, Google Spanner) split a table\'s key space into ranges and assign each range to a separate cluster node - range-based rather than hash-based distribution, conceptually the same bucket split.',
+      },
+      {
+        ru: '**MSD-вариант поразрядной сортировки** (most-significant-digit radix sort) можно рассматривать как специализированную блочную сортировку с ровно 256 корзинами на каждый байт ключа - в высокопроизводительных библиотеках сортировки для GPU и SIMD эти два алгоритма нередко делят общий код распределения по корзинам.',
+        en: '**MSD (most-significant-digit) radix sort** can be viewed as a specialized bucket sort with exactly 256 buckets per key byte - in high-performance GPU and SIMD sorting libraries, the two algorithms often share the same bucket-distribution code.',
+      },
+    ],
+  },
+
   relatedAlgorithms: ['counting-sort', 'insertion-sort'],
 
   quiz: [
@@ -168,8 +396,8 @@ export const bucketSort = {
         en: 'With uniform distribution, elements spread evenly across buckets, each bucket is small, and sorting each is fast. With skewed distribution, nearly everything can land in one bucket.',
       },
       hint: {
-        ru: 'Что происходит с размером корзин при разных распределениях? Разобрано в подразделе «Решение» на вкладке «Суть» и в первом пункте минусов на вкладке «Плюсы и минусы».',
-        en: 'What happens to bucket sizes under different distributions? See the "Solution" subsection on the "Intent" tab and the first "Cons" item on "Pros & Cons".',
+        ru: 'Что происходит с размером корзин при разных распределениях? Разобрано в подразделе «Решение» на вкладке «Суть» и на конкретном числовом примере в разделе «Как это работает» (990 из 1000 значений в одной корзине).',
+        en: 'What happens to bucket sizes under different distributions? See the "Solution" subsection on the "Intent" tab and the concrete numeric example in "How it works" (990 of 1000 values landing in one bucket).',
       },
     },
     {
@@ -189,8 +417,8 @@ export const bucketSort = {
         en: 'If one bucket holds nearly all n elements, the inner sort (e.g. insertion sort) runs in O(n²) on that bucket - distributing into buckets gave no benefit.',
       },
       hint: {
-        ru: 'Если одна корзина содержит n элементов, что происходит при сортировке этой корзины insertion sort\'ом? Названо напрямую в первом пункте минусов на вкладке «Плюсы и минусы».',
-        en: 'If one bucket has n elements, what happens when insertion sort processes it? Named directly in the first "Cons" item on the "Pros & Cons" tab.',
+        ru: 'Если одна корзина содержит почти все элементы, что происходит при сортировке этой корзины insertion sort\'ом? Разобрано на конкретном примере (990² ≈ 980 000 сравнений) в разделе «Как это работает» на вкладке «Суть».',
+        en: 'If one bucket holds nearly all elements, what happens when insertion sort processes it? Worked out with concrete numbers (990² ≈ 980,000 comparisons) in the "How it works" section on the "Intent" tab.',
       },
     },
     {
@@ -294,8 +522,8 @@ export const bucketSort = {
         en: 'The Ω(n log n) lower bound applies only to comparison sorts; bucket sort distributes by value range rather than comparing pairs, which is how it bypasses that limit.',
       },
       hint: {
-        ru: 'Нижняя оценка Ω(n log n) применима только к алгоритмам, которые только сравнивают элементы. Чем отличается bucket sort - см. бейджи сложности вверху страницы (Средний: O(n + k)) и подраздел «Решение» на вкладке «Суть».',
-        en: 'The Ω(n log n) lower bound only applies to algorithms that do nothing but compare elements. What does bucket sort do differently - see the complexity badges at the top (Average: O(n + k)) and the "Solution" subsection on "Intent".',
+        ru: 'Нижняя оценка Ω(n log n) применима только к алгоритмам, которые только сравнивают элементы. Чем отличается bucket sort и откуда берётся формула n + n²/k - см. бейджи сложности вверху страницы (Средний: O(n + k)) и вывод через модель «шаров по урнам» в разделе «Как это работает».',
+        en: 'The Ω(n log n) lower bound only applies to algorithms that do nothing but compare elements. What bucket sort does differently, and where the n + n²/k formula comes from - see the complexity badges at the top (Average: O(n + k)) and the "balls into bins" derivation in "How it works".',
       },
     },
     {
@@ -315,8 +543,8 @@ export const bucketSort = {
         en: 'Too few buckets means more elements per bucket - the inner sort (insertion sort) on a large bucket is slow, reducing overall performance.',
       },
       hint: {
-        ru: 'Если корзин мало, что происходит со средним числом элементов в каждой корзине? Смотрите третий пункт минусов на вкладке «Плюсы и минусы».',
-        en: 'If there are too few buckets, what happens to the average number of elements per bucket? See the third "Cons" item on the "Pros & Cons" tab.',
+        ru: 'Если корзин мало, что происходит со средним числом элементов в каждой корзине? Разобрано с конкретными цифрами (√n корзин против n корзин, разница в 500 раз при n = 1 000 000) в разделе «Как это работает» на вкладке «Суть».',
+        en: 'If there are too few buckets, what happens to the average number of elements per bucket? Worked out with concrete numbers (√n buckets vs. n buckets, a 500x difference at n = 1,000,000) in the "How it works" section on the "Intent" tab.',
       },
     },
     {
