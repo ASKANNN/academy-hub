@@ -27,6 +27,11 @@ export function CodeBlock({ code, defaultLanguage, activeLanguage, onLanguageCha
     const preRect = pre.getBoundingClientRect();
     const lineRect = activeLine.getBoundingClientRect();
     const lineTop = lineRect.top - preRect.top + pre.scrollTop;
+    const lineBottom = lineTop + lineRect.height;
+    const margin = lineRect.height;
+    const viewTop = pre.scrollTop + margin;
+    const viewBottom = pre.scrollTop + pre.clientHeight - margin;
+    if (lineTop >= viewTop && lineBottom <= viewBottom) return;
     const target = lineTop - pre.clientHeight / 2 + lineRect.height / 2;
     pre.scrollTo({ top: Math.max(0, target), behavior: 'smooth' });
   }, [activeLines]);
@@ -73,7 +78,7 @@ export function CodeBlock({ code, defaultLanguage, activeLanguage, onLanguageCha
           <pre ref={preRef} className={`code-block__pre ${className}`} style={style}>
             {tokens.map((line, i) => {
               const lineNo = i + 1;
-              const isActive = Array.isArray(activeLines) && lineNo >= activeLines[0] && lineNo <= activeLines[1];
+              const isActive = Array.isArray(activeLines) && lineNo >= activeLines[0] && lineNo <= (activeLines[1] ?? activeLines[0]);
               const lineProps = getLineProps({ line });
               return (
                 <div
