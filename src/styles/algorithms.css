@@ -192,6 +192,13 @@
 
 /* ---------- algorithm card ---------- */
 
+/* Deliberate one-off hex, not a token: tokens.css has no warm hue (only
+   accent indigo), and this is a single, intentionally slight warm tint on
+   pure white, not worth forking tokens.css for. */
+[data-theme="light"] .algorithm-card {
+  background-color: #FEFBF6;
+}
+
 .academy-card__title .algorithm-icon {
   margin-right: var(--space-2);
   vertical-align: middle;
