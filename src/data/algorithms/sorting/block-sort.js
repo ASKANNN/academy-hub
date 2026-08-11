@@ -542,8 +542,8 @@ def block_sort(arr):
         en: 'In embedded systems memory is scarce and record-order stability is often critical - block sort delivers both without an O(n) buffer.',
       },
       hint: {
-        ru: 'Что является главным ограничением во встроенных системах? Первый пункт подраздела «Когда применять» (сразу после «Как это работает») разбирает это напрямую.',
-        en: 'What is the main constraint in embedded systems? The first item of the "When to use" subsection (right after "How it works") addresses this directly.',
+        ru: 'Что является главным ограничением во встроенных системах? Первый пункт подраздела «Нюансы выбора» (сразу после «Как это работает») разбирает это напрямую.',
+        en: 'What is the main constraint in embedded systems? The first item of the "Choice nuances" subsection (right after "How it works") addresses this directly.',
       },
     },
     {

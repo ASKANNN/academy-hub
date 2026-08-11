@@ -542,8 +542,8 @@ export const bubbleSort = {
         en: "Bubble sort swaps any adjacent out-of-order pair - up to O(n²) swaps total. Selection sort does at most one swap per pass - up to n-1 total, which matters when writes are expensive (flash memory).",
       },
       hint: {
-        ru: 'Подумай, сколько перестановок каждый алгоритм делает за один проход по непросортированной части массива. Сравнение чисел перестановок - в разделе «Когда применять».',
-        en: 'Think about how many swaps each algorithm makes during a single pass over the unsorted portion. The swap-count comparison is in the "When to use" section.',
+        ru: 'Подумай, сколько перестановок каждый алгоритм делает за один проход по непросортированной части массива. Сравнение чисел перестановок - в разделе «Нюансы выбора».',
+        en: 'Think about how many swaps each algorithm makes during a single pass over the unsorted portion. The swap-count comparison is in the "Choice nuances" section.',
       },
     },
     {

@@ -559,8 +559,8 @@ export const bitonicSort = {
         en: 'The absence of data-dependent branches and the fixed operation structure make bitonic sort ideal for GPU shaders, FPGAs, and SIMD instructions.',
       },
       hint: {
-        ru: 'Какое оборудование выигрывает от отсутствия условных переходов? Примеры (игровые движки, FPGA) перечислены в разделе «Когда применять» и «Примеры в коде».',
-        en: 'What hardware benefits from having no conditional branches? Examples (game engines, FPGAs) are listed in the "When to use" and "In code" sections.',
+        ru: 'Какое оборудование выигрывает от отсутствия условных переходов? Примеры (игровые движки, FPGA) перечислены в разделах «Нюансы выбора» и «Примеры в коде».',
+        en: 'What hardware benefits from having no conditional branches? Examples (game engines, FPGAs) are listed in the "Choice nuances" and "In code" sections.',
       },
     },
     {

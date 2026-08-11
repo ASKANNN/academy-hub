@@ -395,8 +395,8 @@ def bogo_sort(arr):
         en: 'Bogosort is used exclusively as a teaching illustration, not as a practical tool.',
       },
       hint: {
-        ru: 'Что можно объяснить студентам через контрпример - алгоритм, который правильный, но бесполезный? Разобрано в подразделе «Когда применять» раздела «Суть», и первым пунктом в детальном подразделе «Когда применять» ниже (про продуктивную и непродуктивную случайность).',
-        en: 'What can be taught through a counterexample - an algorithm that is correct but completely useless? See the "When to use" subsection in "Intent", and the first item in the detailed "When to use" subsection below (on productive vs unproductive randomness).',
+        ru: 'Что можно объяснить студентам через контрпример - алгоритм, который правильный, но бесполезный? Разобрано в подразделе «Когда применять» раздела «Суть», и первым пунктом в подразделе «Нюансы выбора» ниже (про продуктивную и непродуктивную случайность).',
+        en: 'What can be taught through a counterexample - an algorithm that is correct but completely useless? See the "When to use" subsection in "Intent", and the first item in the "Choice nuances" subsection below (on productive vs unproductive randomness).',
       },
     },
     {
