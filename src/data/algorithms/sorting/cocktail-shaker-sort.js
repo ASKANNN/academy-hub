@@ -191,8 +191,8 @@ export const cocktailShakerSort = {
         en: 'A left-to-right pass pushes the largest element right, and the following right-to-left pass pushes the smallest element left - the sorted boundary shrinks from both sides.',
       },
       hint: {
-        ru: 'Подумайте о движении шейкера для коктейлей - что отличает его от простого движения в одну сторону?',
-        en: 'Think about the motion of a cocktail shaker - what sets it apart from just moving in one direction?',
+        ru: 'Подумайте о движении шейкера для коктейлей - что отличает его от простого движения в одну сторону? Смотрите шаги «Проход слева направо» и «Проход справа налево» на вкладке «Визуализация».',
+        en: 'Think about the motion of a cocktail shaker - what sets it apart from moving one way? See the "Left-to-right pass" and "Right-to-left pass" steps on the "Visualization" tab.',
       },
     },
     {
@@ -212,8 +212,8 @@ export const cocktailShakerSort = {
         en: 'In plain bubble sort, a small element near the end only moves one position toward the start per pass; bidirectional passes remove that asymmetry.',
       },
       hint: {
-        ru: 'Представьте маленький элемент в самом конце массива при обычном bubble sort. Насколько быстро он доберётся до начала?',
-        en: 'Imagine a small element at the very end of the array in plain bubble sort. How quickly can it reach the start?',
+        ru: 'Представьте маленький элемент в самом конце массива при обычном bubble sort. Насколько быстро он доберётся до начала? Разобрано в подразделе «Проблема» на вкладке «Суть».',
+        en: 'Imagine a small element at the very end of the array in plain bubble sort. How quickly can it reach the start? Covered in the "Problem" subsection on the "Intent" tab.',
       },
     },
     {
@@ -233,8 +233,8 @@ export const cocktailShakerSort = {
         en: 'Bidirectionality changes the constant factor and behavior on specific distributions, but not the growth order - still O(n²) comparisons on average.',
       },
       hint: {
-        ru: 'Двунаправленность улучшает константу, но меняет ли она порядок роста числа сравнений?',
-        en: 'Bidirectionality improves the constant, but does it change the growth order of comparisons?',
+        ru: 'Двунаправленность улучшает константу, но меняет ли она порядок роста числа сравнений? Смотрите бейдж «Средний» вверху страницы и первый пункт минусов на вкладке «Плюсы и минусы».',
+        en: 'Bidirectionality improves the constant, but does it change the growth order? See the "Average" complexity badge at the top and the first "Cons" item on "Pros & Cons".',
       },
     },
     {
@@ -254,8 +254,8 @@ export const cocktailShakerSort = {
         en: 'Just like bubble sort, elements swap only when the left one is strictly greater - equal elements never swap with each other.',
       },
       hint: {
-        ru: 'Посмотрите на условие перестановки: `a[i] > a[i+1]`. Что происходит, если элементы равны?',
-        en: 'Look at the swap condition: `a[i] > a[i+1]`. What happens when elements are equal?',
+        ru: 'Посмотрите на условие перестановки `a[i] > a[i+1]` на вкладке «Реализация» - что происходит, если элементы равны? Названо напрямую в третьем пункте плюсов на вкладке «Плюсы и минусы».',
+        en: 'Look at the swap condition `a[i] > a[i+1]` on the "Implementation" tab - what happens when elements are equal? Named directly in the third "Pros" item on "Pros & Cons".',
       },
     },
     {
@@ -275,8 +275,8 @@ export const cocktailShakerSort = {
         en: 'All swaps happen directly in the original array; only `start`/`end` boundary variables and a `swapped` flag are needed.',
       },
       hint: {
-        ru: 'Создаёт ли алгоритм копии массива или вспомогательные структуры данных?',
-        en: 'Does the algorithm create copies of the array or auxiliary data structures?',
+        ru: 'Создаёт ли алгоритм копии массива или вспомогательные структуры данных? Смотрите бейдж «Память» вверху страницы и второй пункт плюсов на вкладке «Плюсы и минусы».',
+        en: 'Does the algorithm create copies of the array or auxiliary structures? See the "Space" complexity badge at the top and the second "Pros" item on "Pros & Cons".',
       },
     },
     {
@@ -296,8 +296,8 @@ export const cocktailShakerSort = {
         en: 'The early-exit flag `swapped` lets the algorithm stop after one round trip if no swap was made - meaning the array was already sorted.',
       },
       hint: {
-        ru: 'Когда флаг swapped остаётся ложным после целого прохода туда и обратно?',
-        en: 'When does the swapped flag stay false after a full round-trip pass?',
+        ru: 'Когда флаг swapped остаётся ложным после целого прохода туда и обратно? Смотрите бейдж «Лучший» вверху страницы, шаг «Остановиться без перестановок» на вкладке «Визуализация» и четвёртый пункт плюсов на «Плюсы и минусы».',
+        en: 'When does the swapped flag stay false after a full round trip? See the "Best" complexity badge at the top, the "Stop with no swaps" step on "Visualization", and the fourth "Pros" item on "Pros & Cons".',
       },
     },
     {
@@ -317,8 +317,8 @@ export const cocktailShakerSort = {
         en: 'Bidirectionality removes a specific pathological case ("turtles") but doesn\'t change the growth order of comparisons - on random data the algorithm still makes O(n²) comparisons.',
       },
       hint: {
-        ru: 'Что меняет двунаправленность - поведение на конкретном распределении или общий порядок роста?',
-        en: 'What does bidirectionality change - behavior on a specific distribution, or the overall growth order?',
+        ru: 'Что меняет двунаправленность - поведение на конкретном распределении или общий порядок роста? Названо напрямую в первом пункте минусов на вкладке «Плюсы и минусы».',
+        en: 'What does bidirectionality change - behavior on a specific distribution, or the overall growth order? Named directly in the first "Cons" item on "Pros & Cons".',
       },
     },
     {
@@ -338,8 +338,8 @@ export const cocktailShakerSort = {
         en: '"Turtle" is the classic term for a small element near the right edge: in bubble sort it moves left by only one position per full pass.',
       },
       hint: {
-        ru: 'Подумайте о животном, которое движется очень медленно. Какой термин использует терминология bubble sort?',
-        en: 'Think of an animal that moves very slowly. What term does bubble sort terminology use?',
+        ru: 'Подумайте о животном, которое движется очень медленно. Термин назван в подразделе «Проблема» на вкладке «Суть».',
+        en: 'Think of an animal that moves very slowly. The term is named in the "Problem" subsection on the "Intent" tab.',
       },
     },
     {
@@ -359,8 +359,8 @@ export const cocktailShakerSort = {
         en: 'After the left-to-right pass `end` decreases - the largest element is in place; after the right-to-left pass `start` increases - the smallest element is in place.',
       },
       hint: {
-        ru: 'После каждого прохода один элемент занимает своё финальное место. С какой стороны?',
-        en: 'After each pass, one element reaches its final place. On which side?',
+        ru: 'После каждого прохода один элемент занимает своё финальное место. Смотрите шаги «Сжать правую границу» и «Сжать левую границу» на вкладке «Визуализация».',
+        en: 'After each pass, one element reaches its final place. See the "Shrink the right boundary" and "Shrink the left boundary" steps on the "Visualization" tab.',
       },
     },
     {
@@ -380,8 +380,8 @@ export const cocktailShakerSort = {
         en: 'Comb sort uses the same basic bubble sort principle but compares elements across a gap greater than 1, shrinking it rapidly - this eliminates turtles much faster than cocktail shaker sort does.',
       },
       hint: {
-        ru: 'Шейкерная сортировка сравнивает соседние элементы (зазор = 1). Какой алгоритм начинает с большего зазора и уменьшает его?',
-        en: 'Cocktail shaker sort compares adjacent elements (gap = 1). Which algorithm starts with a larger gap and shrinks it?',
+        ru: 'Шейкерная сортировка сравнивает соседние элементы (зазор = 1). Смотрите раздел «Похожие алгоритмы» внизу страницы - какой из связанных алгоритмов начинает с большего зазора?',
+        en: 'Cocktail shaker sort compares adjacent elements (gap = 1). See the "Related algorithms" section at the bottom of the page - which linked algorithm starts with a larger gap?',
       },
     },
   ],
