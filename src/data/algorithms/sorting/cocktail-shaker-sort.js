@@ -116,6 +116,205 @@ export const cocktailShakerSort = {
     return a`,
   },
 
+  walkthrough: {
+    javascript: [
+      {
+        lines: [1],
+        title: { ru: 'Сигнатура', en: 'Signature' },
+        explanation: {
+          ru: 'Функция принимает один массив `arr` - направление и границы прохода настраиваются полностью внутри функции, никаких дополнительных параметров не требуется.',
+          en: 'The function takes a single array `arr` - pass direction and boundaries are configured entirely inside the function, no extra parameters are needed.',
+        },
+      },
+      {
+        lines: [2],
+        title: { ru: 'Копия массива', en: 'Copying the array' },
+        explanation: {
+          ru: '`const a = [...arr]` создаёт копию входного массива, чтобы функция не изменяла аргумент, переданный вызывающим кодом - все дальнейшие перестановки происходят в этой копии.',
+          en: '`const a = [...arr]` copies the input array so the function doesn\'t mutate the caller\'s argument - every swap below happens on this copy.',
+        },
+      },
+      {
+        lines: [3, 4],
+        title: { ru: 'Границы неотсортированной зоны', en: 'Bounds of the unsorted zone' },
+        explanation: {
+          ru: '`start` и `end` отмечают левую и правую границы ещё не отсортированной части массива. Изначально это весь массив: `start = 0`, `end = a.length - 1`. С каждым полным двойным проходом обе границы будут сдвигаться внутрь.',
+          en: '`start` and `end` mark the left and right edges of the still-unsorted part of the array. Initially that\'s the whole array: `start = 0`, `end = a.length - 1`. Each full round-trip pass moves both boundaries inward.',
+        },
+      },
+      {
+        lines: [5],
+        title: { ru: 'Флаг перестановок', en: 'The swap flag' },
+        explanation: {
+          ru: '`swapped` инициализируется в `true`, хотя ни одной перестановки ещё не было - это не отражает реальное состояние, а просто гарантирует, что цикл `while (swapped)` выполнится хотя бы один раз.',
+          en: '`swapped` starts as `true` even though no swap has happened yet - this doesn\'t reflect a real state, it just guarantees the `while (swapped)` loop runs at least once.',
+        },
+      },
+      {
+        lines: [7, 8],
+        title: { ru: 'Внешний цикл и сброс флага', en: 'Outer loop and flag reset' },
+        explanation: {
+          ru: '`while (swapped)` продолжает выполнять полные двойные проходы, пока хоть один из них что-то менял. В начале каждой итерации `swapped = false` - если ни левый, ни правый проход не найдут ни одной перестановки, флаг так и останется `false`, и цикл завершится.',
+          en: '`while (swapped)` keeps running full round-trip passes as long as the previous one changed something. At the top of each iteration `swapped = false` - if neither the left nor the right pass finds a single swap, the flag stays `false` and the loop ends.',
+        },
+      },
+      {
+        lines: [9, 14],
+        title: { ru: 'Проход слева направо', en: 'Left-to-right pass' },
+        explanation: {
+          ru: '`for (let i = start; i < end; i++)` идёт от текущей левой границы к текущей правой, сравнивая `a[i]` с `a[i + 1]` и меняя их местами, если левый элемент больше правого - это тот же цикл, что и в обычном bubble sort, но ограниченный сузившейся зоной `[start, end]`.',
+          en: '`for (let i = start; i < end; i++)` walks from the current left boundary to the current right one, comparing `a[i]` with `a[i + 1]` and swapping them if the left element is greater - the same loop as plain bubble sort, just bounded to the shrunken `[start, end]` zone.',
+        },
+      },
+      {
+        lines: [15],
+        title: { ru: 'Сжатие правой границы', en: 'Shrinking the right boundary' },
+        explanation: {
+          ru: '`end--` исключает последний индекс из будущих проходов: после прохода слева направо самый большой элемент зоны гарантированно оказался на позиции `end`, и трогать его больше не нужно.',
+          en: '`end--` excludes the last index from future passes: after the left-to-right pass, the zone\'s largest element is guaranteed to sit at position `end`, so it no longer needs to be touched.',
+        },
+      },
+      {
+        lines: [16],
+        title: { ru: 'Ранний выход после левого прохода', en: 'Early exit after the left pass' },
+        explanation: {
+          ru: '`if (!swapped) break` останавливает алгоритм сразу после левого прохода, не запуская правый, если левый проход не сделал ни одной перестановки - это значит, что вся оставшаяся зона уже отсортирована, и разворачиваться в другую сторону незачем.',
+          en: '`if (!swapped) break` stops the algorithm right after the left pass, skipping the right pass entirely, if the left pass made zero swaps - that means the remaining zone is already sorted, so there\'s nothing left to catch by reversing direction.',
+        },
+      },
+      {
+        lines: [18],
+        title: { ru: 'Сброс флага перед правым проходом', en: 'Resetting the flag before the right pass' },
+        explanation: {
+          ru: '`swapped = false` сбрасывается заново - перестановки, сделанные во время левого прохода, не должны маскировать отсутствие перестановок в правом. Каждый проход отслеживается независимо.',
+          en: '`swapped = false` is reset again - swaps made during the left pass must not mask the absence of swaps in the right one. Each pass is tracked independently.',
+        },
+      },
+      {
+        lines: [19, 24],
+        title: { ru: 'Проход справа налево', en: 'Right-to-left pass' },
+        explanation: {
+          ru: '`for (let i = end; i > start; i--)` идёт от текущей правой границы к текущей левой, сравнивая `a[i - 1]` с `a[i]` и меняя их местами, если левый элемент больше правого. Направление обратное, но сравниваемая пара соседей та же самая идея, что и в левом проходе.',
+          en: '`for (let i = end; i > start; i--)` walks from the current right boundary to the current left one, comparing `a[i - 1]` with `a[i]` and swapping them if the left element is greater. The direction is reversed, but comparing an adjacent pair is the same idea as the left pass.',
+        },
+      },
+      {
+        lines: [25],
+        title: { ru: 'Сжатие левой границы', en: 'Shrinking the left boundary' },
+        explanation: {
+          ru: '`start++` исключает первый индекс из будущих проходов: после прохода справа налево самый маленький элемент зоны гарантированно оказался на позиции `start`.',
+          en: '`start++` excludes the first index from future passes: after the right-to-left pass, the zone\'s smallest element is guaranteed to sit at position `start`.',
+        },
+      },
+      {
+        lines: [27],
+        title: { ru: 'Возврат результата', en: 'Returning the result' },
+        explanation: {
+          ru: 'Когда `while (swapped)` завершается - либо через `break`, либо потому что правый проход тоже не сделал перестановок - зона `[start, end]` сжалась до пустой, и `a` полностью отсортирован.',
+          en: 'When `while (swapped)` ends - either via `break` or because the right pass also made no swaps - the `[start, end]` zone has shrunk to empty, and `a` is fully sorted.',
+        },
+      },
+    ],
+    python: [
+      {
+        lines: [1],
+        title: { ru: 'Сигнатура', en: 'Signature' },
+        explanation: {
+          ru: 'Функция принимает один список `arr` - как и в JS-версии, вся настройка направления и границ живёт внутри функции.',
+          en: 'The function takes a single list `arr` - just like the JS version, all direction and boundary setup lives inside the function.',
+        },
+      },
+      {
+        lines: [2],
+        title: { ru: 'Копия списка', en: 'Copying the list' },
+        explanation: {
+          ru: '`a = arr.copy()` создаёт копию входного списка, чтобы не изменять аргумент вызывающего кода.',
+          en: '`a = arr.copy()` copies the input list so the caller\'s argument stays untouched.',
+        },
+      },
+      {
+        lines: [3],
+        title: { ru: 'Границы неотсортированной зоны', en: 'Bounds of the unsorted zone' },
+        explanation: {
+          ru: '`start, end = 0, len(a) - 1` задаёт начальные границы - весь список. Как и в JS-версии, эти границы будут сдвигаться внутрь с каждым полным двойным проходом.',
+          en: '`start, end = 0, len(a) - 1` sets the initial boundaries to the whole list. As in the JS version, they move inward with every full round-trip pass.',
+        },
+      },
+      {
+        lines: [4],
+        title: { ru: 'Флаг перестановок', en: 'The swap flag' },
+        explanation: {
+          ru: '`swapped = True` - тот же приём, что и в JS: значение не отражает реальное состояние, а лишь гарантирует хотя бы одну итерацию `while swapped`.',
+          en: '`swapped = True` - the same trick as in JS: the value doesn\'t reflect a real state, it just guarantees at least one `while swapped` iteration.',
+        },
+      },
+      {
+        lines: [6, 7],
+        title: { ru: 'Внешний цикл и сброс флага', en: 'Outer loop and flag reset' },
+        explanation: {
+          ru: '`while swapped:` повторяет полные двойные проходы, пока хоть один из них менял порядок. `swapped = False` в начале итерации сбрасывает флаг для нового двойного прохода.',
+          en: '`while swapped:` repeats full round-trip passes as long as the previous one changed the order. `swapped = False` at the top of the iteration resets the flag for the new round trip.',
+        },
+      },
+      {
+        lines: [8, 11],
+        title: { ru: 'Проход слева направо', en: 'Left-to-right pass' },
+        explanation: {
+          ru: '`for i in range(start, end):` перебирает индексы от текущей левой границы до текущей правой (не включая `end`), сравнивая `a[i]` с `a[i + 1]` и меняя их местами при необходимости - идентично левому проходу в JS-версии.',
+          en: '`for i in range(start, end):` walks indices from the current left boundary up to (not including) the current right one, comparing `a[i]` with `a[i + 1]` and swapping when needed - identical to the JS version\'s left pass.',
+        },
+      },
+      {
+        lines: [12],
+        title: { ru: 'Сжатие правой границы', en: 'Shrinking the right boundary' },
+        explanation: {
+          ru: '`end -= 1` исключает последний индекс из будущих проходов - наибольший элемент зоны уже занял позицию `end`.',
+          en: '`end -= 1` excludes the last index from future passes - the zone\'s largest element already occupies position `end`.',
+        },
+      },
+      {
+        lines: [13, 14],
+        title: { ru: 'Ранний выход после левого прохода', en: 'Early exit after the left pass' },
+        explanation: {
+          ru: '`if not swapped: break` останавливает алгоритм, не запуская правый проход, если левый проход не сделал ни одной перестановки - остаток зоны уже отсортирован.',
+          en: '`if not swapped: break` stops the algorithm without running the right pass if the left pass made zero swaps - the rest of the zone is already sorted.',
+        },
+      },
+      {
+        lines: [16],
+        title: { ru: 'Сброс флага перед правым проходом', en: 'Resetting the flag before the right pass' },
+        explanation: {
+          ru: '`swapped = False` сбрасывается заново перед правым проходом, чтобы отслеживать его перестановки независимо от левого.',
+          en: '`swapped = False` is reset again before the right pass, so its swaps are tracked independently of the left pass.',
+        },
+      },
+      {
+        lines: [17, 20],
+        title: { ru: 'Проход справа налево', en: 'Right-to-left pass' },
+        explanation: {
+          ru: '`for i in range(end, start, -1):` перебирает индексы от текущей правой границы до `start + 1` (третий аргумент `-1` задаёт шаг назад, диапазон не включает `start`), сравнивая `a[i - 1]` с `a[i]`.',
+          en: '`for i in range(end, start, -1):` walks indices from the current right boundary down to `start + 1` (the third argument `-1` sets the backward step, the range excludes `start`), comparing `a[i - 1]` with `a[i]`.',
+        },
+      },
+      {
+        lines: [21],
+        title: { ru: 'Сжатие левой границы', en: 'Shrinking the left boundary' },
+        explanation: {
+          ru: '`start += 1` исключает первый индекс из будущих проходов - наименьший элемент зоны уже занял позицию `start`.',
+          en: '`start += 1` excludes the first index from future passes - the zone\'s smallest element already occupies position `start`.',
+        },
+      },
+      {
+        lines: [22],
+        title: { ru: 'Возврат результата', en: 'Returning the result' },
+        explanation: {
+          ru: 'Когда `while swapped:` завершается, зона `[start, end]` сжалась до пустой, и `a` полностью отсортирован.',
+          en: 'When `while swapped:` ends, the `[start, end]` zone has shrunk to empty, and `a` is fully sorted.',
+        },
+      },
+    ],
+  },
+
   pros: [
     {
       ru: 'Устраняет и «черепах» (маленькие элементы в конце), и «кроликов» (большие элементы в начале) одинаково быстро, в отличие от обычного bubble sort.',
@@ -170,6 +369,83 @@ export const cocktailShakerSort = {
       en: '**Small embedded data buffers** where data is nearly sorted (e.g. a sliding window of recent sensor readings), and implementation simplicity matters more than asymptotics.',
     },
   ],
+
+  details: {
+    deepDive: [
+      {
+        ru: 'Заявленное преимущество - устранение «черепах» - стоит проверить на конкретных числах, а не принимать на слово. Возьмём массив `[2, 3, 4, 5, 6, 7, 8, 9, 10, 1]` (n = 10): единица - классическая черепаха, застрявшая в самом конце уже отсортированного по возрастанию хвоста.',
+        en: 'The claimed advantage - eliminating "turtles" - is worth checking against actual numbers, not taken on faith. Take the array `[2, 3, 4, 5, 6, 7, 8, 9, 10, 1]` (n = 10): the 1 is a classic turtle, stuck at the very end of an otherwise ascending tail.',
+      },
+      {
+        ru: 'В обычном bubble sort этот 1 сдвигается влево ровно на одну позицию за каждый проход - алгоритму нужно **9 полных проходов**, чтобы дотащить его до индекса 0. В шейкерной сортировке первый проход слева направо просто переставляет 10 и 1 местами (`[2,3,4,5,6,7,8,9,1,10]`), а следующий сразу же проход справа налево тащит 1 через всю оставшуюся зону за один присест - единица оказывается в начале уже **после 2 проходов** вместо 9.',
+        en: 'In plain bubble sort, that 1 moves left by exactly one position per pass - it takes **9 full passes** to drag it to index 0. In cocktail shaker sort, the first left-to-right pass simply swaps 10 and 1 (`[2,3,4,5,6,7,8,9,1,10]`), and the very next right-to-left pass drags the 1 across the entire remaining zone in one go - it reaches the front after **2 passes** instead of 9.',
+      },
+      {
+        ru: 'Это не совпадение, а асимметрия, изначально заложенная в bubble sort. **«Кролик»** (большой элемент у начала массива) уже движется быстро в обычном одностороннем проходе: сравнение `a[i] > a[i+1]` заставляет его сдвигаться вправо на каждом шаге того же прохода, так что он долетает до своего места за один проход. Медленно ползёт только «черепаха» - потому что после того как её один раз сдвинули влево, проход уже ушёл дальше вправо и не возвращается проверить её снова. Шейкерная сортировка - это, по сути, патч именно для этого одностороннего слепого пятна, а не общее ускорение алгоритма.',
+        en: 'This isn\'t a coincidence, it\'s an asymmetry baked into bubble sort itself. A **"rabbit"** (a large element near the start) already moves fast in a plain one-directional pass: the `a[i] > a[i+1]` check pushes it right on every subsequent step of the same pass, so it reaches its spot in one pass. Only the "turtle" crawls, because once it\'s nudged left, the pass has already moved on and never comes back to check it again. Cocktail shaker sort is, in effect, a patch for exactly this one-directional blind spot, not a general speed-up of the algorithm.',
+      },
+      {
+        ru: 'Отсюда же следует, почему средний и худший случай остаются **O(n²)**. Каждый полный двойной проход сжимает зону с обеих сторон: `end--` после левого прохода и `start++` после правого. Значит, всего может быть не больше `⌈n/2⌉` двойных проходов, а k-й проход обрабатывает зону шириной примерно `n - 2k` с обеих сторон - `2(n - 2k)` сравнений. Просуммировав по всем `k` от 0 до n/2, получаем порядка `n²/2` сравнений - та же величина, что и у обычного bubble sort, только переупакованная в проходы вдвое короче, но их вдвое больше по счёту с обеих сторон одновременно.',
+        en: 'This also explains why the average and worst case stay **O(n²)**. Every full round-trip pass shrinks the zone from both ends: `end--` after the left pass, `start++` after the right one. That caps the number of round trips at `⌈n/2⌉`, and the k-th round trip processes a zone about `n - 2k` wide on both sides - `2(n - 2k)` comparisons. Summing over `k` from 0 to n/2 gives roughly `n²/2` comparisons - the same total as plain bubble sort, just repackaged into passes that are each half as long but come in pairs going both directions.',
+      },
+      {
+        ru: 'В коде на этой странице есть тонкая асимметрия в самой проверке `swapped`. Ранний выход `if (!swapped) break` стоит только после **левого** прохода - если он ничего не переставил, правый проход вообще не запускается. После **правого** прохода отдельной проверки нет: цикл просто идёт на следующую итерацию `while (swapped)`, и если правый проход тоже ничего не поменял, флаг остаётся `false`, и цикл завершается сам собой на условии `while`. Итог тот же самый - лишний проход не выполняется в обоих случаях, - но механизм выхода технически разный: явный `break` против естественного условия цикла.',
+        en: 'The code on this page has a subtle asymmetry in the `swapped` check itself. The early exit `if (!swapped) break` only sits after the **left** pass - if it swapped nothing, the right pass never runs at all. There\'s no matching check after the **right** pass: the loop simply moves to the next `while (swapped)` iteration, and if the right pass also changed nothing, the flag stays `false` and the loop ends on its own via the `while` condition. The outcome is identical either way - no wasted extra pass - but the exit mechanism is technically different: an explicit `break` versus the loop\'s own condition doing the job.',
+      },
+      {
+        ru: 'Имя «shaker sort» само по себе неоднозначно и часто путает при чтении разных источников. Помимо двунаправленной пузырьковой сортировки, описанной здесь, тот же термин иногда используют для совсем другого алгоритма - двунаправленного варианта **selection sort**, который за один проход одновременно находит и минимум, и максимум оставшейся неотсортированной зоны и сразу ставит оба на края. Эти два алгоритма решают внешне похожую задачу (обработать оба конца массива за один заход), но устроены принципиально по-разному: один основан на перестановке соседей, второй - на поиске экстремума.',
+        en: 'The name "shaker sort" is itself ambiguous and often causes confusion across sources. Besides the bidirectional bubble sort described here, the same term is sometimes used for a completely different algorithm - a bidirectional variant of **selection sort** that finds both the minimum and the maximum of the remaining unsorted zone in a single pass and places both at the edges immediately. The two algorithms solve a superficially similar problem (handle both ends of the array in one sweep) but work on fundamentally different mechanics: one is swap-based, the other is extremum-search-based.',
+      },
+      {
+        ru: 'Более серьёзное решение той же проблемы «черепах» - **comb sort**, изобретённый Влодзимежем Добосевичем в 1980 году и заново популяризированный Стивеном Лейси и Ричардом Боксом в статье в журнале Byte в 1991-м. Вместо смены направления comb sort сравнивает элементы через зазор шире 1, сокращая его на каждом проходе (обычно делением на 1.3) - это сразу расталкивает «черепах» на большие расстояния, а не тащит их пошагово в обратную сторону, поэтому даёт заметно лучшую константу, оставаясь при этом в том же классе O(n²) в худшем случае.',
+        en: 'A more serious fix for the same turtle problem is **comb sort**, invented by Włodzimierz Dobosiewicz in 1980 and rediscovered/popularized by Stephen Lacey and Richard Box in a 1991 Byte Magazine article. Instead of switching direction, comb sort compares elements across a gap wider than 1, shrinking it every pass (typically by dividing by 1.3) - this shoves turtles across large distances at once rather than dragging them back one step at a time, giving a noticeably better constant while still staying in the same O(n²) worst-case class.',
+      },
+      {
+        ru: 'Итог: шейкерная сортировка стоит рассматривать не как «улучшенный bubble sort» в общем смысле, а как точечный патч под одну конкретную форму входных данных - редкие элементы, застрявшие не с той стороны. Как учебная концепция она ценна тем, что показывает: изменение стратегии обхода (направление, зазор) может радикально поменять поведение на конкретных распределениях, не трогая при этом асимптотику в общем случае - мостик к пониманию, зачем вообще нужны более сложные стратегии вроде divide-and-conquer у merge/quick sort.',
+        en: 'The takeaway: cocktail shaker sort is best understood not as a general "improved bubble sort" but as a targeted patch for one specific input shape - a few elements stuck on the wrong side. As a teaching concept its value is showing that changing the traversal strategy (direction, gap) can radically change behavior on specific distributions without touching the general-case asymptotics - a bridge toward understanding why more elaborate strategies like merge/quick sort\'s divide-and-conquer exist at all.',
+      },
+    ],
+    whenToUse: [
+      {
+        ru: '**Против comb sort** - если реальная цель именно быстро устранить черепах, comb sort справляется с этим лучше за счёт сокращающегося зазора, а не смены направления; шейкерная сортировка выигрывает только простотой объяснения механизма, а не производительностью.',
+        en: '**Against comb sort** - if the real goal is fast turtle elimination, comb sort does it better via a shrinking gap rather than a direction switch; cocktail shaker sort only wins on how simple the mechanism is to explain, not on performance.',
+      },
+      {
+        ru: '**Когда беспорядок сосредоточен с обеих сторон** массива одновременно (не только «черепахи» в конце, но и «медленные кролики» ближе к середине после первых проходов) - двунаправленный обход убирает оба конца за один двойной проход, тогда как односторонние методы вроде insertion sort по одному направлению справляются с этим медленнее.',
+        en: '**When disorder sits at both ends** of the array at once (not just a "turtle" at the end, but "slow rabbits" nearer the middle after the first few passes) - the bidirectional sweep clears both ends in a single round trip, while single-direction methods like insertion sort handle this more slowly.',
+      },
+      {
+        ru: '**Как учебный шаг перед comb sort** - объяснить сначала, что смена направления решает конкретную проблему без изменения порядка сложности, а уже затем показать, что зазор больше 1 решает ту же проблему быстрее - естественная прогрессия для курса по алгоритмам сортировки.',
+        en: '**As a teaching step before comb sort** - explain first that switching direction fixes a concrete problem without changing the complexity order, then show that a gap wider than 1 fixes the same problem faster - a natural progression for a sorting-algorithms course.',
+      },
+      {
+        ru: '**Не выбирать для случайных или крупных данных** - ни асимметрия направления, ни early-exit флаг не спасают от O(n²) сравнений на случайном входе; для этого нужны quicksort, mergesort или Timsort, а не патчи над bubble sort.',
+        en: '**Don\'t pick it for random or large data** - neither the direction asymmetry nor the early-exit flag saves it from O(n²) comparisons on random input; quicksort, mergesort, or Timsort are needed there, not patches on top of bubble sort.',
+      },
+      {
+        ru: '**Если нужно меньше перестановок, а не меньше проходов** - двунаправленный вариант selection sort (иногда тоже называемый «shaker sort», см. выше) ищет min и max за один проход и переставляет каждый элемент максимум один раз за операцию, тогда как здесь любая перестановка - это отдельный своп соседей.',
+        en: '**If fewer swaps matter more than fewer passes** - the bidirectional selection sort variant (also sometimes called "shaker sort", see above) finds min and max in one pass and moves each element at most once per operation, whereas here every swap is a separate adjacent-pair exchange.',
+      },
+    ],
+    realWorld: [
+      {
+        ru: '**Wikipedia и большинство вводных курсов по алгоритмам** используют именно эту пару bubble/cocktail shaker sort как канонический пример того, что изменение стратегии обхода может радикально поменять поведение на конкретной форме входных данных, не меняя асимптотику в общем случае - урок важнее самого алгоритма.',
+        en: '**Wikipedia and most introductory algorithms courses** use exactly this bubble/cocktail-shaker pair as the canonical example that changing a traversal strategy can radically change behavior on a specific input shape without touching general-case asymptotics - the lesson matters more than the algorithm.',
+      },
+      {
+        ru: '**Comb sort** (Влодзимеж Добосевич, 1980; заново описан Стивеном Лейси и Ричардом Боксом в Byte Magazine, 1991) - самостоятельный алгоритм, решающий ту же проблему черепах через сокращающийся зазор, а не смену направления; исторически применялся в нескольких ранних библиотеках сортировки как быстрая и простая замена bubble sort до широкого распространения quicksort.',
+        en: '**Comb sort** (Włodzimierz Dobosiewicz, 1980; rediscovered by Stephen Lacey and Richard Box in Byte Magazine, 1991) is a standalone algorithm solving the same turtle problem through a shrinking gap instead of a direction switch; it saw use in a handful of early sorting libraries as a fast, simple bubble sort replacement before quicksort became the default.',
+      },
+      {
+        ru: '**Учебные визуализаторы алгоритмов сортировки** нередко включают шейкерную сортировку отдельно от bubble sort именно из-за характерного «двустороннего волнового» узора перестановок на экране - это визуально показывает разницу между односторонним и двунаправленным обходом лучше, чем текстовое объяснение.',
+        en: '**Sorting-algorithm visualizer tools** often include cocktail shaker sort separately from bubble sort specifically for the distinctive "two-sided wave" swap pattern it produces on screen - it demonstrates the difference between one-directional and bidirectional traversal better than a text explanation would.',
+      },
+      {
+        ru: '**Прошивки для маленьких микроконтроллеров**, где важен размер скомпилированного кода, а не асимптотика: шейкерная сортировка требует лишь на несколько строк больше, чем bubble sort, но не тянет за собой ни рекурсию, ни дополнительные структуры данных, которых требуют более быстрые алгоритмы вроде quicksort.',
+        en: '**Firmware for small microcontrollers**, where compiled code size matters more than asymptotics: cocktail shaker sort needs only a few lines more than bubble sort, but pulls in no recursion or extra data structures the way faster algorithms like quicksort would.',
+      },
+    ],
+  },
 
   relatedAlgorithms: ['bubble-sort', 'comb-sort'],
 
@@ -233,8 +509,8 @@ export const cocktailShakerSort = {
         en: 'Bidirectionality changes the constant factor and behavior on specific distributions, but not the growth order - still O(n²) comparisons on average.',
       },
       hint: {
-        ru: 'Двунаправленность улучшает константу, но меняет ли она порядок роста числа сравнений? Смотрите бейдж «Средний» вверху страницы и первый пункт минусов на вкладке «Плюсы и минусы».',
-        en: 'Bidirectionality improves the constant, but does it change the growth order? See the "Average" complexity badge at the top and the first "Cons" item on "Pros & Cons".',
+        ru: 'Каждый двойной проход сжимает зону лишь на 1 элемент с каждой стороны - сколько всего таких проходов получится и сколько сравнений они дадут в сумме? Разобрано с формулой n²/2 в разделе «Как это работает» на вкладке «Суть».',
+        en: 'Each round-trip pass shrinks the zone by only 1 element per side - how many such passes are there, and how many comparisons do they add up to? Worked out with the n²/2 formula in the "How it works" section on the "Intent" tab.',
       },
     },
     {
@@ -317,8 +593,8 @@ export const cocktailShakerSort = {
         en: 'Bidirectionality removes a specific pathological case ("turtles") but doesn\'t change the growth order of comparisons - on random data the algorithm still makes O(n²) comparisons.',
       },
       hint: {
-        ru: 'Что меняет двунаправленность - поведение на конкретном распределении или общий порядок роста? Названо напрямую в первом пункте минусов на вкладке «Плюсы и минусы».',
-        en: 'What does bidirectionality change - behavior on a specific distribution, or the overall growth order? Named directly in the first "Cons" item on "Pros & Cons".',
+        ru: 'Сравните, сколько проходов требуется обычному bubble sort и шейкерной сортировке на массиве с одной «черепахой» в конце - а затем на случайных данных. Разобрано с числовым примером в разделе «Как это работает» на вкладке «Суть».',
+        en: 'Compare how many passes plain bubble sort and cocktail shaker sort need on an array with one "turtle" at the end - then on random data. Worked out with a numeric example in the "How it works" section on the "Intent" tab.',
       },
     },
     {
@@ -380,8 +656,8 @@ export const cocktailShakerSort = {
         en: 'Comb sort uses the same basic bubble sort principle but compares elements across a gap greater than 1, shrinking it rapidly - this eliminates turtles much faster than cocktail shaker sort does.',
       },
       hint: {
-        ru: 'Шейкерная сортировка сравнивает соседние элементы (зазор = 1). Смотрите раздел «Похожие алгоритмы» внизу страницы - какой из связанных алгоритмов начинает с большего зазора?',
-        en: 'Cocktail shaker sort compares adjacent elements (gap = 1). See the "Related algorithms" section at the bottom of the page - which linked algorithm starts with a larger gap?',
+        ru: 'Шейкерная сортировка сравнивает соседние элементы (зазор = 1) и решает проблему черепах сменой направления. Какой родственный алгоритм решает ту же проблему через сокращающийся зазор шире 1? Названо в разделе «Как это работает» на вкладке «Суть» (с историей изобретения) и в разделе «Похожие алгоритмы» внизу страницы.',
+        en: 'Cocktail shaker sort compares adjacent elements (gap = 1) and fixes the turtle problem by switching direction. Which related algorithm fixes the same problem via a shrinking gap wider than 1? Named in the "How it works" section on the "Intent" tab (with its invention history) and in the "Related algorithms" section at the bottom of the page.',
       },
     },
   ],
