@@ -114,16 +114,16 @@ def bogo_sort(arr):
   ],
   cons: [
     {
-      ru: 'Ожидаемое время работы порядка O(n · n!) - уже для 10 элементов это триллионы попыток; для практической сортировки абсолютно непригоден.',
-      en: 'Expected running time is on the order of O(n · n!) - already for 10 elements this is trillions of attempts; utterly unusable for practical sorting.',
+      ru: 'Ожидаемое время работы порядка O(n · n!) - уже для 15 элементов это больше триллиона попыток (15! ≈ 1,3·10¹²); для практической сортировки абсолютно непригоден.',
+      en: 'Expected running time is on the order of O(n · n!) - already for 15 elements this is over a trillion attempts (15! ≈ 1.3·10¹²); utterly unusable for practical sorting.',
     },
     {
       ru: 'Не имеет верхней границы числа попыток: теоретически может не завершиться никогда, хотя вероятность этого стремится к нулю с ростом числа попыток.',
       en: 'Has no upper bound on the number of attempts: theoretically it might never terminate, though the probability of that approaches zero as attempts grow.',
     },
     {
-      ru: 'В этом тренажёре для наглядности используется укороченный массив из 5 элементов вместо стандартных 9, а число попыток перемешивания ограничено (после которого визуализация просто сортирует массив принудительно) - иначе демонстрация могла бы зависнуть в браузере на неопределённое время.',
-      en: "For visualization purposes, this trainer uses a shortened 5-element sample instead of the standard 9, and the number of shuffle attempts is capped (after which the visualization simply force-sorts the array) - otherwise the demo could hang in the browser for an unbounded amount of time.",
+      ru: 'В этом тренажёре для наглядности используется укороченный массив из 5 элементов вместо стандартных 9 (5! = 120 попыток в среднем - ещё терпимо для браузера), а число попыток перемешивания дополнительно ограничено (после чего визуализация просто сортирует массив принудительно) - иначе демонстрация могла бы зависнуть на неопределённое время.',
+      en: "For visualization purposes, this trainer uses a shortened 5-element sample instead of the standard 9 (5! = 120 attempts on average - still tolerable in a browser), and the number of shuffle attempts is additionally capped (after which the visualization simply force-sorts the array) - otherwise the demo could hang for an unbounded amount of time.",
     },
   ],
 
@@ -148,6 +148,166 @@ def bogo_sort(arr):
       en: '**Internet memes and "worst algorithms" lists** in the programming community regularly reference bogosort as the classic example of a performance anti-pattern.',
     },
   ],
+
+  details: {
+    deepDive: [
+      {
+        ru: 'Число попыток растёт не просто быстро - оно растёт **факториально**, а это самый быстрый рост среди всех величин, которые обычно встречаются в анализе алгоритмов. Для 5 элементов (как в тренажёре выше) в среднем нужно 5! = 120 попыток - это ещё вполне терпимо. Для 10 элементов - уже 10! = 3 628 800 попыток, то есть около 36 миллионов элементарных операций сравнения при O(n) на попытку.',
+        en: 'The number of attempts doesn\'t just grow fast - it grows **factorially**, the fastest growth rate that shows up in ordinary algorithm analysis. For 5 elements (as in the trainer above), on average 120 attempts (5!) are needed - still tolerable. For 10 elements it is already 3,628,800 attempts (10!), roughly 36 million elementary comparison operations at O(n) per attempt.',
+      },
+      {
+        ru: 'Дальше рост становится буквально астрономическим. Для 20 элементов среднее число попыток - 20! ≈ 2,43·10¹⁸. При скорости в миллиард попыток в секунду (оптимистичная оценка для современного процессора) сортировка заняла бы порядка **77 лет** непрерывной работы. Для сравнения, у merge sort на тех же 20 элементах ушло бы около 20 · log₂ 20 ≈ 86 операций - разница больше чем на 16 порядков величины.',
+        en: 'From there, growth becomes literally astronomical. For 20 elements the average number of attempts is 20! ≈ 2.43·10¹⁸. At a billion attempts per second (an optimistic estimate for a modern processor), sorting would take roughly **77 years** of continuous work. For comparison, merge sort on the same 20 elements would take about 20 · log₂ 20 ≈ 86 operations - a difference of more than 16 orders of magnitude.',
+      },
+      {
+        ru: 'Математически каждая попытка - независимое испытание Бернулли с вероятностью успеха `p = 1/n!` (ровно одна из n! перестановок отсортирована). Число попыток до первого успеха подчиняется **геометрическому распределению**, и его математическое ожидание равно `1/p = n!` - отсюда и берётся оценка O(n · n!). При этом отдельный конкретный запуск может повезти на первой же попытке или растянуться на порядок дольше среднего - у геометрического распределения большой разброс.',
+        en: 'Mathematically, each attempt is an independent Bernoulli trial with success probability `p = 1/n!` (exactly one of n! permutations is sorted). The number of attempts until the first success follows a **geometric distribution**, whose expected value is `1/p = n!` - which is exactly where the O(n · n!) estimate comes from. Any single run might get lucky on the first try or stretch on for an order of magnitude longer than average - geometric distributions have high variance.',
+      },
+      {
+        ru: 'Гарантия завершения тоже вероятностная, а не абсолютная. Вероятность того, что первые `k` попыток все окажутся неудачными, равна `(1 - p)^k` и стремится к нулю при `k → ∞` - значит, алгоритм завершается **с вероятностью 1**, но не за гарантированное конечное число шагов. Это тонкое, но важное различие: «почти наверное завершится» - не то же самое, что «завершится за N шагов» - и Бого-сортировка - редкий пример алгоритма, где эта разница видна невооружённым глазом.',
+        en: 'The termination guarantee is also probabilistic, not absolute. The probability that the first `k` attempts all fail equals `(1 - p)^k` and tends to zero as `k → ∞` - so the algorithm terminates **with probability 1**, but not within a guaranteed finite number of steps. That is a subtle but important distinction: "almost surely terminates" is not the same as "terminates within N steps" - and bogosort is a rare algorithm where this difference is plainly visible.',
+      },
+      {
+        ru: 'Бого-сортировку иногда называют вычислительной иллюстрацией **теоремы о бесконечных обезьянах** (infinite monkey theorem) - идеи о том, что случайный процесс, повторяемый достаточно долго, рано или поздно произведёт любой конкретный результат, включая полное собрание сочинений Шекспира. Разница в том, что у Бого-сортировки «результат» - это всего одна из n! перестановок, и его можно посчитать и проверить за разумное время только для очень маленьких n.',
+        en: 'Bogosort is sometimes described as a computational illustration of the **infinite monkey theorem** - the idea that a random process, repeated long enough, will eventually produce any specific outcome, including the complete works of Shakespeare. The difference is that bogosort\'s "outcome" is just one of n! permutations, and it can only be computed and checked in reasonable time for very small n.',
+      },
+      {
+        ru: 'В сообществе любителей эзотерических алгоритмов существуют шуточные вариации, доводящие идею до абсурда ещё дальше - например, **bogobogosort**, которая рекурсивно бого-сортирует каждый префикс массива и отбрасывает результат при малейшей неудаче, что делает её на порядки медленнее обычной Бого-сортировки. Такие варианты не несут практической ценности - они существуют как чисто концептуальная шутка о том, «насколько плохо можно было бы сделать ещё хуже».',
+        en: 'The esoteric-algorithms community has joke variants that push the idea further into absurdity - for instance **bogobogosort**, which recursively bogosorts every prefix of the array and discards the result on the slightest failure, making it orders of magnitude slower than ordinary bogosort. Such variants have no practical value - they exist purely as a conceptual joke about "how much worse could this possibly get".',
+      },
+      {
+        ru: 'Педагогическая ценность Бого-сортировки - в контрасте между «продуктивной» и «непродуктивной» случайностью в алгоритмах. Quicksort использует случайный выбор опорного элемента, чтобы **избежать** конкретного противника - это случайность, снижающая ожидаемую сложность. Бого-сортировка использует случайность, которая **не извлекает никакой информации** из предыдущих попыток: она не приближается к ответу постепенно, а каждый раз стартует заново - именно поэтому она остаётся плохим алгоритмом, несмотря на корректность.',
+        en: 'Bogosort\'s pedagogical value lies in the contrast between "productive" and "unproductive" randomness in algorithms. Quicksort uses a random pivot choice to **avoid** a specific adversary - randomness that lowers expected complexity. Bogosort uses randomness that **extracts no information** from previous attempts: it never inches closer to the answer, it just starts over each time - which is exactly why it remains a bad algorithm despite being correct.',
+      },
+    ],
+    whenToUse: [
+      {
+        ru: '**При объяснении случайных алгоритмов новичкам** - как контрастный пример «плохой» случайности рядом с quicksort или skip list, где случайность действительно снижает сложность вместо того, чтобы просто перебирать варианты вслепую.',
+        en: '**When teaching randomized algorithms to beginners** - as a contrasting example of "bad" randomness alongside quicksort or skip lists, where randomness genuinely lowers complexity instead of just blindly enumerating options.',
+      },
+      {
+        ru: '**При демонстрации геометрического распределения** на курсах теории вероятностей и статистики - Бого-сортировка даёт наглядный, легко программируемый пример испытаний Бернулли с крошечной вероятностью успеха.',
+        en: '**When demonstrating the geometric distribution** in probability and statistics courses - bogosort gives a vivid, easily coded example of Bernoulli trials with a tiny success probability.',
+      },
+      {
+        ru: 'Никогда в production-коде и никогда там, где n превышает буквально несколько элементов - даже как «шутка» в коде она рискует превратиться в реальный источник зависаний, если случайно попадёт на вход с 15+ элементами.',
+        en: 'Never in production code, and never where n exceeds a literal handful of elements - even as a "joke" in code, it risks becoming a real source of hangs if it accidentally runs on an input of 15+ elements.',
+      },
+      {
+        ru: '**В споре о том, «что вообще значит алгоритм сортировки»** - Бого-сортировка формально удовлетворяет определению (корректно завершается и производит отсортированный вывод), что делает её полезным пограничным случаем для обсуждения того, отделяет ли определение алгоритма практичность от корректности.',
+        en: '**In debates about "what counts as a sorting algorithm"** - bogosort formally satisfies the definition (it terminates correctly and produces sorted output), making it a useful edge case for discussing whether the definition of an algorithm separates practicality from correctness.',
+      },
+      {
+        ru: 'Как шкала для сравнения «насколько плохих» алгоритмов друг с другом: bubble sort и Бого-сортировка оба формально «плохие», но разница между O(n²) и O(n · n!) огромна - Бого-сортировка задаёт нижнюю границу спектра, относительно которой даже bubble sort выглядит вполне разумным.',
+        en: 'As a yardstick for comparing "how bad" algorithms are relative to each other: bubble sort and bogosort are both formally "bad", but the gap between O(n²) and O(n · n!) is enormous - bogosort anchors the bottom of the spectrum, against which even bubble sort looks perfectly reasonable.',
+      },
+    ],
+    realWorld: [
+      {
+        ru: 'Название и сама идея Бого-сортировки возникли как шутка в сообществах программистов ещё в 1990-х годах (обсуждения на Usenet-группах вроде comp.programming), задолго до того, как стали фигурировать в современных списках «худших алгоритмов» и мемах - точное происхождение термина, как это часто бывает с интернет-фольклором, установить сложно.',
+        en: 'The name and idea of bogosort emerged as a programmer-community joke back in the 1990s (in Usenet discussion groups such as comp.programming), long before it started showing up in modern "worst algorithms" lists and memes - the exact origin of the term, as is common with internet folklore, is hard to pin down precisely.',
+      },
+      {
+        ru: '**Видео-визуализаторы алгоритмов сортировки** (например, проект «Sound of Sorting» Тимо Бингмана, озвучивающий сравнения элементов как звук) почти всегда включают Бого-сортировку - не ради практической пользы, а ради комического контраста: рядом с несколько секундными анимациями quicksort и merge sort она либо зависает, либо завершается результатом чистого везения.',
+        en: '**Sorting-algorithm visualizer videos** (for example Timo Bingmann\'s "Sound of Sorting" project, which sonifies element comparisons) almost always include bogosort - not for practical value, but for comic contrast: next to the few-second animations of quicksort and merge sort, it either hangs or finishes purely by luck.',
+      },
+      {
+        ru: 'На **Rosetta Code** и в вики эзотерических языков программирования Бого-сортировка и её пародийные производные (включая bogobogosort) реализованы на десятках языков - это стало своего рода ритуалом сообщества, демонстрирующим синтаксис языка на заведомо бесполезной, но забавной задаче.',
+        en: 'On **Rosetta Code** and esoteric-programming-language wikis, bogosort and its parody derivatives (including bogobogosort) are implemented in dozens of languages - it has become a kind of community ritual, showcasing a language\'s syntax on a deliberately useless but entertaining task.',
+      },
+      {
+        ru: 'В повседневном жаргоне разработчиков фраза **«медленнее, чем Бого-сортировка»** используется как гиперболическое сравнение при обсуждении неэффективного кода в код-ревью - несмотря на шуточное происхождение, само название стало общепонятной единицей измерения «плохой сложности алгоритма».',
+        en: 'In everyday developer slang, the phrase **"slower than bogosort"** is used as a hyperbolic comparison when discussing inefficient code in code review - despite its joke origins, the name itself has become a commonly understood unit for measuring "bad algorithmic complexity".',
+      },
+    ],
+  },
+
+  walkthrough: {
+    javascript: [
+      {
+        lines: [1, 2],
+        title: { ru: 'Копия массива', en: 'Copying the array' },
+        explanation: {
+          ru: '`bogoSort` работает на копии `[...arr]`, чтобы не изменять исходный массив, переданный вызывающим кодом.',
+          en: '`bogoSort` operates on a copy `[...arr]`, so the array passed in by the caller is never mutated.',
+        },
+      },
+      {
+        lines: [4, 9],
+        title: { ru: 'isSorted: проверка порядка', en: 'isSorted: checking the order' },
+        explanation: {
+          ru: 'Проходит по массиву и как только находит пару `x[i-1] > x[i]`, сразу возвращает `false` - массив не отсортирован. Если ни одной такой пары не нашлось, возвращает `true`.',
+          en: 'Walks the array and returns `false` as soon as it finds a pair `x[i-1] > x[i]` - the array is not sorted. If no such pair turns up, it returns `true`.',
+        },
+      },
+      {
+        lines: [11, 16],
+        title: { ru: 'shuffle: тасование Фишера - Йетса', en: 'shuffle: the Fisher-Yates shuffle' },
+        explanation: {
+          ru: 'Идёт с конца массива к началу; для каждой позиции `i` выбирает случайный индекс `j` от `0` до `i` включительно и меняет местами `x[i]` и `x[j]`. Это даёт равновероятную случайную перестановку - каждая из n! перестановок одинаково вероятна.',
+          en: 'Walks from the end of the array to the start; for each position `i` it picks a random index `j` from `0` to `i` inclusive and swaps `x[i]` with `x[j]`. This produces a uniformly random permutation - each of the n! permutations is equally likely.',
+        },
+      },
+      {
+        lines: [18, 20],
+        title: { ru: 'Основной цикл', en: 'The main loop' },
+        explanation: {
+          ru: '`while (!isSorted(a))` повторяет перемешивание, пока проверка не подтвердит, что массив отсортирован. Именно этот цикл не имеет верхней границы числа итераций.',
+          en: '`while (!isSorted(a))` keeps reshuffling until the check confirms the array is sorted. This is exactly the loop with no upper bound on the number of iterations.',
+        },
+      },
+      {
+        lines: [21],
+        title: { ru: 'Возврат результата', en: 'Returning the result' },
+        explanation: {
+          ru: 'Как только `isSorted(a)` возвращает `true`, цикл завершается и функция отдаёт готовый отсортированный массив.',
+          en: 'As soon as `isSorted(a)` returns `true`, the loop exits and the function hands back the finished, sorted array.',
+        },
+      },
+    ],
+    python: [
+      {
+        lines: [1],
+        title: { ru: 'Импорт random', en: 'Importing random' },
+        explanation: {
+          ru: 'Модуль `random` нужен только для одной функции - `random.shuffle`, которая перемешивает список на месте.',
+          en: 'The `random` module is needed for exactly one function - `random.shuffle`, which shuffles a list in place.',
+        },
+      },
+      {
+        lines: [3, 4],
+        title: { ru: 'Копия списка', en: 'Copying the list' },
+        explanation: {
+          ru: '`bogo_sort` работает на копии `list(arr)`, чтобы не изменять исходный список, переданный вызывающим кодом.',
+          en: '`bogo_sort` operates on a copy `list(arr)`, so the list passed in by the caller is never mutated.',
+        },
+      },
+      {
+        lines: [6, 7],
+        title: { ru: 'is_sorted: проверка порядка', en: 'is_sorted: checking the order' },
+        explanation: {
+          ru: '`all(x[i-1] <= x[i] for i in range(1, len(x)))` - однострочная проверка: массив отсортирован тогда и только тогда, когда каждый элемент не больше следующего.',
+          en: '`all(x[i-1] <= x[i] for i in range(1, len(x)))` is a one-line check: the array is sorted exactly when every element is no greater than the next.',
+        },
+      },
+      {
+        lines: [9, 10],
+        title: { ru: 'Основной цикл', en: 'The main loop' },
+        explanation: {
+          ru: '`while not is_sorted(a): random.shuffle(a)` повторяет перемешивание, пока проверка не подтвердит, что массив отсортирован - этот цикл не имеет верхней границы числа итераций.',
+          en: '`while not is_sorted(a): random.shuffle(a)` keeps reshuffling until the check confirms the array is sorted - this loop has no upper bound on the number of iterations.',
+        },
+      },
+      {
+        lines: [11],
+        title: { ru: 'Возврат результата', en: 'Returning the result' },
+        explanation: {
+          ru: 'Как только `is_sorted(a)` возвращает `True`, цикл завершается, и функция отдаёт готовый отсортированный список.',
+          en: 'As soon as `is_sorted(a)` returns `True`, the loop exits and the function returns the finished, sorted list.',
+        },
+      },
+    ],
+  },
 
   relatedAlgorithms: ['stooge-sort', 'gnome-sort', 'bubble-sort'],
 
@@ -211,8 +371,8 @@ def bogo_sort(arr):
         en: 'Each shuffle is independent and random, so an arbitrarily long streak of failed attempts remains possible, though extremely unlikely.',
       },
       hint: {
-        ru: 'Если каждая попытка независима от предыдущих, может ли алгоритм «знать», что следующая попытка обязательно будет удачной? Это прямо названо в шаге «Нет гарантированного числа попыток» на вкладке «Визуализация», а также во втором пункте минусов на вкладке «Плюсы и минусы».',
-        en: 'If each attempt is independent of the previous ones, can the algorithm "know" the next attempt must succeed? Named directly in the "No guaranteed number of attempts" step on the "Visualization" tab, and the second "Cons" item in "Pros & Cons".',
+        ru: 'Если каждая попытка независима от предыдущих, может ли алгоритм «знать», что следующая попытка обязательно будет удачной? Названо в шаге «Нет гарантированного числа попыток» на «Визуализации», во втором пункте минусов на «Плюсы и минусы», и разобрано формулой в четвёртом абзаце раздела «Как это работает».',
+        en: 'If each attempt is independent of the previous ones, can the algorithm "know" the next attempt must succeed? Named in the "No guaranteed number of attempts" step on "Visualization", the second "Cons" item in "Pros & Cons", and worked out with a formula in the fourth paragraph of "How it works".',
       },
     },
     {
@@ -235,8 +395,8 @@ def bogo_sort(arr):
         en: 'Bogosort is used exclusively as a teaching illustration, not as a practical tool.',
       },
       hint: {
-        ru: 'Что можно объяснить студентам через контрпример - алгоритм, который правильный, но бесполезный? Ответ - в разделе «Суть», подраздел «Когда применять».',
-        en: 'What can be taught through a counterexample - an algorithm that is correct but completely useless? See the "When to use" subsection in the "Intent" tab.',
+        ru: 'Что можно объяснить студентам через контрпример - алгоритм, который правильный, но бесполезный? Разобрано в подразделе «Когда применять» раздела «Суть», и первым пунктом в детальном подразделе «Когда применять» ниже (про продуктивную и непродуктивную случайность).',
+        en: 'What can be taught through a counterexample - an algorithm that is correct but completely useless? See the "When to use" subsection in "Intent", and the first item in the detailed "When to use" subsection below (on productive vs unproductive randomness).',
       },
     },
     {
@@ -298,8 +458,8 @@ def bogo_sort(arr):
         en: 'The probability of infinitely many failed attempts is zero, so the algorithm terminates with probability 1 - this is what distinguishes it from an unrealizable infinite procedure.',
       },
       hint: {
-        ru: 'Может ли цепочка независимых случайных событий с одинаковой положительной вероятностью успеха никогда не завершиться? Разобрано в разделе «Суть», подраздел «Проблема».',
-        en: 'Can a chain of independent random events, each with the same positive success probability, go on forever? See the "Problem" subsection in the "Intent" tab.',
+        ru: 'Может ли цепочка независимых случайных событий с одинаковой положительной вероятностью успеха никогда не завершиться? Начало разобрано в подразделе «Проблема» на «Суть», а формула вероятности завершения - в четвёртом абзаце «Как это работает».',
+        en: 'Can a chain of independent random events, each with the same positive success probability, go on forever? Introduced in the "Problem" subsection on "Intent", with the termination-probability formula in the fourth paragraph of "How it works".',
       },
     },
     {
@@ -319,8 +479,8 @@ def bogo_sort(arr):
         en: 'The expected number of attempts is on the order of n! (3! = 6, 4! = 24) - each new element multiplies the expectation by n, making the growth factorial.',
       },
       hint: {
-        ru: 'Во сколько раз 4! больше 3!? Бейдж «Средний случай» вверху страницы и подраздел «Решение» на вкладке «Суть» дают формулу роста.',
-        en: 'How many times larger is 4! than 3!? The "Average" complexity badge at the top and the "Solution" subsection in the "Intent" tab give the growth formula.',
+        ru: 'Во сколько раз 4! больше 3!? Бейдж «Средний случай» вверху страницы и подраздел «Решение» дают формулу роста, а конкретные числа для 5, 10 и 20 элементов - в первых двух абзацах раздела «Как это работает».',
+        en: 'How many times larger is 4! than 3!? The "Average" badge at the top and the "Solution" subsection give the growth formula, and concrete numbers for 5, 10, and 20 elements are in the first two paragraphs of "How it works".',
       },
     },
     {
