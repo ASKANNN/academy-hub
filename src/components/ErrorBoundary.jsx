@@ -1,5 +1,5 @@
 import { Component } from 'react';
-import { usePageContext } from './Layout.jsx';
+import { usePageContext } from '../hooks/usePageContext.js';
 import { getStrings } from '../i18n/strings.js';
 
 class ErrorBoundaryInner extends Component {

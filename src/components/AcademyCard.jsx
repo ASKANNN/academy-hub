@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Icon } from './Icon.jsx';
+import { TopicsList } from './ui/TopicsList.jsx';
+import { ExpandHint } from './ui/ExpandHint.jsx';
 import { getStrings } from '../i18n/strings.js';
 
 function CardShell({ academy, lang, children, ...rest }) {
@@ -54,49 +56,21 @@ export function AcademyCard({ academy, lang = 'ru' }) {
           )}
           {academy.categories && (
             <>
-              <div className={`academy-card__topics-wrap ${expanded ? 'is-expanded' : ''}`}>
-                <ul className="academy-card__topics">
-                  {academy.categories.map((cat) => (
-                    <li key={cat.key} className="academy-card__topic">
-                      <span
-                        className={`academy-card__topic-dot academy-card__topic-dot--${cat.color}`}
-                        aria-hidden="true"
-                      />
-                      {cat.label[lang] ?? cat.label.ru} · {cat.count}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <button
-                type="button"
-                className={`academy-card__expand-hint academy-card__expand-hint--button ${expanded ? 'is-expanded' : ''}`}
-                onClick={onToggle}
-                aria-expanded={expanded}
-              >
-                {expanded ? t.collapse : t.expand}
-              </button>
+              <TopicsList
+                expanded={expanded}
+                items={academy.categories.map((cat) => ({
+                  key: cat.key,
+                  label: `${cat.label[lang] ?? cat.label.ru} · ${cat.count}`,
+                  dotClassName: `academy-card__topic-dot--${cat.color}`,
+                }))}
+              />
+              <ExpandHint expanded={expanded} onToggle={onToggle} label={expanded ? t.collapse : t.expand} />
             </>
           )}
           {topics && (
             <>
-              <div className={`academy-card__topics-wrap ${expanded ? 'is-expanded' : ''}`}>
-                <ul className="academy-card__topics">
-                  {topics.map((topic) => (
-                    <li key={topic} className="academy-card__topic">
-                      <span className="academy-card__topic-dot" aria-hidden="true" />
-                      {topic}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <button
-                type="button"
-                className={`academy-card__expand-hint academy-card__expand-hint--button ${expanded ? 'is-expanded' : ''}`}
-                onClick={onToggle}
-                aria-expanded={expanded}
-              >
-                {expanded ? t.collapse : t.expand}
-              </button>
+              <TopicsList expanded={expanded} items={topics.map((topic) => ({ key: topic, label: topic }))} />
+              <ExpandHint expanded={expanded} onToggle={onToggle} label={expanded ? t.collapse : t.expand} />
             </>
           )}
         </CardShell>
@@ -114,19 +88,8 @@ export function AcademyCard({ academy, lang = 'ru' }) {
       aria-expanded={expanded}
     >
       <CardShell academy={academy} lang={lang}>
-        <div className={`academy-card__topics-wrap ${expanded ? 'is-expanded' : ''}`}>
-          <ul className="academy-card__topics">
-            {topics.map((topic) => (
-              <li key={topic} className="academy-card__topic">
-                <span className="academy-card__topic-dot" aria-hidden="true" />
-                {topic}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <span className={`academy-card__expand-hint ${expanded ? 'is-expanded' : ''}`}>
-          {expanded ? t.collapse : t.expand}
-        </span>
+        <TopicsList expanded={expanded} items={topics.map((topic) => ({ key: topic, label: topic }))} />
+        <ExpandHint expanded={expanded} label={expanded ? t.collapse : t.expand} />
       </CardShell>
     </button>
   );

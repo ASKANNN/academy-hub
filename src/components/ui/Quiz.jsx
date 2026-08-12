@@ -107,7 +107,11 @@ export function Quiz({ quiz, lang, t, reportUrl = '' }) {
 
   useEffect(() => {
     if (!isResult) return;
-    getTier(score, total) === 'pass' ? playSuccessChime() : playErrorTone();
+    if (getTier(score, total) === 'pass') {
+      playSuccessChime();
+    } else {
+      playErrorTone();
+    }
   }, [isResult]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {

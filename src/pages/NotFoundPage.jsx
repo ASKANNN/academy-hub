@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { usePageContext } from '../components/Layout.jsx';
+import { usePageContext } from '../hooks/usePageContext.js';
 import { getStrings } from '../i18n/strings.js';
 
 const BACKDROP_POINTS = [

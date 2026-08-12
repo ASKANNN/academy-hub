@@ -307,8 +307,8 @@ export const bubbleSort = {
         en: '**Three comparison axes** - speed, memory, simplicity. Speed: bubble sort is worse than insertion sort in practice, worse than selection sort when writes are expensive, worse than merge/quicksort asymptotically. Memory: **O(1)** - on par with insertion and selection sort, better than merge sort\'s O(n). Simplicity: roughly equal to insertion sort, simpler than merge sort.',
       },
       {
-        ru: '**Трейд-офф vs insertion sort** - на «почти отсортированных» данных оба дают O(n) благодаря ранней остановке. Но insertion sort перемещает каждый элемент к его позиции напрямую, делая меньше физических записей. Пузырьковая добирается через цепочку попарных обменов - каждый обмен это 3 операции. На почти отсортированных массивах insertion sort обычно в **1.5-2x быстрее**.',
-        en: '**Trade-off vs insertion sort** - on "nearly sorted" data both deliver O(n) thanks to early exit. But insertion sort moves each element to its position directly, making fewer physical writes. Bubble sort reaches the goal through a chain of pairwise swaps - each swap is 3 operations. On nearly sorted input insertion sort is typically **1.5-2x faster**.',
+        ru: 'Насколько именно ощутим этот разрыв на практике (причина разобрана в разделе «Как это работает»)? На почти отсортированных массивах insertion sort обычно в **1.5-2x быстрее** пузырьковой - каждый обмен там это 3 операции записи вместо прямого сдвига на одну позицию.',
+        en: 'How big is that gap in practice (the reason is covered in "How it works")? On nearly sorted arrays insertion sort is typically **1.5-2x faster** than bubble sort - each bubble swap costs 3 write operations versus a direct one-position shift.',
       },
       {
         ru: '**Дорогие операции записи** - например, NAND флеш с ограниченным числом циклов перезаписи. В этом случае считай **число перестановок**, а не сравнений. Пузырьковая в худшем случае делает O(n²) перестановок. **Сортировка выбором** делает максимум n-1 перестановок даже в худшем случае - на флеш-памяти это принципиально.',

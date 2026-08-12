@@ -1,5 +1,5 @@
 import { Navigate, useParams } from 'react-router-dom';
-import { usePageContext } from '../components/Layout.jsx';
+import { usePageContext } from '../hooks/usePageContext.js';
 import { Breadcrumb } from '../components/algorithms/Breadcrumb.jsx';
 import { AlgorithmCard } from '../components/algorithms/AlgorithmCard.jsx';
 import { Accordion } from '../components/ui/Accordion.jsx';

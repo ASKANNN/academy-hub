@@ -1,11 +1,12 @@
 import { useParams } from 'react-router-dom';
 import NotFoundPage from './NotFoundPage.jsx';
-import { usePageContext } from '../components/Layout.jsx';
+import { usePageContext } from '../hooks/usePageContext.js';
 import { ErrorBoundary } from '../components/ErrorBoundary.jsx';
 import { Breadcrumb } from '../components/algorithms/Breadcrumb.jsx';
 import { PrevNextNav } from '../components/algorithms/PrevNextNav.jsx';
 import { AlgorithmCard } from '../components/algorithms/AlgorithmCard.jsx';
 import { AlgorithmIcon } from '../components/algorithms/AlgorithmIcon.jsx';
+import { ComplexityPips } from '../components/algorithms/ComplexityPips.jsx';
 import { AlgorithmVisualizer } from '../components/algorithms/AlgorithmVisualizer.jsx';
 import { CodeBlock } from '../components/ui/CodeBlock.jsx';
 import { WalkthroughBlock } from '../components/ui/WalkthroughBlock.jsx';
@@ -76,11 +77,7 @@ export default function AlgorithmDetailPage() {
         <div className="algorithm-detail__head">
           <AlgorithmIcon slug={slug} size="lg" />
           <h1 className="algorithms-hero__title">{name}</h1>
-          <span className="complexity-pips" aria-hidden="true">
-            {[1, 2, 3].map((n) => (
-              <span key={n} className={`complexity-pip ${n <= algorithm.popularity ? 'is-filled' : ''}`} />
-            ))}
-          </span>
+          <ComplexityPips popularity={algorithm.popularity} />
         </div>
         <p className="algorithms-hero__subtitle">{algorithm.intent[lang] ?? algorithm.intent.ru}</p>
         <PrerequisiteBadge t={t} />

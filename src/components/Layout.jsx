@@ -1,5 +1,5 @@
 import { useLayoutEffect } from 'react';
-import { Outlet, useOutletContext, useLocation } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { Header } from './Header.jsx';
 import { Footer } from './Footer.jsx';
 import { PageIntro } from './PageIntro.jsx';
@@ -46,8 +46,4 @@ export function Layout() {
       <BackToTop lang={lang} />
     </>
   );
-}
-
-export function usePageContext() {
-  return useOutletContext();
 }

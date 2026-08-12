@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Icon } from '../Icon.jsx';
+import { TopicsList } from '../ui/TopicsList.jsx';
+import { ExpandHint } from '../ui/ExpandHint.jsx';
 import { getStrings } from '../../i18n/strings.js';
 
 export function CategoryCard({ category, count, algorithms, lang = 'ru' }) {
@@ -29,24 +31,12 @@ export function CategoryCard({ category, count, algorithms, lang = 'ru' }) {
               <span className="status-badge status-badge--live">{t.categoryCount(count)}</span>
             </div>
             <p className="academy-card__tagline">{tagline}</p>
-            <div className={`academy-card__topics-wrap ${expanded ? 'is-expanded' : ''}`}>
-              <ul className="academy-card__topics">
-                {topics.map((topic) => (
-                  <li key={topic} className="academy-card__topic">
-                    <span className="academy-card__topic-dot" aria-hidden="true" />
-                    {topic}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <button
-              type="button"
-              className={`academy-card__expand-hint academy-card__expand-hint--button ${expanded ? 'is-expanded' : ''}`}
-              onClick={() => setExpanded((v) => !v)}
-              aria-expanded={expanded}
-            >
-              {expanded ? t.collapse : t.expand}
-            </button>
+            <TopicsList expanded={expanded} items={topics.map((topic) => ({ key: topic, label: topic }))} />
+            <ExpandHint
+              expanded={expanded}
+              onToggle={() => setExpanded((v) => !v)}
+              label={expanded ? t.collapse : t.expand}
+            />
           </div>
         </div>
       </div>
@@ -72,19 +62,8 @@ export function CategoryCard({ category, count, algorithms, lang = 'ru' }) {
             <span className="status-badge status-badge--planned">{t.comingSoon}</span>
           </div>
           <p className="academy-card__tagline">{tagline}</p>
-          <div className={`academy-card__topics-wrap ${expanded ? 'is-expanded' : ''}`}>
-            <ul className="academy-card__topics">
-              {topics.map((topic) => (
-                <li key={topic} className="academy-card__topic">
-                  <span className="academy-card__topic-dot" aria-hidden="true" />
-                  {topic}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <span className={`academy-card__expand-hint ${expanded ? 'is-expanded' : ''}`}>
-            {t.comingSoonHint}
-          </span>
+          <TopicsList expanded={expanded} items={topics.map((topic) => ({ key: topic, label: topic }))} />
+          <ExpandHint expanded={expanded} label={t.comingSoonHint} />
         </div>
       </div>
     </button>

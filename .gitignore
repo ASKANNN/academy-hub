@@ -24,9 +24,12 @@ dist-ssr
 *.sw?
 
 # Internal working notes (never ship, never commit)
+CLAUDE.md
 PROJECT.md
 TASKS.md
+TASKS_ARCHIVE.md
 CONTENT_TEMPLATE.md
+ICON_SYSTEM.md
 .claude
 # Temporary QA screenshots
 .playwright-mcp/
