@@ -113,6 +113,189 @@ def merge(left, right):
     return result`,
   },
 
+  walkthrough: {
+    javascript: [
+      {
+        lines: [1],
+        title: { ru: 'Сигнатура', en: 'Signature' },
+        explanation: {
+          ru: 'Функция `mergeSort` принимает один массив `arr` и ничего не мутирует на входе - весь результат строится из новых массивов, которые возвращаются наружу.',
+          en: 'The `mergeSort` function takes a single array `arr` and never mutates the input - the whole result is built from new arrays returned outward.',
+        },
+      },
+      {
+        lines: [2],
+        title: { ru: 'Базовый случай', en: 'Base case' },
+        explanation: {
+          ru: '`if (arr.length <= 1) return arr` останавливает рекурсию: массив из 0 или 1 элемента уже отсортирован по определению, дальше делить нечего.',
+          en: '`if (arr.length <= 1) return arr` stops the recursion: an array of 0 or 1 elements is sorted by definition, there is nothing left to split.',
+        },
+      },
+      {
+        lines: [4],
+        title: { ru: 'Точка деления', en: 'The split point' },
+        explanation: {
+          ru: '`Math.floor(arr.length / 2)` находит середину массива по индексу, а не по значению элементов - для массива из 7 элементов `mid = 3`, независимо от того, что в нём лежит.',
+          en: '`Math.floor(arr.length / 2)` finds the midpoint by index, not by element value - for a 7-element array `mid = 3`, no matter what values it holds.',
+        },
+      },
+      {
+        lines: [5, 6],
+        title: { ru: 'Рекурсия на обе половины', en: 'Recursing into both halves' },
+        explanation: {
+          ru: '`arr.slice(0, mid)` и `arr.slice(mid)` вырезают левую и правую половины в новые массивы, и каждая рекурсивно проходит через тот же `mergeSort` - к моменту следующей строки `left` и `right` уже полностью отсортированы.',
+          en: '`arr.slice(0, mid)` and `arr.slice(mid)` cut out the left and right halves into new arrays, and each recurses through the same `mergeSort` - by the next line, `left` and `right` are already fully sorted.',
+        },
+      },
+      {
+        lines: [8],
+        title: { ru: 'Слияние результатов', en: 'Merging the results' },
+        explanation: {
+          ru: '`return merge(left, right)` передаёт две уже отсортированные половины в отдельную функцию `merge`, которая и делает всю содержательную работу.',
+          en: '`return merge(left, right)` hands the two already-sorted halves to a separate `merge` function, which does all the actual work.',
+        },
+      },
+      {
+        lines: [11],
+        title: { ru: 'Сигнатура merge', en: 'The merge signature' },
+        explanation: {
+          ru: '`merge` принимает два отсортированных массива `left` и `right` - функция не знает и не проверяет, откуда они взялись, ей достаточно, что оба уже упорядочены.',
+          en: '`merge` takes two sorted arrays, `left` and `right` - the function neither knows nor checks where they came from, it only relies on both already being ordered.',
+        },
+      },
+      {
+        lines: [12, 13],
+        title: { ru: 'Результат и указатели', en: 'Result array and pointers' },
+        explanation: {
+          ru: '`result` - новый массив, куда будут складываться элементы по порядку. `i` и `j` - указатели на текущую непросмотренную позицию в `left` и `right` соответственно, оба стартуют с 0.',
+          en: '`result` is a new array to collect elements in order. `i` and `j` are pointers to the current unseen position in `left` and `right`, both starting at 0.',
+        },
+      },
+      {
+        lines: [15],
+        title: { ru: 'Условие цикла слияния', en: 'The merge loop condition' },
+        explanation: {
+          ru: '`while (i < left.length && j < right.length)` продолжает сравнивать, пока в обеих половинах остаются непросмотренные элементы - как только одна заканчивается, цикл останавливается.',
+          en: '`while (i < left.length && j < right.length)` keeps comparing as long as both halves still have unseen elements - as soon as one runs out, the loop stops.',
+        },
+      },
+      {
+        lines: [16],
+        title: { ru: 'Взять из левой половины', en: 'Taking from the left half' },
+        explanation: {
+          ru: '`if (left[i] <= right[j])` - именно `<=`, а не `<`, обеспечивает устойчивость: при равенстве элемент из `left` (который стоял раньше в исходном массиве) забирается первым. `result.push(left[i++])` кладёт его в результат и сразу сдвигает указатель `i`.',
+          en: '`if (left[i] <= right[j])` - `<=`, not `<`, is what makes the sort stable: on a tie, the element from `left` (which appeared earlier in the original array) is taken first. `result.push(left[i++])` pushes it and advances the `i` pointer in one step.',
+        },
+      },
+      {
+        lines: [17],
+        title: { ru: 'Взять из правой половины', en: 'Taking from the right half' },
+        explanation: {
+          ru: 'Иначе, когда `right[j]` строго меньше, `result.push(right[j++])` забирает элемент из правой половины и сдвигает `j` - на каждой итерации выбирается ровно один из двух элементов.',
+          en: 'Otherwise, when `right[j]` is strictly smaller, `result.push(right[j++])` takes the element from the right half and advances `j` - each iteration picks exactly one of the two heads.',
+        },
+      },
+      {
+        lines: [20],
+        title: { ru: 'Добавить остаток', en: 'Appending the remainder' },
+        explanation: {
+          ru: 'Когда цикл завершается, одна из половин ещё не исчерпана. `left.slice(i)` и `right.slice(j)` берут её непросмотренный хвост, а `result.concat(...)` дописывает его в конец - хвост уже отсортирован, повторно сравнивать его элементы друг с другом не нужно.',
+          en: 'When the loop ends, one half still has leftover elements. `left.slice(i)` and `right.slice(j)` grab its unseen tail, and `result.concat(...)` appends it - the tail is already sorted, so its elements never need to be compared against each other again.',
+        },
+      },
+    ],
+    python: [
+      {
+        lines: [1],
+        title: { ru: 'Сигнатура', en: 'Signature' },
+        explanation: {
+          ru: 'Функция `merge_sort` принимает один список `arr` - как и в JS-версии, вход не изменяется на месте, результат строится из новых списков.',
+          en: 'The `merge_sort` function takes a single list `arr` - like the JS version, the input is never modified in place, the result is built from new lists.',
+        },
+      },
+      {
+        lines: [2, 3],
+        title: { ru: 'Базовый случай', en: 'Base case' },
+        explanation: {
+          ru: '`if len(arr) <= 1: return arr` - список из 0 или 1 элемента уже отсортирован, рекурсия останавливается здесь, без дальнейшего деления.',
+          en: '`if len(arr) <= 1: return arr` - a list of 0 or 1 elements is already sorted, the recursion stops here without further splitting.',
+        },
+      },
+      {
+        lines: [5],
+        title: { ru: 'Точка деления', en: 'The split point' },
+        explanation: {
+          ru: '`len(arr) // 2` - целочисленное деление находит индекс середины: для списка из 7 элементов `mid = 3`, ровно как в JS-версии с `Math.floor`.',
+          en: '`len(arr) // 2` - integer division finds the midpoint index: for a 7-element list, `mid = 3`, exactly like the JS version\'s `Math.floor`.',
+        },
+      },
+      {
+        lines: [6, 7],
+        title: { ru: 'Рекурсия на обе половины', en: 'Recursing into both halves' },
+        explanation: {
+          ru: '`arr[:mid]` и `arr[mid:]` - срезы списка, создающие левую и правую половины, каждая рекурсивно сортируется тем же `merge_sort` до того, как попасть в `merge`.',
+          en: '`arr[:mid]` and `arr[mid:]` slice out the left and right halves, each recursively sorted by the same `merge_sort` before it reaches `merge`.',
+        },
+      },
+      {
+        lines: [9],
+        title: { ru: 'Слияние результатов', en: 'Merging the results' },
+        explanation: {
+          ru: '`return merge(left, right)` передаёт уже отсортированные половины в функцию `merge`, где происходит собственно слияние.',
+          en: '`return merge(left, right)` hands the already-sorted halves to the `merge` function, where the actual merging happens.',
+        },
+      },
+      {
+        lines: [12],
+        title: { ru: 'Сигнатура merge', en: 'The merge signature' },
+        explanation: {
+          ru: '`merge` принимает два отсортированных списка - функции всё равно, откуда они взялись, важно лишь то, что оба уже упорядочены.',
+          en: '`merge` takes two sorted lists - it doesn\'t matter where they came from, only that both are already ordered.',
+        },
+      },
+      {
+        lines: [13, 14],
+        title: { ru: 'Результат и указатели', en: 'Result list and pointers' },
+        explanation: {
+          ru: '`result = []` - новый список для собранных элементов. `i = j = 0` - идиома Python, присваивающая обеим переменным одно и то же начальное значение за один раз, эквивалент `i = 0; j = 0` в JS.',
+          en: '`result = []` is a new list to collect elements. `i = j = 0` is a Python idiom assigning both variables the same starting value in one statement, equivalent to `i = 0; j = 0` in JS.',
+        },
+      },
+      {
+        lines: [16],
+        title: { ru: 'Условие цикла слияния', en: 'The merge loop condition' },
+        explanation: {
+          ru: '`while i < len(left) and j < len(right)` продолжает сравнение, пока в обеих половинах остаются непросмотренные элементы - та же логика, что и в JS-версии.',
+          en: '`while i < len(left) and j < len(right)` keeps comparing as long as both halves have unseen elements - the same logic as the JS version.',
+        },
+      },
+      {
+        lines: [17, 18, 19],
+        title: { ru: 'Взять из левой половины', en: 'Taking from the left half' },
+        explanation: {
+          ru: '`if left[i] <= right[j]:` - `<=` обеспечивает устойчивость точно так же, как в JS. `result.append(left[i])` добавляет элемент, а `i += 1` сдвигает указатель отдельной строкой - Python не даёт совместить это в одно выражение, как `left[i++]` в JS.',
+          en: '`if left[i] <= right[j]:` - `<=` makes the sort stable, exactly as in JS. `result.append(left[i])` adds the element, then `i += 1` advances the pointer on its own line - Python has no way to fold that into one expression like JS\'s `left[i++]`.',
+        },
+      },
+      {
+        lines: [20, 21, 22],
+        title: { ru: 'Взять из правой половины', en: 'Taking from the right half' },
+        explanation: {
+          ru: '`else:` - когда `right[j]` строго меньше, `result.append(right[j])` добавляет его, а `j += 1` сдвигает указатель правой половины.',
+          en: '`else:` - when `right[j]` is strictly smaller, `result.append(right[j])` adds it, then `j += 1` advances the right pointer.',
+        },
+      },
+      {
+        lines: [24, 25, 26],
+        title: { ru: 'Добавить остаток', en: 'Appending the remainder' },
+        explanation: {
+          ru: '`result.extend(left[i:])` и `result.extend(right[j:])` дописывают непросмотренный (уже отсортированный) хвост той половины, что не закончилась в цикле - только один из двух вызовов реально что-то добавит, второй сработает на пустом срезе. `return result` возвращает готовый отсортированный список.',
+          en: '`result.extend(left[i:])` and `result.extend(right[j:])` append the unseen (already sorted) tail of whichever half didn\'t run out in the loop - only one of the two calls actually adds anything, the other runs on an empty slice. `return result` returns the finished sorted list.',
+        },
+      },
+    ],
+  },
+
   pros: [
     {
       ru: 'Гарантированный O(n log n) в лучшем, среднем и худшем случае - предсказуемая производительность независимо от входных данных.',
@@ -177,18 +360,84 @@ def merge(left, right):
   ],
 
   details: {
-    deepDive: {
-      ru: 'Сортировка слиянием реализует принцип «разделяй и властвуй» - рекурсивное разложение задачи на подзадачи, близко к решению. На каждом уровне рекурсии массив делится пополам. Глубина рекурсии - O(log n), потому что размер подзадачи уменьшается в два раза на каждом уровне. Базовый случай - массив размером 1 (или 0) уже отсортирован. После рекурсивной сортировки обеих половин получаются две отсортированные половины, которые нужно слить. Слияние - это ключевой шаг: два указателя идут по левой и правой половинам, в каждый момент сравнивается текущий элемент слева с текущим справа, меньший забирается в результирующий массив. Как только один из массивов кончается, оставшаяся часть другого (уже отсортированная) добавляется в конец. Слияние двух отсортированных массивов размером n/2 занимает O(n) времени. Так как слияний на каждом уровне в сумме O(n), а уровней O(log n), итоговая сложность - O(n log n). Устойчивость достигается условием `<=` при сравнении: когда элементы равны, левый забирается раньше, что сохраняет относительный порядок.',
-      en: 'Merge sort implements divide-and-conquer - recursive decomposition into subproblems close to solved. At each recursion level, the array is split in half. The recursion depth is O(log n) because the subproblem size shrinks by half at each level. The base case - an array of size 1 (or 0) is already sorted. After sorting both halves recursively, two sorted halves must be merged. Merging is the key step: two pointers walk through the left and right halves, comparing the current element from each, taking the smaller one into the result. Once one array runs out, the remaining part of the other (already sorted) is appended. Merging two sorted arrays of size n/2 takes O(n) time. Since all merges on each level sum to O(n), and there are O(log n) levels, the total is O(n log n). Stability is achieved with the `<=` condition during comparison: when elements are equal, the left one is taken first, preserving relative order.',
-    },
-    whenToUse: {
-      ru: 'Сортировка слиянием - это выбор, когда нужны гарантии. Во-первых, требуется гарантированный O(n log n) в худшем случае - Quicksort может деградировать до O(n²), но Mergesort никогда. Во-вторых, важна устойчивость: когда сортируют записи в БД по одному полю, но нужно сохранить исходный порядок по другому полю, Mergesort гарантирует это. В-третьих, Mergesort естественно распараллеливается - левую и правую половины можно сортировать параллельно, потом слить. В-четвёртых, внешняя сортировка больших файлов: когда данные не помещаются в памяти целиком, классический подход - отсортировать куски в памяти, записать на диск, потом слить с диска по кускам, что минимизирует операции ввода-вывода. Главный недостаток - O(n) дополнительной памяти. На малых массивах (< 10 элементов) переключаются на Insertion Sort за счёт меньшего overhead-а. На средних массивах (10-50k) часто быстрее Quicksort с хорошей реализацией. На очень больших отсортированных потоках данных практически всегда используют гибриды: Timsort (Python, Java) или Introsort (C++ STL, Rust).',
-      en: 'Merge sort is the choice when guarantees matter. First, guaranteed O(n log n) worst case is needed - Quicksort can degrade to O(n²), but Mergesort never does. Second, stability matters: when sorting database records by one field while preserving order by another, Mergesort guarantees this. Third, Mergesort naturally parallelizes - left and right halves can be sorted in parallel, then merged. Fourth, external sorting of large files: when data doesn\'t fit in memory at once, the classic approach is to sort chunks in memory, write to disk, then merge from disk in chunks, minimizing I/O operations. The main drawback is O(n) extra memory. On small arrays (< 10 elements) switch to Insertion Sort to avoid overhead. On medium arrays (10-50k) often faster than well-implemented Quicksort. On very large streaming sorted data, hybrids are nearly always used: Timsort (Python, Java) or Introsort (C++ STL, Rust).',
-    },
-    realWorld: {
-      ru: 'Чистую сортировку слиянием встречают не так часто в production, потому что её заменили гибриды, но её идеи повсюду. Timsort (Python 3.x, Java для объектов) работает так: находит натуральные уже отсортированные куски (runs) в данных, применяет Insertion Sort к коротким runs, потом сливает их через Merge Sort. Это даёт O(n) на отсортированных данных и O(n log n) на случайных. Внешняя сортировка - классический примерой: когда нужно отсортировать файл размером 100GB с RAM 1GB, алгоритм читает 1GB в память, сортирует (любым алгоритмом), пишет отсортированный кусок на диск, повторяет, потом сливает все куски через многосторонний merge, который читает по одной записи из каждого куска и пишет в результат. Реальная БД (PostgreSQL, MySQL) используют это для `ORDER BY` на больших таблицах. Git хранит объекты в DAG (directed acyclic graph) и при слиянии веток применяет трёхстороннее слияние истории коммитов - концептуально близко к сравнению двух упорядоченных последовательностей. MapReduce-фреймворки (Hadoop) используют merge sort как понижающий (reduce) этап: маппер выплёвывает пары (ключ, значение), фреймворк сортирует по ключу, потом на редюсере приходит отсортированный поток значений с одинаковым ключом - это гибрид merge sort и hash aggregation.',
-      en: 'Pure merge sort appears infrequently in production because hybrids replaced it, but its ideas are everywhere. Timsort (Python 3.x, Java for objects) finds natural already-sorted chunks (runs), applies Insertion Sort to short runs, then merges them via Merge Sort. This gives O(n) on sorted data and O(n log n) on random. External sorting is the classic example: when you need to sort a 100GB file with 1GB RAM, the algorithm reads 1GB into memory, sorts (any algorithm), writes the sorted chunk to disk, repeats, then merges all chunks via multiway merge, reading one record from each chunk and writing to the result. Real databases (PostgreSQL, MySQL) use this for `ORDER BY` on large tables. Git stores objects in a DAG and when merging branches applies three-way merge to commit history - conceptually close to comparing two ordered sequences. MapReduce frameworks (Hadoop) use merge sort as the reduce stage: the mapper emits (key, value) pairs, the framework sorts by key, then the reducer receives a sorted stream of values with the same key - a hybrid of merge sort and hash aggregation.',
-    },
+    deepDive: [
+      {
+        ru: 'Возьмём конкретный массив из 8 элементов: `[5, 2, 8, 1, 9, 3, 7, 4]`. Деление пополам даёт `[5,2,8,1]` и `[9,3,7,4]`, каждая половина делится снова до `[5,2]`/`[8,1]` и `[9,3]`/`[7,4]`, а затем ещё раз - до восьми массивов по одному элементу. От исходного размера 8 до базового случая размера 1 потребовалось ровно **3 деления пополам** - это и есть log2(8) = 3, глубина рекурсии для этого конкретного n.',
+        en: 'Take a concrete 8-element array: `[5, 2, 8, 1, 9, 3, 7, 4]`. Splitting in half gives `[5,2,8,1]` and `[9,3,7,4]`, each half splits again into `[5,2]`/`[8,1]` and `[9,3]`/`[7,4]`, then once more into eight single-element arrays. Going from size 8 down to the base case of size 1 took exactly **3 halvings** - that is log2(8) = 3, the recursion depth for this particular n.',
+      },
+      {
+        ru: 'Эта формула масштабируется предсказуемо: для миллиона элементов log2(1 000 000) ≈ 19.93, значит потребуется **около 20 уровней рекурсии** - независимо от того, в каком порядке стояли исходные элементы. У сортировки вставками или пузырьком такой гарантии нет: их число проходов растёт вместе с n, а не с log n, так что разрыв между 20 и n становится огромным уже на массивах в тысячи элементов.',
+        en: 'This formula scales predictably: for a million elements, log2(1,000,000) ≈ 19.93, so it takes **about 20 recursion levels** - regardless of the original element order. Insertion sort or bubble sort have no such guarantee: their pass count grows with n, not log n, so the gap between 20 and n becomes enormous once arrays reach the thousands.',
+      },
+      {
+        ru: 'Разберём саму функцию `merge` на конкретном примере: `left = [2, 5, 8]`, `right = [1, 3, 9]`. Указатели `i` и `j` стартуют с 0. Шаг 1: `2` против `1` - берём `1` из right, `j = 1`. Шаг 2: `2` против `3` - берём `2` из left, `i = 1`. Шаг 3: `5` против `3` - берём `3`, `j = 2`. Шаг 4: `5` против `9` - берём `5`, `i = 2`. Шаг 5: `8` против `9` - берём `8`, `i = 3`, цикл заканчивается, потому что `left` исчерпан. Остаётся дописать хвост `right.slice(2)` = `[9]` - итог `[1, 2, 3, 5, 8, 9]` за **5 сравнений** на 6 элементов.',
+        en: 'Walk through `merge` on a concrete example: `left = [2, 5, 8]`, `right = [1, 3, 9]`. Pointers `i` and `j` start at 0. Step 1: `2` vs `1` - take `1` from right, `j = 1`. Step 2: `2` vs `3` - take `2` from left, `i = 1`. Step 3: `5` vs `3` - take `3`, `j = 2`. Step 4: `5` vs `9` - take `5`, `i = 2`. Step 5: `8` vs `9` - take `8`, `i = 3`, the loop ends because `left` is exhausted. The tail `right.slice(2)` = `[9]` is appended - result `[1, 2, 3, 5, 8, 9]` in **5 comparisons** for 6 elements.',
+      },
+      {
+        ru: 'Отсюда видно, откуда берётся итоговая формула сложности. На каждом уровне рекурсии сумма размеров всех подмассивов, которые нужно слить, равна n - на верхнем уровне это одно слияние `n/2 + n/2`, на следующем два слияния по `n/4 + n/4` каждое, и так далее. Каждое слияние занимает время, пропорциональное сумме размеров сливаемых половин, значит **весь уровень стоит O(n)** независимо от того, на сколько отдельных слияний он разбит. Уровней log n, поэтому итог - O(n log n).',
+        en: 'This is where the total complexity formula comes from. At every recursion level, the combined size of all subarrays that need merging equals n - at the top level that\'s a single `n/2 + n/2` merge, at the next level two merges of `n/4 + n/4` each, and so on. Each merge takes time proportional to the combined size of its two halves, so **every level costs O(n)** no matter how many separate merges it\'s split into. There are log n levels, so the total is O(n log n).',
+      },
+      {
+        ru: 'Устойчивость - не побочный эффект, а прямое следствие одной строки кода: `if (left[i] <= right[j])`. Представим сортировку заказов по полю `total`, где два заказа имеют одинаковую сумму `total: 500`, но разное поле `id` - `A (id: 12)` пришёл раньше `B (id: 47)` в исходном массиве. Если `A` окажется в `left`, а `B` - в `right`, условие `<=` при равенстве сумм заберёт `A` первым, сохранив исходный порядок между ними. Замени `<=` на `<`, и при равенстве всегда выигрывал бы `right` - устойчивость терялась бы незаметно, без единой ошибки на этапе выполнения.',
+        en: 'Stability isn\'t a side effect - it comes directly from one line: `if (left[i] <= right[j])`. Picture sorting orders by their `total` field, where two orders share the same `total: 500` but different `id` fields - `A (id: 12)` appeared earlier than `B (id: 47)` in the original array. If `A` ends up in `left` and `B` in `right`, the `<=` condition takes `A` first on a tie, preserving their original order. Swap `<=` for `<`, and `right` would always win on ties instead - stability would silently break, with no runtime error to catch it.',
+      },
+      {
+        ru: 'Про память стоит уточнить деталь, которую часто упрощают до «O(n) дополнительной памяти». Учебники обычно описывают вариант с одним общим буфером размером n, используемым повторно на всех уровнях. Реализация на этой странице устроена иначе: `arr.slice(0, mid)` и `arr.slice(mid)` создают новые массивы на **каждом** рекурсивном вызове. На каждом уровне суммарно копируется n элементов (как и в самом слиянии), а уровней log n - значит за весь запуск выполняется порядка n log n операций копирования, просто не одновременно: массивы предыдущих уровней уже освобождены сборщиком мусора к моменту, когда создаются следующие. Пиковая одновременная память всё ещё O(n), но общее число выделенных ячеек за всё время работы - O(n log n), а не O(n).',
+        en: 'One memory detail is often flattened into "O(n) extra memory". Textbooks usually describe a version with a single shared buffer of size n, reused at every level. The implementation on this page works differently: `arr.slice(0, mid)` and `arr.slice(mid)` allocate new arrays on **every** recursive call. Each level copies n elements in total for the split (on top of the merge itself), and there are log n levels - so the whole run performs roughly n log n copy operations, just not all at once: earlier levels\' arrays are already garbage-collected by the time later ones are created. Peak simultaneous memory is still O(n), but the total number of cells allocated over the algorithm\'s lifetime is O(n log n), not O(n).',
+      },
+      {
+        ru: 'Существует и итеративная (bottom-up) версия того же алгоритма: вместо рекурсивного деления сверху вниз она сразу сливает пары соседних элементов размером 1, затем результаты по 2, потом по 4, и так далее - удваивая размер сливаемых блоков на каждой итерации внешнего цикла. Итоговая сложность та же O(n log n), но без единого рекурсивного вызова и без связанного с ним расхода стека - на встраиваемых системах с жёстким лимитом глубины стека это не косметическая деталь, а условие, без которого рекурсивная версия просто упадёт на достаточно большом входе.',
+        en: 'An iterative (bottom-up) version of the same algorithm also exists: instead of recursively splitting top-down, it immediately merges adjacent pairs of size 1, then merges those results in groups of 2, then 4, and so on - doubling the merged block size on every outer-loop iteration. The complexity stays O(n log n), but without a single recursive call and the stack usage that comes with it - on embedded systems with a hard stack-depth limit, that\'s not a cosmetic detail but the difference between running and crashing on a large enough input.',
+      },
+      {
+        ru: 'Сортировка слиянием старше большинства алгоритмов в этом разделе: её описал **Джон фон Нейман в 1945 году** в отчёте о первом компьютере EDVAC, ещё до того, как термин «алгоритм сортировки» стал общеупотребимым в информатике. Идея разделять задачу на независимые половины и сливать готовые решения - один из первых зафиксированных примеров техники divide-and-conquer, к которой позже свели quicksort, быстрое умножение матриц (алгоритм Штрассена) и множество других алгоритмов.',
+        en: 'Merge sort predates most algorithms covered in this section: it was described by **John von Neumann in 1945** in a report on the EDVAC, the first stored-program computer, before "sorting algorithm" was even a standard term in computer science. The idea of splitting a problem into independent halves and merging finished solutions is one of the earliest recorded examples of divide-and-conquer, a technique later applied to quicksort, fast matrix multiplication (Strassen\'s algorithm), and many other algorithms.',
+      },
+    ],
+    whenToUse: [
+      {
+        ru: '**Против Quicksort** - Quicksort в среднем быстрее за счёт меньших констант и сортировки на месте, но его худший случай O(n²) реален на специально подобранных или уже почти отсортированных данных при плохом выборе опорного элемента. Merge sort выбирают, когда нужна гарантия «никогда не хуже O(n log n)», а не просто хорошее среднее поведение.',
+        en: '**Against Quicksort** - Quicksort is faster on average thanks to smaller constants and in-place sorting, but its O(n²) worst case is real on adversarial or nearly-sorted input with a poor pivot choice. Merge sort is chosen when a "never worse than O(n log n)" guarantee is needed, not just good average behavior.',
+      },
+      {
+        ru: '**Против Heap Sort** - оба дают гарантированный O(n log n) и оба используют O(1)-O(n) дополнительной памяти по-разному, но Heap Sort не устойчив, а его доступ к памяти скачет по индексам кучи, что плохо для кэша процессора. Merge sort проходит по данным последовательно, поэтому на реальном железе часто оказывается быстрее, несмотря на одинаковую асимптотику.',
+        en: '**Against Heap Sort** - both give a guaranteed O(n log n) and use extra memory differently, but Heap Sort isn\'t stable, and its heap-index memory access jumps around, which is bad for CPU cache locality. Merge sort walks data sequentially, so on real hardware it\'s often faster despite matching asymptotics.',
+      },
+      {
+        ru: '**На маленьких подмассивах** - гибридные реализации (Timsort, стандартные библиотеки C++/Java) переключаются на insertion sort ниже порога примерно в **32-64 элемента** (конкретное значение - `MIN_MERGE` в Timsort), потому что накладные расходы на рекурсивные вызовы перевешивают выигрыш от O(n log n) на настолько маленьких n.',
+        en: '**On small subarrays** - hybrid implementations (Timsort, standard C++/Java libraries) switch to insertion sort below a threshold of roughly **32-64 elements** (the concrete value is Timsort\'s `MIN_MERGE`), because recursive-call overhead outweighs the O(n log n) benefit at such small n.',
+      },
+      {
+        ru: '**Для многостороннего внешнего слияния** - когда данные разбиты на k отсортированных кусков на диске (например, после параллельной обработки), merge sort обобщается до k-стороннего слияния через мин-кучу размером k, читая по одной записи из каждого куска - Quicksort здесь неприменим напрямую, потому что ему нужен произвольный доступ ко всем данным сразу.',
+        en: '**For k-way external merging** - when data is split into k sorted chunks on disk (e.g. after parallel processing), merge sort generalizes to a k-way merge via a size-k min-heap, reading one record from each chunk at a time - Quicksort doesn\'t directly apply here because it needs random access to all the data at once.',
+      },
+      {
+        ru: '**Не выбирать для памяти-ограниченных встраиваемых систем** - когда доступно, скажем, 2КБ RAM на массив в 500 элементов, O(n) дополнительной памяти merge sort может просто не поместиться, тогда как in-place Heap Sort или Shell Sort с O(1) памяти работают в тех же границах без компромиссов по гарантии сложности.',
+        en: '**Don\'t pick it for memory-constrained embedded systems** - when only, say, 2KB of RAM is available for a 500-element array, merge sort\'s O(n) extra memory may simply not fit, whereas in-place Heap Sort or Shell Sort with O(1) memory work within the same limits without giving up the complexity guarantee.',
+      },
+    ],
+    realWorld: [
+      {
+        ru: '**John von Neumann, 1945** - первое задокументированное описание merge sort появилось в отчёте о компьютере EDVAC, написанном фон Нейманом и Германом Голдстайном; это один из самых ранних формально описанных алгоритмов в истории вычислительной техники, задолго до появления самого термина «divide-and-conquer».',
+        en: '**John von Neumann, 1945** - the first documented description of merge sort appeared in a report on the EDVAC computer, written by von Neumann and Herman Goldstine; it is one of the earliest formally described algorithms in computing history, long before the term "divide-and-conquer" existed.',
+      },
+      {
+        ru: '**`java.util.Arrays.sort(Object[])`** до сих пор явно требует устойчивую сортировку по контракту JavaDoc и реализована через модифицированный merge sort (а с Java 7 - через TimSort) именно потому, что сортировка объектов по одному полю обязана сохранять порядок по остальным - для массивов примитивов (`int[]`, `double[]`) тот же метод использует dual-pivot quicksort, где устойчивость не имеет смысла.',
+        en: '**`java.util.Arrays.sort(Object[])`** still explicitly requires a stable sort per its JavaDoc contract and is implemented via a modified merge sort (TimSort since Java 7), precisely because sorting objects by one field must preserve order on the rest - for primitive arrays (`int[]`, `double[]`), the same method uses dual-pivot quicksort, where stability is meaningless.',
+      },
+      {
+        ru: '**`std::stable_sort` в C++ STL** гарантирует устойчивость по стандарту и обычно реализуется как merge sort; если дополнительная память для буфера недоступна, реализация откатывается на медленный in-place merge с ухудшением сложности до O(n log²n) - явный компромисс «время за память», прописанный прямо в стандарте библиотеки.',
+        en: '**`std::stable_sort` in the C++ STL** guarantees stability by standard and is typically implemented as merge sort; if extra buffer memory is unavailable, the implementation falls back to a slower in-place merge with complexity degrading to O(n log²n) - an explicit time-for-space tradeoff written directly into the library standard.',
+      },
+      {
+        ru: '**`lib/list_sort.c` в ядре Linux** реализует bottom-up merge sort специально для связных списков (`struct list_head`), используемый несколькими подсистемами ядра для сортировки очередей и списков устройств - выбор объясняется тем же свойством, что и в общей теории: слияние связных списков не требует произвольного доступа, которого списки не дают.',
+        en: '**`lib/list_sort.c` in the Linux kernel** implements a bottom-up merge sort specifically for linked lists (`struct list_head`), used by several kernel subsystems to sort queues and device lists - the choice comes from the same property covered above: merging linked lists needs no random access, which lists don\'t provide.',
+      },
+      {
+        ru: '**Apache Spark** на этапе shuffle (`sortByKey`, `repartitionAndSortWithinPartitions`) сортирует данные, которые не помещаются в память одного узла, разбивая их на отсортированные куски на диске и сливая через внешний многосторонний merge - тот же принцип, что и в базах данных, но в масштабе распределённого кластера.',
+        en: '**Apache Spark**, during its shuffle stage (`sortByKey`, `repartitionAndSortWithinPartitions`), sorts data that doesn\'t fit in a single node\'s memory by splitting it into sorted disk chunks and merging them via an external k-way merge - the same principle as in databases, applied at distributed-cluster scale.',
+      },
+    ],
   },
 
   relatedAlgorithms: ['quick-sort', 'insertion-sort'],
@@ -211,8 +460,8 @@ def merge(left, right):
         en: 'The merge step creates a new temporary array the size of the merged halves - each recursion level needs O(n) memory in total.',
       },
       hint: {
-        ru: 'Подумай, что именно создаётся на каждом шаге `merge`, и какого размера этот новый объект.',
-        en: 'Think about what exactly gets created at each `merge` step, and how large that new object is.',
+        ru: 'Смотри бейдж «Память» в шапке страницы и шаг «Результат и указатели» в разборе кода на вкладке «Реализация».',
+        en: 'See the "Space" badge in the page header and the "Result array and pointers" step in the code walkthrough on the "Implementation" tab.',
       },
     },
     {
@@ -244,8 +493,8 @@ def merge(left, right):
         en: 'Since both halves are already independently sorted, the remaining "tail" of one is already in correct relative order - it can just be appended.',
       },
       hint: {
-        ru: 'Подумай, нужно ли заново сравнивать элементы внутри уже отсортированного «хвоста» друг с другом.',
-        en: 'Think about whether the elements inside the already-sorted "tail" need to be compared against each other again.',
+        ru: 'Смотри шаг «Добавить остаток» на вкладке «Визуализация» и его построчный разбор на вкладке «Реализация».',
+        en: 'See the "Append the remainder" step on the "Visualization" tab and its line-by-line breakdown on the "Implementation" tab.',
       },
     },
     {
@@ -265,8 +514,8 @@ def merge(left, right):
         en: 'The `left[i] <= right[j]` merge condition guarantees that on a tie, the element from the left half - the one that appeared earlier in the original array - is taken first. The relative order of equal elements is preserved.',
       },
       hint: {
-        ru: 'Подумай, что происходит на шаге слияния, когда left[i] и right[j] равны по значению.',
-        en: 'Think about what happens in the merge step when left[i] and right[j] are equal in value.',
+        ru: 'Смотри шаг «Взять из левой половины» в разборе кода на вкладке «Реализация» - там разобрано условие `<=`.',
+        en: 'See the "Taking from the left half" step in the code walkthrough on the "Implementation" tab - it explains the `<=` condition.',
       },
     },
     {
@@ -298,8 +547,8 @@ def merge(left, right):
         en: 'Unlike quicksort, where partitioning depends on the pivot choice and data, merge sort splits by index - recursion depth is always exactly log n.',
       },
       hint: {
-        ru: 'Подумай, от чего зависит точка деления массива - от значений элементов или от их позиции.',
-        en: 'Think about what the split point depends on - element values, or their position.',
+        ru: 'Смотри раздел «Как это работает» на вкладке «Суть» - там разобран пример с точкой деления массива по индексу.',
+        en: 'See the "How it works" section on the "Intent" tab - it walks through an example of the split point being based on index.',
       },
     },
     {
@@ -331,8 +580,8 @@ def merge(left, right):
         en: 'A production sort needs guaranteed large-scale asymptotics and stability when sorting objects - both properties come specifically from merge sort.',
       },
       hint: {
-        ru: 'Подумай, какого гарантированного свойства не хватает квадратичным алгоритмам вроде пузырьковой сортировки на больших данных.',
-        en: 'Think about what guaranteed property quadratic algorithms like bubble sort lack on large data.',
+        ru: 'Смотри пункт про `java.util.Arrays.sort` в разделе «Примеры в коде» на вкладке «Суть».',
+        en: 'See the `java.util.Arrays.sort` entry in the "In code" section on the "Intent" tab.',
       },
     },
     {
@@ -364,8 +613,8 @@ def merge(left, right):
         en: 'Since the recursive calls on the left and right halves don\'t depend on each other or share state, they can run in parallel on different threads or machines.',
       },
       hint: {
-        ru: 'Подумай, разделяют ли рекурсивные вызовы на левой и правой половинах какое-либо общее состояние друг с другом.',
-        en: 'Think about whether the recursive calls on the left and right halves share any state with each other.',
+        ru: 'Смотри пункт про распараллеливание в разделе «Плюсы» на вкладке «Плюсы и минусы».',
+        en: 'See the parallelization item in the "Pros" section on the "Pros & Cons" tab.',
       },
     },
     {
@@ -397,8 +646,8 @@ def merge(left, right):
         en: 'Although a level can have many separate `merge` calls, together they always cover the entire array exactly once - O(n) work per level. Multiplied by the log n recursion levels, this gives the overall O(n log n) complexity.',
       },
       hint: {
-        ru: 'Подумай, сколько всего элементов покрывают все одновременные слияния на одном уровне рекурсии, если сложить их вместе.',
-        en: 'Think about how many elements, in total, all the simultaneous merges at one recursion level cover if you add them up.',
+        ru: 'Смотри раздел «Как это работает» на вкладке «Суть» - там разобрано, сколько элементов сливается на одном уровне рекурсии.',
+        en: 'See the "How it works" section on the "Intent" tab - it works out how many elements get merged at one recursion level.',
       },
     },
     {
@@ -430,8 +679,8 @@ def merge(left, right):
         en: 'The bottom-up version starts by merging chunks of size 1, then 2, 4, 8, and so on, without recursion - same O(n log n) complexity, but without call-stack overhead, which matters in environments with limited stack size.',
       },
       hint: {
-        ru: 'Подумай, что меняется, если заменить рекурсивные вызовы на явные циклы, выполняющие те же слияния снизу вверх.',
-        en: 'Think about what changes if recursive calls are replaced with explicit loops doing the same merges bottom-up.',
+        ru: 'Смотри последний абзац про итеративную (bottom-up) версию в разделе «Как это работает» на вкладке «Суть».',
+        en: 'See the last paragraph about the iterative (bottom-up) version in the "How it works" section on the "Intent" tab.',
       },
     },
     {
@@ -463,8 +712,8 @@ def merge(left, right):
         en: "Merge sort's merge step only needs sequential traversal - ideal for a linked list - and merging two lists costs only O(1) extra memory (re-linking pointers). Quicksort's pivot-based partitioning, in contrast, relies heavily on random access to elements.",
       },
       hint: {
-        ru: 'Подумай, какой тип доступа к данным - последовательный или произвольный - нужен ключевому шагу каждого из алгоритмов.',
-        en: 'Think about what kind of data access - sequential or random - each algorithm\'s key step needs.',
+        ru: 'Смотри пункт про связные списки в разделе «Когда применять» на вкладке «Суть».',
+        en: 'See the linked-lists item in the "When to use" section on the "Intent" tab.',
       },
     },
     {
@@ -496,8 +745,8 @@ def merge(left, right):
         en: 'When the merge step takes an element from the right half before the left half is exhausted, it forms an inversion with every remaining element of the left half. Summing these cases across all merges gives the array\'s total inversion count in the same time as the sort itself.',
       },
       hint: {
-        ru: 'Подумай, что означает ситуация, когда на шаге слияния элемент из правой половины забирается раньше, чем левая ещё не исчерпана.',
-        en: 'Think about what it means, during a merge step, for an element from the right half to be taken before the left half runs out.',
+        ru: 'Смотри шаг «Взять из правой половины» в разборе кода на вкладке «Реализация» - там объясняется, что значит выбор элемента из right до исчерпания left.',
+        en: 'See the "Taking from the right half" step in the code walkthrough on the "Implementation" tab - it explains what taking from right before left runs out means.',
       },
     },
   ],
