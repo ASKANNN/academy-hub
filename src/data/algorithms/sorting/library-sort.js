@@ -216,6 +216,229 @@ export const librarySort = {
     return [v for v in a if v is not None]`,
   },
 
+  walkthrough: {
+    javascript: [
+      {
+        lines: [1],
+        title: { ru: 'Сигнатура', en: 'Signature' },
+        explanation: {
+          ru: 'Функция принимает один массив `arr` - весь остальной механизм (ёмкость, зазоры, перебалансировка) настраивается внутри функции.',
+          en: 'The function takes a single array `arr` - the rest of the mechanism (capacity, gaps, rebalancing) is set up entirely inside the function.',
+        },
+      },
+      {
+        lines: [2, 3],
+        title: { ru: 'Длина и пустой вход', en: 'Length and the empty-input guard' },
+        explanation: {
+          ru: '`const n = arr.length` запоминает число элементов; `if (n === 0) return []` сразу возвращает пустой массив, чтобы дальнейшая логика не делила на ноль при вычислении зазоров.',
+          en: '`const n = arr.length` records the element count; `if (n === 0) return []` returns immediately so the rest of the logic never divides by zero when computing gaps.',
+        },
+      },
+      {
+        lines: [5, 7],
+        title: { ru: 'Массив с зазорами и счётчик', en: 'The gapped array and the counter' },
+        explanation: {
+          ru: '`capacity = Math.max(n * 2, 4)` фиксирует ёмкость - вдвое больше числа элементов (не меньше 4 для очень маленьких входов). `a` создаётся этой длины и заполняется `null` - это и есть зазоры. `count` считает, сколько ячеек уже занято.',
+          en: '`capacity = Math.max(n * 2, 4)` fixes the capacity - double the element count (never below 4 for tiny inputs). `a` is created at that length filled with `null` - these are the gaps. `count` tracks how many cells are occupied.',
+        },
+      },
+      {
+        lines: [9, 13],
+        title: { ru: 'Список заполненных индексов', en: 'The list of filled indices' },
+        explanation: {
+          ru: '`filledIndices()` пересобирает список позиций, где `a[k] !== null`, каждый раз, когда вызывается - именно по этому списку идёт бинарный поиск, потому что заполненные ячейки всегда отсортированы между собой.',
+          en: '`filledIndices()` rebuilds the list of positions where `a[k] !== null` every time it\'s called - this is the list binary search runs over, since filled cells are always sorted relative to one another.',
+        },
+      },
+      {
+        lines: [15, 24],
+        title: { ru: 'Перебалансировка', en: 'Rebalancing' },
+        explanation: {
+          ru: '`rebalance()` собирает все ненулевые значения (`a.filter`), удваивает ёмкость от их числа и раскладывает их равномерно в новом массиве `next` с шагом `gap = capacity / (values.length + 1)` - это и восстанавливает свободные промежутки. В этой реализации функция объявлена, но, как показано в углублённом разборе на вкладке «Суть», ни разу не вызывается ни для одного входа при `capacity = 2n`.',
+          en: '`rebalance()` collects every non-null value (`a.filter`), doubles the capacity relative to their count, and spreads them evenly across a new array `next` with step `gap = capacity / (values.length + 1)` - this is what restores free gaps. In this implementation the function is defined but, as shown in the deep-dive on the "Intent" tab, never actually gets called for any input once `capacity = 2n`.',
+        },
+      },
+      {
+        lines: [26, 28],
+        title: { ru: 'Внешний цикл по входным элементам', en: 'The outer loop over input elements' },
+        explanation: {
+          ru: '`for (let idx = 0; idx < n; idx++)` перебирает исходный массив по одному значению `value`; `inserted` - флаг того, что текущий элемент ещё не нашёл своё место.',
+          en: '`for (let idx = 0; idx < n; idx++)` walks the original array one `value` at a time; `inserted` flags whether the current element has found its spot yet.',
+        },
+      },
+      {
+        lines: [30, 34],
+        title: { ru: 'Цикл вставки и защита от переполнения', en: 'The insertion loop and the overflow guard' },
+        explanation: {
+          ru: '`while (!inserted)` повторяет попытку вставки, пока элемент не встанет на место. `if (count === capacity) { rebalance(); continue; }` - защитная проверка на случай полностью заполненного массива, хотя при `capacity = max(n*2, 4)` и не более `n` вставок `count` никогда не достигает `capacity`.',
+          en: '`while (!inserted)` retries insertion until the element lands. `if (count === capacity) { rebalance(); continue; }` is a safety check for a fully-packed array, though with `capacity = max(n*2, 4)` and at most `n` insertions, `count` never actually reaches `capacity`.',
+        },
+      },
+      {
+        lines: [36, 42],
+        title: { ru: 'Бинарный поиск позиции', en: 'Binary search for the position' },
+        explanation: {
+          ru: '`idxs = filledIndices()` собирает заполненные позиции, затем `while (lo < hi)` ищет среди них первую, где значение не меньше `value` - `lo`/`hi` сужаются к точке вставки за `O(log(число заполненных))` сравнений.',
+          en: '`idxs = filledIndices()` collects filled positions, then `while (lo < hi)` searches among them for the first one not less than `value` - `lo`/`hi` narrow to the insertion point in `O(log(filled count))` comparisons.',
+        },
+      },
+      {
+        lines: [43],
+        title: { ru: 'Вычисление целевой ячейки', en: 'Computing the target cell' },
+        explanation: {
+          ru: 'Если `lo` вышел за конец списка заполненных индексов, элемент встаёт после последнего заполненного (или в середину пустого массива, если заполненных ещё нет); иначе - в позицию `idxs[lo]`, найденную поиском.',
+          en: 'If `lo` walked past the end of the filled-index list, the element goes right after the last filled cell (or into the middle of an empty array, if nothing is filled yet); otherwise it targets `idxs[lo]`, the position found by the search.',
+        },
+      },
+      {
+        lines: [45, 48],
+        title: { ru: 'Защита от выхода за границы', en: 'The out-of-bounds guard' },
+        explanation: {
+          ru: '`if (insertAt >= a.length) { rebalance(); continue; }` ловит случай, когда вычисленная позиция вышла за пределы массива - на практике при `capacity = 2n` это условие тоже никогда не выполняется, но код остаётся корректным даже при другом выборе ёмкости.',
+          en: '`if (insertAt >= a.length) { rebalance(); continue; }` catches the computed target landing outside the array - in practice, with `capacity = 2n`, this never fires either, but the code stays correct even under a different capacity choice.',
+        },
+      },
+      {
+        lines: [50, 53],
+        title: { ru: 'Вставка в пустую ячейку', en: 'Inserting into an empty cell' },
+        explanation: {
+          ru: 'Если `a[insertAt] === null`, элемент кладётся туда напрямую - это самый частый и самый дешёвый случай, ноль сдвигов.',
+          en: 'If `a[insertAt] === null`, the element is placed there directly - the most common and cheapest case, zero shifts.',
+        },
+      },
+      {
+        lines: [54, 62],
+        title: { ru: 'Сдвиг вправо к ближайшему зазору', en: 'Shifting right to the nearest gap' },
+        explanation: {
+          ru: 'Если целевая ячейка занята, `right` ищет ближайшую пустую справа. Если находит (`right < a.length`), цикл `for (let k = right; k > insertAt; k--)` сдвигает элементы на одну позицию вправо, освобождая `insertAt`.',
+          en: 'If the target cell is occupied, `right` scans for the nearest empty cell to the right. If found (`right < a.length`), the `for (let k = right; k > insertAt; k--)` loop shifts elements one position right, opening up `insertAt`.',
+        },
+      },
+      {
+        lines: [63, 73],
+        title: { ru: 'Сдвиг влево или перебалансировка', en: 'Shifting left, or rebalancing' },
+        explanation: {
+          ru: 'Если справа зазора нет, `left` ищет пустую ячейку слева и сдвигает элементы влево тем же способом, но зеркально. Если пусто нет и слева (`left < 0`), выполняется `rebalance()` - но, как показано в углублённом разборе, эта ветка недостижима при `capacity = 2n`, потому что `count < capacity` не даёт заполниться обеим сторонам одновременно.',
+          en: 'If there\'s no gap to the right, `left` scans for an empty cell to the left and shifts elements left the same way, mirrored. If there\'s no gap on that side either (`left < 0`), `rebalance()` runs - but, as the deep-dive shows, this branch is unreachable at `capacity = 2n`, because `count < capacity` never lets both sides fill up at once.',
+        },
+      },
+      {
+        lines: [78],
+        title: { ru: 'Возврат результата', en: 'Returning the result' },
+        explanation: {
+          ru: '`return a.filter((v) => v !== null)` отбрасывает оставшиеся зазоры (`null`) и возвращает только заполненные значения - уже в отсортированном порядке.',
+          en: '`return a.filter((v) => v !== null)` drops the remaining gaps (`null`) and returns only the filled values - already in sorted order.',
+        },
+      },
+    ],
+    python: [
+      {
+        lines: [1],
+        title: { ru: 'Сигнатура', en: 'Signature' },
+        explanation: {
+          ru: 'Функция принимает один список `arr` - как и в JS-версии, вся настройка живёт внутри функции.',
+          en: 'The function takes a single list `arr` - just like the JS version, all setup lives inside the function.',
+        },
+      },
+      {
+        lines: [2, 4],
+        title: { ru: 'Длина и пустой вход', en: 'Length and the empty-input guard' },
+        explanation: {
+          ru: '`n = len(arr)` запоминает число элементов; `if n == 0: return []` сразу выходит на пустом входе.',
+          en: '`n = len(arr)` records the element count; `if n == 0: return []` exits immediately on empty input.',
+        },
+      },
+      {
+        lines: [6, 8],
+        title: { ru: 'Массив с зазорами и счётчик', en: 'The gapped array and the counter' },
+        explanation: {
+          ru: '`capacity = max(n * 2, 4)` фиксирует ёмкость, `a = [None] * capacity` создаёт список из зазоров, `count = 0` считает занятые ячейки - идентично JS-версии.',
+          en: '`capacity = max(n * 2, 4)` fixes the capacity, `a = [None] * capacity` creates a list of gaps, `count = 0` tracks occupied cells - identical to the JS version.',
+        },
+      },
+      {
+        lines: [10, 19],
+        title: { ru: 'Перебалансировка', en: 'Rebalancing' },
+        explanation: {
+          ru: '`rebalance()` объявлена с `nonlocal a, capacity`, чтобы иметь право переприсваивать переменные внешней функции. Логика та же: собрать значения, удвоить ёмкость, разложить их равномерно по `next_a` с шагом `gap`. Как и в JS, эта функция определена, но при `capacity = 2n` фактически ни разу не вызывается.',
+          en: '`rebalance()` is declared with `nonlocal a, capacity` so it can reassign the enclosing function\'s variables. Same logic: collect the values, double the capacity, spread them evenly across `next_a` with step `gap`. As in JS, this function is defined but, at `capacity = 2n`, never actually gets called.',
+        },
+      },
+      {
+        lines: [20, 22],
+        title: { ru: 'Внешний цикл по входным элементам', en: 'The outer loop over input elements' },
+        explanation: {
+          ru: '`for value in arr:` перебирает исходный список; `inserted = False` начинает попытку вставки очередного значения.',
+          en: '`for value in arr:` walks the original list; `inserted = False` starts the attempt to place the current value.',
+        },
+      },
+      {
+        lines: [23, 25],
+        title: { ru: 'Цикл вставки и защита от переполнения', en: 'The insertion loop and the overflow guard' },
+        explanation: {
+          ru: '`while not inserted:` повторяет попытку, пока элемент не найдёт место. `if count == capacity:` - тот же защитный, фактически недостижимый случай полностью заполненного массива, что и в JS.',
+          en: '`while not inserted:` retries until the element lands. `if count == capacity:` is the same defensive, practically unreachable full-array case as in JS.',
+        },
+      },
+      {
+        lines: [27, 34],
+        title: { ru: 'Бинарный поиск позиции', en: 'Binary search for the position' },
+        explanation: {
+          ru: '`idxs` собирает заполненные позиции списковым включением; `while lo < hi:` сужает `lo`/`hi` к точке вставки - логика поиска дословно повторяет JS-версию.',
+          en: '`idxs` collects filled positions via a list comprehension; `while lo < hi:` narrows `lo`/`hi` to the insertion point - the search logic mirrors the JS version exactly.',
+        },
+      },
+      {
+        lines: [35, 38],
+        title: { ru: 'Вычисление целевой ячейки', en: 'Computing the target cell' },
+        explanation: {
+          ru: 'Если `lo == len(idxs)`, элемент встаёт после последнего заполненного индекса (или в середину пустого списка); иначе - в `idxs[lo]`.',
+          en: 'If `lo == len(idxs)`, the element goes after the last filled index (or into the middle of an empty list); otherwise it targets `idxs[lo]`.',
+        },
+      },
+      {
+        lines: [40, 42],
+        title: { ru: 'Защита от выхода за границы', en: 'The out-of-bounds guard' },
+        explanation: {
+          ru: '`if insert_at >= len(a):` ловит выход вычисленной позиции за пределы списка - как и в JS, на практике при `capacity = 2n` не срабатывает.',
+          en: '`if insert_at >= len(a):` catches the computed position landing outside the list - as in JS, in practice this never fires at `capacity = 2n`.',
+        },
+      },
+      {
+        lines: [44, 47],
+        title: { ru: 'Вставка в пустую ячейку', en: 'Inserting into an empty cell' },
+        explanation: {
+          ru: 'Если `a[insert_at] is None`, значение кладётся туда напрямую - без единого сдвига.',
+          en: 'If `a[insert_at] is None`, the value is placed there directly - no shifting at all.',
+        },
+      },
+      {
+        lines: [48, 57],
+        title: { ru: 'Сдвиг вправо к ближайшему зазору', en: 'Shifting right to the nearest gap' },
+        explanation: {
+          ru: '`right` ищет ближайшую пустую ячейку справа; если находит, `for k in range(right, insert_at, -1)` сдвигает элементы вправо на одну позицию, освобождая `insert_at`.',
+          en: '`right` scans for the nearest empty cell to the right; if found, `for k in range(right, insert_at, -1)` shifts elements one position right, freeing `insert_at`.',
+        },
+      },
+      {
+        lines: [58, 69],
+        title: { ru: 'Сдвиг влево или перебалансировка', en: 'Shifting left, or rebalancing' },
+        explanation: {
+          ru: 'Если справа зазора нет, `left` ищет пустую ячейку слева и сдвигает элементы влево. Если пусто нет нигде (`left < 0`), вызывается `rebalance()` - недостижимая при `capacity = 2n` ветка, зеркальная JS-версии.',
+          en: 'If there\'s no gap to the right, `left` scans for an empty cell to the left and shifts elements left. If there\'s no gap anywhere (`left < 0`), `rebalance()` runs - an unreachable branch at `capacity = 2n`, mirroring the JS version.',
+        },
+      },
+      {
+        lines: [71],
+        title: { ru: 'Возврат результата', en: 'Returning the result' },
+        explanation: {
+          ru: '`return [v for v in a if v is not None]` отбрасывает оставшиеся `None`-зазоры и возвращает отсортированные значения.',
+          en: '`return [v for v in a if v is not None]` drops the remaining `None` gaps and returns the sorted values.',
+        },
+      },
+    ],
+  },
+
   pros: [
     {
       ru: 'В среднем случае обеспечивает O(n log n) - существенно быстрее, чем O(n²) у обычной сортировки вставками, за счёт того, что вставки чаще всего попадают в пустой зазор без сдвига.',
@@ -267,6 +490,75 @@ export const librarySort = {
     },
   ],
 
+  details: {
+    deepDive: [
+      {
+        ru: 'Проверим заявленную экономию на конкретном входе. Возьмём массив `[8, 3, 9, 1, 6, 4, 7, 2, 5]` (n = 9) - тот же, что используется на вкладке «Визуализация». При `capacity = max(9 * 2, 4) = 18` симуляция реализации из вкладки «Реализация» даёт: **17 сравнений** бинарного поиска и **21 операцию сдвига** на все 9 вставок вместе - в среднем 2.3 сдвига на вставку, а не 4-5, как было бы при линейном поиске места вставки в обычной сортировке вставками.',
+        en: 'Let\'s check the claimed savings against a concrete input. Take the array `[8, 3, 9, 1, 6, 4, 7, 2, 5]` (n = 9) - the same one used on the "Visualization" tab. At `capacity = max(9 * 2, 4) = 18`, simulating the code from the "Implementation" tab gives: **17 binary-search comparisons** and **21 shift operations** across all 9 insertions combined - an average of 2.3 shifts per insertion, not the 4-5 a linear insertion-point search in plain insertion sort would cost.',
+      },
+      {
+        ru: 'Число сдвигов сильно зависит от паттерна входа. На уже отсортированном `[1..9]` та же реализация делает **16 сравнений и 0 сдвигов** - каждый новый максимум просто дописывается в следующую пустую ячейку справа. На развороте `[9..1]` - **21 сравнение и 36 сдвигов** (в среднем 4 на вставку): каждый новый минимум должен протолкнуться через уже занятые ячейки к началу массива, зазоры на этой стороне быстро заканчиваются.',
+        en: 'The shift count depends heavily on the input pattern. On the already-sorted `[1..9]`, the same code makes **16 comparisons and 0 shifts** - every new maximum simply lands in the next empty cell to the right. On the reversed `[9..1]` it takes **21 comparisons and 36 shifts** (4 per insertion on average): every new minimum has to push through already-occupied cells toward the start, and gaps on that side run out fast.',
+      },
+      {
+        ru: 'Отсюда видно, откуда берётся средняя `O(n log n)`: бинарный поиск всегда стоит `O(log(число заполненных ячеек))`, независимо от порядка входа - это и даёт `16-21` сравнение на массиве из 9 элементов (`9 * log₂9 ≈ 9 * 3.17 ≈ 28.5` - верхняя оценка с запасом). Сдвиги же - переменная часть: при случайном или сортированном входе они в среднем `O(1)` на вставку благодаря равномерно распределённым зазорам, но могут вырасти до `O(n)` на вставку при систематически однонаправленном заполнении, как в развороте.',
+        en: 'This shows where the average `O(n log n)` comes from: binary search always costs `O(log(filled cell count))`, regardless of input order - which is exactly the 16-21 comparisons seen on a 9-element array (`9 * log₂9 ≈ 9 * 3.17 ≈ 28.5` is a loose upper bound). Shifts are the variable part: on random or sorted input they average `O(1)` per insertion thanks to evenly spread gaps, but can grow to `O(n)` per insertion under systematically one-directional filling, as in the reversed case.',
+      },
+      {
+        ru: 'Отдельный факт, который стоит проверить прямо в коде: при `capacity = Math.max(n * 2, 4)` (строка 5 на вкладке «Реализация») функция `rebalance()` не вызывается ни разу ни для одного из проверенных входов - ни для случайного, ни для отсортированного, ни для разворота, ни для массива из повторяющихся значений. Причина в арифметике: за весь проход `count` увеличивается максимум до `n`, а `capacity` не меньше `2n` (или 4), поэтому условие `count === capacity` (строка 31) никогда не выполняется, а значит массив никогда не заполняется полностью и найти свободную ячейку слева или справа удаётся всегда.',
+        en: 'One specific fact worth checking directly against the code: at `capacity = Math.max(n * 2, 4)` (line 5 on the "Implementation" tab), `rebalance()` never gets called for any of the tested inputs - not the random one, not the sorted one, not the reversed one, not an array of repeated values. The reason is arithmetic: over the whole run `count` climbs to at most `n`, while `capacity` is never below `2n` (or 4), so the `count === capacity` condition (line 31) is never satisfied - the array never fills up completely, and a free cell to the left or right can always be found.',
+      },
+      {
+        ru: 'Это отличает показанную реализацию от оригинального алгоритма из статьи Bender, Farach-Colton и Mosteiro (2004). Там ёмкость не фиксируется заранее с большим запасом - вместо этого используется схема «эпох»: массив периодически, раз в `O(log n)` вставок, полностью перестраивается с новой, растущей ёмкостью, что и даёт строгую амортизированную границу `O(log n)` на вставку в ожидании. Здесь же `rebalance()` оставлена как защитный код на случай другого выбора `capacity`, но при `capacity = 2n` она - мёртвый код: упрощение ради читаемости, отмеченное и в разделе «Минусы» на вкладке «Плюсы и минусы».',
+        en: 'This is what separates the implementation shown from the original algorithm in Bender, Farach-Colton, and Mosteiro (2004). There, capacity isn\'t fixed upfront with a large margin - instead an "epoch" scheme is used: the array is fully rebuilt with a new, larger capacity once every `O(log n)` insertions, which is what gives the strict expected amortized `O(log n)`-per-insertion bound. Here `rebalance()` is left in as defensive code for a different capacity choice, but at `capacity = 2n` it is dead code - a readability trade-off, also flagged in the "Cons" section on the "Pros & Cons" tab.',
+      },
+      {
+        ru: 'Худший случай `O(n²)` не исчезает из-за большой стартовой ёмкости - он просто требует другого паттерна, чем полное заполнение. Массив, где каждая новая вставка вынуждена сдвигать длинный хвост элементов (например, значения, поочерёдно чуть меньше и чуть больше уже вставленной середины, раз за разом упирающиеся в один и тот же занятый участок), даёт то же квадратичное поведение, что и обычная сортировка вставками, просто константа перед `n²` меньше благодаря зазорам.',
+        en: 'The `O(n²)` worst case doesn\'t disappear because of the large starting capacity - it just needs a different pattern than a fully packed array. An input where every new insertion is forced to shift a long tail of elements (for instance, values alternating just below and just above an already-inserted midpoint, repeatedly running into the same occupied stretch) produces the same quadratic behavior as plain insertion sort, just with a smaller constant in front of `n²` thanks to the gaps.',
+      },
+      {
+        ru: 'Библиотечную сортировку изобрели **Майкл Бендер, Мартин Фарак-Колтон и Мигель Мостейро** и опубликовали в 2004 году под названием «Insertion sort is O(n log n)» - намеренно провокационное название, обыгрывающее тот факт, что вставочная сортировка обычно ассоциируется исключительно с `O(n²)`. Их результат показал, что тот же базовый механизм (сравнить и вставить) при добавлении зазоров и периодической перестройки даёт логарифмический множитель в ожидании, оставаясь при этом онлайн-алгоритмом - в отличие от сортировок, которым нужен весь массив целиком заранее.',
+        en: 'Library sort was invented by **Michael Bender, Martin Farach-Colton, and Miguel Mosteiro** and published in 2004 under the title "Insertion sort is O(n log n)" - a deliberately provocative title, playing on the fact that insertion sort is usually associated purely with `O(n²)`. Their result showed that the same basic mechanism (compare and insert), with gaps and periodic rebuilding added, gives an expected logarithmic factor while staying an online algorithm - unlike sorts that need the entire array upfront.',
+      },
+    ],
+    whenToUse: [
+      {
+        ru: '**Против обычной сортировки вставками** - при одинаковой простоте реализации библиотечная сортировка выигрывает в константе на любом входе, кроме патологически однонаправленного заполнения; измеренные 21 сдвиг вместо потенциальных ~36 (как в развороте) на n = 9 показывают выигрыш уже на маленьких массивах.',
+        en: '**Against plain insertion sort** - at similar implementation complexity, library sort wins on the constant factor for any input except pathologically one-directional filling; the measured 21 shifts instead of the potential ~36 (as in the reversed case) at n = 9 already show a win on small arrays.',
+      },
+      {
+        ru: '**Против сбалансированного дерева поиска или skip list** - если нужен именно отсортированный массив (не абстрактная упорядоченная структура), библиотечная сортировка даёт лучшую локальность кэша за счёт непрерывной памяти, но без строгой гарантии `O(log n)` на вставку, которую даёт дерево.',
+        en: '**Against a balanced search tree or a skip list** - if a genuinely sorted array is needed (not an abstract ordered structure), library sort gives better cache locality thanks to contiguous memory, but without the strict `O(log n)`-per-insertion guarantee a tree provides.',
+      },
+      {
+        ru: '**При выборе размера начальной ёмкости** - как показано в разборе выше, `capacity = 2n` делает `rebalance()` практически недостижимым; для настоящей амортизированной гарантии `O(log n)` нужна более плотная ёмкость (например, `1.1n`) вместе с периодической перестройкой по эпохам, а не только «по требованию».',
+        en: '**When choosing the initial capacity** - as shown in the deep-dive above, `capacity = 2n` makes `rebalance()` practically unreachable; a genuine amortized `O(log n)` guarantee needs a tighter capacity (e.g. `1.1n`) combined with periodic epoch-based rebuilding, not only "on demand".',
+      },
+      {
+        ru: '**Не выбирать при систематически враждебном порядке вставки** - если входной поток гарантированно однонаправленный (например, постоянно новые минимумы), сдвиги растут до `O(n)` на вставку и суммарная сложность деградирует к `O(n²)`, как измерено на развороте `[9..1]` выше.',
+        en: '**Don\'t pick it for a systematically adversarial insertion order** - if the input stream is guaranteed one-directional (e.g. a constant stream of new minimums), shifts grow to `O(n)` per insertion and the total complexity degrades to `O(n²)`, as measured on the reversed `[9..1]` case above.',
+      },
+    ],
+    realWorld: [
+      {
+        ru: '**Курс MIT 6.851 «Advanced Data Structures»** использует библиотечную сортировку как канонический пример амортизированного анализа онлайн-структур данных - демонстрация того, как небольшая избыточность памяти превращает `O(n²)` в ожидаемое `O(n log n)`.',
+        en: '**MIT\'s 6.851 "Advanced Data Structures" course** uses library sort as a canonical example of amortized analysis for online data structures - a demonstration of how a small memory overhead turns `O(n²)` into expected `O(n log n)`.',
+      },
+      {
+        ru: '**Gap buffer в текстовых редакторах** (Emacs и многие другие) применяет ту же базовую идею - один большой зазор в месте курсора вместо распределённых по всему буферу, чтобы редактирование рядом с курсором стоило `O(1)`, а не сдвига всего текста.',
+        en: '**Gap buffers in text editors** (Emacs and many others) use the same underlying idea - one large gap at the cursor position instead of gaps spread across the buffer, so editing near the cursor costs `O(1)` rather than shifting the entire text.',
+      },
+      {
+        ru: '**Система потоковой обработки графов Aspen** (Dhulipala, Blelloch, Shun) использует массивы с зазорами (packed-memory arrays) в том же духе, что и библиотечная сортировка, для поддержания отсортированных списков смежности под непрерывным потоком обновлений графа.',
+        en: '**The Aspen streaming graph-processing system** (Dhulipala, Blelloch, Shun) uses gapped arrays (packed-memory arrays) in the same spirit as library sort to maintain sorted adjacency lists under a continuous stream of graph updates.',
+      },
+      {
+        ru: '**Материалы для подготовки к собеседованиям и статьи по анализу алгоритмов** регулярно разбирают библиотечную сортировку как пример компромисса «память в обмен на скорость» - на нём удобно показывать разницу между худшим и ожидаемым случаем при неслучайном входе.',
+        en: '**Interview-prep material and algorithm-analysis write-ups** regularly cover library sort as an example of a "memory for speed" trade-off - it\'s a convenient case for illustrating the gap between worst-case and expected-case behavior under non-random input.',
+      },
+    ],
+  },
+
   relatedAlgorithms: ['insertion-sort', 'block-sort'],
 
   quiz: [
@@ -290,8 +582,8 @@ export const librarySort = {
         en: 'Free gaps usually let a new element be inserted without shifting a large number of neighbors, unlike plain insertion sort.',
       },
       hint: {
-        ru: 'Вспомните аналогию с библиотечной полкой: что упрощает работу библиотекаря при добавлении новой книги?',
-        en: 'Think of the library shelf analogy: what makes a librarian\'s job easier when adding a new book?',
+        ru: 'Смотрите подраздел «Проблема» на вкладке «Суть» (аналогия с библиотечной полкой) и шаг «Вставить в зазор» на вкладке «Визуализация».',
+        en: 'See the "Problem" subsection on the "Intent" tab (the library shelf analogy) and the "Insert into a gap" step on the "Visualization" tab.',
       },
     },
     {
@@ -311,8 +603,8 @@ export const librarySort = {
         en: 'Rebalancing evenly spreads all current elements across a new, larger array, recreating the gaps.',
       },
       hint: {
-        ru: 'Когда на полке кончается место, библиотекарь переставляет книги на полку большего размера - что происходит в алгоритме?',
-        en: 'When a shelf runs out of space, the librarian moves to a bigger shelf - what does the algorithm do?',
+        ru: 'Смотрите шаг «Перебалансировать при заполнении» на вкладке «Визуализация» и строки 15-24 функции `librarySort` (`rebalance()`) на вкладке «Реализация».',
+        en: 'See the "Rebalance when full" step on the "Visualization" tab and lines 15-24 of `librarySort` (`rebalance()`) on the "Implementation" tab.',
       },
     },
     {
@@ -332,8 +624,8 @@ export const librarySort = {
         en: 'The filled cells are always sorted relative to each other, so binary search finds the right position in a logarithmic number of comparisons.',
       },
       hint: {
-        ru: 'Заполненные ячейки всегда отсортированы - какой метод поиска работает быстрее всего на отсортированном наборе?',
-        en: 'The filled cells are always sorted - which search method is fastest on a sorted set?',
+        ru: 'Смотрите шаг «Найти позицию бинарным поиском» на вкладке «Визуализация» и строки 36-42 функции `librarySort` на вкладке «Реализация».',
+        en: 'See the "Find the position via binary search" step on the "Visualization" tab and lines 36-42 of `librarySort` on the "Implementation" tab.',
       },
     },
     {
@@ -353,8 +645,8 @@ export const librarySort = {
         en: 'Thanks to the gaps, most insertions avoid shifting, and the position is found via binary search, giving O(n log n) on average.',
       },
       hint: {
-        ru: 'Бинарный поиск даёт O(log n) на вставку, а n вставок суммируются до какой сложности?',
-        en: 'Binary search gives O(log n) per insertion - what does that sum to for n insertions?',
+        ru: 'Смотрите бейдж «Средний» вверху страницы и первый абзац раздела «Как это работает» на вкладке «Суть» (17 сравнений на 9 вставок).',
+        en: 'See the "Average" complexity badge at the top of the page and the first paragraph of the "How it works" section on the "Intent" tab (17 comparisons for 9 insertions).',
       },
     },
     {
@@ -374,8 +666,8 @@ export const librarySort = {
         en: 'The gapped array is allocated with capacity several times the element count, which is exactly the linear-in-n extra memory cost.',
       },
       hint: {
-        ru: 'Зазоры - это пустые ячейки в массиве большего размера: больше ли такой массив исходного, и насколько?',
-        en: 'Gaps are empty slots in a larger array - is that array bigger than the input, and by how much?',
+        ru: 'Смотрите бейдж «Память» вверху страницы и строку 5 (`capacity = Math.max(n * 2, 4)`) функции `librarySort` на вкладке «Реализация».',
+        en: 'See the "Space" complexity badge at the top of the page and line 5 (`capacity = Math.max(n * 2, 4)`) of `librarySort` on the "Implementation" tab.',
       },
     },
     {
@@ -395,8 +687,8 @@ export const librarySort = {
         en: 'With a left-biased (lower-bound) binary search, the new element is placed before equal ones - a standard technique for making insertion-based algorithms stable.',
       },
       hint: {
-        ru: 'Подумайте о том, куда именно ставится новый элемент относительно уже существующих равных ему при корректном бинарном поиске.',
-        en: 'Think about exactly where a new element lands relative to existing equal ones under a proper binary search.',
+        ru: 'Смотрите строку 40 (`if (a[idxs[mid]] < value) lo = mid + 1;`) функции `librarySort` на вкладке «Реализация» - куда попадает `value`, равный уже стоящему элементу?',
+        en: 'See line 40 (`if (a[idxs[mid]] < value) lo = mid + 1;`) of `librarySort` on the "Implementation" tab - where does a `value` equal to an existing element land?',
       },
     },
     {
@@ -416,8 +708,8 @@ export const librarySort = {
         en: 'Binary search is performed on each insertion regardless of input order, giving O(log n) per insertion and O(n log n) total.',
       },
       hint: {
-        ru: 'Алгоритм всегда выполняет бинарный поиск - исчезает ли он на отсортированном входе?',
-        en: 'The algorithm always runs binary search - does that disappear on sorted input?',
+        ru: 'Смотрите бейдж «Лучший» вверху страницы и второй абзац раздела «Как это работает» на вкладке «Суть» (16 сравнений и 0 сдвигов на отсортированном входе).',
+        en: 'See the "Best" complexity badge at the top of the page and the second paragraph of the "How it works" section on the "Intent" tab (16 comparisons and 0 shifts on sorted input).',
       },
     },
     {
@@ -437,8 +729,8 @@ export const librarySort = {
         en: 'The deliberate gaps left on the shelf are the key analogy that gave the algorithm its name.',
       },
       hint: {
-        ru: 'Что делает опытный библиотекарь, чтобы не двигать сотни книг при добавлении каждой новой?',
-        en: 'What does an experienced librarian do to avoid moving hundreds of books when adding a new one?',
+        ru: 'Смотрите вступительный абзац (intent) в самом начале вкладки «Суть», под подзаголовком с названием алгоритма.',
+        en: 'See the opening (intent) paragraph at the very top of the "Intent" tab, right under the algorithm name.',
       },
     },
     {
@@ -458,8 +750,8 @@ export const librarySort = {
         en: 'Under an unfavorable insertion pattern, gaps disappear quickly, frequent rebalances accumulate O(n) work each, and the total complexity degrades to O(n²).',
       },
       hint: {
-        ru: 'Что происходит, если зазоры постоянно заканчиваются и rebalance() вызывается очень часто?',
-        en: 'What happens if gaps run out constantly and rebalance() is called very often?',
+        ru: 'Смотрите бейдж «Худший» вверху страницы и шестой абзац раздела «Как это работает» на вкладке «Суть» (паттерн, вынуждающий длинные сдвиги).',
+        en: 'See the "Worst" complexity badge at the top of the page and the sixth paragraph of the "How it works" section on the "Intent" tab (the pattern that forces long shifts).',
       },
     },
     {
@@ -479,8 +771,8 @@ export const librarySort = {
         en: 'Inserting elements one at a time while keeping the array sorted is precisely the scenario library sort was designed for.',
       },
       hint: {
-        ru: 'Алгоритм вставляет элементы по одному - для каких задач это является естественным требованием?',
-        en: 'The algorithm inserts elements one at a time - for what tasks is that a natural requirement?',
+        ru: 'Смотрите первый пункт раздела «Нюансы выбора» (углублённого, на вкладке «Суть») и раздел «Когда применять» там же.',
+        en: 'See the first item in the extended "Nuances of choice" section on the "Intent" tab and the "When to use" section there as well.',
       },
     },
   ],
