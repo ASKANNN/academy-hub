@@ -103,6 +103,173 @@ export const countingSort = {
     return output`,
   },
 
+  walkthrough: {
+    javascript: [
+      {
+        lines: [1],
+        title: { ru: 'Сигнатура', en: 'Signature' },
+        explanation: {
+          ru: 'Функция принимает один массив `arr` - диапазон значений вычисляется внутри, вызывающему коду не нужно передавать min/max заранее.',
+          en: 'The function takes a single array `arr` - the value range is computed inside, so the caller doesn\'t need to pass min/max ahead of time.',
+        },
+      },
+      {
+        lines: [2],
+        title: { ru: 'Защита от пустого массива', en: 'Guarding against an empty array' },
+        explanation: {
+          ru: '`if (arr.length === 0) return []` выходит раньше, чем ниже будут вызваны `Math.min(...arr)`/`Math.max(...arr)` - на пустом массиве они вернули бы `Infinity`/`-Infinity`, что сломало бы размер массива `count`.',
+          en: '`if (arr.length === 0) return []` exits before `Math.min(...arr)`/`Math.max(...arr)` run below - on an empty array those would return `Infinity`/`-Infinity`, breaking the size of the `count` array.',
+        },
+      },
+      {
+        lines: [3, 4],
+        title: { ru: 'Диапазон значений', en: 'The value range' },
+        explanation: {
+          ru: '`min`/`max` находят границы входных данных - это ровно шаг 1 из вкладки «Визуализация», без него невозможно решить, каким размером выделять `count`.',
+          en: '`min`/`max` find the bounds of the input data - exactly step 1 from the "Visualization" tab, without it there\'s no way to size `count`.',
+        },
+      },
+      {
+        lines: [5],
+        title: { ru: 'Выделение массива count', en: 'Allocating the count array' },
+        explanation: {
+          ru: '`new Array(max - min + 1).fill(0)` создаёт по одной ячейке на каждое возможное значение диапазона - это и есть k из оценки сложности O(n + k), заполненное нулями заранее, чтобы инкременты ниже были корректны.',
+          en: '`new Array(max - min + 1).fill(0)` creates one cell per possible value in the range - this is exactly the k in the O(n + k) bound, pre-filled with zeros so the increments below start from a known state.',
+        },
+      },
+      {
+        lines: [7, 9],
+        title: { ru: 'Подсчёт вхождений', en: 'Counting occurrences' },
+        explanation: {
+          ru: '`for (const value of arr) count[value - min]++` проходит по входу один раз, увеличивая счётчик своего значения - `value - min` сдвигает индексацию так, чтобы наименьшее значение попадало в ячейку 0, даже если min больше нуля или отрицателен.',
+          en: '`for (const value of arr) count[value - min]++` walks the input once, incrementing the counter for its own value - `value - min` shifts indexing so the smallest value lands in cell 0, even if min is above zero or negative.',
+        },
+      },
+      {
+        lines: [10, 12],
+        title: { ru: 'Префиксные суммы', en: 'Prefix sums' },
+        explanation: {
+          ru: '`count[i] += count[i - 1]` превращает счётчик отдельных значений в накопленную сумму - после цикла `count[i]` означает «сколько элементов входного массива ≤ значения с индексом i», то есть последний допустимый индекс этого значения в выходе.',
+          en: '`count[i] += count[i - 1]` turns per-value counters into a running sum - after the loop, `count[i]` means "how many input elements are ≤ the value at index i," i.e. the last valid output index for that value.',
+        },
+      },
+      {
+        lines: [14],
+        title: { ru: 'Выходной массив', en: 'The output array' },
+        explanation: {
+          ru: '`new Array(arr.length)` выделяет место под результат заранее, полным размером n - элементы будут расставлены в него не по порядку прохода, а сразу на финальные позиции.',
+          en: '`new Array(arr.length)` pre-allocates the result at its full size n - elements will land in it not in scan order but directly at their final positions.',
+        },
+      },
+      {
+        lines: [15, 16],
+        title: { ru: 'Обход справа налево', en: 'Walking right to left' },
+        explanation: {
+          ru: '`for (let i = arr.length - 1; i >= 0; i--)` и `const value = arr[i]` перебирают исходный массив с последнего элемента к первому - именно направление этого обхода определяет, устойчива ли сортировка (см. следующий шаг).',
+          en: '`for (let i = arr.length - 1; i >= 0; i--)` and `const value = arr[i]` walk the input from the last element to the first - the direction of this walk is exactly what determines whether the sort is stable (see the next step).',
+        },
+      },
+      {
+        lines: [17, 18],
+        title: { ru: 'Размещение и устойчивость', en: 'Placement and stability' },
+        explanation: {
+          ru: '`count[value - min]--` уменьшает границу перед записью, а `output[count[value - min]] = value` кладёт элемент на освободившийся индекс. Раз обход идёт справа налево, при двух равных значениях позже стоящий в `arr` элемент занимает более высокий индекс первым, а более ранний - освободившийся под ним индекс, из-за чего их взаимный порядок сохраняется.',
+          en: '`count[value - min]--` decrements the boundary right before the write, and `output[count[value - min]] = value` places the element at the freed index. Because the walk goes right to left, of two equal values the one appearing later in `arr` claims the higher index first, and the earlier one gets the index freed below it - preserving their relative order.',
+        },
+      },
+      {
+        lines: [20],
+        title: { ru: 'Возврат результата', en: 'Returning the result' },
+        explanation: {
+          ru: 'После того как все n элементов размещены, `output` полностью отсортирован и возвращается - исходный массив `arr` при этом не был изменён.',
+          en: 'Once all n elements have been placed, `output` is fully sorted and gets returned - the original `arr` was never mutated.',
+        },
+      },
+    ],
+    python: [
+      {
+        lines: [1],
+        title: { ru: 'Сигнатура', en: 'Signature' },
+        explanation: {
+          ru: 'Функция принимает один список `arr` - как и в JS-версии, диапазон значений вычисляется внутри.',
+          en: 'The function takes a single list `arr` - just like the JS version, the value range is computed inside.',
+        },
+      },
+      {
+        lines: [2, 3],
+        title: { ru: 'Защита от пустого списка', en: 'Guarding against an empty list' },
+        explanation: {
+          ru: '`if not arr: return []` выходит раньше, чем `min(arr)`/`max(arr)` будут вызваны на пустом списке, что иначе вызвало бы `ValueError`.',
+          en: '`if not arr: return []` exits before `min(arr)`/`max(arr)` are called on an empty list, which would otherwise raise a `ValueError`.',
+        },
+      },
+      {
+        lines: [4],
+        title: { ru: 'Диапазон значений', en: 'The value range' },
+        explanation: {
+          ru: '`lo, hi = min(arr), max(arr)` находит границы данных за один проход каждая - идентично `min`/`max` в JS-версии.',
+          en: '`lo, hi = min(arr), max(arr)` finds the data bounds, one pass each - identical to `min`/`max` in the JS version.',
+        },
+      },
+      {
+        lines: [5],
+        title: { ru: 'Выделение массива count', en: 'Allocating the count array' },
+        explanation: {
+          ru: '`count = [0] * (hi - lo + 1)` создаёт список нулей длиной ровно в диапазон значений - тот же размер k, что и в JS-версии.',
+          en: '`count = [0] * (hi - lo + 1)` creates a zero-filled list exactly as long as the value range - the same k as in the JS version.',
+        },
+      },
+      {
+        lines: [7, 8],
+        title: { ru: 'Подсчёт вхождений', en: 'Counting occurrences' },
+        explanation: {
+          ru: '`for value in arr: count[value - lo] += 1` проходит по входу, увеличивая счётчик каждого значения по его смещению от `lo`.',
+          en: '`for value in arr: count[value - lo] += 1` walks the input, incrementing each value\'s counter at its offset from `lo`.',
+        },
+      },
+      {
+        lines: [9, 10],
+        title: { ru: 'Префиксные суммы', en: 'Prefix sums' },
+        explanation: {
+          ru: '`count[i] += count[i - 1]` в цикле `range(1, len(count))` превращает счётчики в накопленные суммы - `count[i]` после этого означает «сколько элементов ≤ значения с индексом i».',
+          en: '`count[i] += count[i - 1]` inside `range(1, len(count))` turns counters into running sums - `count[i]` now means "how many elements are ≤ the value at index i."',
+        },
+      },
+      {
+        lines: [12],
+        title: { ru: 'Выходной список', en: 'The output list' },
+        explanation: {
+          ru: '`output = [0] * len(arr)` выделяет результат сразу нужного размера n, заполняя его временными нулями до расстановки реальных значений.',
+          en: '`output = [0] * len(arr)` pre-allocates the result at size n, filled with placeholder zeros before real values are placed.',
+        },
+      },
+      {
+        lines: [13],
+        title: { ru: 'Обход справа налево', en: 'Walking right to left' },
+        explanation: {
+          ru: '`for value in reversed(arr)` перебирает исходный список с конца - Python позволяет получить сами значения напрямую через `reversed()`, без явного индекса, как в JS-версии.',
+          en: '`for value in reversed(arr)` walks the input from the end - Python gets the values directly via `reversed()`, without an explicit index like the JS version needs.',
+        },
+      },
+      {
+        lines: [14, 15],
+        title: { ru: 'Размещение и устойчивость', en: 'Placement and stability' },
+        explanation: {
+          ru: '`count[value - lo] -= 1` затем `output[count[value - lo]] = value` - тот же механизм, что и в JS: обход справа налево гарантирует, что равные элементы сохранят исходный относительный порядок.',
+          en: '`count[value - lo] -= 1` then `output[count[value - lo]] = value` - the same mechanism as JS: walking right to left guarantees equal elements keep their original relative order.',
+        },
+      },
+      {
+        lines: [16],
+        title: { ru: 'Возврат результата', en: 'Returning the result' },
+        explanation: {
+          ru: 'После обработки всех элементов `output` возвращается полностью отсортированным, а исходный `arr` остаётся нетронутым.',
+          en: 'After all elements are processed, `output` is returned fully sorted, while the original `arr` is left untouched.',
+        },
+      },
+    ],
+  },
+
   pros: [
     {
       ru: 'Линейная сложность O(n + k) - быстрее теоретического предела O(n log n) для сравнивающих сортировок, если k не слишком велико.',
@@ -154,6 +321,83 @@ export const countingSort = {
     },
   ],
 
+  details: {
+    deepDive: [
+      {
+        ru: 'Возьмём массив `[4, 2, 2, 8, 3, 3, 1]` (n = 7). Значения лежат в диапазоне 1-8, значит k = 8. Сравнивающая сортировка на 50 элементах сделала бы порядка n·log₂n ≈ 50 · 5.64 ≈ 282 сравнений, а сортировка подсчётом на этом же n при k = 101 (например, оценки 0-100) выполняет всего n + k = 151 «элементарных» операций - меньше и без единого сравнения.',
+        en: 'Take the array `[4, 2, 2, 8, 3, 3, 1]` (n = 7). Values lie in range 1-8, so k = 8. A comparison sort on 50 elements would make roughly n·log₂n ≈ 50 · 5.64 ≈ 282 comparisons, while counting sort on that same n with k = 101 (say, scores 0-100) does only n + k = 151 "elementary" operations - fewer, and without a single comparison.',
+      },
+      {
+        ru: 'Для `[4, 2, 2, 8, 3, 3, 1]` подсчёт вхождений (индекс = значение - 1, так как min = 1) даёт `count = [1, 2, 2, 1, 0, 0, 0, 1]` - единица встретилась 1 раз, двойка 2 раза, тройка 2 раза, четвёрка 1 раз, восьмёрка 1 раз. После построения префиксных сумм получается `[1, 3, 5, 6, 6, 6, 6, 7]` - **последнее значение массива, 7, равно длине входа**, что и должно быть: все 7 элементов ≤ максимума.',
+        en: 'For `[4, 2, 2, 8, 3, 3, 1]`, counting occurrences (index = value - 1, since min = 1) gives `count = [1, 2, 2, 1, 0, 0, 0, 1]` - one 1, two 2s, two 3s, one 4, one 8. After the prefix-sum pass this becomes `[1, 3, 5, 6, 6, 6, 6, 7]` - **the last entry, 7, equals the input length**, exactly as expected: all 7 elements are ≤ the maximum.',
+      },
+      {
+        ru: 'Устойчивость проверяется на дубликатах с меткой: пусть на позициях 0 и 2 исходного массива стоят два одинаковых значения A и C (`[A(2), B(5), C(2)]`). Обход справа налево берёт C первым - он получает индекс `count[0] - 1 = 1`, - затем A получает освободившийся индекс 0. **Итог `[A, C, B]` - относительный порядок A перед C сохранён**, хотя C был обработан раньше физически.',
+        en: 'Stability is checkable on tagged duplicates: say positions 0 and 2 of the input hold two equal values A and C (`[A(2), B(5), C(2)]`). The right-to-left walk processes C first - it gets index `count[0] - 1 = 1` - then A gets the freed index 0. **The result `[A, C, B]` keeps A before C**, even though C was physically processed first.',
+      },
+      {
+        ru: 'Крайний случай в другую сторону: сортировка n = 1000 случайных 32-битных целых чисел. Диапазон k достигает 2^32 ≈ 4.3 миллиарда - массив `count` такого размера физически невозможно выделить в памяти обычного компьютера. Здесь алгоритм ломается не по логике, а по ресурсам: O(n + k) перестаёт быть практичным, когда k на порядки больше n.',
+        en: 'The opposite extreme: sorting n = 1000 random 32-bit integers. The range k reaches 2^32 ≈ 4.3 billion - a `count` array of that size is physically impossible to allocate on ordinary hardware. The algorithm doesn\'t break logically here, it breaks on resources: O(n + k) stops being practical once k dwarfs n by orders of magnitude.',
+      },
+      {
+        ru: 'Именно эта проблема решается **поразрядной сортировкой (radix sort)**: вместо одного прохода по всему диапазону значений она сортирует по разрядам числа, каждый раз вызывая устойчивую сортировку подсчётом с k = 10 (для десятичных разрядов). На примере `[170, 45, 75, 90, 802, 24, 2, 66]` после прохода по разряду единиц получается `[170, 90, 802, 2, 24, 45, 75, 66]`, после разряда десятков - `[802, 2, 24, 45, 66, 170, 75, 90]`, а после разряда сотен массив уже полностью отсортирован: `[2, 24, 45, 66, 75, 90, 170, 802]`.',
+        en: 'This exact problem is what **radix sort** solves: instead of a single pass over the whole value range, it sorts digit by digit, calling a stable counting sort with k = 10 (for decimal digits) at each step. On `[170, 45, 75, 90, 802, 24, 2, 66]`, the ones-digit pass produces `[170, 90, 802, 2, 24, 45, 75, 66]`, the tens-digit pass produces `[802, 2, 24, 45, 66, 170, 75, 90]`, and after the hundreds-digit pass the array is fully sorted: `[2, 24, 45, 66, 75, 90, 170, 802]`.',
+      },
+      {
+        ru: 'Каждый такой проход обязан быть устойчивым - иначе более старший разряд перепутает порядок, уже установленный младшими разрядами. Это единственная причина, по которой counting sort вообще заботится об устойчивости: сама по себе задача «отсортировать целые числа» её не требует, но её реализация как строительного блока radix sort требует обязательно.',
+        en: 'Each such pass must be stable - otherwise a more significant digit would scramble the order already established by less significant ones. This is the whole reason counting sort bothers with stability at all: the plain task of "sort integers" doesn\'t require it, but its role as a radix sort building block absolutely does.',
+      },
+      {
+        ru: 'Первое известное описание идеи принадлежит **Гарольду Сьюарду (Harold H. Seward)** в его магистерской диссертации 1954 года в MIT - там же встречается и ранняя формулировка радикс-сортировки, использующей тот же принцип подсчёта по разрядам.',
+        en: 'The earliest known description of the idea is credited to **Harold H. Seward** in his 1954 MIT master\'s thesis - the same thesis also contains an early formulation of radix sort using the same digit-counting principle.',
+      },
+      {
+        ru: 'Итог: сортировка подсчётом - это не «более быстрая» сортировка сравнениями, а алгоритм из другого класса, который обменивает время (пропуск сравнений) на пространство (массив `count` размером k). Пока k сопоставим с n, обмен выгоден; как только k начинает расти отдельно от n, выгоднее либо **radix sort** (разбить один большой диапазон на несколько маленьких), либо **bucket sort** (для непрерывных, а не дискретных значений).',
+        en: 'The takeaway: counting sort isn\'t a "faster" comparison sort - it\'s an algorithm from a different class that trades time (skipping comparisons) for space (a `count` array of size k). As long as k stays comparable to n, the trade pays off; once k starts growing independently of n, it\'s better to switch to either **radix sort** (split one large range into several small ones) or **bucket sort** (for continuous rather than discrete values).',
+      },
+    ],
+    whenToUse: [
+      {
+        ru: '**Вместо radix sort, когда диапазон сам по себе мал** - если k уже порядка десятков-сотен (оценки, возраст, ранги), не нужно городить поразрядную обработку, один проход counting sort проще и не медленнее.',
+        en: '**Instead of radix sort when the range is already small** - if k is already in the tens or hundreds (grades, ages, ranks), there\'s no need for digit-by-digit processing; one counting sort pass is simpler and no slower.',
+      },
+      {
+        ru: '**Как внутренний шаг radix sort**, когда диапазон одного разряда фиксирован (0-9 для десятичных чисел, 0-255 для байтов) - здесь устойчивость обязательна, не опциональна.',
+        en: '**As radix sort\'s internal step**, when a single digit\'s range is fixed (0-9 for decimal, 0-255 for bytes) - here stability is mandatory, not optional.',
+      },
+      {
+        ru: '**Против bucket sort - когда данные дискретны, а не непрерывны**: у counting sort ключи - это сами индексы ячеек, у bucket sort - диапазоны значений внутри корзины, которые всё равно надо досортировать. Для целых чисел известного диапазона counting sort и проще, и точнее.',
+        en: '**Against bucket sort - when data is discrete, not continuous**: counting sort\'s keys are literally the cell indices, while bucket sort\'s buckets hold value ranges that still need sorting internally. For integers with a known range, counting sort is both simpler and exact.',
+      },
+      {
+        ru: '**Не выбирать при неизвестном заранее диапазоне** - если min/max нельзя оценить до запуска (поток данных без ограничений), нет гарантии, что k останется разумным; здесь безопаснее сравнивающая сортировка с предсказуемой O(n log n) памятью и временем.',
+        en: '**Don\'t pick it when the range is unknown up front** - if min/max can\'t be bounded before running (an unconstrained data stream), there\'s no guarantee k stays reasonable; a comparison sort with predictable O(n log n) time and space is safer here.',
+      },
+      {
+        ru: '**Для построения гистограмм наряду с сортировкой** - если всё равно нужно посчитать частоту каждого значения (аналитика, статистика), массив `count` уже содержит этот результат бесплатно, до всякой сортировки.',
+        en: '**For building histograms alongside sorting** - if the per-value frequency is needed anyway (analytics, statistics), the `count` array already contains that result for free, before any sorting happens.',
+      },
+    ],
+    realWorld: [
+      {
+        ru: '**Магистерская диссертация Гарольда Сьюарда (MIT, 1954)** - первое зафиксированное описание идеи подсчёта вхождений для сортировки и связанной с ней поразрядной сортировки.',
+        en: '**Harold H. Seward\'s master\'s thesis (MIT, 1954)** - the first recorded description of the counting-occurrences idea for sorting, alongside the related radix sort.',
+      },
+      {
+        ru: '**Построение суффиксных массивов (алгоритм DC3/skew)** - внутренние проходы поразрядной сортировки троек символов реализуются именно устойчивой сортировкой подсчётом, критичной для итогового O(n) времени построения.',
+        en: '**Suffix array construction (the DC3/skew algorithm)** - the internal radix passes over character triples are implemented with a stable counting sort, critical to the overall O(n) construction time.',
+      },
+      {
+        ru: '**Аналитика по колонкам с малой кардинальностью** (страна, категория, оценка) в столбцовых базах данных использует ту же идею подсчёта вхождений для группировки и сортировки результатов агрегации.',
+        en: '**Low-cardinality column analytics** (country, category, rating) in columnar databases reuse the same counting idea for grouping and sorting aggregate results.',
+      },
+      {
+        ru: '**Конкурентное программирование** - задача "counting sort" часто маскируется под "отсортируй массив с элементами от 1 до 10^5" или "посчитай инверсии в ограниченном диапазоне", где решение в лоб через сравнения проходит по времени, но подсчёт вхождений быстрее и проще.',
+        en: '**Competitive programming** - "counting sort" problems are often disguised as "sort an array with elements from 1 to 10^5" or "count inversions within a bounded range," where a plain comparison solution passes on time but the counting approach is faster and simpler to write.',
+      },
+    ],
+  },
+
   relatedAlgorithms: ['radix-sort', 'bucket-sort'],
 
   quiz: [
@@ -174,8 +418,8 @@ export const countingSort = {
         en: 'The O(n log n) lower bound is proven for sorts that determine order via pairwise comparisons. Counting occurrences is a fundamentally different mechanism, so the bound doesn\'t apply.',
       },
       hint: {
-        ru: 'Нижняя граница O(n log n) доказана для конкретного класса алгоритмов. Использует ли подсчёт вхождений сравнения вообще?',
-        en: 'The O(n log n) lower bound is proven for a specific class of algorithms. Does counting occurrences use comparisons at all?',
+        ru: 'Смотрите подраздел «Проблема» на вкладке «Суть» и первый абзац раздела «Глубже» с числовым сравнением 282 против 151 операции.',
+        en: 'See the "Problem" subsection on the "Intent" tab and the first "Deep dive" paragraph comparing 282 against 151 operations.',
       },
     },
     {
@@ -195,8 +439,8 @@ export const countingSort = {
         en: 'k is the size of the helper `count` array, equal to the value range (max - min + 1). When k is comparable to n, the complexity is effectively linear.',
       },
       hint: {
-        ru: 'Какую структуру выделяет алгоритм помимо выходного массива? Её размер и есть k.',
-        en: 'What structure does the algorithm allocate besides the output array? Its size is k.',
+        ru: 'Смотрите бейдж «Память» вверху страницы и строку 5 (`new Array(max - min + 1)`) функции `countingSort` на вкладке «Реализация».',
+        en: 'See the "Space" badge at the top of the page and line 5 (`new Array(max - min + 1)`) of `countingSort` on the "Implementation" tab.',
       },
     },
     {
@@ -216,8 +460,8 @@ export const countingSort = {
         en: 'Walking right to left places the later of two equal elements first (at the higher index), so the original order between equal values is preserved.',
       },
       hint: {
-        ru: 'Представьте два одинаковых элемента. Если обходить массив слева направо, который из них окажется на большем индексе в выводе?',
-        en: 'Imagine two identical elements. If you walk left to right, which one ends up at the higher index in the output?',
+        ru: 'Смотрите шаг walkthrough «Размещение и устойчивость» (строки 17-18) на вкладке «Реализация» и пример A/C/B в третьем абзаце раздела «Глубже».',
+        en: 'See the "Placement and stability" walkthrough step (lines 17-18) on the "Implementation" tab and the A/C/B example in the third "Deep dive" paragraph.',
       },
     },
     {
@@ -237,8 +481,8 @@ export const countingSort = {
         en: 'If k (e.g. 10^9 with a small n) dwarfs n, the memory and time spent on the `count` array outweigh the benefit of skipping comparisons.',
       },
       hint: {
-        ru: 'Алгоритм выделяет массив размером k. Что будет, если k в тысячи раз больше n?',
-        en: 'The algorithm allocates an array of size k. What happens if k is thousands of times larger than n?',
+        ru: 'Смотрите четвёртый абзац раздела «Глубже» (пример с 32-битными числами и k ≈ 4.3 миллиарда) и третий пункт минусов на вкладке «Плюсы и минусы».',
+        en: 'See the fourth "Deep dive" paragraph (the 32-bit integers example with k ≈ 4.3 billion) and the third "Cons" item on the "Pros & Cons" tab.',
       },
     },
     {
@@ -258,8 +502,8 @@ export const countingSort = {
         en: 'Counting sort needs discrete keys of a known range - strings can be sorted character by character (this is exactly the LSD radix sort idea), but not directly in a single counting pass.',
       },
       hint: {
-        ru: 'Алгоритм использует значение элемента как индекс в массиве count. Что нужно для этого знать о значениях?',
-        en: 'The algorithm uses each element\'s value as an index into the count array. What must be known about the values for this to work?',
+        ru: 'Смотрите второй пункт минусов на вкладке «Плюсы и минусы» и пятый абзац раздела «Глубже» про LSD radix sort по разрядам.',
+        en: 'See the second "Cons" item on the "Pros & Cons" tab and the fifth "Deep dive" paragraph about LSD radix sort digit passes.',
       },
     },
     {
@@ -279,8 +523,8 @@ export const countingSort = {
         en: 'After prefix sums, count[v] equals the number of elements ≤ v, which directly gives the last index that value v occupies in the output array.',
       },
       hint: {
-        ru: 'Зная, сколько элементов меньше или равно v, что можно сказать о позиции последнего вхождения v в отсортированном массиве?',
-        en: 'Knowing how many elements are less than or equal to v, what can you say about the position of the last occurrence of v in the sorted array?',
+        ru: 'Смотрите шаг «Построить префиксные суммы» на вкладке «Визуализация» и второй абзац раздела «Глубже» с числами `[1,3,5,6,6,6,6,7]`.',
+        en: 'See the "Build prefix sums" step on the "Visualization" tab and the second "Deep dive" paragraph with the `[1,3,5,6,6,6,6,7]` numbers.',
       },
     },
     {
@@ -300,8 +544,8 @@ export const countingSort = {
         en: 'Radix sort processes numbers digit by digit; at each step it calls counting sort on the current digit, relying on stability to preserve the order established by previous steps.',
       },
       hint: {
-        ru: 'Radix sort обрабатывает одну цифру за проход. Какие свойства counting sort делают её идеальной для этой роли?',
-        en: 'Radix sort processes one digit per pass. Which properties of counting sort make it ideal for this role?',
+        ru: 'Смотрите первый пункт раздела «В реальном мире» (radix sort) и пятый-шестой абзацы раздела «Глубже» с примером `[170, 45, 75, ...]` по разрядам.',
+        en: 'See the first "Real world" item (radix sort) and the fifth-sixth "Deep dive" paragraphs with the `[170, 45, 75, ...]` digit-pass example.',
       },
     },
     {
@@ -321,8 +565,8 @@ export const countingSort = {
         en: 'Walking left to right places earlier equal elements at higher indices, breaking their original order - the sort becomes unstable, but the result is still sorted.',
       },
       hint: {
-        ru: 'Подумайте конкретно о двух одинаковых элементах. Как их расположение в выходе изменится, если обходить массив в другом направлении?',
-        en: 'Think specifically about two identical elements. How will their placement in the output change if the array is walked in the opposite direction?',
+        ru: 'Смотрите строки 15-18 функции `countingSort` на вкладке «Реализация» и третий абзац раздела «Глубже» - переставьте направление обхода в примере A/C/B.',
+        en: 'See lines 15-18 of `countingSort` on the "Implementation" tab and the third "Deep dive" paragraph - flip the walk direction in the A/C/B example.',
       },
     },
     {
@@ -342,8 +586,8 @@ export const countingSort = {
         en: 'The algorithm allocates a `count` array of size k and an output array of size n, giving total space O(n + k).',
       },
       hint: {
-        ru: 'Перечислите все структуры, которые выделяет алгоритм помимо входного массива, и оцените размер каждой.',
-        en: 'List all the structures the algorithm allocates beyond the input array and estimate the size of each.',
+        ru: 'Смотрите бейдж «Память» вверху страницы и строки 5 и 14 функции `countingSort` (массивы `count` и `output`) на вкладке «Реализация».',
+        en: 'See the "Space" badge at the top of the page and lines 5 and 14 of `countingSort` (the `count` and `output` arrays) on the "Implementation" tab.',
       },
     },
     {
@@ -363,8 +607,8 @@ export const countingSort = {
         en: 'If the minimum value is, say, 50, then without subtraction the first 50 cells of count would be empty - subtracting the minimum removes this dead space.',
       },
       hint: {
-        ru: 'Что было бы размером массива count, если бы он индексировался напрямую значениями, а не их смещением относительно минимума?',
-        en: 'What would the count array size be if it were indexed directly by values rather than by their offset from the minimum?',
+        ru: 'Смотрите строки 3-5 функции `countingSort` на вкладке «Реализация» и второй абзац раздела «Глубже», где диапазон 1-8 даёт k = 8.',
+        en: 'See lines 3-5 of `countingSort` on the "Implementation" tab and the second "Deep dive" paragraph, where the 1-8 range gives k = 8.',
       },
     },
   ],

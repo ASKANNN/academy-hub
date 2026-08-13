@@ -153,6 +153,253 @@ export const flashSort = {
     return a`,
   },
 
+  walkthrough: {
+    javascript: [
+      {
+        lines: [1],
+        title: { ru: 'Сигнатура', en: 'Signature' },
+        explanation: {
+          ru: 'Функция принимает один массив `arr` - число классов, коэффициент и все вспомогательные структуры вычисляются внутри.',
+          en: 'The function takes a single array `arr` - the class count, coefficient, and all helper structures are computed inside.',
+        },
+      },
+      {
+        lines: [2, 3],
+        title: { ru: 'Тривиальный случай', en: 'The trivial case' },
+        explanation: {
+          ru: '`if (n <= 1) return [...arr]` - массив из 0 или 1 элемента уже отсортирован, дальнейшая логика (классы, границы) для него не имеет смысла.',
+          en: '`if (n <= 1) return [...arr]` - an array of 0 or 1 elements is already sorted, the rest of the logic (classes, boundaries) would be meaningless for it.',
+        },
+      },
+      {
+        lines: [4],
+        title: { ru: 'Копия массива', en: 'Copying the array' },
+        explanation: {
+          ru: '`const a = [...arr]` создаёт копию входа - все перестановки классификации и финальная сортировка вставками работают на этой копии.',
+          en: '`const a = [...arr]` copies the input - both the classification permutations and the final insertion sort operate on this copy.',
+        },
+      },
+      {
+        lines: [5],
+        title: { ru: 'Число классов m', en: 'The class count m' },
+        explanation: {
+          ru: '`Math.max(2, Math.floor(0.45 * n))` берёт примерно 0.45 от длины массива, но не меньше 2 - для n = 10 это `m = 4`, эмпирически подобранный баланс между размером класса и размером вспомогательного массива L.',
+          en: '`Math.max(2, Math.floor(0.45 * n))` takes roughly 0.45 of the array length, but never below 2 - for n = 10 that\'s `m = 4`, an empirically tuned balance between class size and the size of the L array.',
+        },
+      },
+      {
+        lines: [6, 8],
+        title: { ru: 'Диапазон значений и вырожденный случай', en: 'The value range and the degenerate case' },
+        explanation: {
+          ru: '`min`/`max` находят границы данных; `if (min === max) return a` обрабатывает случай, когда все элементы равны - без этой проверки следующая строка делила бы на ноль.',
+          en: '`min`/`max` find the data bounds; `if (min === max) return a` handles the case where all elements are equal - without it, the next line would divide by zero.',
+        },
+      },
+      {
+        lines: [9],
+        title: { ru: 'Коэффициент классификации', en: 'The classification coefficient' },
+        explanation: {
+          ru: '`c1 = (m - 1) / (max - min)` - линейный коэффициент, который переводит значение элемента в номер класса от 0 до m - 1; для примера с min = 4, max = 91, m = 4 это `c1 = 3 / 87 ≈ 0.0345`.',
+          en: '`c1 = (m - 1) / (max - min)` - the linear coefficient that maps an element\'s value to a class number from 0 to m - 1; for min = 4, max = 91, m = 4 that\'s `c1 = 3 / 87 ≈ 0.0345`.',
+        },
+      },
+      {
+        lines: [11],
+        title: { ru: 'Массив границ классов', en: 'The class-boundary array' },
+        explanation: {
+          ru: '`const L = new Array(m).fill(0)` выделяет по одной ячейке на класс - в отличие от bucket sort, это не список элементов, а всего лишь счётчик/граница, размером m, а не n.',
+          en: '`const L = new Array(m).fill(0)` allocates one cell per class - unlike bucket sort, this isn\'t a list of elements, just a counter/boundary, sized m rather than n.',
+        },
+      },
+      {
+        lines: [12, 15],
+        title: { ru: 'Подсчёт элементов по классам', en: 'Counting elements per class' },
+        explanation: {
+          ru: 'Цикл вычисляет `k = Math.floor(c1 * (a[i] - min))` для каждого элемента и увеличивает `L[k]` - это подсчёт вхождений, идентичный первому шагу сортировки подсчётом, только по грубым классам, а не точным значениям.',
+          en: 'The loop computes `k = Math.floor(c1 * (a[i] - min))` for each element and increments `L[k]` - counting occurrences, just like the first step of counting sort, only over coarse classes instead of exact values.',
+        },
+      },
+      {
+        lines: [16],
+        title: { ru: 'Накопленные границы', en: 'Cumulative boundaries' },
+        explanation: {
+          ru: '`for (let i = 1; i < m; i++) L[i] += L[i - 1]` превращает счётчики классов в границы - `L[k]` теперь означает индекс, на который должен встать последний элемент класса k.',
+          en: '`for (let i = 1; i < m; i++) L[i] += L[i - 1]` turns per-class counts into boundaries - `L[k]` now means the index where the last element of class k should land.',
+        },
+      },
+      {
+        lines: [18, 20],
+        title: { ru: 'Инициализация перестановки', en: 'Initializing the permutation pass' },
+        explanation: {
+          ru: '`move` считает, сколько элементов уже переставлено; `j` - текущая позиция сканирования; `k` стартует с последнего класса (m - 1), потому что первый обрабатываемый элемент будет искать своё место именно там.',
+          en: '`move` counts how many elements have been permuted; `j` is the current scan position; `k` starts at the last class (m - 1), because the first element to be handled looks for its spot there.',
+        },
+      },
+      {
+        lines: [21, 25],
+        title: { ru: 'Поиск неразмещённого элемента', en: 'Finding an unplaced element' },
+        explanation: {
+          ru: '`while (move < n - 1)` продолжает, пока не переставлены почти все элементы (последний встаёт на место автоматически). Внутренний `while (j > L[k] - 1)` сдвигает `j` вперёд и пересчитывает его класс, пропуская позиции, уже занятые правильным классом.',
+          en: '`while (move < n - 1)` continues until nearly all elements are permuted (the last one falls into place automatically). The inner `while (j > L[k] - 1)` advances `j` and recomputes its class, skipping positions already occupied by the right class.',
+        },
+      },
+      {
+        lines: [26],
+        title: { ru: 'Начало новой цепочки', en: 'Starting a new chain' },
+        explanation: {
+          ru: '`let flash = a[j]` берёт элемент, с которого начнётся новая цепочка циклических перестановок - имя `flash` отсылает к «вспышке», которой алгоритм назван.',
+          en: '`let flash = a[j]` picks the element that starts a new chain of cyclic permutations - the name `flash` is where the algorithm gets its name from.',
+        },
+      },
+      {
+        lines: [27, 34],
+        title: { ru: 'Цепочка циклических перестановок', en: 'The cyclic-permutation chain' },
+        explanation: {
+          ru: 'Пока `j !== L[k]`: вычисляется класс текущего `flash`, элемент, стоящий на границе `L[k] - 1` этого класса, извлекается в `hold`, `flash` записывается на его место, `hold` становится новым `flash`, а граница `L[k]` уменьшается - ровно та же схема «вытеснения», что и в циклической сортировке, но по классам, а не по точным позициям.',
+          en: 'While `j !== L[k]`: the current `flash`\'s class is computed, the element sitting at that class\'s boundary `L[k] - 1` is pulled into `hold`, `flash` is written into its slot, `hold` becomes the new `flash`, and the boundary `L[k]` is decremented - the exact same "displacement" scheme as cycle sort, only over classes instead of exact positions.',
+        },
+      },
+      {
+        lines: [37, 45],
+        title: { ru: 'Финальная сортировка вставками', en: 'The final insertion sort' },
+        explanation: {
+          ru: 'После классификации элементы стоят близко к нужным позициям, но не точно - обычная сортировка вставками проходит по всему массиву и устраняет этот остаточный беспорядок; она быстрая именно потому, что `jj` почти никогда не уходит далеко от `i`.',
+          en: 'After classification, elements sit close to their target positions but not exactly - a plain insertion sort walks the whole array and removes this residual disorder; it\'s fast precisely because `jj` almost never travels far from `i`.',
+        },
+      },
+      {
+        lines: [46],
+        title: { ru: 'Возврат результата', en: 'Returning the result' },
+        explanation: {
+          ru: 'После финального прохода `a` полностью отсортирован и возвращается.',
+          en: 'After the final pass, `a` is fully sorted and gets returned.',
+        },
+      },
+    ],
+    python: [
+      {
+        lines: [1],
+        title: { ru: 'Сигнатура', en: 'Signature' },
+        explanation: {
+          ru: 'Функция принимает один список `arr` - как и в JS-версии, все структуры вычисляются внутри.',
+          en: 'The function takes a single list `arr` - just like the JS version, every structure is computed inside.',
+        },
+      },
+      {
+        lines: [2, 4],
+        title: { ru: 'Тривиальный случай', en: 'The trivial case' },
+        explanation: {
+          ru: '`if n <= 1: return list(arr)` - список из 0 или 1 элемента уже отсортирован.',
+          en: '`if n <= 1: return list(arr)` - a list of 0 or 1 elements is already sorted.',
+        },
+      },
+      {
+        lines: [5],
+        title: { ru: 'Копия списка', en: 'Copying the list' },
+        explanation: {
+          ru: '`a = list(arr)` копирует вход, чтобы аргумент вызывающего кода не менялся.',
+          en: '`a = list(arr)` copies the input so the caller\'s argument stays unchanged.',
+        },
+      },
+      {
+        lines: [6],
+        title: { ru: 'Число классов m', en: 'The class count m' },
+        explanation: {
+          ru: '`m = max(2, int(0.45 * n))` - идентично JS-версии: для n = 10 получается `m = 4`.',
+          en: '`m = max(2, int(0.45 * n))` - identical to the JS version: for n = 10 this gives `m = 4`.',
+        },
+      },
+      {
+        lines: [7, 9],
+        title: { ru: 'Диапазон значений и вырожденный случай', en: 'The value range and the degenerate case' },
+        explanation: {
+          ru: '`lo, hi = min(a), max(a)` находит границы, `if lo == hi: return a` избегает деления на ноль в следующей строке, если все элементы равны.',
+          en: '`lo, hi = min(a), max(a)` finds the bounds, `if lo == hi: return a` avoids division by zero on the next line if every element is equal.',
+        },
+      },
+      {
+        lines: [10],
+        title: { ru: 'Коэффициент классификации', en: 'The classification coefficient' },
+        explanation: {
+          ru: '`c1 = (m - 1) / (hi - lo)` - тот же линейный коэффициент, что и в JS-версии.',
+          en: '`c1 = (m - 1) / (hi - lo)` - the same linear coefficient as the JS version.',
+        },
+      },
+      {
+        lines: [12],
+        title: { ru: 'Массив границ классов', en: 'The class-boundary array' },
+        explanation: {
+          ru: '`L = [0] * m` выделяет по одной ячейке на класс, размером m, а не n.',
+          en: '`L = [0] * m` allocates one cell per class, sized m rather than n.',
+        },
+      },
+      {
+        lines: [13, 15],
+        title: { ru: 'Подсчёт элементов по классам', en: 'Counting elements per class' },
+        explanation: {
+          ru: '`for x in a: k = int(c1 * (x - lo)); L[k] += 1` - подсчёт вхождений по классам, идентичный JS-версии, `int()` играет роль `Math.floor`.',
+          en: '`for x in a: k = int(c1 * (x - lo)); L[k] += 1` - counting occurrences per class, identical to the JS version, `int()` plays the role of `Math.floor`.',
+        },
+      },
+      {
+        lines: [16, 17],
+        title: { ru: 'Накопленные границы', en: 'Cumulative boundaries' },
+        explanation: {
+          ru: '`for i in range(1, m): L[i] += L[i - 1]` превращает счётчики классов в границы, как в JS-версии.',
+          en: '`for i in range(1, m): L[i] += L[i - 1]` turns per-class counts into boundaries, same as the JS version.',
+        },
+      },
+      {
+        lines: [19, 21],
+        title: { ru: 'Инициализация перестановки', en: 'Initializing the permutation pass' },
+        explanation: {
+          ru: '`move`, `j`, `k` играют те же роли, что и в JS-версии: счётчик перестановок, позиция сканирования, текущий класс.',
+          en: '`move`, `j`, `k` play the same roles as the JS version: the permutation counter, the scan position, the current class.',
+        },
+      },
+      {
+        lines: [22, 25],
+        title: { ru: 'Поиск неразмещённого элемента', en: 'Finding an unplaced element' },
+        explanation: {
+          ru: '`while move < n - 1:` и вложенный `while j > L[k] - 1:` пропускают уже занятые позиции - идентично JS-версии.',
+          en: '`while move < n - 1:` and the nested `while j > L[k] - 1:` skip already-occupied positions - identical to the JS version.',
+        },
+      },
+      {
+        lines: [26],
+        title: { ru: 'Начало новой цепочки', en: 'Starting a new chain' },
+        explanation: {
+          ru: '`flash = a[j]` берёт элемент, начинающий новую цепочку перестановок.',
+          en: '`flash = a[j]` picks the element that starts a new permutation chain.',
+        },
+      },
+      {
+        lines: [27, 31],
+        title: { ru: 'Цепочка циклических перестановок', en: 'The cyclic-permutation chain' },
+        explanation: {
+          ru: '`while j != L[k]:` вычисляет класс `flash`, кортежным присваиванием `a[L[k] - 1], flash = flash, a[L[k] - 1]` меняет местами элемент на границе класса с `flash`, уменьшает границу - та же механика вытеснения, что в JS-версии, компактнее записанная за счёт синтаксиса Python.',
+          en: '`while j != L[k]:` computes `flash`\'s class, the tuple assignment `a[L[k] - 1], flash = flash, a[L[k] - 1]` swaps the element at the class boundary with `flash`, decrements the boundary - the same displacement mechanics as the JS version, written more compactly thanks to Python\'s syntax.',
+        },
+      },
+      {
+        lines: [33, 39],
+        title: { ru: 'Финальная сортировка вставками', en: 'The final insertion sort' },
+        explanation: {
+          ru: 'Тот же проход сортировкой вставками, что и в JS-версии, устраняющий остаточный беспорядок внутри классов.',
+          en: 'The same insertion sort pass as the JS version, cleaning up residual disorder within classes.',
+        },
+      },
+      {
+        lines: [40],
+        title: { ru: 'Возврат результата', en: 'Returning the result' },
+        explanation: {
+          ru: 'После финального прохода `a` возвращается полностью отсортированным.',
+          en: 'After the final pass, `a` is returned fully sorted.',
+        },
+      },
+    ],
+  },
+
   pros: [
     {
       ru: 'В среднем случае для равномерно распределённых числовых данных работает за линейное время O(n) - значительно быстрее универсальных O(n log n) сортировок сравнениями.',
@@ -204,6 +451,79 @@ export const flashSort = {
     },
   ],
 
+  details: {
+    deepDive: [
+      {
+        ru: 'Возьмём массив `[35, 12, 89, 4, 67, 23, 55, 91, 8, 42]` (n = 10). Число классов `m = max(2, floor(0.45 · 10)) = 4`. Диапазон значений min = 4, max = 91, коэффициент `c1 = (4 - 1) / (91 - 4) = 3 / 87 ≈ 0.0345`.',
+        en: 'Take the array `[35, 12, 89, 4, 67, 23, 55, 91, 8, 42]` (n = 10). Class count `m = max(2, floor(0.45 · 10)) = 4`. Value range min = 4, max = 91, coefficient `c1 = (4 - 1) / (91 - 4) = 3 / 87 ≈ 0.0345`.',
+      },
+      {
+        ru: 'Класс каждого элемента считается по формуле `floor(c1 · (значение - min))`. Например, для 35: `floor(0.0345 · 31) = floor(1.07) = 1`. Пересчитав так все 10 элементов, получаем распределение по классам: `4, 12, 23, 8` - класс 0 (4 элемента); `55, 42, 35` - класс 1 (3 элемента); `89, 67` - класс 2 (2 элемента); `91` - класс 3 (1 элемент).',
+        en: 'Each element\'s class is computed as `floor(c1 · (value - min))`. For 35, for instance: `floor(0.0345 · 31) = floor(1.07) = 1`. Doing this for all 10 elements gives the class distribution: `4, 12, 23, 8` - class 0 (4 elements); `55, 42, 35` - class 1 (3 elements); `89, 67` - class 2 (2 elements); `91` - class 3 (1 element).',
+      },
+      {
+        ru: 'Раскладка `L = [4, 3, 2, 1]` (счётчики по классам) после накопления сумм становится `L = [4, 7, 9, 10]` - **последнее значение, 10, равно n**, как и в счётчике сортировки подсчётом. Это означает: элементы класса 0 займут индексы 0-3, класса 1 - индексы 4-6, класса 2 - индексы 7-8, класса 3 - индекс 9.',
+        en: 'The raw class counts `L = [4, 3, 2, 1]` become `L = [4, 7, 9, 10]` after the prefix-sum pass - **the last value, 10, equals n**, just like in counting sort\'s count array. This means class 0 elements take indices 0-3, class 1 indices 4-6, class 2 indices 7-8, and class 3 index 9.',
+      },
+      {
+        ru: 'После цепочки циклических перестановок массив становится `[12, 8, 4, 23, 42, 55, 35, 67, 89, 91]` - все 10 элементов переставлены (`move` доходит до n - 1 = 9, плюс последний становится верным автоматически). **Классы уже верны** (первые 4 - действительно наименьшие, следующие 3 - средние, и так далее), но **внутри класса 1 порядок `42, 55, 35` неверен** - это и есть тот «мелкий беспорядок», который остаётся после классификации.',
+        en: 'After the cyclic-permutation chain, the array becomes `[12, 8, 4, 23, 42, 55, 35, 67, 89, 91]` - all 10 elements have been permuted (`move` reaches n - 1 = 9, and the last one falls into place automatically). **The classes are already correct** (the first 4 really are the smallest, the next 3 are the middle ones, and so on), but **within class 1 the order `42, 55, 35` is wrong** - that\'s exactly the "small-scale disorder" left after classification.',
+      },
+      {
+        ru: 'Финальная сортировка вставками проходит по всему массиву и приводит его к `[4, 8, 12, 23, 35, 42, 55, 67, 89, 91]`. Поскольку каждый элемент теперь стоит не дальше чем в пределах своего класса от финальной позиции, `jj` в цикле вставки почти никогда не уходит далеко назад - именно поэтому этот проход стоит близко к O(n), а не к O(n²), характерным для вставок на случайном массиве.',
+        en: 'The final insertion sort walks the array and produces `[4, 8, 12, 23, 35, 42, 55, 67, 89, 91]`. Since every element now sits at most a class-width away from its final spot, `jj` in the insertion loop almost never travels far back - which is why this pass stays close to O(n), not the O(n²) typical of insertion sort on a random array.',
+      },
+      {
+        ru: 'Худший случай возникает, когда распределение сильно скошено: если, например, 9 из 10 элементов попадают в один класс (сильно неравномерные данные), классификация почти ничего не даёт, и финальная сортировка вставками фактически сортирует весь массив заново - деградация до O(n²), совпадающая с обычной сортировкой вставками.',
+        en: 'The worst case happens when the distribution is heavily skewed: if, say, 9 of 10 elements fall into a single class (badly non-uniform data), classification barely helps, and the final insertion sort effectively re-sorts the whole array from scratch - degrading to O(n²), matching plain insertion sort.',
+      },
+      {
+        ru: 'Флэш-сортировку опубликовал **Карл-Дитрих Нойбер (Karl-Dietrich Neubert)** в статье 1998 года в Dr. Dobb\'s Journal, представив её как алгоритм, объединяющий скорость распределяющих сортировок с работой прямо в исходном массиве, без выделения отдельных списков-корзин, как в bucket sort.',
+        en: 'Flashsort was published by **Karl-Dietrich Neubert** in a 1998 Dr. Dobb\'s Journal article, presenting it as an algorithm combining the speed of distribution sorts with in-place work on the original array, without allocating separate bucket lists the way bucket sort does.',
+      },
+      {
+        ru: 'Итог: выигрыш Флэш-сортировки - линейное среднее время за счёт классификации плюс дешёвая доводка сортировкой вставками, а не отказ от сравнений вовсе (в отличие от counting sort). Она платит за это гарантией: без предположения о распределении данных её худший случай не лучше обычной сортировки вставками.',
+        en: 'The takeaway: flashsort\'s win is linear average time from classification plus a cheap insertion-sort cleanup, not giving up comparisons entirely (unlike counting sort). The price is a guarantee: without an assumption about the data distribution, its worst case is no better than plain insertion sort.',
+      },
+    ],
+    whenToUse: [
+      {
+        ru: '**Вместо bucket sort, когда важна память** - Флэш-сортировка использует лишь вспомогательный массив размером m (порядка 0.45n), тогда как bucket sort выделяет под каждую корзину отдельный список, суммарно занимающий O(n) дополнительной памяти на списки плюс их накладные расходы.',
+        en: '**Instead of bucket sort when memory matters** - flashsort uses only an auxiliary array of size m (around 0.45n), while bucket sort allocates a separate list per bucket, together costing O(n) extra memory for the lists plus their overhead.',
+      },
+      {
+        ru: '**Вместо quicksort на большом массиве заведомо равномерных числовых данных** - в среднем случае O(n) обгоняет O(n log n), но выигрыш ощутим только на действительно больших n (десятки тысяч и больше), где константы классификации окупаются.',
+        en: '**Instead of quicksort on a large array of known-uniform numeric data** - the O(n) average case beats O(n log n), but the win only shows up on genuinely large n (tens of thousands or more), where the classification constants pay for themselves.',
+      },
+      {
+        ru: '**Не выбирать при неизвестном или сильно скошенном распределении** - без гарантии равномерности риск деградации до O(n²) реален; для таких данных лучше merge sort/heap sort с гарантированным O(n log n) в худшем случае.',
+        en: '**Don\'t pick it for unknown or heavily skewed distributions** - without a uniformity guarantee, the risk of degrading to O(n²) is real; for such data, merge sort/heap sort with a guaranteed O(n log n) worst case is a better fit.',
+      },
+      {
+        ru: '**Против radix sort - когда ключи не разбиваются на разряды естественно** - Флэш-сортировка классифицирует по линейной формуле от значения целиком, тогда как radix sort требует представления числа как последовательности разрядов; для чисел с плавающей точкой Флэш-сортировка зачастую проще применить напрямую.',
+        en: '**Against radix sort - when keys don\'t naturally decompose into digits** - flashsort classifies using one linear formula over the whole value, while radix sort needs the number represented as a digit sequence; for floating-point numbers, flashsort is often simpler to apply directly.',
+      },
+    ],
+    realWorld: [
+      {
+        ru: '**Статья Карла-Дитриха Нойберта «Flashsort: A Distribution Sorting Algorithm» (Dr. Dobb\'s Journal, февраль 1998)** - оригинальная публикация, представившая алгоритм и его сравнение по скорости с quicksort на равномерных данных.',
+        en: '**Karl-Dietrich Neubert\'s "Flashsort: A Distribution Sorting Algorithm" (Dr. Dobb\'s Journal, February 1998)** - the original publication introducing the algorithm and its speed comparison against quicksort on uniform data.',
+      },
+      {
+        ru: '**Обработка больших выборок числовых измерений в научных вычислениях** - там, где заранее известно, что данные (например, показания датчиков в известном рабочем диапазоне) распределены плюс-минус равномерно.',
+        en: '**Processing large samples of numeric measurements in scientific computing** - where it\'s known in advance that the data (e.g. sensor readings within a known operating range) is roughly uniformly distributed.',
+      },
+      {
+        ru: '**Библиотеки и бенчмарки сортировок на C/C++**, сравнивающие распределяющие сортировки (flashsort, bucket sort, radix sort) между собой на синтетических равномерных наборах данных, часто включают Флэш-сортировку как эталон «сортировки почти без сравнений».',
+        en: '**C/C++ sorting libraries and benchmarks** comparing distribution sorts (flashsort, bucket sort, radix sort) against each other on synthetic uniform datasets often include flashsort as the benchmark for "almost comparison-free sorting."',
+      },
+      {
+        ru: '**Учебные курсы по продвинутым алгоритмам сортировки** используют Флэш-сортировку как пример двухфазного алгоритма - грубая классификация плюс точная доводка, - демонстрируя общий паттерн, который также лежит в основе intro sort и других гибридных схем.',
+        en: '**Advanced sorting-algorithms courses** use flashsort as an example of a two-phase algorithm - coarse classification plus precise cleanup - demonstrating a general pattern that also underlies intro sort and other hybrid schemes.',
+      },
+    ],
+  },
+
   relatedAlgorithms: ['bucket-sort', 'counting-sort', 'insertion-sort'],
 
   quiz: [
@@ -224,8 +544,8 @@ export const flashSort = {
         en: 'Like in counting sort, it first computes how many elements fall into each class and where its boundaries should be.',
       },
       hint: {
-        ru: 'Алгоритм должен знать, куда помещать каждый элемент в основном проходе. Какую информацию нужно собрать заранее?',
-        en: 'The algorithm needs to know where to place each element in the main pass. What information must be gathered first?',
+        ru: 'Смотрите шаг «Вычислить число классов и границы» на вкладке «Визуализация» и второй абзац раздела «Глубже» с расчётом класса для значения 35.',
+        en: 'See the "Compute the class count and boundaries" step on the "Visualization" tab and the second "Deep dive" paragraph computing the class for value 35.',
       },
     },
     {
@@ -245,8 +565,8 @@ export const flashSort = {
         en: "An element is placed at its class's boundary, displacing another element, which is then placed at its own class's boundary - forming a chain.",
       },
       hint: {
-        ru: 'Что происходит с элементом, который уже занимал целевую позицию нового элемента? Куда он отправляется?',
-        en: 'What happens to the element already occupying the target position of the new element? Where does it go?',
+        ru: 'Смотрите шаг walkthrough «Цепочка циклических перестановок» (строки 27-34) на вкладке «Реализация» и слово `flash` в её объяснении.',
+        en: 'See the "The cyclic-permutation chain" walkthrough step (lines 27-34) on the "Implementation" tab and the word `flash` in its explanation.',
       },
     },
     {
@@ -269,8 +589,8 @@ export const flashSort = {
         en: "After classification, elements are close to their final positions but not exactly there - insertion sort efficiently finishes the ordering.",
       },
       hint: {
-        ru: 'Классификация раскладывает элементы по «правильным регионам», но не внутри них. Что остаётся сделать?',
-        en: 'Classification places elements in the right regions but not in order within those regions. What remains to be done?',
+        ru: 'Смотрите четвёртый абзац раздела «Глубже» - там показано, что после классификации порядок `42, 55, 35` внутри класса 1 ещё неверен.',
+        en: 'See the fourth "Deep dive" paragraph - it shows that after classification the `42, 55, 35` order within class 1 is still wrong.',
       },
     },
     {
@@ -290,8 +610,8 @@ export const flashSort = {
         en: 'With a heavily skewed distribution, almost all elements can fall into a single class, and the algorithm effectively degenerates to insertion sort over the whole array.',
       },
       hint: {
-        ru: 'Если все элементы попадают в один класс, каким алгоритмом фактически выполняется финальная сортировка?',
-        en: 'If all elements fall into one class, which algorithm effectively handles the final sort?',
+        ru: 'Смотрите бейдж «Худший» вверху страницы и пятый абзац раздела «Глубже» про перекошенное распределение (9 из 10 в один класс).',
+        en: 'See the "Worst" badge at the top of the page and the fifth "Deep dive" paragraph about a skewed distribution (9 of 10 in one class).',
       },
     },
     {
@@ -314,8 +634,8 @@ export const flashSort = {
         en: "Computing an element's class uses a linear formula with subtraction and multiplication by a coefficient, which requires numeric values.",
       },
       hint: {
-        ru: 'Посмотрите на формулу вычисления класса: `floor(c1 * (value - min))`. Что нужно уметь делать со значением?',
-        en: 'Look at the class formula: `floor(c1 * (value - min))`. What arithmetic must be possible on the value?',
+        ru: 'Смотрите строку 9 (`const c1 = (m - 1) / (max - min)`) функции `flashSort` на вкладке «Реализация» и второй пункт минусов на вкладке «Плюсы и минусы».',
+        en: 'See line 9 (`const c1 = (m - 1) / (max - min)`) of `flashSort` on the "Implementation" tab and the second "Cons" item on the "Pros & Cons" tab.',
       },
     },
     {
@@ -335,8 +655,8 @@ export const flashSort = {
         en: 'Flashsort uses only a small array L of size m to store class boundaries, while bucket sort creates dynamic lists that together occupy O(n) extra memory.',
       },
       hint: {
-        ru: 'Подумайте, где хранятся элементы во время сортировки в каждом из алгоритмов: в исходном массиве или в отдельных структурах?',
-        en: 'Think about where elements live during sorting in each algorithm: inside the original array or in separate structures?',
+        ru: 'Смотрите второй пункт плюсов на вкладке «Плюсы и минусы» и первый пункт расширенного «Когда применять» на вкладке «Суть».',
+        en: 'See the second "Pros" item on the "Pros & Cons" tab and the first extended "When to use" item on the "Intent" tab.',
       },
     },
     {
@@ -356,8 +676,8 @@ export const flashSort = {
         en: 'With uniform distribution, each class holds about n/m elements. The final insertion sort within each class takes O((n/m)²), summing to O(n) when m ~ n.',
       },
       hint: {
-        ru: 'Насколько быстро работает сортировка вставками, если в каждой корзине лишь несколько элементов? Как это зависит от распределения данных?',
-        en: 'How fast is insertion sort when each bucket has only a few elements? How does that depend on the data distribution?',
+        ru: 'Смотрите первый пункт плюсов на вкладке «Плюсы и минусы» и пятый абзац раздела «Глубже» - там же объяснено, почему финальный проход остаётся близким к O(n).',
+        en: 'See the first "Pros" item on the "Pros & Cons" tab and the fifth "Deep dive" paragraph, which explains why the final pass stays close to O(n).',
       },
     },
     {
@@ -377,8 +697,8 @@ export const flashSort = {
         en: 'The formula `floor(c1 * (value - min))` assumes numeric subtraction and multiplication - operations not defined for strings without explicit conversion to numbers.',
       },
       hint: {
-        ru: 'Что именно делает формула классификации с каждым значением? Применимо ли это к строкам?',
-        en: 'What exactly does the classification formula do to each value? Is that applicable to strings?',
+        ru: 'Смотрите строки 13 (JS) / 14 (Python) шага walkthrough «Подсчёт элементов по классам» на вкладке «Реализация» и второй пункт минусов на вкладке «Плюсы и минусы».',
+        en: 'See lines 13 (JS) / 14 (Python) of the "Counting elements per class" walkthrough step on the "Implementation" tab and the second "Cons" item on the "Pros & Cons" tab.',
       },
     },
     {
@@ -398,8 +718,8 @@ export const flashSort = {
         en: 'The value m ≈ 0.45·n was found empirically: it gives classes small enough for fast insertion sort without requiring an excessively large auxiliary array L.',
       },
       hint: {
-        ru: 'Больше классов - меньше элементов в каждом, но больший массив L. Меньше классов - наоборот. Какое соотношение оказалось оптимальным?',
-        en: 'More classes means fewer elements per class but a larger L array. Fewer classes means the opposite. What ratio turned out optimal?',
+        ru: 'Смотрите строку 5 (`Math.max(2, Math.floor(0.45 * n))`) функции `flashSort` на вкладке «Реализация» и первый абзац раздела «Глубже», где для n = 10 получается m = 4.',
+        en: 'See line 5 (`Math.max(2, Math.floor(0.45 * n))`) of `flashSort` on the "Implementation" tab and the first "Deep dive" paragraph, where n = 10 gives m = 4.',
       },
     },
     {
@@ -419,8 +739,8 @@ export const flashSort = {
         en: 'If min === max, all elements are equal and the array is already "sorted" - a special check before computing c1 avoids division by zero and unnecessary work.',
       },
       hint: {
-        ru: 'Посмотрите на формулу c1 = (m-1) / (max - min). Что происходит, если знаменатель равен нулю?',
-        en: 'Look at the formula c1 = (m-1) / (max - min). What happens when the denominator is zero?',
+        ru: 'Смотрите шаг walkthrough «Диапазон значений и вырожденный случай» (строка 8, `if (min === max) return a`) на вкладке «Реализация».',
+        en: 'See the "The value range and the degenerate case" walkthrough step (line 8, `if (min === max) return a`) on the "Implementation" tab.',
       },
     },
   ],
