@@ -122,6 +122,173 @@ def sift_down(a, size, i):
         sift_down(a, size, largest)`,
   },
 
+  walkthrough: {
+    javascript: [
+      {
+        lines: [1],
+        title: { ru: 'Сигнатура', en: 'Signature' },
+        explanation: {
+          ru: 'Функция `heapSort` принимает массив `arr` и координирует две фазы: построение кучи и извлечение максимумов. Вспомогательная функция `siftDown` объявлена отдельно ниже.',
+          en: 'The `heapSort` function takes an array `arr` and coordinates two phases: building the heap and extracting the maximums. The helper `siftDown` is declared separately below.',
+        },
+      },
+      {
+        lines: [2],
+        title: { ru: 'Копия массива', en: 'Copying the array' },
+        explanation: {
+          ru: '`const a = [...arr]` создаёт копию входного массива - вся куча строится и сортируется прямо в этой копии, без выделения отдельной структуры данных.',
+          en: '`const a = [...arr]` copies the input array - the whole heap is built and sorted directly inside this copy, with no separate data structure allocated.',
+        },
+      },
+      {
+        lines: [3],
+        title: { ru: 'Длина массива', en: 'Array length' },
+        explanation: {
+          ru: '`const n = a.length` сохраняется один раз и используется как размер кучи на этапе построения - на этапе извлечения размер будет уменьшаться отдельной переменной `end`.',
+          en: '`const n = a.length` is cached once and used as the heap size during construction - during extraction the size shrinks via the separate `end` variable instead.',
+        },
+      },
+      {
+        lines: [5, 7],
+        title: { ru: 'Построение max-heap', en: 'Building the max-heap' },
+        explanation: {
+          ru: 'Цикл идёт от последнего родительского узла (`Math.floor(n / 2) - 1`) назад к корню (индекс 0), вызывая `siftDown` для каждого. Обход именно в этом направлении гарантирует, что к моменту просеивания узла `i` его поддеревья уже являются корректными кучами.',
+          en: 'The loop walks from the last parent node (`Math.floor(n / 2) - 1`) back to the root (index 0), calling `siftDown` for each. Going in this direction guarantees that by the time node `i` is sifted, its subtrees are already valid heaps.',
+        },
+      },
+      {
+        lines: [9, 11],
+        title: { ru: 'Извлечение максимума', en: 'Extracting the maximum' },
+        explanation: {
+          ru: 'Цикл идёт от последнего индекса `n - 1` до 1. На каждом шаге корень `a[0]` (текущий максимум) меняется местами с `a[end]`, после чего `siftDown(a, end, 0)` восстанавливает свойство кучи для оставшихся `end` элементов - сам `end` в следующей итерации границу кучи и уменьшится.',
+          en: 'The loop runs from the last index `n - 1` down to 1. On each step, root `a[0]` (the current maximum) is swapped with `a[end]`, then `siftDown(a, end, 0)` restores the heap property for the remaining `end` elements - `end` itself is the heap boundary and shrinks on the next iteration.',
+        },
+      },
+      {
+        lines: [14],
+        title: { ru: 'Возврат результата', en: 'Returning the result' },
+        explanation: {
+          ru: 'После n-1 извлечений массив `a` полностью отсортирован по возрастанию и возвращается.',
+          en: 'After n-1 extractions, array `a` is fully sorted in ascending order and gets returned.',
+        },
+      },
+      {
+        lines: [17],
+        title: { ru: 'Сигнатура siftDown', en: 'The siftDown signature' },
+        explanation: {
+          ru: '`siftDown(a, size, i)` принимает массив, текущую границу кучи `size` (сколько элементов ещё считаются частью кучи) и индекс узла, который нужно просеять вниз.',
+          en: '`siftDown(a, size, i)` takes the array, the current heap boundary `size` (how many elements still count as part of the heap), and the index of the node to sift down.',
+        },
+      },
+      {
+        lines: [18, 20],
+        title: { ru: 'Индексы детей', en: 'Child indices' },
+        explanation: {
+          ru: '`largest` изначально указывает на сам узел `i`. `left = 2 * i + 1` и `right = 2 * i + 2` - индексы его детей в кучe, хранящейся в массиве.',
+          en: '`largest` starts out pointing at the node `i` itself. `left = 2 * i + 1` and `right = 2 * i + 2` are its children\'s indices in the array-backed heap.',
+        },
+      },
+      {
+        lines: [22, 23],
+        title: { ru: 'Поиск наибольшего среди троих', en: 'Finding the largest of the three' },
+        explanation: {
+          ru: 'Каждая проверка `left < size` / `right < size` защищает от выхода за пределы текущей границы кучи (важно, ведь `size` уменьшается на этапе извлечения). Если ребёнок больше текущего `largest`, `largest` обновляется на его индекс.',
+          en: 'Each `left < size` / `right < size` check guards against going past the current heap boundary (important since `size` shrinks during extraction). If a child is larger than the current `largest`, `largest` is updated to that child\'s index.',
+        },
+      },
+      {
+        lines: [25, 27],
+        title: { ru: 'Обмен и рекурсивное просеивание', en: 'Swapping and recursing' },
+        explanation: {
+          ru: 'Если `largest !== i`, свойство кучи нарушено: узел `i` меняется местами с большим ребёнком, а `siftDown` вызывается рекурсивно уже для новой позиции `largest`, куда переехал исходный узел - просеивание продолжается, пока узел не займёт правильное место или не станет листом.',
+          en: 'If `largest !== i`, the heap property is violated: node `i` is swapped with the larger child, and `siftDown` recurses on the new position `largest`, where the original node ended up - sifting continues until the node lands in the right spot or becomes a leaf.',
+        },
+      },
+    ],
+    python: [
+      {
+        lines: [1],
+        title: { ru: 'Сигнатура', en: 'Signature' },
+        explanation: {
+          ru: '`heap_sort` принимает список `arr` и координирует построение кучи и извлечение максимумов, как и JS-версия.',
+          en: '`heap_sort` takes a list `arr` and coordinates heap construction and maximum extraction, same as the JS version.',
+        },
+      },
+      {
+        lines: [2],
+        title: { ru: 'Копия списка', en: 'Copying the list' },
+        explanation: {
+          ru: '`a = arr.copy()` создаёт копию входного списка, чтобы не изменять аргумент вызывающего кода.',
+          en: '`a = arr.copy()` copies the input list so the caller\'s argument stays untouched.',
+        },
+      },
+      {
+        lines: [3],
+        title: { ru: 'Длина списка', en: 'List length' },
+        explanation: {
+          ru: '`n = len(a)` сохраняется один раз, идентично JS-версии.',
+          en: '`n = len(a)` is cached once, identical to the JS version.',
+        },
+      },
+      {
+        lines: [5, 6],
+        title: { ru: 'Построение max-heap', en: 'Building the max-heap' },
+        explanation: {
+          ru: '`range(n // 2 - 1, -1, -1)` идёт от последнего родительского узла назад к корню, вызывая `sift_down` для каждого - тот же порядок обхода, что и в JS-версии.',
+          en: '`range(n // 2 - 1, -1, -1)` walks from the last parent node back to the root, calling `sift_down` for each - the same traversal order as the JS version.',
+        },
+      },
+      {
+        lines: [8, 10],
+        title: { ru: 'Извлечение максимума', en: 'Extracting the maximum' },
+        explanation: {
+          ru: '`for end in range(n - 1, 0, -1)` идёт от последнего индекса до 1. Корень `a[0]` меняется местами с `a[end]` кортежным присваиванием, затем `sift_down(a, end, 0)` восстанавливает свойство кучи для оставшихся `end` элементов.',
+          en: '`for end in range(n - 1, 0, -1)` runs from the last index down to 1. Root `a[0]` is swapped with `a[end]` via tuple assignment, then `sift_down(a, end, 0)` restores the heap property for the remaining `end` elements.',
+        },
+      },
+      {
+        lines: [12],
+        title: { ru: 'Возврат результата', en: 'Returning the result' },
+        explanation: {
+          ru: 'После n-1 извлечений `a` полностью отсортирован по возрастанию.',
+          en: 'After n-1 extractions, `a` is fully sorted in ascending order.',
+        },
+      },
+      {
+        lines: [15],
+        title: { ru: 'Сигнатура sift_down', en: 'The sift_down signature' },
+        explanation: {
+          ru: '`sift_down(a, size, i)` принимает массив, текущую границу кучи и индекс узла для просеивания - параметры соответствуют JS-версии.',
+          en: '`sift_down(a, size, i)` takes the array, the current heap boundary, and the node index to sift - the parameters match the JS version.',
+        },
+      },
+      {
+        lines: [16, 18],
+        title: { ru: 'Индексы детей', en: 'Child indices' },
+        explanation: {
+          ru: '`largest` изначально равен `i`. `left = 2 * i + 1` и `right = 2 * i + 2` вычисляют индексы детей по той же формуле, что и в JS-версии.',
+          en: '`largest` starts equal to `i`. `left = 2 * i + 1` and `right = 2 * i + 2` compute the child indices using the same formula as the JS version.',
+        },
+      },
+      {
+        lines: [20, 23],
+        title: { ru: 'Поиск наибольшего среди троих', en: 'Finding the largest of the three' },
+        explanation: {
+          ru: 'Проверки `left < size` и `right < size` защищают от выхода за границу кучи, а сравнения `a[left] > a[largest]` / `a[right] > a[largest]` обновляют `largest`, если ребёнок больше текущего значения.',
+          en: 'The `left < size` and `right < size` checks guard against going past the heap boundary, while the `a[left] > a[largest]` / `a[right] > a[largest]` comparisons update `largest` whenever a child is bigger than the current value.',
+        },
+      },
+      {
+        lines: [25, 27],
+        title: { ru: 'Обмен и рекурсивное просеивание', en: 'Swapping and recursing' },
+        explanation: {
+          ru: 'Если `largest != i`, узел меняется местами с большим ребёнком кортежным присваиванием, и `sift_down` вызывается рекурсивно для новой позиции `largest` - просеивание продолжается вниз по дереву.',
+          en: 'If `largest != i`, the node is swapped with the larger child via tuple assignment, and `sift_down` recurses on the new position `largest` - sifting continues down the tree.',
+        },
+      },
+    ],
+  },
+
   pros: [
     {
       ru: 'Гарантированный O(n log n) в худшем случае - в отличие от быстрой сортировки, нет патологического входа, на котором алгоритм деградирует до O(n²).',
@@ -173,6 +340,75 @@ def sift_down(a, size, i):
     },
   ],
 
+  details: {
+    deepDive: [
+      {
+        ru: 'Проследим построение кучи на конкретном массиве `[4, 10, 3, 5, 1]` (n = 5). Родительские узлы - индексы 1 и 0. Просеивание индекса 1 (значение 10, дети 5 и 1) ничего не меняет - 10 уже больше обоих детей. Просеивание индекса 0 (значение 4, дети 10 и 3) находит, что левый ребёнок 10 больше - **происходит обмен**, массив становится `[10, 4, 3, 5, 1]`, а узел 4 просеивается дальше вниз на позицию 1, обмениваясь с 5: итоговая куча - `[10, 5, 3, 4, 1]`, построена всего за 2 обмена.',
+        en: 'Let\'s trace heap construction on a concrete array `[4, 10, 3, 5, 1]` (n = 5). The parent nodes are indices 1 and 0. Sifting index 1 (value 10, children 5 and 1) changes nothing - 10 already beats both children. Sifting index 0 (value 4, children 10 and 3) finds the left child 10 is bigger - **a swap happens**, the array becomes `[10, 4, 3, 5, 1]`, and node 4 sifts further down to position 1, swapping with 5: the final heap is `[10, 5, 3, 4, 1]`, built in just 2 swaps.',
+      },
+      {
+        ru: 'Наивная оценка фазы построения кучи - «n/2 узлов, каждый просеивается за O(log n)» - даёт O(n log n), но это завышенная граница. Для n = 16 наивная оценка предсказывает `16/2 * log₂16 = 32` сравнения, а фактический подсчёт даёт всего **24 сравнения**. При n = 128 разрыв ещё заметнее: наивная граница - 448, фактическое число - **227**, почти вдвое меньше.',
+        en: 'The naive estimate for the heap-construction phase - "n/2 nodes, each sifted in O(log n)" - gives O(n log n), but that\'s a loose upper bound. For n = 16, the naive estimate predicts `16/2 * log₂16 = 32` comparisons, while the actual count is only **24 comparisons**. At n = 128 the gap is even wider: the naive bound is 448, the actual count is **227**, nearly half.',
+      },
+      {
+        ru: 'Причина разрыва - распределение узлов по уровням дерева. Половина всех узлов - листья (просеивание стоит 0), четверть - на предпоследнем уровне (просеивание стоит O(1)), и так далее: чем глубже просеивание, тем меньше узлов его выполняют. Сумма `n * Σ(k / 2^k)` по всем уровням k сходится к константе, а не растёт с log n, что и даёт точную асимптотику O(n) для всей фазы построения.',
+        en: 'The gap comes from how nodes are distributed across tree levels. Half of all nodes are leaves (sifting costs 0), a quarter sit one level up (sifting costs O(1)), and so on: the deeper the sift, the fewer nodes perform it. The sum `n * Σ(k / 2^k)` across all levels k converges to a constant rather than growing with log n, which is exactly what gives the tight O(n) bound for the whole construction phase.',
+      },
+      {
+        ru: 'Фаза извлечения ведёт себя иначе: там просеивание почти всегда идёт от корня, то есть почти всегда стоит полные O(log n) шагов, и повторяется n раз - отсюда её честные O(n log n). На полном прогоне сортировки массива `[10, 9, ..., 1]` (n = 10) фаза построения делает всего **9 сравнений и 0 обменов** (массив уже частично похож на кучу по структуре), а вся сортировка целиком - **35 сравнений и 12 обменов**.',
+        en: 'The extraction phase behaves differently: sifting there almost always starts from the root, meaning it almost always costs the full O(log n) steps, repeated n times - hence its honest O(n log n). On a full sort of `[10, 9, ..., 1]` (n = 10), the construction phase makes only **9 comparisons and 0 swaps** (the array already loosely resembles a heap structurally), while the entire sort totals **35 comparisons and 12 swaps**.',
+      },
+      {
+        ru: 'Концепцию хранения бинарного дерева в массиве и первый алгоритм извлечения из него по одному элементу описал **Дж. У. Дж. Уильямс (J. W. J. Williams)** в статье 1964 года, представив структуру данных «куча» (heap) и назвав сам метод сортировки heapsort. В том же году **Роберт Флойд (Robert W. Floyd)** предложил более быстрый способ построения кучи снизу вверх - именно тот алгоритм из O(n) сравнений, что реализован здесь, вместо построения кучи последовательными вставками за O(n log n).',
+        en: 'The concept of storing a binary tree inside an array, along with the first algorithm for extracting elements from it one at a time, was described by **J. W. J. Williams** in a 1964 paper that introduced the heap data structure and named the sorting method heapsort. That same year, **Robert W. Floyd** proposed the faster bottom-up heap-construction method - the exact O(n)-comparison algorithm implemented here, instead of building the heap via sequential O(n log n) insertions.',
+      },
+      {
+        ru: 'На случайном массиве из 16 элементов полная сортировка совершает **80 сравнений и 37 обменов** - примерно 5 сравнений на элемент, что отражает `2 log₂16 = 8` как верхнюю границу глубины дерева, умноженную на количество извлечений. Эти числа растут вместе с n предсказуемо и без всплесков - в этом и состоит гарантия worst-case O(n log n), не зависящая от исходного порядка входных данных.',
+        en: 'On a random 16-element array, the full sort performs **80 comparisons and 37 swaps** - roughly 5 comparisons per element, reflecting `2 log₂16 = 8` as the upper bound on tree depth, multiplied by the number of extractions. These numbers scale with n predictably and without spikes - that\'s exactly what the worst-case O(n log n) guarantee means, regardless of the input\'s initial order.',
+      },
+      {
+        ru: 'Итог: пирамидальная сортировка не выигрывает у quicksort по числу сравнений на типичных данных, но платит за свою гарантию именно тем, что её работа не зависит от структуры входа - build-heap стоит O(n) благодаря геометрической концентрации узлов у листьев, а extraction честно стоит O(n log n), и обе фазы вместе дают одну и ту же асимптотику при любом порядке элементов.',
+        en: 'The takeaway: heap sort doesn\'t beat quicksort on comparison count for typical data, but its guarantee comes precisely from being independent of input structure - build-heap costs O(n) thanks to the geometric concentration of nodes near the leaves, and extraction honestly costs O(n log n), with both phases together giving the same asymptotics regardless of element order.',
+      },
+    ],
+    whenToUse: [
+      {
+        ru: '**Библиотечные и системные сортировки, требующие гарантий** - когда нельзя допустить деградацию до O(n²) на враждебных или структурированных входных данных, а лишняя память для merge sort недоступна.',
+        en: '**Library and system sorts that need guarantees** - when degrading to O(n²) on adversarial or structured input is unacceptable, and merge sort\'s extra memory isn\'t available.',
+      },
+      {
+        ru: '**Против quicksort** - если средняя скорость важнее гарантии худшего случая и данные не враждебны, обычный quicksort с хорошим выбором опорного элемента почти всегда быстрее на практике за счёт локальности памяти.',
+        en: '**Against quicksort** - if average speed matters more than a worst-case guarantee and the data isn\'t adversarial, plain quicksort with a good pivot choice is almost always faster in practice thanks to memory locality.',
+      },
+      {
+        ru: '**Против merge sort** - если O(1) дополнительной памяти критичен (встраиваемые системы, работа с очень большими массивами на месте), а неустойчивость сортировки не имеет значения для задачи.',
+        en: '**Against merge sort** - when O(1) extra memory is critical (embedded systems, very large arrays that must be sorted in place) and sort instability doesn\'t matter for the task.',
+      },
+      {
+        ru: '**Для top-k выборки без полной сортировки** - построить кучу за O(n) и извлечь только k наибольших элементов за O(k log n), не досортировывая оставшуюся часть массива до конца.',
+        en: '**For top-k selection without a full sort** - build the heap in O(n) and extract just the k largest elements in O(k log n), without finishing the sort on the rest of the array.',
+      },
+    ],
+    realWorld: [
+      {
+        ru: '**J. W. J. Williams, «Algorithm 232 - Heapsort» (Communications of the ACM, 1964)** - оригинальная публикация, представившая структуру «куча» и метод сортировки на её основе.',
+        en: '**J. W. J. Williams, "Algorithm 232 - Heapsort" (Communications of the ACM, 1964)** - the original publication introducing the heap structure and the sorting method built on it.',
+      },
+      {
+        ru: '**Robert W. Floyd, «Algorithm 245 - Treesort 3» (Communications of the ACM, 1964)** - статья того же года, предложившая быстрое построение кучи снизу вверх за O(n) сравнений вместо O(n log n).',
+        en: '**Robert W. Floyd, "Algorithm 245 - Treesort 3" (Communications of the ACM, 1964)** - a paper from the same year proposing the fast bottom-up O(n)-comparison heap construction instead of O(n log n).',
+      },
+      {
+        ru: '**Планировщики задач операционных систем** используют структуру «куча» напрямую как очередь с приоритетом для выбора следующего процесса к исполнению - тот же механизм извлечения, что и в heapsort, но без финальной сортировки.',
+        en: '**Operating system task schedulers** use the heap structure directly as a priority queue for picking the next process to run - the same extraction mechanism as heapsort, just without the final sort.',
+      },
+      {
+        ru: '**Реализации std::priority_queue в C++ и heapq в Python** используют тот же алгоритм sift-down/sift-up для поддержания кучи в структурах данных, встроенных в стандартные библиотеки этих языков.',
+        en: '**The std::priority_queue implementation in C++ and heapq in Python** use the same sift-down/sift-up algorithm to maintain a heap inside the data structures built into these languages\' standard libraries.',
+      },
+    ],
+  },
+
   relatedAlgorithms: ['quick-sort', 'merge-sort'],
 
   quiz: [
@@ -193,8 +429,8 @@ def sift_down(a, size, i):
         en: 'The children of element `i` sit at indices `2i+1` and `2i+2`, so inverting that to find the parent gives `(i-1)/2` with integer division.',
       },
       hint: {
-        ru: 'Попробуй обратить формулы для детей `2i+1` и `2i+2` - какое действие возвращает обратно к `i`?',
-        en: 'Try inverting the children formulas `2i+1` and `2i+2` - what operation gets you back to `i`?',
+        ru: 'Смотрите строки 18-20 функции `siftDown` на вкладке «Реализация» (индексы left и right) и их построчный разбор в шаге «Индексы детей».',
+        en: 'See lines 18-20 of `siftDown` on the "Implementation" tab (the left/right indices) and their walkthrough in the "Child indices" step.',
       },
     },
     {
@@ -226,8 +462,8 @@ def sift_down(a, size, i):
         en: 'This pair of operations - swapping with the end of the heap and sifting the new root down - is exactly what turns a max-heap into a sorted array over n steps.',
       },
       hint: {
-        ru: 'Подумай, какая пара операций постепенно превращает max-heap в отсортированный по возрастанию массив, шаг за шагом.',
-        en: 'Think about which pair of operations gradually turns a max-heap into an ascending sorted array, one step at a time.',
+        ru: 'Смотрите шаги «Извлечь максимум» и «Просеять новый корень» на вкладке «Визуализация» и строки 9-11 функции `heapSort` на вкладке «Реализация».',
+        en: 'See the "Extract the maximum" and "Sift the new root down" steps on the "Visualization" tab and lines 9-11 of `heapSort` on the "Implementation" tab.',
       },
     },
     {
@@ -259,8 +495,8 @@ def sift_down(a, size, i):
         en: 'Unlike quicksort\'s partitioning, a heap is a complete binary tree that is balanced by construction, so sift-down always costs O(log n) regardless of the input order.',
       },
       hint: {
-        ru: 'Подумай о структурном свойстве полного бинарного дерева, которое никогда не меняется независимо от входных данных.',
-        en: 'Think about the structural property of a complete binary tree that never changes regardless of the input data.',
+        ru: 'Смотрите бейдж «Худший» вверху страницы и первый пункт плюсов на вкладке «Плюсы и минусы».',
+        en: 'See the "Worst" complexity badge at the top of the page and the first "Pros" item on the "Pros & Cons" tab.',
       },
     },
     {
@@ -280,8 +516,8 @@ def sift_down(a, size, i):
         en: 'A heap is just a way of interpreting the existing array as a tree via index arithmetic - no separate data structure is allocated.',
       },
       hint: {
-        ru: 'Подумай, создаётся ли куча как отдельная структура данных или это просто другой взгляд на тот же массив.',
-        en: 'Think about whether the heap is a separate data structure, or just another way of looking at the same array.',
+        ru: 'Смотрите бейдж «Память» вверху страницы и вторую строку функции `heapSort` на вкладке «Реализация» (единственная копия массива).',
+        en: 'See the "Space" complexity badge at the top of the page and the second line of `heapSort` on the "Implementation" tab (the single array copy).',
       },
     },
     {
@@ -313,8 +549,8 @@ def sift_down(a, size, i):
         en: 'Introsort treats recursion depth as a warning sign: if it exceeds the expected `O(log n)` threshold, partitions are unbalanced, and the algorithm falls back to guaranteed-safe heapsort.',
       },
       hint: {
-        ru: 'Подумай, о чём сигнализирует слишком глубокая рекурсия относительно качества разбиений quicksort.',
-        en: 'Think about what unusually deep recursion signals about the quality of quicksort\'s partitions.',
+        ru: 'Смотрите первый пункт realWorldExamples («Introsort») на вкладке «Суть» - это тот же алгоритм, чей файл указан в «Похожих алгоритмах» внизу страницы.',
+        en: 'See the first "Real-world examples" item ("Introsort") on the "Intent" tab - it\'s listed in "Related algorithms" at the bottom of the page too.',
       },
     },
     {
@@ -346,8 +582,8 @@ def sift_down(a, size, i):
         en: 'A naive bound of n/2 * O(log n) gives O(n log n), but a tighter analysis accounts for exponentially more nodes near the bottom, where sift-down is short - the per-level contribution forms a converging geometric series that sums to O(n).',
       },
       hint: {
-        ru: 'Подумай, сколько узлов лежит близко к низу дерева (где просеивание дешёвое) по сравнению с корнем (где оно дорогое).',
-        en: 'Think about how many nodes sit near the bottom of the tree (where sift-down is cheap) compared to the root (where it is expensive).',
+        ru: 'Смотрите второй и третий абзацы раздела «Углублённо» на вкладке «Суть» (сравнение наивной оценки O(n log n) с фактическими 24 и 227 сравнениями).',
+        en: 'See the second and third paragraphs of the "Deep dive" section on the "Intent" tab (the naive O(n log n) estimate versus the actual 24 and 227 comparisons).',
       },
     },
     {
@@ -379,8 +615,8 @@ def sift_down(a, size, i):
         en: 'Sift-down repeatedly jumps between parent and child indices that can be far apart in memory, causing more cache misses than quicksort\'s largely local partitioning scans - a real constant-factor disadvantage despite the asymptotic edge.',
       },
       hint: {
-        ru: 'Подумай, насколько далеко друг от друга в памяти обычно находятся родитель и его дети в куче на основе массива, и как это влияет на кэш процессора.',
-        en: 'Think about how far apart in memory a parent and its children usually sit in an array-backed heap, and what that means for CPU cache access.',
+        ru: 'Смотрите первый пункт минусов на вкладке «Плюсы и минусы» (плохая локальность обращений к кэшу).',
+        en: 'See the first "Cons" item on the "Pros & Cons" tab (poor cache locality).',
       },
     },
     {
@@ -412,8 +648,8 @@ def sift_down(a, size, i):
         en: 'Whenever sift-down or the extraction swap moves an element past an equal-valued sibling or root, nothing in the algorithm tracks or preserves their original relative order - unlike merge sort\'s explicit `<=` tie-break.',
       },
       hint: {
-        ru: 'Подумай, отслеживает ли что-нибудь в просеивании или извлечении, какой из двух равных элементов был раньше в исходном массиве.',
-        en: 'Think about whether anything in sift-down or extraction specifically tracks which of two equal elements came first in the original array.',
+        ru: 'Смотрите тег `unstable` рядом с названием алгоритма вверху страницы и второй пункт минусов на вкладке «Плюсы и минусы».',
+        en: 'See the `unstable` tag next to the algorithm name at the top of the page and the second "Cons" item on the "Pros & Cons" tab.',
       },
     },
     {
@@ -445,8 +681,8 @@ def sift_down(a, size, i):
         en: 'Heap sort\'s inner mechanism - extract the root, sift it down - is exactly the priority-queue operation Dijkstra\'s algorithm calls repeatedly to always process the next-closest unvisited node in O(log n) instead of O(n) with a linear scan.',
       },
       hint: {
-        ru: 'Подумай, чем в более общих терминах структур данных является шаг heapsort «извлечь максимум, затем просеять вниз».',
-        en: 'Think about what heap sort\'s "extract the maximum, then sift down" step actually is, in more general data-structure terms.',
+        ru: 'Смотрите второй пункт whenToUse на вкладке «Суть» (очередь с приоритетом, алгоритм Дейкстры) и четвёртый пункт realWorld раздела «Углублённо».',
+        en: 'See the second "When to use" item on the "Intent" tab (priority queues, Dijkstra\'s algorithm) and the fourth "Real world" item in the "Deep dive" section.',
       },
     },
     {
@@ -478,8 +714,8 @@ def sift_down(a, size, i):
         en: 'Since the extracted root is placed at the current end of the array each pass, using a min-heap instead of a max-heap sends the smallest elements toward the end and the largest toward the front, directly producing descending order without a separate reversal pass.',
       },
       hint: {
-        ru: 'Подумай, в какой конец массива попадает каждый извлечённый корень, и какая куча отправила бы туда наименьшие элементы первыми.',
-        en: 'Think about which end of the array receives each extracted root, and what kind of heap would send the smallest elements there first.',
+        ru: 'Смотрите строки 22-23 функции `siftDown` на вкладке «Реализация» (сравнения `a[left] > a[largest]`) - что изменится, если поменять знак сравнения?',
+        en: 'See lines 22-23 of `siftDown` on the "Implementation" tab (the `a[left] > a[largest]` comparisons) - what changes if the comparison sign is flipped?',
       },
     },
   ],
