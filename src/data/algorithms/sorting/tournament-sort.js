@@ -61,7 +61,7 @@ export const tournamentSort = {
       },
     },
   ],
-  stepBreakpoints: [3, 55, 66, 77],
+  stepBreakpoints: [12, 17, 25, 38],
 
   implementation: {
     javascript: `function tournamentSort(arr) {
@@ -78,6 +78,12 @@ export const tournamentSort = {
   const winner = new Array(2 * size - 1).fill(-1);
   for (let i = 0; i < size; i++) winner[size - 1 + i] = i;
 
+  for (let node = size - 2; node >= 0; node--) {
+    const left = winner[node * 2 + 1];
+    const right = winner[node * 2 + 2];
+    winner[node] = leaves[left] <= leaves[right] ? left : right;
+  }
+
   function rebuildFrom(leafSlot) {
     let node = size - 1 + leafSlot;
     while (node > 0) {
@@ -88,7 +94,6 @@ export const tournamentSort = {
       node = parent;
     }
   }
-  for (let i = 0; i < size; i++) rebuildFrom(i);
 
   for (let outPos = 0; outPos < n; outPos++) {
     const champion = winner[0];
@@ -116,6 +121,11 @@ export const tournamentSort = {
     for i in range(size):
         winner[size - 1 + i] = i
 
+    for node in range(size - 2, -1, -1):
+        left = winner[node * 2 + 1]
+        right = winner[node * 2 + 2]
+        winner[node] = left if leaves[left] <= leaves[right] else right
+
     def rebuild_from(leaf_slot):
         node = size - 1 + leaf_slot
         while node > 0:
@@ -125,9 +135,6 @@ export const tournamentSort = {
             winner[parent] = left if leaves[left] <= leaves[right] else right
             node = parent
 
-    for i in range(size):
-        rebuild_from(i)
-
     for out_pos in range(n):
         champion = winner[0]
         output[out_pos] = leaves[champion]
@@ -135,6 +142,125 @@ export const tournamentSort = {
         rebuild_from(champion)
 
     return output`,
+  },
+
+  walkthrough: {
+    javascript: [
+      {
+        lines: [1, 4],
+        title: { ru: 'Сигнатура и краевой случай', en: 'Signature and edge case' },
+        explanation: {
+          ru: 'Копируем вход в `output`; массив из 0-1 элементов уже отсортирован и возвращается сразу, без построения дерева.',
+          en: 'The input is copied into `output`; an array of 0-1 elements is already sorted and returned immediately, without building a tree.',
+        },
+      },
+      {
+        lines: [6, 7],
+        title: { ru: 'Дополнение до степени двойки', en: 'Padding to a power of two' },
+        explanation: {
+          ru: '`size` увеличивается вдвое, пока не станет ≥ n - только со степенью двойки дерево получается полным бинарным без "дыр".',
+          en: '`size` doubles until it reaches ≥ n - only with a power of two does the tree come out as a complete binary tree without gaps.',
+        },
+      },
+      {
+        lines: [8, 10],
+        title: { ru: 'Заполнение листьев', en: 'Filling the leaves' },
+        explanation: {
+          ru: 'Реальные элементы копируются в первые n листьев, остальные заполняются `+∞` - фиктивный лист никогда не побеждает в сравнении.',
+          en: 'Real elements are copied into the first n leaves; the rest are filled with `+∞` - a dummy leaf never wins a comparison.',
+        },
+      },
+      {
+        lines: [12, 13],
+        title: { ru: 'Массив победителей и листья-указатели', en: 'The winner array and leaf pointers' },
+        explanation: {
+          ru: '`winner` хранит для каждого узла индекс листа-победителя (не значение); для листовых позиций дерева победитель - это сам лист.',
+          en: '`winner` stores, for every node, the index of the winning leaf (not the value itself); for leaf positions of the tree, the winner is the leaf itself.',
+        },
+      },
+      {
+        lines: [15, 19],
+        title: { ru: 'Построение дерева за один проход', en: 'Building the tree in a single pass' },
+        explanation: {
+          ru: 'Цикл идёт от последнего внутреннего узла (`size - 2`) до корня (`0`) - у любого узла с таким индексом оба потомка уже вычислены раньше в этом же проходе, поэтому каждый узел считается ровно один раз, без повторных обходов пути. Итого O(n) вместо O(n log n) при пересчёте каждого листа отдельно.',
+          en: 'The loop runs from the last internal node (`size - 2`) down to the root (`0`) - any node with that index already has both children computed earlier in the same pass, so every node is computed exactly once, with no repeated path walks. Total O(n), instead of O(n log n) from recomputing each leaf\'s path separately.',
+        },
+      },
+      {
+        lines: [21, 30],
+        title: { ru: 'rebuildFrom - точечное обновление пути', en: 'rebuildFrom - a targeted path update' },
+        explanation: {
+          ru: 'После изменения одного листа эта функция пересчитывает только предков вдоль пути от него до корня - O(log n), в отличие от полного построения выше.',
+          en: 'After a single leaf changes, this function recomputes only the ancestors along the path to the root - O(log n), unlike the full build above.',
+        },
+      },
+      {
+        lines: [32, 37],
+        title: { ru: 'Извлечение и обновление n раз', en: 'Extracting and updating n times' },
+        explanation: {
+          ru: 'Корень (`winner[0]`) даёт текущий минимум; его лист "выключается" через `+∞`, а `rebuildFrom` восстанавливает дерево за O(log n) - n таких извлечений дают O(n log n).',
+          en: 'The root (`winner[0]`) gives the current minimum; its leaf is "switched off" via `+∞`, and `rebuildFrom` restores the tree in O(log n) - n such extractions give O(n log n).',
+        },
+      },
+    ],
+    python: [
+      {
+        lines: [1, 5],
+        title: { ru: 'Сигнатура и краевой случай', en: 'Signature and edge case' },
+        explanation: {
+          ru: 'Вход копируется в `output`; список из 0-1 элементов уже отсортирован и возвращается сразу.',
+          en: 'The input is copied into `output`; a list of 0-1 elements is already sorted and returned immediately.',
+        },
+      },
+      {
+        lines: [7, 9],
+        title: { ru: 'Дополнение до степени двойки', en: 'Padding to a power of two' },
+        explanation: {
+          ru: '`size` удваивается, пока не станет ≥ n, чтобы дерево получилось полным бинарным.',
+          en: '`size` doubles until it reaches ≥ n, so the tree comes out as a complete binary tree.',
+        },
+      },
+      {
+        lines: [10, 13],
+        title: { ru: 'Заполнение листьев', en: 'Filling the leaves' },
+        explanation: {
+          ru: 'Реальные элементы попадают в первые n листьев, остальные заполняются `float(\'inf\')` - фиктивные листья, которые не могут выиграть сравнение.',
+          en: 'Real elements go into the first n leaves; the rest are filled with `float(\'inf\')` - dummy leaves that can never win a comparison.',
+        },
+      },
+      {
+        lines: [15, 17],
+        title: { ru: 'Массив победителей и листья-указатели', en: 'The winner array and leaf pointers' },
+        explanation: {
+          ru: '`winner` хранит индекс листа-победителя для каждого узла; листовые позиции дерева изначально указывают сами на себя.',
+          en: '`winner` stores the index of the winning leaf for each node; the tree\'s leaf positions initially point to themselves.',
+        },
+      },
+      {
+        lines: [19, 22],
+        title: { ru: 'Построение дерева за один проход', en: 'Building the tree in a single pass' },
+        explanation: {
+          ru: 'Цикл идёт от `size - 2` вниз до `0`: оба потомка любого узла с таким индексом уже посчитаны раньше в этом же проходе, поэтому построение занимает ровно O(n) сравнений, а не O(n log n).',
+          en: 'The loop runs from `size - 2` down to `0`: both children of any node at that index are already computed earlier in the same pass, so building the tree takes exactly O(n) comparisons, not O(n log n).',
+        },
+      },
+      {
+        lines: [24, 31],
+        title: { ru: 'rebuild_from - точечное обновление пути', en: 'rebuild_from - a targeted path update' },
+        explanation: {
+          ru: 'После изменения одного листа функция пересчитывает только путь от него до корня - O(log n) на вызов.',
+          en: 'After one leaf changes, the function recomputes only the path to the root - O(log n) per call.',
+        },
+      },
+      {
+        lines: [33, 38],
+        title: { ru: 'Извлечение и обновление n раз', en: 'Extracting and updating n times' },
+        explanation: {
+          ru: 'Корень (`winner[0]`) даёт минимум, его лист заменяется на `float(\'inf\')`, а `rebuild_from` чинит дерево за O(log n) - всего n раз, итого O(n log n).',
+          en: 'The root (`winner[0]`) gives the minimum, its leaf is replaced with `float(\'inf\')`, and `rebuild_from` fixes the tree in O(log n) - n times total, giving O(n log n) overall.',
+        },
+      },
+    ],
   },
 
   pros: [
@@ -188,6 +314,71 @@ export const tournamentSort = {
     },
   ],
 
+  details: {
+    deepDive: [
+      {
+        ru: 'Дерево турнира хранит в каждом внутреннем узле не значение, а **индекс листа-победителя**. Это важное отличие от кучи: в min-heap узел содержит само значение и теряет связь с исходной позицией элемента, а в дереве турнира можно всегда узнать, *какой именно* элемент сейчас в корне, не теряя его исходный индекс.',
+        en: 'Every internal node of the tournament tree stores not a value, but the **index of the winning leaf**. This is a key difference from a heap: a min-heap node holds the value itself and loses track of the element\'s original position, while the tournament tree can always tell *which* element currently sits at the root without losing its original index.',
+      },
+      {
+        ru: 'Построение дерева - это ровно один проход снизу вверх: цикл идёт от последнего внутреннего узла (индекс `size - 2`) до корня (индекс `0`). У любого узла с таким индексом оба потомка уже вычислены раньше в этом же проходе (они либо листья, либо узлы с большим индексом), поэтому каждый узел считается ровно один раз - **O(n) сравнений всего**, без единого повторного обхода пути.',
+        en: 'Building the tree is exactly one bottom-up pass: the loop runs from the last internal node (index `size - 2`) down to the root (index `0`). Any node at that index already has both children computed earlier in the same pass (they are either leaves or higher-indexed nodes), so every node is computed exactly once - **O(n) comparisons total**, with no repeated path traversal.',
+      },
+      {
+        ru: 'На массиве из 1000 случайных элементов (дополненном до `size = 1024`) построение занимает ровно **1023 сравнения** - это `size - 1`, столько же, сколько внутренних узлов в дереве. Наивная альтернатива - вызывать пересчёт пути от каждого листа до корня по отдельности - дала бы **10240 сравнений** (n·log₂(size)) на построение, то есть в 10 раз больше, вырождая заявленное O(n) в фактическое O(n log n).',
+        en: 'On a 1000-element random array (padded to `size = 1024`), the build takes exactly **1023 comparisons** - that is `size - 1`, the same as the number of internal nodes in the tree. The naive alternative - calling the path-recompute step separately for every leaf - would take **10,240 comparisons** (n·log₂(size)) just to build, ten times more, degrading the claimed O(n) into an actual O(n log n).',
+      },
+      {
+        ru: 'После построения каждое извлечение минимума требует пересчёта только пути от изменённого листа до корня - **O(log n)** сравнений. На том же массиве из 1000 элементов это даёт **10000 сравнений** на все n извлечений (`n · log₂(size)`), что вместе с построением суммарно даёт около **11000 сравнений** - тот же порядок, что и `n · log₂(n) ≈ 9966`.',
+        en: 'After the build, each minimum extraction requires recomputing only the path from the changed leaf to the root - **O(log n)** comparisons. On the same 1000-element array this gives **10,000 comparisons** for all n extractions (`n · log₂(size)`), which together with the build sums to roughly **11,000 comparisons** - the same order as `n · log₂(n) ≈ 9966`.',
+      },
+      {
+        ru: 'Дополнение массива фиктивными `+∞`-листьями до ближайшей степени двойки (например, 9 элементов дополняются до 16) гарантирует, что дерево - **полное бинарное дерево**: у каждого внутреннего узла ровно два потомка, без особых случаев для "неполного последнего уровня". Фиктивные листья никогда не побеждают ни в одном сравнении и просто не попадают в вывод.',
+        en: 'Padding the array with dummy `+∞` leaves up to the nearest power of two (e.g. 9 elements padded to 16) guarantees the tree is a **complete binary tree**: every internal node has exactly two children, with no special cases for a "partial last level". Dummy leaves never win any comparison and simply never make it into the output.',
+      },
+      {
+        ru: 'Дерево турнира структурно эквивалентно **priority queue поверх фиксированного набора элементов**: операция "извлечь минимум и обновить" - это ровно `extract-min` из очереди с приоритетом. Разница с min-heap - не в асимптотике (обе O(log n) на операцию), а в том, что дерево турнира явно хранит результаты всех прошлых парных сравнений в виде дерева, а не только частичный порядок в массиве кучи.',
+        en: 'The tournament tree is structurally equivalent to a **priority queue over a fixed set of elements**: "extract the minimum and update" is exactly `extract-min` from a priority queue. The difference from a min-heap is not in asymptotics (both are O(log n) per operation), but in the fact that the tournament tree explicitly stores the results of every past pairwise comparison as an explicit tree, rather than just a partial order inside a heap array.',
+      },
+    ],
+    whenToUse: [
+      {
+        ru: '**По сравнению с heap sort**: если важна память и in-place сортировка, heap sort выигрывает - он не создаёт отдельную структуру. Дерево турнира оправдано, когда нужен явный доступ к дереву сравнений между операциями, а не только к текущему минимуму.',
+        en: '**Versus heap sort**: if memory and in-place sorting matter, heap sort wins - it builds no separate structure. The tournament tree is worth it when explicit access to the comparison tree between operations is needed, not just the current minimum.',
+      },
+      {
+        ru: '**По сравнению с обычным min-heap**: дерево турнира предпочтительнее, когда важно явно видеть путь сравнений, приведших к победителю (например, для отладки турнирной логики или визуализации "кто с кем сравнивался") - min-heap этого не хранит.',
+        en: '**Versus a plain min-heap**: the tournament tree is preferable when the comparison path leading to a winner needs to be explicitly visible (e.g. for debugging tournament logic or visualizing "who was compared to whom") - a min-heap does not retain this.',
+      },
+      {
+        ru: 'В **k-путевом слиянии** (внешняя сортировка, слияние N потоков): дерево турнира естественно масштабируется - каждый "лист" представляет текущую голову одного потока, и обновление после извлечения затрагивает только O(log k) узлов вместо сравнения всех k голов заново.',
+        en: 'In **k-way merging** (external sorting, merging N streams): the tournament tree scales naturally - each "leaf" represents the current head of one stream, and updating after an extraction touches only O(log k) nodes instead of comparing all k heads again.',
+      },
+      {
+        ru: 'Крайний случай - **очень маленький n** (например, n ≤ 4): накладные расходы на построение дерева (дополнение до степени двойки, отдельный массив `winner`) не окупаются, и обычная сортировка вставками отработает быстрее на практике при одинаковой корректности результата.',
+        en: 'Edge case - **very small n** (e.g. n ≤ 4): the overhead of building the tree (padding to a power of two, a separate `winner` array) does not pay off, and plain insertion sort runs faster in practice while producing the same correct result.',
+      },
+    ],
+    realWorld: [
+      {
+        ru: '**Внешняя сортировка больших файлов** (Донald Кнут, "The Art of Computer Programming", том 3, раздел 5.4.1) использует winner tree в форме турнирного дерева для слияния десятков и сотен отсортированных фрагментов за один проход, не помещающихся в память целиком.',
+        en: '**External sorting of large files** (Donald Knuth, "The Art of Computer Programming", volume 3, section 5.4.1) uses a winner tree in this exact tournament-tree form to merge dozens or hundreds of sorted fragments too large to fit in memory at once, in a single pass.',
+      },
+      {
+        ru: '**Реляционные базы данных** используют аналогичные структуры (replacement selection + tournament tree) в операторах `ORDER BY`/`MERGE JOIN`, когда промежуточный результат сортировки не помещается в буфер памяти и требует слияния временных файлов на диске.',
+        en: '**Relational databases** use similar structures (replacement selection + a tournament tree) in `ORDER BY`/`MERGE JOIN` operators, when an intermediate sort result does not fit in the memory buffer and requires merging temporary files on disk.',
+      },
+      {
+        ru: '**Симуляции спортивных турниров и матчмейкинг-системы** (например, рейтинговые системы на основе single-elimination bracket) используют структуру дерева турнира буквально - не как метафору сортировки, а как модель реального турнира с обновлением после каждого матча.',
+        en: '**Sports tournament simulations and matchmaking systems** (e.g. rating systems based on a single-elimination bracket) use the tournament tree structure literally - not as a sorting metaphor, but as a model of an actual tournament, updated after every match.',
+      },
+      {
+        ru: '**k-way merge в MapReduce/Hadoop shuffle-фазе** использует ту же идею для слияния отсортированных выходов множества мапперов перед подачей на редьюсер - без tournament-tree пришлось бы сравнивать все k текущих голов при каждом выборе следующего элемента.',
+        en: '**k-way merge in the MapReduce/Hadoop shuffle phase** uses the same idea to merge the sorted outputs of many mappers before feeding a reducer - without a tournament tree, all k current heads would need comparing on every choice of the next element.',
+      },
+    ],
+  },
+
   relatedAlgorithms: ['selection-sort', 'heap-sort'],
 
   quiz: [
@@ -211,8 +402,8 @@ export const tournamentSort = {
         en: 'The tournament tree keeps the results of past comparisons, so after extracting the minimum only the path to the root needs recomputing.',
       },
       hint: {
-        ru: 'Главная слабость сортировки выбором - то, что результаты каждого прохода забываются. Как дерево решает эту проблему?',
-        en: 'The main weakness of selection sort is that each pass\'s results are forgotten. How does the tree address this?',
+        ru: 'Смотрите абзац `problem` на вкладке «Суть» и шаг «rebuildFrom - точечное обновление пути» построчного разбора на вкладке «Реализация».',
+        en: 'See the `problem` paragraph on the "Intent" tab and the "rebuildFrom - a targeted path update" walkthrough step on the "Implementation" tab.',
       },
     },
     {
@@ -232,8 +423,8 @@ export const tournamentSort = {
         en: 'Replacing with +∞ is a simple way to "switch off" an already-sorted element without changing the tree\'s structure.',
       },
       hint: {
-        ru: 'После извлечения элемент не должен снова «победить» в турнире. Какое значение всегда проигрывает любому реальному?',
-        en: 'After extraction, the element must never "win" the tournament again. What value always loses to any real one?',
+        ru: 'Смотрите шаг «Извлечение и обновление n раз» построчного разбора на вкладке «Реализация» (`leaves[champion] = INF`) и третий шаг «Заменить лист на +∞» на вкладке «Визуализация».',
+        en: 'See the "Extracting and updating n times" walkthrough step on the "Implementation" tab (`leaves[champion] = INF`) and the "Replace the leaf with +∞" step on the "Visualization" tab.',
       },
     },
     {
@@ -253,8 +444,8 @@ export const tournamentSort = {
         en: 'Only the path from the leaf to the root needs recomputing, and a complete binary tree with n leaves has height O(log n).',
       },
       hint: {
-        ru: 'После замены листа на +∞ сколько узлов нужно обновить и как связана эта цифра с высотой дерева?',
-        en: 'After replacing a leaf with +∞, how many nodes need updating and how does this relate to the tree\'s height?',
+        ru: 'Смотрите шаг «rebuildFrom - точечное обновление пути» построчного разбора на вкладке «Реализация» и четвёртый абзац раздела «Углублённо» на вкладке «Суть» (10000 сравнений на 1000 извлечений).',
+        en: 'See the "rebuildFrom - a targeted path update" walkthrough step on the "Implementation" tab and the fourth "Deep dive" paragraph on the "Intent" tab (10,000 comparisons for 1000 extractions).',
       },
     },
     {
@@ -274,8 +465,8 @@ export const tournamentSort = {
         en: 'Unlike heap sort, the tournament tree is built as a separate structure on top of the original array, not inside it.',
       },
       hint: {
-        ru: 'Полное бинарное дерево с n листьями имеет порядка 2n узлов - сколько это памяти?',
-        en: 'A complete binary tree with n leaves has roughly 2n nodes - how much memory is that?',
+        ru: 'Смотрите шаг «Массив победителей и листья-указатели» построчного разбора на вкладке «Реализация» (`2 * size - 1`) и первый пункт минусов на вкладке «Плюсы и минусы».',
+        en: 'See the "The winner array and leaf pointers" walkthrough step on the "Implementation" tab (`2 * size - 1`) and the first "Cons" item on the "Pros & Cons" tab.',
       },
     },
     {
@@ -298,8 +489,8 @@ export const tournamentSort = {
         en: 'External sorting merges many sorted files in a single pass, using a winner tree to quickly pick the next-smallest element among all the files\' current heads.',
       },
       hint: {
-        ru: 'Подумайте о сценарии, где нужно непрерывно выбирать минимум из k разных источников данных.',
-        en: 'Think of a scenario where you need to continuously pick the minimum from k different data sources.',
+        ru: 'Смотрите первый пункт «Примеры из практики» (углублённого) на вкладке «Суть» (внешняя сортировка, Кнут) и второй пункт плюсов на вкладке «Плюсы и минусы».',
+        en: 'See the first extended "Real world" item on the "Intent" tab (external sorting, Knuth) and the second "Pros" item on the "Pros & Cons" tab.',
       },
     },
     {
@@ -319,8 +510,8 @@ export const tournamentSort = {
         en: 'Tournament sort is unstable: among equal values, the winner depends on tree position, not on the original element order.',
       },
       hint: {
-        ru: 'Вспомните, как определяется «победитель» при равных значениях - зависит ли это от исходной позиции элемента?',
-        en: 'Recall how the "winner" is determined when values are equal - does this depend on the element\'s original position?',
+        ru: 'Смотрите строку `winner[node] = leaves[left] <= leaves[right] ? left : right` (шаг «Построение дерева за один проход» на вкладке «Реализация») и третий пункт минусов на вкладке «Плюсы и минусы».',
+        en: 'See the `winner[node] = leaves[left] <= leaves[right] ? left : right` line (the "Building the tree in a single pass" walkthrough step on the "Implementation" tab) and the third "Cons" item on the "Pros & Cons" tab.',
       },
     },
     {
@@ -340,8 +531,8 @@ export const tournamentSort = {
         en: 'Both the tournament tree and a min-heap maintain the property that the root always holds the global minimum, and both update in O(log n).',
       },
       hint: {
-        ru: 'Что хранится в корне min-heap? Сравните с тем, что хранится в корне дерева турнира.',
-        en: 'What is stored at the root of a min-heap? Compare it with what the tournament tree root holds.',
+        ru: 'Смотрите первый абзац раздела «Углублённо» на вкладке «Суть» и первый пункт плюсов на вкладке «Плюсы и минусы».',
+        en: 'See the first "Deep dive" paragraph on the "Intent" tab and the first "Pros" item on the "Pros & Cons" tab.',
       },
     },
     {
@@ -361,8 +552,8 @@ export const tournamentSort = {
         en: 'Heap sort sorts directly inside the input array, accessing nearby memory cells, whereas the tournament tree is a separate structure with worse cache locality.',
       },
       hint: {
-        ru: 'Heap sort работает in-place, а турнирная сортировка строит отдельную структуру данных. Что это означает для кэша?',
-        en: 'Heap sort works in-place, while tournament sort builds a separate data structure. What does this mean for cache?',
+        ru: 'Смотрите второй пункт минусов на вкладке «Плюсы и минусы» и второй пункт whenToUse (углублённого) на вкладке «Суть».',
+        en: 'See the second "Cons" item on the "Pros & Cons" tab and the second extended "When to use" item on the "Intent" tab.',
       },
     },
     {
@@ -382,8 +573,8 @@ export const tournamentSort = {
         en: 'Building the tree bottom-up in O(n) is the standard approach: leaves already hold elements, and internal nodes are filled level by level up to the root.',
       },
       hint: {
-        ru: 'Подумайте о том же приёме, что используется при построении кучи из массива за O(n).',
-        en: 'Think of the same technique used when building a heap from an array in O(n).',
+        ru: 'Смотрите шаг «Построение дерева за один проход» построчного разбора на вкладке «Реализация» и второй абзац раздела «Углублённо» на вкладке «Суть».',
+        en: 'See the "Building the tree in a single pass" walkthrough step on the "Implementation" tab and the second "Deep dive" paragraph on the "Intent" tab.',
       },
     },
     {
@@ -403,8 +594,8 @@ export const tournamentSort = {
         en: 'The initial O(n) tree build plus n extraction operations of O(log n) each gives a total complexity of O(n log n).',
       },
       hint: {
-        ru: 'Сложите стоимость построения дерева и стоимость всех n операций извлечения минимума.',
-        en: 'Add together the cost of building the tree and the cost of all n minimum-extraction operations.',
+        ru: 'Смотрите третий и четвёртый абзацы раздела «Углублённо» на вкладке «Суть» (1023 сравнения на построение + 10000 на извлечения при n=1000).',
+        en: 'See the third and fourth "Deep dive" paragraphs on the "Intent" tab (1023 comparisons to build + 10,000 for the extractions at n=1000).',
       },
     },
   ],

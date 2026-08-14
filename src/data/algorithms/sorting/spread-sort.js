@@ -24,6 +24,83 @@ export const spreadSort = {
     en: "The size of the current element range is computed. If the size is small (say, no more than some threshold like 16), the range is sorted directly with insertion sort - for small groups, the overhead of setting up buckets isn't worth it. Otherwise, elements are distributed into buckets by value (as in bucket sort), with the bucket count chosen adaptively (for example, on the order of the square root of the range size), and each non-empty bucket is then recursively processed the same way - again either distributed further or sorted directly, depending on its resulting size.",
   },
 
+  details: {
+    deepDive: [
+      {
+        ru: 'Ключевая константа реализации - `THRESHOLD = 16` (строка 4): порог, ниже которого диапазон сортируется вставками, а не распределяется по корзинам. Число выбрано не произвольно - на группах примерно такого размера накладные расходы на создание массива корзин (`Array.from`, строка 34) и заполнение их элементами обычно перевешивают выигрыш от распределения, а сортировка вставками на 16 элементах выполняется практически мгновенно.',
+        en: 'The implementation\'s key constant is `THRESHOLD = 16` (line 4): the cutoff below which a range is sorted with insertion sort instead of being distributed into buckets. The number isn\'t arbitrary - at roughly that group size, the overhead of allocating the bucket array (`Array.from`, line 34) and filling it usually outweighs the benefit of distributing, while insertion sort on 16 elements finishes essentially instantly.',
+      },
+      {
+        ru: 'Индекс корзины для элемента вычисляется как `Math.floor((a[i] - min) / span)` (строка 36), где `span = (max - min + 1) / bucketCount` (строка 33) - это линейная интерполяция значения в диапазон корзин, тот же принцип, что и в обычной корзинной сортировке, но границы `min`/`max` пересчитываются заново на каждом уровне рекурсии (строки 25-29) для текущего поддиапазона, а не берутся из исходного массива целиком.',
+        en: 'A bucket index for an element is computed as `Math.floor((a[i] - min) / span)` (line 36), where `span = (max - min + 1) / bucketCount` (line 33) - a linear interpolation of the value into the bucket range, the same principle as plain bucket sort, but `min`/`max` are recomputed fresh at every recursion level (lines 25-29) for the current subrange, not taken from the original array as a whole.',
+      },
+      {
+        ru: 'Число корзин `bucketCount = Math.max(2, Math.floor(Math.sqrt(size)))` (строка 32) растёт как квадратный корень от размера диапазона - компромисс между слишком малым числом корзин (тогда в каждой окажется много элементов, и рекурсия почти не помогает) и слишком большим (тогда много корзин будут почти пустыми, а накладные расходы на их создание не окупятся). Оригинальный алгоритм Спредсорт Стивена Росса использует более точную формулу на основе логарифма разброса битового представления ключей, а не просто квадратный корень от размера - упрощение сделано ради учебной ясности.',
+        en: 'The bucket count `bucketCount = Math.max(2, Math.floor(Math.sqrt(size)))` (line 32) grows as the square root of the range size - a compromise between too few buckets (each ends up with many elements, and recursion barely helps) and too many (most stay nearly empty, and their setup cost doesn\'t pay off). The original Spreadsort algorithm by Steven Ross uses a more precise formula based on the logarithm of the keys\' bit-representation spread rather than just the square root of the size - this is simplified here for educational clarity.',
+      },
+      {
+        ru: 'После распределения по корзинам их содержимое записывается обратно в массив по порядку (строки 41-46), а затем **каждый записанный сегмент рекурсивно передаётся в `sortRange`** (строка 45) - именно эта повторная проверка размера и решения «распределять или сортировать вставками» защищает от вырождения на сильно неравномерных данных: перегруженная корзина не остаётся неотсортированной, а обрабатывается заново тем же способом, пока не станет достаточно маленькой.',
+        en: 'After distribution, bucket contents are written back into the array in order (lines 41-46), and then **every written segment is recursively passed to `sortRange`** (line 45) - this repeated size check and "distribute or fall back to insertion sort" decision is exactly what protects against degeneration on heavily skewed data: an overloaded bucket doesn\'t stay unsorted but is reprocessed the same way until it\'s small enough.',
+      },
+      {
+        ru: 'Пример на диапазоне из 25 элементов со значениями от 0 до 99: `bucketCount = max(2, floor(sqrt(25))) = 5`, `span = (99 - 0 + 1) / 5 = 20`. Корзина 0 получает значения `[0, 20)`, корзина 1 - `[20, 40)` и так далее. Если все 25 значений равномерно распределены, в каждой корзине окажется примерно по 5 элементов - меньше порога 16, и они сразу сортируются вставками без дальнейшей рекурсии.',
+        en: 'An example with a range of 25 elements valued 0 to 99: `bucketCount = max(2, floor(sqrt(25))) = 5`, `span = (99 - 0 + 1) / 5 = 20`. Bucket 0 receives values `[0, 20)`, bucket 1 gets `[20, 40)`, and so on. If all 25 values are evenly distributed, each bucket ends up with roughly 5 elements - below the threshold of 16 - and they\'re sorted immediately with insertion sort, no further recursion needed.',
+      },
+      {
+        ru: 'Проверка `if (min === max) return` (строка 30) не просто оптимизация - она обязательна для корректности: без неё диапазон из одинаковых значений дал бы `span = 0`, деление на ноль в вычислении индекса корзины и, как следствие, некорректное поведение или бесконечную рекурсию (все элементы снова и снова попадали бы в диапазон без прогресса).',
+        en: 'The check `if (min === max) return` (line 30) isn\'t just an optimization - it\'s required for correctness: without it, a range of identical values would give `span = 0`, a division by zero in the bucket-index computation, and consequently incorrect behavior or infinite recursion (elements would keep landing in the same unchanged range with no progress).',
+      },
+      {
+        ru: 'Средняя сложность **O(n log(k/s))** отражает именно этот процесс: k - примерная битовая ширина диапазона значений ключа, s - порог перехода на сортировку вставками (аналог `THRESHOLD`). Чем больше исходный разброс значений (больше k) и чем меньше порог (меньше s), тем глубже рекурсия распределения - но каждый уровень стоит O(n) на распределение и запись назад, а глубина ограничена логарифмом отношения k/s, а не n, что и даёт выигрыш перед O(n log n) при достаточно равномерных данных.',
+        en: 'The average complexity **O(n log(k/s))** reflects exactly this process: k is the approximate bit width of the key value range, s is the insertion-sort threshold (the analogue of `THRESHOLD`). The larger the original value spread (bigger k) and the smaller the threshold (smaller s), the deeper the distribution recursion goes - but each level costs O(n) for distributing and writing back, and the depth is bounded by the logarithm of the ratio k/s rather than n, which is exactly the edge over O(n log n) on sufficiently even data.',
+      },
+      {
+        ru: 'Алгоритм разработан **Стивеном Дж. Россом** в 2002 году (диссертация и статья "Adaptive Distribution-Based Sorting") как попытка получить производительность корзинной сортировки без риска её худшего случая - той же цели, что и у смузсорта относительно heap sort, но решённой через комбинацию распределения и сравнений, а не через структуру кучи.',
+        en: 'The algorithm was designed by **Steven J. Ross** in 2002 (dissertation and paper "Adaptive Distribution-Based Sorting") as an attempt to get bucket sort\'s performance without risking its worst case - the same goal smoothsort had relative to heap sort, but solved by combining distribution and comparisons rather than through heap structure.',
+      },
+    ],
+    whenToUse: [
+      {
+        ru: '**Когда одна реализация должна одинаково хорошо работать и на равномерных, и на сильно скошенных данных** без переключения кода вручную - например, сенсорные измерения, которые иногда почти равномерны, а иногда кластеризуются вокруг нескольких значений.',
+        en: '**When a single implementation must handle both evenly distributed and heavily skewed data equally well** without manually switching code paths - for example, sensor measurements that are sometimes nearly uniform and sometimes clustered around a few values.',
+      },
+      {
+        ru: '**Предпочесть Спредсорт корзинной сортировке**, когда распределение данных заранее неизвестно или может быть враждебным (специально подобранным) - обычная корзинная сортировка деградирует до O(n²) там, где Спредсорт остаётся на уровне O(n log n).',
+        en: '**Prefer Spreadsort over plain bucket sort** when the data distribution is unknown in advance or could be adversarial (deliberately crafted) - plain bucket sort degrades to O(n²) exactly where Spreadsort still stays at O(n log n).',
+      },
+      {
+        ru: '**Предпочесть поразрядную сортировку Спредсорту**, если ключи - целые числа фиксированной битовой ширины с известной структурой: radix sort проще, не требует деления и не пересчитывает min/max на каждом уровне.',
+        en: '**Prefer radix sort over Spreadsort** if keys are fixed-width integers with a known structure: radix sort is simpler, needs no division, and doesn\'t recompute min/max at every level.',
+      },
+      {
+        ru: 'Не стоит применять на **маленьких массивах** (n не больше пары сотен элементов) - расходы на вычисление min/max и распределение по корзинам не окупаются; проще сразу использовать insertion sort или встроенную сортировку языка.',
+        en: 'Not worth applying to **small arrays** (n up to a couple hundred elements) - the cost of computing min/max and distributing into buckets doesn\'t pay off; just use insertion sort or the language\'s built-in sort directly.',
+      },
+      {
+        ru: 'Хороший выбор в **высокопроизводительных C++/системных библиотеках**, сортирующих числа с плавающей точкой или целые числа большими партиями, где даже небольшой выигрыш над O(n log n) заметен на масштабе.',
+        en: 'A good choice in **high-performance C++/systems libraries** sorting floating-point or integer numbers in large batches, where even a modest edge over O(n log n) shows up at scale.',
+      },
+    ],
+    realWorld: [
+      {
+        ru: '**Стивен Дж. Росс, 2002** - диссертация и статья "Adaptive Distribution-Based Sorting", описывающая Спредсорт как обобщение корзинной и поразрядной сортировок с адаптивным выбором стратегии.',
+        en: '**Steven J. Ross, 2002** - the dissertation and paper "Adaptive Distribution-Based Sorting," describing Spreadsort as a generalization of bucket and radix sort with an adaptive strategy choice.',
+      },
+      {
+        ru: '**Документация Boost.Sort** приводит собственные бенчмарки, сравнивающие Спредсорт с `std::sort` (introsort) на разных типах числовых данных, показывая выигрыш именно на больших объёмах данных с широким диапазоном значений.',
+        en: '**The Boost.Sort documentation** publishes its own benchmarks comparing Spreadsort to `std::sort` (introsort) on various numeric data types, showing a win specifically on large volumes of data with a wide value range.',
+      },
+      {
+        ru: 'Алгоритм часто фигурирует в статьях о **семействе гибридных распределяющих сортировок** (наряду с American flag sort и bucket sort) как пример адаптивного выбора между распределением и сравнением без ручной настройки под конкретный набор данных.',
+        en: 'The algorithm often appears in articles about the **family of hybrid distribution sorts** (alongside American flag sort and bucket sort) as an example of adaptively choosing between distribution and comparison without manual tuning for a specific dataset.',
+      },
+      {
+        ru: 'Обсуждается в материалах о **сортировке чисел с плавающей точкой** как пример алгоритма, который работает с IEEE 754 значениями напрямую (после соответствующего преобразования порядка битов), не сводя задачу к целочисленной поразрядной сортировке.',
+        en: 'Discussed in material on **sorting floating-point numbers** as an example of an algorithm that works with IEEE 754 values directly (after an appropriate bit-order transformation), without reducing the problem to integer radix sort.',
+      },
+    ],
+  },
+
   steps: [
     {
       title: { ru: 'Проверить размер диапазона', en: 'Check the range size' },
@@ -161,6 +238,125 @@ export const spreadSort = {
     return a`,
   },
 
+  walkthrough: {
+    javascript: [
+      {
+        lines: [1, 4],
+        title: { ru: 'Подготовка и порог', en: 'Setup and the threshold' },
+        explanation: {
+          ru: 'Копия массива сортируется на месте; `THRESHOLD = 16` - порог, ниже которого дальнейшее распределение по корзинам не имеет смысла.',
+          en: 'A copy of the array is sorted in place; `THRESHOLD = 16` is the cutoff below which further distribution into buckets isn\'t worth it.',
+        },
+      },
+      {
+        lines: [6, 16],
+        title: { ru: 'insertionSort: сортировка малых диапазонов', en: 'insertionSort: sorting small ranges' },
+        explanation: {
+          ru: 'Обычная сортировка вставками, ограниченная границами `[lo, hi)` - применяется к диапазонам не больше порога.',
+          en: 'A plain insertion sort scoped to the `[lo, hi)` bounds - applied to ranges at or below the threshold.',
+        },
+      },
+      {
+        lines: [18, 23],
+        title: { ru: 'sortRange: проверка размера', en: 'sortRange: checking the size' },
+        explanation: {
+          ru: 'Если размер диапазона не больше `THRESHOLD`, он сортируется вставками и обработка завершается - дальше корзины не создаются.',
+          en: 'If the range size is at or below `THRESHOLD`, it\'s sorted with insertion sort and processing stops - no buckets are created.',
+        },
+      },
+      {
+        lines: [25, 30],
+        title: { ru: 'Вычисление min/max и защита от деления на ноль', en: 'Computing min/max and guarding against division by zero' },
+        explanation: {
+          ru: 'Минимум и максимум диапазона нужны для вычисления шага корзины; если они совпадают, все элементы одинаковы и диапазон уже отсортирован.',
+          en: 'The range\'s minimum and maximum are needed to compute the bucket span; if they\'re equal, all elements are identical and the range is already sorted.',
+        },
+      },
+      {
+        lines: [32, 39],
+        title: { ru: 'Распределение по корзинам', en: 'Distributing into buckets' },
+        explanation: {
+          ru: 'Число корзин растёт как √size; каждый элемент попадает в корзину по формуле `floor((значение - min) / span)`, с защитой от выхода за последнюю корзину при `a[i] === max`.',
+          en: 'The bucket count grows as √size; each element lands in a bucket via `floor((value - min) / span)`, with a guard against overflowing past the last bucket when `a[i] === max`.',
+        },
+      },
+      {
+        lines: [41, 46],
+        title: { ru: 'Запись корзин назад и рекурсия', en: 'Writing buckets back and recursing' },
+        explanation: {
+          ru: 'Корзины записываются в массив по порядку от наименьшей к наибольшей, а каждый записанный сегмент немедленно передаётся обратно в `sortRange` - именно здесь происходит адаптивное переключение между распределением и вставками на следующем уровне.',
+          en: 'Buckets are written into the array in order from smallest to largest, and each written segment is immediately passed back into `sortRange` - this is exactly where the adaptive switch between distribution and insertion sort happens at the next level.',
+        },
+      },
+      {
+        lines: [49, 51],
+        title: { ru: 'Запуск и возврат результата', en: 'Kicking off and returning the result' },
+        explanation: {
+          ru: 'Процесс запускается на всём массиве `[0, n)`, а по завершении рекурсии массив `a` полностью отсортирован.',
+          en: 'The process starts on the whole array `[0, n)`, and once recursion finishes, array `a` is fully sorted.',
+        },
+      },
+    ],
+    python: [
+      {
+        lines: [1, 4],
+        title: { ru: 'Подготовка и порог', en: 'Setup and the threshold' },
+        explanation: {
+          ru: 'Копия списка сортируется на месте; `THRESHOLD = 16` - порог перехода на сортировку вставками.',
+          en: 'A copy of the list is sorted in place; `THRESHOLD = 16` is the cutoff for switching to insertion sort.',
+        },
+      },
+      {
+        lines: [6, 13],
+        title: { ru: 'insertion_sort: сортировка малых диапазонов', en: 'insertion_sort: sorting small ranges' },
+        explanation: {
+          ru: 'Обычная сортировка вставками, ограниченная границами `[lo, hi)`.',
+          en: 'A plain insertion sort scoped to the `[lo, hi)` bounds.',
+        },
+      },
+      {
+        lines: [15, 19],
+        title: { ru: 'sort_range: проверка размера', en: 'sort_range: checking the size' },
+        explanation: {
+          ru: 'Если размер диапазона не больше `THRESHOLD`, он сортируется вставками и обработка завершается.',
+          en: 'If the range size is at or below `THRESHOLD`, it\'s sorted with insertion sort and processing stops.',
+        },
+      },
+      {
+        lines: [21, 24],
+        title: { ru: 'Вычисление min/max и защита от деления на ноль', en: 'Computing min/max and guarding against division by zero' },
+        explanation: {
+          ru: 'Минимум и максимум нужны для вычисления шага корзины; при совпадении все элементы одинаковы, и диапазон уже отсортирован.',
+          en: 'The minimum and maximum are needed for the bucket span; if they\'re equal, all elements are identical and the range is already sorted.',
+        },
+      },
+      {
+        lines: [26, 33],
+        title: { ru: 'Распределение по корзинам', en: 'Distributing into buckets' },
+        explanation: {
+          ru: 'Число корзин растёт как √size; каждый элемент попадает в корзину по формуле `int((значение - lo_val) / span)`, с защитой от выхода за последнюю корзину.',
+          en: 'The bucket count grows as √size; each element lands in a bucket via `int((value - lo_val) / span)`, with a guard against overflowing past the last bucket.',
+        },
+      },
+      {
+        lines: [35, 41],
+        title: { ru: 'Запись корзин назад и рекурсия', en: 'Writing buckets back and recursing' },
+        explanation: {
+          ru: 'Корзины записываются в список по порядку, каждый записанный сегмент немедленно передаётся обратно в `sort_range` - адаптивное переключение на следующем уровне.',
+          en: 'Buckets are written into the list in order, and each written segment is immediately passed back into `sort_range` - the adaptive switch at the next level.',
+        },
+      },
+      {
+        lines: [43, 44],
+        title: { ru: 'Запуск и возврат результата', en: 'Kicking off and returning the result' },
+        explanation: {
+          ru: 'Процесс запускается на всём списке `[0, n)`, по завершении рекурсии `a` полностью отсортирован.',
+          en: 'The process starts on the whole list `[0, n)`, and once recursion finishes, `a` is fully sorted.',
+        },
+      },
+    ],
+  },
+
   pros: [
     {
       ru: 'На данных, распределённых достаточно равномерно, ведёт себя почти линейно - O(n) в лучшем случае, значительно быстрее универсальных O(n log n) сортировок сравнениями.',
@@ -235,8 +431,8 @@ export const spreadSort = {
         en: 'This switching between distribution and direct comparison sorting for small groups is exactly what makes the algorithm hybrid.',
       },
       hint: {
-        ru: 'Подумайте, какую операцию алгоритм выполняет над большой группой, а какую - над маленькой.',
-        en: 'Think about what operation the algorithm performs on a large group versus a small one.',
+        ru: 'Смотрите первый абзац раздела «Углублённо» на вкладке «Суть» и шаг «sortRange: проверка размера» построчного разбора на вкладке «Реализация».',
+        en: 'See the first "Deep dive" paragraph on the "Intent" tab and the "sortRange: checking the size" walkthrough step on the "Implementation" tab.',
       },
     },
     {
@@ -259,8 +455,8 @@ export const spreadSort = {
         en: 'On small groups, direct comparison sorting is usually faster than creating and filling buckets.',
       },
       hint: {
-        ru: 'Вспомните, какова стоимость создания корзин относительно числа обрабатываемых элементов.',
-        en: 'Consider the cost of creating buckets relative to the number of elements being processed.',
+        ru: 'Смотрите первый абзац раздела «Углублённо» на вкладке «Суть» (почему выбрано именно 16).',
+        en: 'See the first "Deep dive" paragraph on the "Intent" tab (why exactly 16 was chosen).',
       },
     },
     {
@@ -283,8 +479,8 @@ export const spreadSort = {
         en: 'Recursively processing each bucket (distributing again or falling back to insertion sort) is exactly what protects the algorithm from degenerating on skewed data.',
       },
       hint: {
-        ru: 'Алгоритм применяет к каждой корзине тот же процесс, что и к исходному диапазону.',
-        en: 'The algorithm applies the same process to each bucket as it does to the original range.',
+        ru: 'Смотрите четвёртый абзац раздела «Углублённо» на вкладке «Суть» и шаг «Запись корзин назад и рекурсия» построчного разбора на вкладке «Реализация».',
+        en: 'See the fourth "Deep dive" paragraph on the "Intent" tab and the "Writing buckets back and recursing" walkthrough step on the "Implementation" tab.',
       },
     },
     {
@@ -304,8 +500,8 @@ export const spreadSort = {
         en: 'Thanks to the fallback to insertion sort for small groups, the algorithm never degrades worse than O(n log n), unlike plain bucket sort.',
       },
       hint: {
-        ru: 'Переход к сортировке сравнениями не позволяет алгоритму выйти за рамки классической теоретической границы.',
-        en: 'The fallback to comparison sorting keeps the algorithm within the classical theoretical bound.',
+        ru: 'Смотрите третий пункт плюсов на вкладке «Плюсы и минусы» и бейдж «Время» вверху страницы.',
+        en: 'See the third "Pros" item on the "Pros & Cons" tab and the "Time" complexity badge at the top of the page.',
       },
     },
     {
@@ -325,8 +521,8 @@ export const spreadSort = {
         en: 'Boost.Sort includes Spreadsort as one of its available strategies, optimized for numeric data.',
       },
       hint: {
-        ru: 'Вспомните, в каком высокопроизводительном C++ фреймворке алгоритм получил промышленную реализацию.',
-        en: 'Recall which high-performance C++ framework gave the algorithm a production-grade implementation.',
+        ru: 'Смотрите первый пункт «Примеры из практики» на вкладке «Суть» и второй пункт «Примеры из практики» (углублённого) там же.',
+        en: 'See the first "Real world" item on the "Intent" tab and the second extended "Real world" item there.',
       },
     },
     {
@@ -346,8 +542,8 @@ export const spreadSort = {
         en: 'Choosing the bucket count adaptively (on the order of √size) balances between too many empty buckets and too few overloaded ones.',
       },
       hint: {
-        ru: 'Подумайте, какая математическая функция от размера хорошо балансирует число корзин.',
-        en: 'Think about which mathematical function of the size gives a good bucket count balance.',
+        ru: 'Смотрите третий абзац раздела «Углублённо» на вкладке «Суть» и строку 32 функции `sortRange` на вкладке «Реализация».',
+        en: 'See the third "Deep dive" paragraph on the "Intent" tab and line 32 of `sortRange` on the "Implementation" tab.',
       },
     },
     {
@@ -367,8 +563,8 @@ export const spreadSort = {
         en: 'Distributing elements into buckets requires computing (a[i] − min) / span, so elements must support arithmetic, not just comparison.',
       },
       hint: {
-        ru: 'Вспомните формулу вычисления индекса корзины для конкретного элемента.',
-        en: 'Recall the formula for computing a bucket index for a given element.',
+        ru: 'Смотрите второй абзац раздела «Углублённо» на вкладке «Суть» и третий пункт минусов на вкладке «Плюсы и минусы».',
+        en: 'See the second "Deep dive" paragraph on the "Intent" tab and the third "Cons" item on the "Pros & Cons" tab.',
       },
     },
     {
@@ -388,8 +584,8 @@ export const spreadSort = {
         en: 'At each recursion level, the buckets collectively hold all elements of the current range, giving O(n) extra memory.',
       },
       hint: {
-        ru: 'Сколько элементов суммарно хранится во всех корзинах на одном уровне рекурсии?',
-        en: 'How many elements in total are stored across all buckets at one recursion level?',
+        ru: 'Смотрите бейдж «Память» вверху страницы и первый пункт минусов на вкладке «Плюсы и минусы».',
+        en: 'See the "Space" complexity badge at the top of the page and the first "Cons" item on the "Pros & Cons" tab.',
       },
     },
     {
@@ -409,8 +605,8 @@ export const spreadSort = {
         en: 'If min == max, all elements are identical and already "sorted" - no further work is needed.',
       },
       hint: {
-        ru: 'Если все значения одинаковы, нужна ли вообще сортировка?',
-        en: 'If all values are the same, is any sorting needed at all?',
+        ru: 'Смотрите шестой абзац раздела «Углублённо» на вкладке «Суть» (деление на ноль в формуле индекса корзины).',
+        en: 'See the sixth "Deep dive" paragraph on the "Intent" tab (division by zero in the bucket-index formula).',
       },
     },
     {
@@ -430,8 +626,8 @@ export const spreadSort = {
         en: 'The adaptive bucket count lets the algorithm work efficiently on both large and small ranges without manual tuning.',
       },
       hint: {
-        ru: 'В классической корзинной сортировке число корзин обычно задаётся заранее как константа.',
-        en: 'In classic bucket sort the number of buckets is typically set as a constant upfront.',
+        ru: 'Смотрите третий абзац раздела «Углублённо» и второй пункт whenToUse (углублённого) на вкладке «Суть».',
+        en: 'See the third "Deep dive" paragraph and the second extended "When to use" item on the "Intent" tab.',
       },
     },
   ],

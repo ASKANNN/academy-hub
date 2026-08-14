@@ -24,6 +24,79 @@ export const smoothSort = {
     en: 'Instead of one binary heap over the whole array, smoothsort builds a sequence of Leonardo heaps - special binary trees sized after Leonardo numbers (a Fibonacci-like sequence: L(k) = L(k-1) + L(k-2) + 1). The array is gradually turned into a forest of such heaps left to right (the "sift up" phase), then the heap maximums are extracted right to left, same as regular heap sort. The key difference: if the input is already partially ordered, the trees require fewer heapify operations to build - hence the adaptivity and near-linear time on "smooth" data.',
   },
 
+  details: {
+    deepDive: [
+      {
+        ru: 'Каждое дерево в лесу смузсорта - это не обычное сбалансированное бинарное дерево, а **куча Леонардо порядка k**: у неё есть корень и два поддерева - порядка k-1 и k-2 (а не k-1 и k-1, как у кучи из heap sort). Из-за этого размер дерева растёт не как степень двойки, а по формуле **L(k) = L(k-1) + L(k-2) + 1**, где L(0) = L(1) = 1. Получается последовательность 1, 1, 3, 5, 9, 15, 25, 41... - похожая на числа Фибоначчи, но с добавлением корня на каждом шаге.',
+        en: 'Every tree in smoothsort\'s forest is not an ordinary balanced binary tree but a **Leonardo heap of order k**: it has a root and two subtrees - of order k-1 and k-2 (not k-1 and k-1, like a regular binary heap). That makes the tree size grow not as a power of two but by the formula **L(k) = L(k-1) + L(k-2) + 1**, where L(0) = L(1) = 1. The result is the sequence 1, 1, 3, 5, 9, 15, 25, 41... - Fibonacci-like, but with a root added at every step.',
+      },
+      {
+        ru: 'В коде `leonardo(k)` вычисляется лениво и с мемоизацией через массив `LEO`: он растёт по мере того, как `trinkle`/`siftDown` запрашивают всё большие порядки, вместо того чтобы пересчитывать всю последовательность заранее. Для `order` дерева ровно `L(order) - 1` элементов лежат ниже корня, поровну (с точностью до -1) поделённые между левым поддеревом порядка `order-1` и правым порядка `order-2`.',
+        en: 'In the code, `leonardo(k)` is computed lazily and memoized via the `LEO` array: it grows as `trinkle`/`siftDown` request larger orders, instead of precomputing the whole sequence upfront. For a tree of `order`, exactly `L(order) - 1` elements sit below the root, split between a left subtree of order `order-1` and a right subtree of order `order-2`.',
+      },
+      {
+        ru: 'Массив `orders` - это, по сути, «цифры» числа n, записанного в системе счисления по числам Леонардо: похоже на теорему Цекендорфа для Фибоначчи, где любое число раскладывается в сумму различных чисел Леонардо. Цикл построения (строки 58-68) поддерживает этот инвариант - если два последних дерева стека имеют соседние порядки (k и k-1), они «сливаются» в одно дерево порядка k+1 (строки 59-61), что напоминает перенос разряда при сложении в этой системе счисления. Именно из-за этого инварианта лес никогда не превышает **O(log n)** деревьев.',
+        en: 'The `orders` array is essentially the "digits" of n written in the Leonardo number system - similar to Zeckendorf\'s theorem for Fibonacci numbers, where every integer decomposes into a sum of distinct Leonardo numbers. The build loop (lines 58-68) maintains this invariant - if the stack\'s last two trees have adjacent orders (k and k-1), they "merge" into one tree of order k+1 (lines 59-61), resembling a carry during addition in this number system. This invariant is exactly why the forest never exceeds **O(log n)** trees.',
+      },
+      {
+        ru: 'Функция `trinkle` (строки 28-56) - это расширенная версия просеивания вверх: новый элемент всегда попадает в лес как одноузловое дерево справа, и его нужно поднять не только внутри своего дерева, но, возможно, и через границу с соседним деревом. Для этого на каждом шаге сравниваются три кандидата - оба потомка текущего узла (если `order > 1`) и **«пасынок» (`stepson`)** - корень предыдущего, меньшего по порядку дерева в лесу, с которым текущий элемент мог бы поменяться местами при постройке.',
+        en: 'The `trinkle` function (lines 28-56) is an extended sift-up: a new element always enters the forest as a one-node tree on the right, and it may need to move up not just within its own tree but potentially across a tree boundary too. To do that, every step compares three candidates - both children of the current node (if `order > 1`) and the **"stepson"** (`stepson`) - the root of the previous, smaller-order tree in the forest that the current element could swap into.',
+      },
+      {
+        ru: 'Если побеждает «пасынок», элемент перепрыгивает в соседнее дерево слева (строки 45-49, `r = stepson; i--`), и цикл `while (true)` продолжается уже там - это единственный момент, где просеивание выходит за пределы одного дерева. Если побеждает один из детей, вызывается обычный `siftDown` (строки 51-53), который восстанавливает свойство кучи уже строго внутри дерева, спускаясь по нему аналогично heap sort, но со смещениями через `leonardo(order - 2)` вместо `2*i + 1`.',
+        en: 'If the "stepson" wins, the element jumps into the neighboring tree on the left (lines 45-49, `r = stepson; i--`), and the `while (true)` loop continues there - the only point where sifting crosses a tree boundary. If one of the children wins instead, the regular `siftDown` is called (lines 51-53), which restores the heap property strictly within one tree, descending it much like heap sort but with offsets via `leonardo(order - 2)` instead of `2*i + 1`.',
+      },
+      {
+        ru: 'Фаза извлечения (строки 70-82) идёт справа налево: последнее дерево леса содержит текущий максимум в своём корне (инвариант леса гарантирует, что корни деревьев слева направо не убывают). Если у извлечённого дерева `order > 1`, оно распадается на два дочерних дерева порядков `order-1` и `order-2` (строки 76-79), и оба новых открытых корня повторно проходят `trinkle` (строки 78-79) - удаление родителя могло нарушить инвариант упорядоченности корней леса.',
+        en: 'The extraction phase (lines 70-82) goes right to left: the last tree in the forest holds the current maximum at its root (the forest invariant guarantees tree roots are non-decreasing left to right). If the extracted tree has `order > 1`, it splits into two child trees of order `order-1` and `order-2` (lines 76-79), and both newly exposed roots are re-run through `trinkle` (lines 78-79) - removing the parent could have broken the forest\'s root-ordering invariant.',
+      },
+      {
+        ru: 'Худший случай остаётся **O(n log n)**: в лесу до O(log n) деревьев, и `trinkle` в худшем случае проходит через все их корни при каждой из n вставок/извлечений - для n = 1 000 000 это те же порядка 20 миллионов операций, что и у обычного heap sort. Но на уже отсортированном массиве ни один вызов `siftDown`/`trinkle` не находит нарушения (условия `if (bigger === root) break` и `if (winner === r) return` срабатывают сразу) - отсюда линейное **O(n)** в лучшем случае, недостижимое для heap sort.',
+        en: 'The worst case remains **O(n log n)**: the forest has up to O(log n) trees, and in the worst case `trinkle` walks through all of their roots on each of n insertions/extractions - for n = 1,000,000 that\'s roughly the same 20 million operations as regular heap sort. But on an already-sorted array, no `siftDown`/`trinkle` call ever finds a violation (the `if (bigger === root) break` and `if (winner === r) return` conditions fire immediately) - hence the linear **O(n)** best case, unreachable for regular heap sort.',
+      },
+    ],
+    whenToUse: [
+      {
+        ru: '**Real-time и embedded системы с жёсткой памятью** - когда одновременно нужны гарантия O(n log n), O(1) память и возможность прерваться в любой момент с валидным частичным порядком: ни quicksort (нет гарантии худшего случая), ни Timsort (O(n) память) не закрывают все три требования сразу.',
+        en: '**Real-time and embedded systems with strict memory limits** - when you need an O(n log n) guarantee, O(1) memory, and the ability to interrupt mid-sort with a valid partial order all at once: neither quicksort (no worst-case guarantee) nor Timsort (O(n) memory) meets all three requirements together.',
+      },
+      {
+        ru: '**Почти отсортированные потоковые данные** без бюджета на лишнюю память - там, где естественным выбором стал бы Timsort, но памяти на буфер слияния прогонов нет.',
+        en: '**Nearly sorted streaming data** with no memory budget to spare - where Timsort would be the natural choice, but there is no room for its run-merging buffer.',
+      },
+      {
+        ru: 'Не стоит использовать на **маленьких массивах** (n < 50) - издержки построения леса куч Леонардо и обилие вложенных функций перевешивают выигрыш; insertion sort проще и быстрее на таких размерах.',
+        en: 'Not worth using on **small arrays** (n < 50) - the overhead of building the Leonardo heap forest and the many nested function calls outweigh any benefit; insertion sort is simpler and faster at that size.',
+      },
+      {
+        ru: 'Не выбирать смузсорт, если **не нужны одновременно и гарантия худшего случая, и адаптивность** - если достаточно средней скорости, quicksort/introsort быстрее на практике за счёт лучшей локальности кэша.',
+        en: 'Skip smoothsort if you don\'t need **both** the worst-case guarantee and adaptivity at once - if average-case speed is enough, quicksort/introsort is faster in practice thanks to better cache locality.',
+      },
+      {
+        ru: 'Хороший выбор для **учебных и исследовательских задач** о структурах данных - демонстрирует нетривиальное применение чисел Леонардо и леса деревьев как альтернативу единственной куче heap sort.',
+        en: 'A good fit for **educational and research work** on data structures - it demonstrates a nontrivial use of Leonardo numbers and a tree forest as an alternative to heap sort\'s single heap.',
+      },
+    ],
+    realWorld: [
+      {
+        ru: '**EWD796** - оригинальная рукопись Дейкстры 1981 года «Smoothsort, an alphabetical variant of heapsort», доступна в архиве E.W. Dijkstra Archive Техасского университета в Остине.',
+        en: '**EWD796** - Dijkstra\'s original 1981 manuscript "Smoothsort, an alphabetical variant of heapsort", available in the E.W. Dijkstra Archive at the University of Texas at Austin.',
+      },
+      {
+        ru: '**Кит Шварц (Keith Schwarz)** написал один из самых цитируемых учебных разборов реализации смузсорта на своём личном сайте - оригинальное описание Дейкстры многие практики называют труднопонимаемым без такого разбора.',
+        en: '**Keith Schwarz** wrote one of the most widely cited educational breakdowns of a smoothsort implementation on his personal site - Dijkstra\'s original description is considered hard to follow by many practitioners without it.',
+      },
+      {
+        ru: 'Встречается в **академических курсах по структурам данных** (например, Stanford CS166 и аналогичные курсы) как пример нетривиальной кучи, но почти не используется в промышленных стандартных библиотеках (V8, CPython, glibc `qsort`) - сложность поддержки не окупается небольшим выигрышем над Timsort/introsort.',
+        en: 'Shows up in **academic data structures courses** (e.g. Stanford CS166 and similar) as an example of a nontrivial heap, but is almost never used in production standard libraries (V8, CPython, glibc `qsort`) - the maintenance complexity doesn\'t pay off against the small edge over Timsort/introsort.',
+      },
+      {
+        ru: 'Иногда упоминается в статьях об **алгоритмах сортировки с гарантией прерывания** (anytime sorting algorithms) рядом с patience sort - как пример алгоритма, применимого там, где процесс может быть остановлен на полуслове с валидным частично упорядоченным результатом.',
+        en: 'Sometimes mentioned in articles about **interruptible ("anytime") sorting algorithms** alongside patience sort - as an example of an algorithm usable where the process may be stopped mid-run and still leave a validly partially ordered result.',
+      },
+    ],
+  },
+
   steps: [
     {
       title: { ru: 'Строить лес куч Леонардо', en: 'Build a forest of Leonardo heaps' },
@@ -234,6 +307,141 @@ def smooth_sort(arr):
     return a`,
   },
 
+  walkthrough: {
+    javascript: [
+      {
+        lines: [1, 7],
+        title: { ru: 'Мемоизированные числа Леонардо', en: 'Memoized Leonardo numbers' },
+        explanation: {
+          ru: '`LEO` хранит уже вычисленные числа Леонардо; `leonardo(k)` при необходимости достраивает массив по формуле `L(k) = L(k-1) + L(k-2) + 1`, вместо того чтобы пересчитывать всю последовательность заранее.',
+          en: '`LEO` caches Leonardo numbers already computed; `leonardo(k)` extends the array on demand via `L(k) = L(k-1) + L(k-2) + 1`, instead of precomputing the whole sequence upfront.',
+        },
+      },
+      {
+        lines: [9, 21],
+        title: { ru: 'siftDown: просеивание внутри одного дерева', en: 'siftDown: sifting within a single tree' },
+        explanation: {
+          ru: 'Классическое просеивание вниз, но смещения детей вычисляются через `leonardo(order - 2)`, а не `2*i + 1` - потому что дерево Леонардо несимметрично: левое поддерево порядка `order-1`, правое `order-2`.',
+          en: 'A classic sift-down, but child offsets come from `leonardo(order - 2)` instead of `2*i + 1` - because a Leonardo tree is asymmetric: the left subtree has order `order-1`, the right has order `order-2`.',
+        },
+      },
+      {
+        lines: [23, 26],
+        title: { ru: 'smoothSort: подготовка', en: 'smoothSort: setup' },
+        explanation: {
+          ru: 'Копия массива `a` сортируется на месте; `orders` - стек порядков деревьев, реально составляющих лес в текущий момент.',
+          en: 'A copy `a` is sorted in place; `orders` is the stack of tree orders that currently make up the forest.',
+        },
+      },
+      {
+        lines: [28, 43],
+        title: { ru: 'trinkle: поиск победителя', en: 'trinkle: finding the winner' },
+        explanation: {
+          ru: 'Сравниваются три кандидата на позицию корня: оба ребёнка текущего узла (если `order > 1`) и «пасынок» `stepson` - корень предыдущего меньшего дерева леса.',
+          en: 'Three candidates for the root position are compared: both children of the current node (if `order > 1`) and the "stepson" - the root of the previous, smaller tree in the forest.',
+        },
+      },
+      {
+        lines: [44, 56],
+        title: { ru: 'trinkle: применение результата', en: 'trinkle: applying the result' },
+        explanation: {
+          ru: 'Если побеждает «пасынок», элемент перепрыгивает в соседнее дерево и цикл продолжается там (единственный выход за пределы одного дерева); если побеждает ребёнок - обмен и передача в `siftDown` для окончательного восстановления кучи.',
+          en: 'If the "stepson" wins, the element jumps into the neighboring tree and the loop continues there (the only cross-tree move); if a child wins, swap and hand off to `siftDown` to finish restoring the heap.',
+        },
+      },
+      {
+        lines: [58, 68],
+        title: { ru: 'Фаза построения леса', en: 'Forest-building phase' },
+        explanation: {
+          ru: 'На каждой вставке два последних дерева стека либо сливаются в одно большее (когда их порядки соседние), либо добавляется новое дерево - это «перенос разряда» в системе счисления по числам Леонардо; после каждого шага вызывается `trinkle`.',
+          en: 'On each insertion, the stack\'s last two trees either merge into one bigger tree (when their orders are adjacent) or a new tree is pushed - the "carry" step of the Leonardo number system; `trinkle` runs after every step.',
+        },
+      },
+      {
+        lines: [70, 82],
+        title: { ru: 'Фаза извлечения максимумов', en: 'Maximum-extraction phase' },
+        explanation: {
+          ru: 'Справа налево: последнее дерево отдаёт корень (текущий максимум) на своё финальное место; если у дерева `order > 1`, оно распадается на два дочерних дерева, и оба новых корня повторно проходят `trinkle`.',
+          en: 'Right to left: the last tree gives up its root (the current maximum) to its final slot; if the tree\'s `order > 1`, it splits into two child trees, and both newly exposed roots are re-run through `trinkle`.',
+        },
+      },
+      {
+        lines: [83, 84],
+        title: { ru: 'Возврат результата', en: 'Returning the result' },
+        explanation: {
+          ru: 'К этому моменту лес пуст, а массив `a` полностью отсортирован по возрастанию.',
+          en: 'By this point the forest is empty, and array `a` is fully sorted in ascending order.',
+        },
+      },
+    ],
+    python: [
+      {
+        lines: [1, 7],
+        title: { ru: 'Мемоизированные числа Леонардо', en: 'Memoized Leonardo numbers' },
+        explanation: {
+          ru: '`LEO` хранит уже вычисленные числа Леонардо; `leonardo(k)` при необходимости достраивает список по формуле `L(k) = L(k-1) + L(k-2) + 1`.',
+          en: '`LEO` caches Leonardo numbers already computed; `leonardo(k)` extends the list on demand via `L(k) = L(k-1) + L(k-2) + 1`.',
+        },
+      },
+      {
+        lines: [10, 25],
+        title: { ru: 'sift_down: просеивание внутри одного дерева', en: 'sift_down: sifting within a single tree' },
+        explanation: {
+          ru: 'Смещения детей вычисляются через `leonardo(order - 2)`, а не удвоением индекса - левое поддерево дерева Леонардо порядка `order-1`, правое `order-2`.',
+          en: 'Child offsets come from `leonardo(order - 2)` rather than doubling the index - a Leonardo tree\'s left subtree has order `order-1`, the right has order `order-2`.',
+        },
+      },
+      {
+        lines: [28, 31],
+        title: { ru: 'smooth_sort: подготовка', en: 'smooth_sort: setup' },
+        explanation: {
+          ru: 'Копия `a` сортируется на месте; `orders` - стек порядков деревьев текущего леса.',
+          en: 'A copy `a` is sorted in place; `orders` is the stack of tree orders in the current forest.',
+        },
+      },
+      {
+        lines: [33, 48],
+        title: { ru: 'trinkle: поиск победителя', en: 'trinkle: finding the winner' },
+        explanation: {
+          ru: 'Сравниваются оба ребёнка текущего узла (если `order > 1`) и «пасынок» `stepson` - корень предыдущего меньшего дерева леса, с которым текущий элемент мог бы поменяться местами.',
+          en: 'Both children of the current node (if `order > 1`) and the "stepson" - the root of the previous, smaller tree in the forest that the element could swap into - are compared.',
+        },
+      },
+      {
+        lines: [49, 60],
+        title: { ru: 'trinkle: применение результата', en: 'trinkle: applying the result' },
+        explanation: {
+          ru: 'Если побеждает «пасынок», элемент перепрыгивает в соседнее дерево (`r, i = stepson, i - 1`) и цикл продолжается там; если побеждает ребёнок - обмен и вызов `sift_down`.',
+          en: 'If the "stepson" wins, the element jumps into the neighboring tree (`r, i = stepson, i - 1`) and the loop continues there; if a child wins, swap and call `sift_down`.',
+        },
+      },
+      {
+        lines: [62, 70],
+        title: { ru: 'Фаза построения леса', en: 'Forest-building phase' },
+        explanation: {
+          ru: 'На каждой вставке два последних дерева стека либо сливаются в большее, либо добавляется новое дерево, после чего вызывается `trinkle`.',
+          en: 'On each insertion, the stack\'s last two trees either merge into a bigger tree or a new tree is appended, and `trinkle` runs afterward.',
+        },
+      },
+      {
+        lines: [72, 82],
+        title: { ru: 'Фаза извлечения максимумов', en: 'Maximum-extraction phase' },
+        explanation: {
+          ru: 'Справа налево: последнее дерево отдаёт корень на своё финальное место; дерево с `order > 1` распадается на два дочерних, и оба новых корня повторно проходят `trinkle`.',
+          en: 'Right to left: the last tree gives up its root to its final slot; a tree with `order > 1` splits into two children, and both newly exposed roots are re-run through `trinkle`.',
+        },
+      },
+      {
+        lines: [84, 84],
+        title: { ru: 'Возврат результата', en: 'Returning the result' },
+        explanation: {
+          ru: 'Лес пуст, `a` полностью отсортирован по возрастанию.',
+          en: 'The forest is empty, and `a` is fully sorted in ascending order.',
+        },
+      },
+    ],
+  },
+
   pros: [
     {
       ru: 'Адаптивен: приближается к O(n) на уже почти отсортированных данных, в отличие от обычного heap sort.',
@@ -317,8 +525,8 @@ def smooth_sort(arr):
         en: 'It is exactly this "forest" of variable-sized trees (instead of a single heap) that lets smoothsort adapt to the order of the input data.',
       },
       hint: {
-        ru: 'Heap sort строит одну кучу на весь массив. Что смузсорт строит вместо этого?',
-        en: 'Heap sort builds one heap over the entire array. What does smoothsort build instead?',
+        ru: 'Смотрите первый абзац раздела «Углублённо» на вкладке «Суть» (куча Леонардо порядка k против бинарной кучи).',
+        en: 'See the first "Deep dive" paragraph on the "Intent" tab (a Leonardo heap of order k versus a binary heap).',
       },
     },
     {
@@ -350,8 +558,8 @@ def smooth_sort(arr):
         en: 'If elements are already close to their correct positions, sifting (rectify/trinkle) finishes faster - hence the near-O(n) behavior on "smooth" data.',
       },
       hint: {
-        ru: 'Адаптивный алгоритм делает меньше работы, когда данные уже частично упорядочены. Что именно требует меньше работы при наличии порядка в данных?',
-        en: 'An adaptive algorithm does less work when data is already partially ordered. What specifically requires less work when order is present in the data?',
+        ru: 'Смотрите последний абзац раздела «Углублённо» на вкладке «Суть» (условия `break`/`return`, срабатывающие сразу на отсортированных данных).',
+        en: 'See the last "Deep dive" paragraph on the "Intent" tab (the `break`/`return` conditions that fire immediately on sorted data).',
       },
     },
     {
@@ -380,8 +588,8 @@ def smooth_sort(arr):
         en: 'Unlike Timsort, which spends O(n) memory merging runs, smoothsort, as a heap sort variant, restructures trees directly within the original array.',
       },
       hint: {
-        ru: 'Timsort сливает отсортированные прогоны во временный буфер. Смузсорт делает то же самое или обходится без него?',
-        en: 'Timsort merges sorted runs into a temporary buffer. Does smoothsort do the same, or does it work without one?',
+        ru: 'Смотрите второй пункт плюсов на вкладке «Плюсы и минусы» и первый пункт whenToUse (углублённого) на вкладке «Суть».',
+        en: 'See the second "Pros" item on the "Pros & Cons" tab and the first extended "When to use" item on the "Intent" tab.',
       },
     },
     {
@@ -413,8 +621,8 @@ def smooth_sort(arr):
         en: 'Smoothsort (1981) is Dijkstra\'s work, demonstrating that adaptivity (like insertion sort has) doesn\'t necessarily require sacrificing memory or the worst-case guarantee.',
       },
       hint: {
-        ru: 'Этот учёный известен алгоритмом поиска кратчайшего пути и концепцией структурного программирования. Кто это?',
-        en: 'This scientist is known for a shortest-path algorithm and the concept of structured programming. Who is it?',
+        ru: 'Смотрите последний абзац раздела «Углублённо» и первый пункт «Примеры из практики» (углублённого) на вкладке «Суть» (рукопись EWD796, 1981).',
+        en: 'See the last "Deep dive" paragraph and the first extended "Real world" item on the "Intent" tab (the EWD796 manuscript, 1981).',
       },
     },
     {
@@ -446,8 +654,8 @@ def smooth_sort(arr):
         en: 'Unlike regular heap sort with one uniform structure, a forest of variable-sized Leonardo-number trees requires tracking many states as elements are added and removed.',
       },
       hint: {
-        ru: 'Сравните сложность поддержания одной бинарной кучи с поддержанием леса деревьев разного размера с нестандартными операциями slicing и merging.',
-        en: 'Compare the complexity of maintaining one binary heap versus a forest of differently sized trees with non-standard slicing and merging operations.',
+        ru: 'Смотрите первый пункт минусов на вкладке «Плюсы и минусы» и абзацы 4-5 раздела «Углублённо» на вкладке «Суть» (логика `trinkle` и «пасынок»).',
+        en: 'See the first "Cons" item on the "Pros & Cons" tab and the 4th-5th "Deep dive" paragraphs on the "Intent" tab (the `trinkle` logic and the "stepson").',
       },
     },
     {
@@ -467,8 +675,8 @@ def smooth_sort(arr):
         en: 'On an already sorted array, rectify/trinkle operations complete immediately - no element violates the heap invariant - so total work is linear.',
       },
       hint: {
-        ru: 'Если данные уже отсортированы, нужно ли что-то перемещать при построении леса куч?',
-        en: 'If the data is already sorted, does anything need to be moved while building the heap forest?',
+        ru: 'Смотрите бейдж «Время» вверху страницы (best case) и последний абзац раздела «Углублённо» на вкладке «Суть».',
+        en: 'See the "Time" complexity badge at the top of the page (best case) and the last "Deep dive" paragraph on the "Intent" tab.',
       },
     },
     {
@@ -488,8 +696,8 @@ def smooth_sort(arr):
         en: 'Leonardo numbers: L(0) = 1, L(1) = 1, L(k) = L(k-1) + L(k-2) + 1. Tree sizes in smoothsort\'s forest must always be Leonardo numbers - this ensures correct tree merging and splitting.',
       },
       hint: {
-        ru: 'Вспомните числа Фибоначчи: F(k) = F(k-1) + F(k-2). Как числа Леонардо отличаются от них?',
-        en: 'Recall Fibonacci numbers: F(k) = F(k-1) + F(k-2). How do Leonardo numbers differ from them?',
+        ru: 'Смотрите первый абзац раздела «Углублённо» на вкладке «Суть» и строки 3-7 функции `leonardo` на вкладке «Реализация».',
+        en: 'See the first "Deep dive" paragraph on the "Intent" tab and lines 3-7 of the `leonardo` function on the "Implementation" tab.',
       },
     },
     {
@@ -509,8 +717,8 @@ def smooth_sort(arr):
         en: 'Smoothsort, like heap sort, can change the relative order of equal elements during maximum extraction and forest restructuring. Stability is not its property.',
       },
       hint: {
-        ru: 'Heap sort известен тем, что неустойчив. Смузсорт - вариант heap sort. Что это говорит о его устойчивости?',
-        en: 'Heap sort is known to be unstable. Smoothsort is a heap sort variant. What does that suggest about its stability?',
+        ru: 'Смотрите тег `unstable` рядом с названием алгоритма вверху страницы и второй пункт минусов на вкладке «Плюсы и минусы».',
+        en: 'See the `unstable` tag next to the algorithm name at the top of the page and the second "Cons" item on the "Pros & Cons" tab.',
       },
     },
     {
@@ -530,8 +738,8 @@ def smooth_sort(arr):
         en: 'Timsort merges runs into an O(n) temporary buffer, which is unacceptable where memory is scarce. Smoothsort needs no extra arrays - the entire forest is built directly within the original array.',
       },
       hint: {
-        ru: 'Для чего Timsort выделяет дополнительную память - и нужно ли это смузсорту?',
-        en: 'What does Timsort allocate extra memory for - and does smoothsort need that same thing?',
+        ru: 'Смотрите бейдж «Память» вверху страницы и первый пункт whenToUse (углублённого) на вкладке «Суть».',
+        en: 'See the "Space" complexity badge at the top of the page and the first extended "When to use" item on the "Intent" tab.',
       },
     },
     {
@@ -551,8 +759,8 @@ def smooth_sort(arr):
         en: 'Each Leonardo tree of order k consists of a root and two subtrees of order k-1 and k-2. When the root is removed, these two subtrees become independent trees in the forest.',
       },
       hint: {
-        ru: 'Число Леонардо L(k) = L(k-1) + L(k-2) + 1 (корень). Если убрать корень, что останется?',
-        en: 'A Leonardo number L(k) = L(k-1) + L(k-2) + 1 (the root). If you remove the root, what is left?',
+        ru: 'Смотрите шестой абзац раздела «Углублённо» на вкладке «Суть» и шаг «Фаза извлечения максимумов» построчного разбора на вкладке «Реализация».',
+        en: 'See the sixth "Deep dive" paragraph on the "Intent" tab and the "Maximum-extraction phase" walkthrough step on the "Implementation" tab.',
       },
     },
   ],

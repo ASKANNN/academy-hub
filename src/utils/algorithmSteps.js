@@ -344,41 +344,76 @@ function timSortSteps(input) {
   const frames = [frame(a, [], [])];
   const MIN_RUN = 4;
 
-  for (let start = 0; start < n; start += MIN_RUN) {
-    const end = Math.min(start + MIN_RUN - 1, n - 1);
-    for (let i = start + 1; i <= end; i++) {
+  function insertionSortRange(left, right) {
+    for (let i = left + 1; i <= right; i++) {
       const current = a[i];
       let j = i - 1;
       frames.push(frame(a, [i], []));
-      while (j >= start && a[j] > current) {
+      while (j >= left && a[j] > current) {
         a[j + 1] = a[j];
         j--;
         frames.push(frame(a, [j + 1], []));
       }
       a[j + 1] = current;
     }
-    frames.push(frame(a, [], rangeFrom(start, end + 1)));
   }
 
-  for (let size = MIN_RUN; size < n; size *= 2) {
-    for (let left = 0; left < n; left += size * 2) {
-      const mid = Math.min(left + size - 1, n - 1);
-      const right = Math.min(left + size * 2 - 1, n - 1);
-      if (mid >= right) continue;
+  function findRunEnd(start) {
+    if (start === n - 1) return start;
+    let end = start + 1;
+    if (a[end] < a[start]) {
+      while (end < n - 1 && a[end + 1] < a[end]) end++;
+      let left = start, right = end;
+      while (left < right) {
+        [a[left], a[right]] = [a[right], a[left]];
+        frames.push(frame(a, [left, right], []));
+        left++;
+        right--;
+      }
+    } else {
+      while (end < n - 1 && a[end + 1] >= a[end]) end++;
+    }
+    return end;
+  }
 
+  const runs = [];
+  let start = 0;
+  while (start < n) {
+    let end = findRunEnd(start);
+    if (end - start + 1 < MIN_RUN) {
+      end = Math.min(start + MIN_RUN - 1, n - 1);
+      insertionSortRange(start, end);
+    }
+    frames.push(frame(a, [], rangeFrom(start, end + 1)));
+    runs.push([start, end]);
+    start = end + 1;
+  }
+
+  let currentRuns = runs;
+  while (currentRuns.length > 1) {
+    const merged = [];
+    for (let i = 0; i < currentRuns.length; i += 2) {
+      if (i + 1 >= currentRuns.length) {
+        merged.push(currentRuns[i]);
+        continue;
+      }
+      const [left, mid] = currentRuns[i];
+      const [, right] = currentRuns[i + 1];
       const leftPart = a.slice(left, mid + 1);
       const rightPart = a.slice(mid + 1, right + 1);
-      let i = 0, j = 0, k = left;
-      while (i < leftPart.length && j < rightPart.length) {
+      let li = 0, ri = 0, k = left;
+      while (li < leftPart.length && ri < rightPart.length) {
         frames.push(frame(a, [k], []));
-        if (leftPart[i] <= rightPart[j]) a[k++] = leftPart[i++];
-        else a[k++] = rightPart[j++];
+        if (leftPart[li] <= rightPart[ri]) a[k++] = leftPart[li++];
+        else a[k++] = rightPart[ri++];
         frames.push(frame(a, [k - 1], []));
       }
-      while (i < leftPart.length) { a[k++] = leftPart[i++]; frames.push(frame(a, [k - 1], [])); }
-      while (j < rightPart.length) { a[k++] = rightPart[j++]; frames.push(frame(a, [k - 1], [])); }
+      while (li < leftPart.length) { a[k++] = leftPart[li++]; frames.push(frame(a, [k - 1], [])); }
+      while (ri < rightPart.length) { a[k++] = rightPart[ri++]; frames.push(frame(a, [k - 1], [])); }
       frames.push(frame(a, [], rangeFrom(left, right + 1)));
+      merged.push([left, right]);
     }
+    currentRuns = merged;
   }
 
   frames.push(frame(a, [], rangeFrom(0, n)));
@@ -614,25 +649,30 @@ function tournamentSortSteps(input) {
   const winner = new Array(2 * size - 1).fill(-1);
   for (let i = 0; i < size; i++) winner[size - 1 + i] = i;
 
+  function nodeFrame(node) {
+    const leftChild = node * 2 + 1;
+    const rightChild = node * 2 + 2;
+    const leftLeaf = winner[leftChild];
+    const rightLeaf = winner[rightChild];
+    const leftVal = leftLeaf === -1 ? INF : leaves[leftLeaf];
+    const rightVal = rightLeaf === -1 ? INF : leaves[rightLeaf];
+    const li = leftLeaf === -1 ? -1 : leafOrig[leftLeaf];
+    const ri = rightLeaf === -1 ? -1 : leafOrig[rightLeaf];
+    const active = [li, ri].filter((x) => x >= 0);
+    if (active.length) frames.push(frame(output, active, []));
+    winner[node] = leftVal <= rightVal ? leftLeaf : rightLeaf;
+  }
+
+  for (let node = size - 2; node >= 0; node--) nodeFrame(node);
+
   function buildFrom(leafSlot) {
     let node = size - 1 + leafSlot;
     while (node > 0) {
       const parent = Math.floor((node - 1) / 2);
-      const leftChild = parent * 2 + 1;
-      const rightChild = parent * 2 + 2;
-      const leftLeaf = winner[leftChild];
-      const rightLeaf = winner[rightChild];
-      const leftVal = leftLeaf === -1 ? INF : leaves[leftLeaf];
-      const rightVal = rightLeaf === -1 ? INF : leaves[rightLeaf];
-      const li = leftLeaf === -1 ? -1 : leafOrig[leftLeaf];
-      const ri = rightLeaf === -1 ? -1 : leafOrig[rightLeaf];
-      const active = [li, ri].filter((x) => x >= 0);
-      if (active.length) frames.push(frame(output, active, []));
-      winner[parent] = leftVal <= rightVal ? leftLeaf : rightLeaf;
+      nodeFrame(parent);
       node = parent;
     }
   }
-  for (let leafSlot = 0; leafSlot < size; leafSlot++) buildFrom(leafSlot);
 
   for (let outPos = 0; outPos < n; outPos++) {
     const championLeaf = winner[0];

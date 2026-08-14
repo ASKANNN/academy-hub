@@ -99,6 +99,173 @@ export const stoogeSort = {
     return a`,
   },
 
+  walkthrough: {
+    javascript: [
+      {
+        lines: [1],
+        title: { ru: 'Сигнатура', en: 'Signature' },
+        explanation: {
+          ru: '`stoogeSort` принимает массив `arr` и настраивает вспомогательную рекурсивную функцию `rec`, замыкающуюся на общий массив `a` - все рекурсивные вызовы работают с одной и той же копией, передавая только границы диапазона.',
+          en: '`stoogeSort` takes an array `arr` and sets up a helper recursive function `rec` closing over the shared array `a` - every recursive call works on the same copy, passing only the range boundaries.',
+        },
+      },
+      {
+        lines: [2],
+        title: { ru: 'Копия массива', en: 'Copying the array' },
+        explanation: {
+          ru: '`const a = [...arr]` создаёт копию входного массива - вся сортировка выполняется на месте внутри этой копии.',
+          en: '`const a = [...arr]` copies the input array - the whole sort runs in place inside this copy.',
+        },
+      },
+      {
+        lines: [4],
+        title: { ru: 'Сигнатура rec', en: 'The rec signature' },
+        explanation: {
+          ru: '`rec(lo, hi)` обрабатывает диапазон массива `a` от индекса `lo` до `hi` включительно - именно эти границы определяют, какая часть массива рассматривается на текущем уровне рекурсии.',
+          en: '`rec(lo, hi)` processes the range of array `a` from index `lo` to `hi` inclusive - these boundaries define which part of the array the current recursion level considers.',
+        },
+      },
+      {
+        lines: [5, 7],
+        title: { ru: 'Сравнение и обмен крайних элементов', en: 'Comparing and swapping the outer elements' },
+        explanation: {
+          ru: 'Если первый элемент диапазона больше последнего, они меняются местами. Это единственное фактическое сравнение значений на каждом уровне рекурсии - весь остальной код лишь решает, куда рекурсивно спуститься дальше.',
+          en: "If the range's first element is greater than its last, they're swapped. This is the only actual value comparison at each recursion level - all the remaining code only decides where to recurse next.",
+        },
+      },
+      {
+        lines: [8, 9],
+        title: { ru: 'Базовый случай и вычисление трети', en: 'Base case and computing the third' },
+        explanation: {
+          ru: 'Если в диапазоне два или меньше элементов (`hi - lo + 1 <= 2`), рекурсия на этом уровне останавливается - обработка исчерпывается одним сравнением из предыдущего шага. Иначе вычисляется `t` - целая треть длины диапазона.',
+          en: 'If the range has two or fewer elements (`hi - lo + 1 <= 2`), recursion stops at this level - processing is exhausted by the single comparison from the previous step. Otherwise `t` is computed - the integer third of the range length.',
+        },
+      },
+      {
+        lines: [10],
+        title: { ru: 'Первый рекурсивный вызов: первые 2/3', en: 'First recursive call: the first two-thirds' },
+        explanation: {
+          ru: '`rec(lo, hi - t)` рекурсивно обрабатывает первые две трети текущего диапазона.',
+          en: '`rec(lo, hi - t)` recursively processes the first two-thirds of the current range.',
+        },
+      },
+      {
+        lines: [11],
+        title: { ru: 'Второй рекурсивный вызов: последние 2/3', en: 'Second recursive call: the last two-thirds' },
+        explanation: {
+          ru: '`rec(lo + t, hi)` рекурсивно обрабатывает последние две трети того же диапазона - этот вызов перекрывается с предыдущим на средней трети.',
+          en: '`rec(lo + t, hi)` recursively processes the last two-thirds of the same range - this call overlaps the previous one across the middle third.',
+        },
+      },
+      {
+        lines: [12],
+        title: { ru: 'Третий рекурсивный вызов: снова первые 2/3', en: 'Third recursive call: the first two-thirds again' },
+        explanation: {
+          ru: '`rec(lo, hi - t)` повторяет первый вызов - без этого повторения элементы, перемещённые вторым вызовом в начало диапазона, могли бы остаться на неверных местах.',
+          en: '`rec(lo, hi - t)` repeats the first call - without this repetition, elements moved by the second call into the start of the range could be left in the wrong spots.',
+        },
+      },
+      {
+        lines: [16],
+        title: { ru: 'Запуск рекурсии', en: 'Kicking off the recursion' },
+        explanation: {
+          ru: '`if (a.length > 1) rec(0, a.length - 1)` запускает рекурсию на всём массиве, только если в нём больше одного элемента - для пустого массива или массива из одного элемента сортировать нечего.',
+          en: '`if (a.length > 1) rec(0, a.length - 1)` starts the recursion over the whole array only if it has more than one element - an empty array or a single-element one needs no sorting.',
+        },
+      },
+      {
+        lines: [17],
+        title: { ru: 'Возврат результата', en: 'Returning the result' },
+        explanation: {
+          ru: 'После завершения всей рекурсии `a` полностью отсортирован и возвращается вызывающему коду.',
+          en: 'Once the whole recursion finishes, `a` is fully sorted and returned to the caller.',
+        },
+      },
+    ],
+    python: [
+      {
+        lines: [1],
+        title: { ru: 'Сигнатура', en: 'Signature' },
+        explanation: {
+          ru: '`stooge_sort` принимает список `arr` и определяет вложенную функцию `rec`, замыкающуюся на общий список `a`, как и в JS-версии.',
+          en: '`stooge_sort` takes a list `arr` and defines a nested function `rec` closing over the shared list `a`, same as the JS version.',
+        },
+      },
+      {
+        lines: [2],
+        title: { ru: 'Копия списка', en: 'Copying the list' },
+        explanation: {
+          ru: '`a = list(arr)` создаёт копию входного списка, чтобы не изменять аргумент вызывающего кода.',
+          en: '`a = list(arr)` copies the input list so the caller\'s argument stays untouched.',
+        },
+      },
+      {
+        lines: [4],
+        title: { ru: 'Сигнатура rec', en: 'The rec signature' },
+        explanation: {
+          ru: '`rec(lo, hi)` обрабатывает диапазон списка `a` от индекса `lo` до `hi` включительно, идентично JS-версии.',
+          en: '`rec(lo, hi)` processes the range of list `a` from index `lo` to `hi` inclusive, identical to the JS version.',
+        },
+      },
+      {
+        lines: [5, 6],
+        title: { ru: 'Сравнение и обмен крайних элементов', en: 'Comparing and swapping the outer elements' },
+        explanation: {
+          ru: 'Если `a[lo] > a[hi]`, элементы меняются местами кортежным присваиванием `a[lo], a[hi] = a[hi], a[lo]` - единственное фактическое сравнение на уровне.',
+          en: 'If `a[lo] > a[hi]`, the elements are swapped via tuple assignment `a[lo], a[hi] = a[hi], a[lo]` - the only actual comparison at this level.',
+        },
+      },
+      {
+        lines: [7, 8],
+        title: { ru: 'Базовый случай и вычисление трети', en: 'Base case and computing the third' },
+        explanation: {
+          ru: 'Условие `hi - lo + 1 > 2` защищает от рекурсии на диапазонах из двух или меньше элементов. Иначе `t = (hi - lo + 1) // 3` вычисляет целую треть длины диапазона.',
+          en: 'The `hi - lo + 1 > 2` condition guards against recursing on ranges of two or fewer elements. Otherwise `t = (hi - lo + 1) // 3` computes the integer third of the range length.',
+        },
+      },
+      {
+        lines: [9],
+        title: { ru: 'Первый рекурсивный вызов: первые 2/3', en: 'First recursive call: the first two-thirds' },
+        explanation: {
+          ru: '`rec(lo, hi - t)` обрабатывает первые две трети диапазона.',
+          en: '`rec(lo, hi - t)` processes the first two-thirds of the range.',
+        },
+      },
+      {
+        lines: [10],
+        title: { ru: 'Второй рекурсивный вызов: последние 2/3', en: 'Second recursive call: the last two-thirds' },
+        explanation: {
+          ru: '`rec(lo + t, hi)` обрабатывает последние две трети, перекрываясь с первым вызовом на средней трети.',
+          en: '`rec(lo + t, hi)` processes the last two-thirds, overlapping the first call across the middle third.',
+        },
+      },
+      {
+        lines: [11],
+        title: { ru: 'Третий рекурсивный вызов: снова первые 2/3', en: 'Third recursive call: the first two-thirds again' },
+        explanation: {
+          ru: '`rec(lo, hi - t)` повторяется в третий раз, гарантируя, что элементы, сдвинутые вторым вызовом, окажутся на верных местах.',
+          en: '`rec(lo, hi - t)` repeats a third time, guaranteeing that elements shifted by the second call end up in their correct spots.',
+        },
+      },
+      {
+        lines: [13, 14],
+        title: { ru: 'Запуск рекурсии', en: 'Kicking off the recursion' },
+        explanation: {
+          ru: '`if len(a) > 1: rec(0, len(a) - 1)` запускает рекурсию только для списков длиннее одного элемента.',
+          en: '`if len(a) > 1: rec(0, len(a) - 1)` starts the recursion only for lists longer than one element.',
+        },
+      },
+      {
+        lines: [15],
+        title: { ru: 'Возврат результата', en: 'Returning the result' },
+        explanation: {
+          ru: 'После завершения рекурсии `a` полностью отсортирован и возвращается.',
+          en: 'Once the recursion finishes, `a` is fully sorted and returned.',
+        },
+      },
+    ],
+  },
+
   pros: [
     {
       ru: 'Реализация предельно короткая и рекурсия концептуально проста - интересный пример того, что «простой код» и «эффективный код» не одно и то же.',
@@ -150,6 +317,75 @@ export const stoogeSort = {
     },
   ],
 
+  details: {
+    deepDive: [
+      {
+        ru: 'Проследим полный вызов на массиве `[4, 1, 3, 2]` (n = 4). Верхний вызов `rec(0,3)` сравнивает 4 и 2, меняет их местами - `[2, 1, 3, 4]`. Затем `t = floor(4/3) = 1`, и следуют три вложенных вызова: `rec(0,2)`, `rec(1,3)`, `rec(0,2)`. Первый находит и исправляет пару (2, 1) внутри себя, давая `[1, 2, 3, 4]`; второй и третий не находят больше нарушений порядка. Итог: массив отсортирован всего за **2 обмена**, но ценой **13 рекурсивных вызовов** - по одному сравнению на вызов.',
+        en: 'Let\'s trace a full call on `[4, 1, 3, 2]` (n = 4). The top call `rec(0,3)` compares 4 and 2 and swaps them - `[2, 1, 3, 4]`. Then `t = floor(4/3) = 1`, followed by three nested calls: `rec(0,2)`, `rec(1,3)`, `rec(0,2)`. The first finds and fixes the pair (2, 1) inside it, producing `[1, 2, 3, 4]`; the second and third find no more disorder. Result: the array is sorted in just **2 swaps**, at the cost of **13 recursive calls** - one comparison per call.',
+      },
+      {
+        ru: 'Каждый вызов `rec` делает ровно одно сравнение, поэтому число сравнений равно числу вызовов. Оно растёт стремительно: для n = 9 требуется **121 вызов**, для n = 16 - **1093**, для n = 27 - **3280** (проверено прямым подсчётом). Для сравнения, пузырьковая сортировка на n = 27 делает не более `27*26/2 = 351` сравнений в худшем случае - Стуз-сортировка тратит на порядок больше работы уже на небольших массивах.',
+        en: 'Every `rec` call makes exactly one comparison, so the call count equals the comparison count. It grows fast: n = 9 needs **121 calls**, n = 16 needs **1093**, n = 27 needs **3280** (verified by direct counting). For comparison, bubble sort on n = 27 makes at most `27*26/2 = 351` comparisons in the worst case - stooge sort spends an order of magnitude more work even on small arrays.',
+      },
+      {
+        ru: 'Откуда берётся показатель степени 2.71? Рекуррентное соотношение T(n) = 3T(2n/3) + O(1) по основной теореме о рекуррентных соотношениях (случай, где `a = 3` вызовов на подзадачу размера `n/b` с `b = 1.5`) даёт T(n) = O(n^(log₃/log₁.₅)). Численно `log(3) ≈ 1.0986`, `log(1.5) ≈ 0.4055`, их отношение - **≈ 2.7095**, отсюда и заявленная сложность O(n^2.7095).',
+        en: 'Where does the 2.71 exponent come from? The recurrence T(n) = 3T(2n/3) + O(1), by the master theorem (the case of `a = 3` calls on a subproblem of size `n/b` with `b = 1.5`), gives T(n) = O(n^(log(3)/log(1.5))). Numerically `log(3) ≈ 1.0986`, `log(1.5) ≈ 0.4055`, and their ratio is **≈ 2.7095**, which is exactly the stated O(n^2.7095) complexity.',
+      },
+      {
+        ru: 'Ключевая деталь - перекрытие. Если бы диапазон делился на непересекающиеся трети (как в тернарной версии сортировки слиянием), рекуррентное соотношение было бы T(n) = 3T(n/3) + O(n) с логарифмической сложностью O(n log n). Именно перекрытие в две трети вместо непересекающейся трети превращает эффективный тернарный алгоритм в один из худших известных алгоритмов сортировки со стабильно правильным результатом.',
+        en: 'The key detail is the overlap. If the range were split into non-overlapping thirds (like a ternary merge sort), the recurrence would be T(n) = 3T(n/3) + O(n) with logarithmic O(n log n) complexity. It\'s specifically the two-thirds overlap instead of a non-overlapping third that turns what could be an efficient ternary algorithm into one of the worst known sorting algorithms that still always produces a correct result.',
+      },
+      {
+        ru: 'Корректность при этом не случайна - её можно доказать индукцией по длине диапазона. Первый вызов гарантирует, что наибольший элемент диапазона не окажется среди первых двух третей после обработки второго вызова (он "прячется" среди последней трети или дальше). Третий вызов затем сортирует первые две трети снова, подтягивая в них всё, что должно там оказаться, включая элементы, "принесённые" вторым вызовом.',
+        en: 'Correctness here isn\'t accidental - it can be proved by induction on the range length. The first call guarantees the range\'s largest element won\'t end up among the first two-thirds after the second call\'s processing (it "hides" in the last third or beyond). The third call then sorts the first two-thirds again, pulling in everything that belongs there, including elements the second call "brought in".',
+      },
+      {
+        ru: 'Стуз-сортировка часто упоминается как учебное упражнение на вывод и решение рекуррентных соотношений методом основной теоремы - в частности, в книге **Udi Manber, «Introduction to Algorithms: A Creative Approach» (1989)**, где подобные алгоритмы используются, чтобы показать, что интуитивно «похожий на быстрый» рекурсивный алгоритм может оказаться катастрофически медленным при неправильной структуре подзадач.',
+        en: 'Stooge sort is often cited as a teaching exercise in deriving and solving recurrences via the master theorem - notably in **Udi Manber\'s "Introduction to Algorithms: A Creative Approach" (1989)**, where such algorithms illustrate that a recursive algorithm which intuitively "looks fast" can turn out catastrophically slow if its subproblem structure is wrong.',
+      },
+      {
+        ru: 'При этом глубина рекурсии остаётся логарифмической: каждый уровень уменьшает размер диапазона в 1.5 раза (`2n/3`), поэтому глубина - O(log₁.₅ n), а не O(n), как можно было бы ожидать от алгоритма с такой плохой временной сложностью. Именно поэтому пространственная сложность Стуз-сортировки - всего O(log n), несмотря на почти кубическое время работы.',
+        en: 'Yet the recursion depth stays logarithmic: each level shrinks the range by a factor of 1.5 (`2n/3`), so the depth is O(log₁.₅ n), not O(n) as one might expect from an algorithm with such poor time complexity. This is exactly why stooge sort\'s space complexity is only O(log n), despite its near-cubic running time.',
+      },
+    ],
+    whenToUse: [
+      {
+        ru: '**Никогда для реальной сортировки данных** - даже сортировка вставками (O(n²)) или пузырьковая сортировка выигрывают у Стуз-сортировки (O(n^2.71)) на любом n больше нескольких элементов.',
+        en: '**Never for real data sorting** - even insertion sort or bubble sort (both O(n²)) beat stooge sort (O(n^2.71)) for any n beyond a handful of elements.',
+      },
+      {
+        ru: '**При обучении выводу рекуррентных соотношений** - Стуз-сортировка даёт наглядный пример перехода от T(n) = aT(n/b) + O(1) к основной теореме, с результатом, который не является ни O(n log n), ни O(n²), ни O(n), а честной дробной степенью.',
+        en: '**When teaching recurrence derivation** - stooge sort gives a clear example of going from T(n) = aT(n/b) + O(1) through the master theorem, with a result that is neither O(n log n), nor O(n²), nor O(n), but a genuine fractional power.',
+      },
+      {
+        ru: '**При сравнении с сортировкой слиянием** - contrast полезен именно потому, что оба алгоритма рекурсивно делят диапазон на трети, но merge sort делает это без перекрытия и с явным шагом слияния за O(n), а Стуз-сортировка - с перекрытием и без слияния вовсе.',
+        en: '**When contrasting with merge sort** - the comparison is useful precisely because both algorithms recursively split the range into thirds, but merge sort does so without overlap and with an explicit O(n) merge step, while stooge sort overlaps and has no merge step at all.',
+      },
+      {
+        ru: '**При обсуждении «ложной интуиции» о рекурсии** - студенты часто предполагают, что любое рекурсивное деление диапазона на части даёт O(n log n); Стуз-сортировка - контрпример, показывающий, что решает именно структура подзадач (перекрывающиеся или нет), а не сам факт рекурсии.',
+        en: '**When discussing "false intuition" about recursion** - students often assume any recursive range-splitting gives O(n log n); stooge sort is a counterexample showing that what matters is the subproblem structure (overlapping or not), not the mere fact of recursion.',
+      },
+    ],
+    realWorld: [
+      {
+        ru: '**Udi Manber, «Introduction to Algorithms: A Creative Approach» (Addison-Wesley, 1989)** - учебник, где подобные намеренно неэффективные рекурсивные алгоритмы используются как упражнения на анализ рекуррентных соотношений.',
+        en: '**Udi Manber, "Introduction to Algorithms: A Creative Approach" (Addison-Wesley, 1989)** - the textbook where deliberately inefficient recursive algorithms like this are used as exercises in recurrence analysis.',
+      },
+      {
+        ru: '**Rosetta Code и аналогичные сайты-каталоги алгоритмов** реализуют Стуз-сортировку на десятках языков программирования как демонстрацию курьёзной, но корректной рекурсии, а не как практический инструмент.',
+        en: '**Rosetta Code and similar algorithm-catalog sites** implement stooge sort in dozens of programming languages as a demonstration of a curious-but-correct recursion, not as a practical tool.',
+      },
+      {
+        ru: '**Списки «худших алгоритмов сортировки»** в сообществе программистов неизменно ставят Стуз-сортировку рядом с Бого- и Слоу-сортировкой (Slowsort) как пример того, насколько плохой может быть асимптотика при внешне разумном коде.',
+        en: '**"Worst sorting algorithms" lists** in the programming community consistently place stooge sort alongside bogosort and slowsort as an example of how bad asymptotics can get from outwardly reasonable-looking code.',
+      },
+      {
+        ru: '**Курсы по алгоритмическому анализу** (университетские и онлайн) используют вывод показателя `log(3)/log(1.5) ≈ 2.71` как готовую задачу применения основной теоремы для рекуррентных соотношений с нецелой степенью в основании логарифма.',
+        en: '**Algorithm analysis courses** (university and online) use deriving the `log(3)/log(1.5) ≈ 2.71` exponent as a ready-made exercise in applying the master theorem to recurrences with a non-integer base.',
+      },
+    ],
+  },
+
   relatedAlgorithms: ['bogosort', 'bubble-sort', 'gnome-sort'],
 
   quiz: [
@@ -170,8 +406,8 @@ export const stoogeSort = {
         en: "If the range's first element is greater than its last, they are swapped - this is the only actual comparison at each level.",
       },
       hint: {
-        ru: 'Подумайте, какие два элемента диапазона наиболее удалены друг от друга по позиции.',
-        en: 'Think about which two elements of the range are furthest apart by position.',
+        ru: 'Смотрите шаг «Сравнить крайние элементы диапазона» на вкладке «Визуализация» и строки 5-7 функции `rec` на вкладке «Реализация».',
+        en: 'See the "Compare the range\'s outer elements" step on the "Visualization" tab and lines 5-7 of the `rec` function on the "Implementation" tab.',
       },
     },
     {
@@ -191,8 +427,8 @@ export const stoogeSort = {
         en: "It's exactly the overlap of the two-thirds - not a non-overlapping split like in merge sort - that defines stooge sort and explains its poor asymptotics.",
       },
       hint: {
-        ru: 'Ключевое слово здесь - «перекрывающиеся». Сколько раз вызывается рекурсия и на каких частях диапазона?',
-        en: 'The key word here is "overlapping." How many recursive calls are made and on which portions of the range?',
+        ru: 'Смотрите шаги «Рекурсивно обработать первые/последние две трети» на вкладке «Визуализация» и строки 10-12 функции `rec` на вкладке «Реализация».',
+        en: 'See the "Recursively process the first/last two-thirds" steps on the "Visualization" tab and lines 10-12 of the `rec` function on the "Implementation" tab.',
       },
     },
     {
@@ -212,8 +448,8 @@ export const stoogeSort = {
         en: 'Solving the recurrence T(n) = 3T(2n/3) + O(1) gives the exponent log(3)/log(1.5) ≈ 2.71.',
       },
       hint: {
-        ru: 'Подставьте параметры рекуррентного соотношения T(n) = 3T(2n/3) + O(1) в основную теорему.',
-        en: 'Plug the parameters of the recurrence T(n) = 3T(2n/3) + O(1) into the master theorem.',
+        ru: 'Смотрите третий абзац раздела «Углублённо» на вкладке «Суть» - там показан вывод показателя log(3)/log(1.5) ≈ 2.71 через основную теорему.',
+        en: 'See the third paragraph of the "Deep dive" section on the "Intent" tab - it derives the log(3)/log(1.5) ≈ 2.71 exponent via the master theorem.',
       },
     },
     {
@@ -236,8 +472,8 @@ export const stoogeSort = {
         en: 'Although not intuitively obvious, the triple overlapping recursive application can be rigorously proved correct by induction on the range size.',
       },
       hint: {
-        ru: 'Перекрытие диапазонов, несмотря на неэффективность, всё же гарантирует, что каждый элемент окажется на нужном месте.',
-        en: 'The range overlap, despite its inefficiency, still ensures every element ends up in the right place.',
+        ru: 'Смотрите пятый абзац раздела «Углублённо» на вкладке «Суть» (индуктивное доказательство корректности).',
+        en: 'See the fifth paragraph of the "Deep dive" section on the "Intent" tab (the inductive correctness proof).',
       },
     },
     {
@@ -257,8 +493,8 @@ export const stoogeSort = {
         en: 'The sort runs in place, and the only extra memory goes to the depth of the recursive calls.',
       },
       hint: {
-        ru: 'Алгоритм рекурсивен, но не создаёт вспомогательных массивов - какова тогда глубина стека?',
-        en: 'The algorithm is recursive but creates no auxiliary arrays - what is the stack depth then?',
+        ru: 'Смотрите бейдж «Память» вверху страницы и седьмой абзац раздела «Углублённо» на вкладке «Суть» (глубина рекурсии O(log₁.₅ n)).',
+        en: 'See the "Space" complexity badge at the top of the page and the seventh paragraph of the "Deep dive" section on the "Intent" tab (the O(log₁.₅ n) recursion depth).',
       },
     },
     {
@@ -278,8 +514,8 @@ export const stoogeSort = {
         en: 'Three recursive calls on ranges of size 2n/3 and constant work at each level give T(n) = 3T(2n/3) + O(1).',
       },
       hint: {
-        ru: 'Посчитайте, сколько рекурсивных вызовов делается и какого размера каждый из них.',
-        en: 'Count how many recursive calls are made and what size each one processes.',
+        ru: 'Смотрите строки 8-12 функции `rec` на вкладке «Реализация» (три вызова на диапазонах размером 2n/3) и третий абзац раздела «Углублённо».',
+        en: 'See lines 8-12 of the `rec` function on the "Implementation" tab (three calls on ranges of size 2n/3) and the third paragraph of the "Deep dive" section.',
       },
     },
     {
@@ -299,8 +535,8 @@ export const stoogeSort = {
         en: 'O(n^2.71) grows faster than O(n²) as n increases, so stooge sort is asymptotically worse than even bubble sort.',
       },
       hint: {
-        ru: 'Сравните показатели степени: 2 у пузырьковой и ~2.71 у Стуз-сортировки.',
-        en: 'Compare the exponents: 2 for bubble sort and ~2.71 for stooge sort.',
+        ru: 'Смотрите второй абзац раздела «Углублённо» на вкладке «Суть» - там сравнивается число вызовов Стуз-сортировки с числом сравнений пузырьковой на одном и том же n.',
+        en: 'See the second paragraph of the "Deep dive" section on the "Intent" tab - it compares stooge sort\'s call count with bubble sort\'s comparison count for the same n.',
       },
     },
     {
@@ -320,8 +556,8 @@ export const stoogeSort = {
         en: 'Without the third call, elements "introduced" by the second call (last 2/3) into the start of the range may not be in their correct positions.',
       },
       hint: {
-        ru: 'После обработки последних двух третей некоторые элементы в начале диапазона могут нуждаться в исправлении.',
-        en: 'After processing the last two-thirds, some elements at the start of the range may still need fixing.',
+        ru: 'Смотрите шаг «Третий рекурсивный вызов: снова первые 2/3» в построчном разборе на вкладке «Реализация» (строка 12).',
+        en: 'See the "Third recursive call: the first two-thirds again" step in the line-by-line walkthrough on the "Implementation" tab (line 12).',
       },
     },
     {
@@ -341,8 +577,8 @@ export const stoogeSort = {
         en: 'Stooge sort exists purely as an educational and joke example - no known real-world system uses it.',
       },
       hint: {
-        ru: 'Вспомните, к какой категории алгоритмов относится Стуз-сортировка по своему назначению.',
-        en: 'Recall what category of algorithms stooge sort belongs to by its purpose.',
+        ru: 'Смотрите раздел «Когда применять» на вкладке «Суть» и второй пункт realWorld раздела «Углублённо» (каталоги алгоритмов вроде Rosetta Code).',
+        en: 'See the "When to use" section on the "Intent" tab and the second "Real world" item in the "Deep dive" section (algorithm catalogs like Rosetta Code).',
       },
     },
     {
@@ -362,8 +598,8 @@ export const stoogeSort = {
         en: 'The condition hi − lo + 1 > 2 is not satisfied for two elements, so recursion stops after the single comparison and possible swap.',
       },
       hint: {
-        ru: 'Посмотрите на условие базового случая: когда рекурсия прекращается?',
-        en: 'Look at the base-case condition: when does the recursion stop?',
+        ru: 'Смотрите строки 8-9 функции `rec` на вкладке «Реализация» (условие `hi - lo + 1 > 2`) и одноимённый шаг построчного разбора.',
+        en: 'See lines 8-9 of the `rec` function on the "Implementation" tab (the `hi - lo + 1 > 2` condition) and the matching walkthrough step.',
       },
     },
   ],

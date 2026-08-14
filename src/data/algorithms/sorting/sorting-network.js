@@ -24,6 +24,79 @@ export const sortingNetwork = {
     en: "The array is recursively split in half, each half is sorted by the same network, and then the two sorted halves are combined via \"odd-even merge\": the elements at even positions and the elements at odd positions of each half are separately and recursively merged first, and then one final pass of comparisons between neighboring elements (i, i+1) fixes the few remaining order violations. This split by parity is where the name \"odd-even merge\" comes from, and the entire set of comparisons is completely fixed and known before execution even starts.",
   },
 
+  details: {
+    deepDive: [
+      {
+        ru: 'В коде параметр `r` функции `oddEvenMerge` - это не индекс, а **шаг (расстояние) между сравниваемыми элементами**: на входе в рекурсию `r = 1` (сравниваются соседи), а на каждом уровне рекурсии он удваивается (`m = r * 2`). Это отражает саму суть нечётно-чётного слияния - сначала объединяются элементы, отстоящие друг от друга на 1 позицию (условно «нечётные» и «чётные» подпоследовательности), затем на 2, затем на 4 и так далее, пока шаг не станет достаточно большим, чтобы одного сравнения хватило.',
+        en: 'In the code, the `r` parameter of `oddEvenMerge` is not an index but the **stride (distance) between compared elements**: recursion starts with `r = 1` (neighbors are compared), and it doubles at every recursion level (`m = r * 2`). This mirrors the essence of odd-even merge - elements one position apart (the "odd" and "even" subsequences, loosely speaking) are merged first, then elements two apart, then four, and so on, until the stride is large enough that a single comparison suffices.',
+      },
+      {
+        ru: 'База рекурсии - строки 22-23 (JS) - срабатывает, когда `m >= len`: дальше дробить нечётно-чётным разбиением уже некуда, и функция просто сравнивает и при необходимости меняет местами единственную оставшуюся пару `a[lo]`/`a[lo + r]`. Рекурсивный случай (строки 16-21) сначала рекурсивно сливает «чётную» подпоследовательность (`oddEvenMerge(lo, len, m)`) и «нечётную» (`oddEvenMerge(lo + r, len, m)`), а затем один проход `for` (строка 19) сравнивает пары с шагом `r` между уже слитыми подпоследовательностями - это и есть тот самый «финальный проход», исправляющий оставшиеся нарушения.',
+        en: 'The recursion base case - lines 22-23 (JS) - fires when `m >= len`: there is nowhere further to split by parity, so the function simply compares and, if needed, swaps the one remaining pair `a[lo]`/`a[lo + r]`. The recursive case (lines 16-21) first recursively merges the "even" subsequence (`oddEvenMerge(lo, len, m)`) and the "odd" one (`oddEvenMerge(lo + r, len, m)`), then a single `for` pass (line 19) compares pairs at stride `r` between the already-merged subsequences - this is exactly the "final pass" that fixes remaining violations.',
+      },
+      {
+        ru: 'Сравним с битонической сортировкой: та строит **битоническую последовательность** (сначала возрастающую, потом убывающую) и «расчёсывает» её половинным сравнением элементов, отстоящих на n/2. Сеть Батчера действует иначе - она **не требует битонической формы** входа вообще, а полагается на то, что обе половины уже монотонно отсортированы обычным (не битоническим) образом, и просто аккуратно чередует слияние по чётности и коррекцию соседей.',
+        en: "Compare with bitonic sort: it builds a **bitonic sequence** (ascending then descending) and 'combs' it by comparing elements n/2 apart. Batcher's network works differently - it doesn't require a bitonic input shape at all, relying instead on both halves already being sorted the ordinary (non-bitonic) way, and simply interleaves parity-based merging with neighbor correction.",
+      },
+      {
+        ru: 'Пример на n = 4: пусть обе половины `[1, 3]` и `[2, 4]` уже отсортированы. Нечётно-чётное слияние сравнивает чётные позиции (`1` и `2` → без обмена) и нечётные (`3` и `4` → без обмена) отдельно, затем финальный проход сравнивает соседей `3` и `2` (индексы 1 и 2 объединённого массива `[1, 3, 2, 4]`) и меняет их местами - результат `[1, 2, 3, 4]`. Всего на этом уровне потребовалось 3 сравнения вместо 6 у наивного попарного сравнения всех элементов.',
+        en: 'Example with n = 4: say both halves `[1, 3]` and `[2, 4]` are already sorted. Odd-even merge compares even positions (`1` and `2` → no swap) and odd positions (`3` and `4` → no swap) separately, then a final pass compares neighbors `3` and `2` (indices 1 and 2 of the combined `[1, 3, 2, 4]`) and swaps them - result `[1, 2, 3, 4]`. That level took 3 comparisons total instead of 6 for a naive pairwise comparison of every element.',
+      },
+      {
+        ru: 'Глубина сети - **O(log² n)** уровней, тот же порядок, что и у битонической сортировки: `oddEvenMergeSort` (строки 27-34) даёт log n уровней разбиения пополам, а каждый вызов `oddEvenMerge` на своём уровне сам рекурсивно углубляется ещё на log n шагов через удвоение `r`. При n = 1 000 000: log₂(1 000 000) ≈ 20, значит глубина сети около 20 × 20 = 400 уровней сравнений - большая, но фиксированная и предсказуемая величина, не зависящая от порядка входных данных.',
+        en: 'The network depth is **O(log² n)** levels, the same order as bitonic sort: `oddEvenMergeSort` (lines 27-34) gives log n levels of halving, and each `oddEvenMerge` call at its level recurses another log n steps deep by doubling `r`. At n = 1,000,000: log₂(1,000,000) ≈ 20, so the network depth is roughly 20 × 20 = 400 comparison levels - large but fixed and predictable, independent of the input\'s order.',
+      },
+      {
+        ru: 'Как и в битонической сортировке, массив дополняется до ближайшей степени двойки «часовыми» (`sentinel`, строка 7 JS) - значением заведомо больше любого элемента входа, - потому что рекурсивное деление пополам с сохранением инварианта чётности требует одинаковой длины на каждом уровне. После завершения сети дополнение просто отбрасывается (`a.slice(0, n)`, строка 37).',
+        en: 'Just like bitonic sort, the array is padded to the nearest power of two with sentinels (`sentinel`, line 7 in JS) - a value guaranteed larger than any input element - because recursive halving that preserves the parity invariant requires equal length at every level. Once the network finishes, the padding is simply dropped (`a.slice(0, n)`, line 37).',
+      },
+      {
+        ru: 'Сеть Батчера появилась в **той же статье 1968 года Кеннета Батчера** «Sorting Networks and Their Applications», что и битоническая сортировка - обе конструкции решали одну задачу (сортировка на параллельном оборудовании без зависимости от данных), но с разными компромиссами по числу компараторов и простоте построения индексов.',
+        en: "Batcher's network appeared in the **same 1968 paper by Kenneth Batcher**, \"Sorting Networks and Their Applications,\" that introduced bitonic sort - both constructions solved the same problem (data-independent sorting on parallel hardware) with different trade-offs between comparator count and index-construction simplicity.",
+      },
+    ],
+    whenToUse: [
+      {
+        ru: '**Та же ниша, что и битоническая сортировка** - параллельное и аппаратное исполнение (FPGA/ASIC, SIMD), где важна статическая, известная заранее последовательность сравнений, но с чуть меньшим числом компараторов при том же O(n log² n).',
+        en: '**The same niche as bitonic sort** - parallel and hardware execution (FPGA/ASIC, SIMD) where a static, known-in-advance comparison sequence matters, but with a slightly lower comparator count at the same O(n log² n).',
+      },
+      {
+        ru: '**Проектирование коммутационных сетей** (switching networks) - структура нечётно-чётного слияния близка к схемам маршрутизации с предсказуемой задержкой, используемым в сетевом оборудовании.',
+        en: '**Switching network design** - the odd-even merge structure is close to the predictable-latency routing schemes used in networking hardware.',
+      },
+      {
+        ru: 'Не подходит, если важно **общее число сравнений на последовательном процессоре** - обычная сортировка слиянием с её O(n log n) и адаптивным числом сравнений выигрывает у фиксированной сети O(n log² n).',
+        en: "Not a fit when the **total comparison count on a sequential processor** matters - ordinary merge sort with its O(n log n) and data-adaptive comparison count beats the fixed O(n log² n) network.",
+      },
+      {
+        ru: 'Стоит выбрать сеть Батчера вместо битонической, когда **число физических компараторов - ограниченный ресурс** (площадь кристалла в ASIC), поскольку она использует их меньше при той же глубине.',
+        en: "Prefer Batcher's network over bitonic when **the number of physical comparators is the scarce resource** (die area in an ASIC), since it uses fewer of them at the same depth.",
+      },
+      {
+        ru: 'Как **вторая точка сравнения** при изучении сортирующих сетей - показывает, что задача «зафиксировать сеть сравнений заранее» решается не единственным способом, а целым семейством конструкций с разными компромиссами.',
+        en: 'As a **second comparison point** when studying sorting networks - it shows that "fix the comparison network in advance" isn\'t solved one way, but by a whole family of constructions with different trade-offs.',
+      },
+    ],
+    realWorld: [
+      {
+        ru: '**Кеннет Батчер, 1968** - статья "Sorting Networks and Their Applications" (AFIPS Spring Joint Computer Conference), где одновременно представлены и битоническая сортировка, и нечётно-чётная сеть слияния.',
+        en: '**Kenneth Batcher, 1968** - "Sorting Networks and Their Applications" (AFIPS Spring Joint Computer Conference), which introduced both bitonic sort and the odd-even merge network at once.',
+      },
+      {
+        ru: '**Учебники по параллельным алгоритмам** (например, "Introduction to Parallel Computing" Grama et al.) разбирают сеть Батчера как канонический пример сети слияния с меньшим числом компараторов, чем у битонической.',
+        en: '**Parallel algorithms textbooks** (e.g. Grama et al., "Introduction to Parallel Computing") cover Batcher\'s network as the canonical example of a merge network with fewer comparators than the bitonic one.',
+      },
+      {
+        ru: '**Модули аппаратной сортировки на FPGA** (часто в конвейерах обработки сетевых пакетов и баз данных на кристалле) реализуют именно нечётно-чётные сети слияния ради экономии логических элементов.',
+        en: '**FPGA hardware sorting modules** (often in network-packet-processing and in-database pipelines) implement odd-even merge networks specifically to save logic elements.',
+      },
+      {
+        ru: '**Курсы по проектированию цифровых схем** используют сеть Батчера как пример компромисса между глубиной схемы (задержкой) и площадью (числом компараторов) - классическая задача синтеза аппаратуры.',
+        en: '**Digital circuit design courses** use Batcher\'s network as an example of the depth-versus-area (latency-versus-comparator-count) trade-off - a classic hardware synthesis problem.',
+      },
+    ],
+  },
+
   steps: [
     {
       title: { ru: 'Разделить пополам', en: 'Split in half' },
@@ -140,6 +213,109 @@ export const sortingNetwork = {
     return a[:n]`,
   },
 
+  walkthrough: {
+    javascript: [
+      {
+        lines: [1, 3],
+        title: { ru: 'Тривиальный случай', en: 'Trivial case' },
+        explanation: {
+          ru: 'Массив из 0 или 1 элемента уже отсортирован - копия возвращается сразу без построения сети.',
+          en: 'An array of 0 or 1 elements is already sorted - a copy is returned immediately with no network built.',
+        },
+      },
+      {
+        lines: [5, 8],
+        title: { ru: 'Дополнение до степени двойки', en: 'Padding to a power of two' },
+        explanation: {
+          ru: '`size` растёт удвоением, пока не станет ≥ n; недостающие позиции заполняются часовым `sentinel`, заведомо большим любого элемента, чтобы сеть работала на фиксированной длине.',
+          en: '`size` doubles until it is ≥ n; missing slots are filled with a `sentinel` guaranteed larger than any element, so the network operates on a fixed length.',
+        },
+      },
+      {
+        lines: [10, 12],
+        title: { ru: 'Компаратор', en: 'The comparator' },
+        explanation: {
+          ru: '`compareExchange` - единственная элементарная операция сети: сравнить два индекса и поменять местами, если нарушен порядок.',
+          en: '`compareExchange` is the network\'s single elementary operation: compare two indices and swap if out of order.',
+        },
+      },
+      {
+        lines: [14, 25],
+        title: { ru: 'oddEvenMerge: рекурсивное слияние по шагу r', en: 'oddEvenMerge: recursive merge by stride r' },
+        explanation: {
+          ru: 'Пока удвоенный шаг `m` меньше длины участка, функция рекурсивно сливает подпоследовательности с шагом `m`, а затем один проход `for` (шаг 19) сравнивает пары с шагом `r` - это и есть финальная коррекция; при `m >= len` остаётся одно прямое сравнение (строка 23).',
+          en: 'While the doubled stride `m` is less than the segment length, the function recursively merges subsequences at stride `m`, then a single `for` pass (line 19) compares pairs at stride `r` - this is the final correction; once `m >= len`, only one direct comparison remains (line 23).',
+        },
+      },
+      {
+        lines: [27, 34],
+        title: { ru: 'oddEvenMergeSort: разделение пополам', en: 'oddEvenMergeSort: splitting in half' },
+        explanation: {
+          ru: 'Классическое рекурсивное деление на две половины, сортировка каждой той же функцией, а затем слияние результата через `oddEvenMerge` с начальным шагом `r = 1`.',
+          en: 'Classic recursive split into two halves, each sorted by the same function, then merged via `oddEvenMerge` starting at stride `r = 1`.',
+        },
+      },
+      {
+        lines: [36, 38],
+        title: { ru: 'Запуск и отбрасывание дополнения', en: 'Kicking off and dropping the padding' },
+        explanation: {
+          ru: 'Сеть строится на всей дополненной длине `size`, а на выходе возвращаются только первые n элементов - часовые `sentinel` остаются в хвосте и отбрасываются.',
+          en: 'The network runs over the full padded length `size`, and only the first n elements are returned on output - the sentinel values stay in the tail and are dropped.',
+        },
+      },
+    ],
+    python: [
+      {
+        lines: [1, 4],
+        title: { ru: 'Тривиальный случай', en: 'Trivial case' },
+        explanation: {
+          ru: 'Массив из 0 или 1 элемента уже отсортирован - копия возвращается сразу.',
+          en: 'An array of 0 or 1 elements is already sorted - a copy is returned immediately.',
+        },
+      },
+      {
+        lines: [6, 10],
+        title: { ru: 'Дополнение до степени двойки', en: 'Padding to a power of two' },
+        explanation: {
+          ru: '`size` растёт удвоением, пока не станет ≥ n; недостающие позиции заполняются часовым `sentinel`.',
+          en: '`size` doubles until it is ≥ n; missing slots are filled with a `sentinel` value.',
+        },
+      },
+      {
+        lines: [12, 14],
+        title: { ru: 'Компаратор', en: 'The comparator' },
+        explanation: {
+          ru: '`compare_exchange` - единственная элементарная операция сети.',
+          en: '`compare_exchange` is the network\'s single elementary operation.',
+        },
+      },
+      {
+        lines: [16, 26],
+        title: { ru: 'odd_even_merge: рекурсивное слияние по шагу r', en: 'odd_even_merge: recursive merge by stride r' },
+        explanation: {
+          ru: 'Пока удвоенный шаг `m` меньше длины участка, функция рекурсивно сливает подпоследовательности с шагом `m`, затем цикл `while` (строки 21-24) выполняет финальный проход сравнений с шагом `r`; иначе - одно прямое сравнение (строка 26).',
+          en: 'While the doubled stride `m` is less than the segment length, the function recursively merges at stride `m`, then a `while` loop (lines 21-24) runs the final comparison pass at stride `r`; otherwise a single direct comparison happens (line 26).',
+        },
+      },
+      {
+        lines: [28, 33],
+        title: { ru: 'odd_even_merge_sort: разделение пополам', en: 'odd_even_merge_sort: splitting in half' },
+        explanation: {
+          ru: 'Рекурсивное деление на две половины, сортировка каждой той же функцией, слияние через `odd_even_merge` с начальным шагом `r = 1`.',
+          en: 'Recursive split into two halves, each sorted by the same function, merged via `odd_even_merge` starting at stride `r = 1`.',
+        },
+      },
+      {
+        lines: [35, 36],
+        title: { ru: 'Запуск и отбрасывание дополнения', en: 'Kicking off and dropping the padding' },
+        explanation: {
+          ru: 'Сеть строится на всей дополненной длине `size`, на выходе возвращаются только первые n элементов.',
+          en: 'The network runs over the full padded length `size`, and only the first n elements are returned.',
+        },
+      },
+    ],
+  },
+
   pros: [
     {
       ru: 'Как и битоническая сортировка, задаётся полностью фиксированной, независимой от данных сетью сравнений - подходит для параллельного и аппаратного исполнения.',
@@ -211,8 +387,8 @@ export const sortingNetwork = {
         en: 'Elements at even and odd positions are merged separately and recursively, and a final pass then fixes the remaining violations - hence the algorithm\'s name.',
       },
       hint: {
-        ru: 'Название алгоритма «нечётно-чётное слияние» уже содержит подсказку: по какому свойству позиций разделяются элементы?',
-        en: 'The algorithm\'s name "odd-even merge" already contains the hint: by what property of their positions are elements split?',
+        ru: 'Смотрите первый абзац раздела «Углублённо» на вкладке «Суть» (параметр `r` - шаг между сравниваемыми элементами).',
+        en: 'See the first "Deep dive" paragraph on the "Intent" tab (the `r` parameter as the stride between compared elements).',
       },
     },
     {
@@ -235,8 +411,8 @@ export const sortingNetwork = {
         en: 'Both algorithms are comparison networks with a fixed structure, but the details of the merge network construction are what determine the total comparator count.',
       },
       hint: {
-        ru: 'Оба алгоритма строят сортирующие сети, но по-разному объединяют две отсортированные половины. Что лежит в основе каждого подхода?',
-        en: 'Both algorithms build sorting networks, but combine two sorted halves differently. What is the foundation of each approach?',
+        ru: 'Смотрите третий абзац раздела «Углублённо» на вкладке «Суть» (битоническая последовательность против нечётно-чётного разбиения).',
+        en: 'See the third "Deep dive" paragraph on the "Intent" tab (a bitonic sequence versus an odd-even split).',
       },
     },
     {
@@ -259,8 +435,8 @@ export const sortingNetwork = {
         en: 'After the even and odd subsequences are merged separately, the result is nearly sorted but needs a final correction of neighboring pairs.',
       },
       hint: {
-        ru: 'После двух раздельных слияний чётных и нечётных элементов почти всё стоит правильно. Какие нарушения порядка ещё могут оставаться?',
-        en: 'After two separate merges of even and odd elements, nearly everything is in order. What order violations can still remain?',
+        ru: 'Смотрите второй абзац раздела «Углублённо» на вкладке «Суть» и шаг «oddEvenMerge: рекурсивное слияние по шагу r» построчного разбора на вкладке «Реализация».',
+        en: 'See the second "Deep dive" paragraph on the "Intent" tab and the "oddEvenMerge: recursive merge by stride r" walkthrough step on the "Implementation" tab.',
       },
     },
     {
@@ -280,8 +456,8 @@ export const sortingNetwork = {
         en: 'The same growth order as bitonic sort - O(log² n) network levels, each requiring O(n) comparisons.',
       },
       hint: {
-        ru: 'Сколько уровней рекурсии нужно для разбиения n элементов - и сколько сравнений на каждом уровне?',
-        en: 'How many recursion levels are needed to split n elements - and how many comparisons per level?',
+        ru: 'Смотрите бейдж «Время» вверху страницы и пятый абзац раздела «Углублённо» на вкладке «Суть».',
+        en: 'See the "Time" complexity badge at the top of the page and the fifth "Deep dive" paragraph on the "Intent" tab.',
       },
     },
     {
@@ -304,8 +480,8 @@ export const sortingNetwork = {
         en: 'It is precisely the fixed, known-in-advance comparison network that unites them into the class of "sorting networks," suited to parallel execution.',
       },
       hint: {
-        ru: 'Что принципиально отличает сортирующие сети от обычных алгоритмов - зависит ли последовательность сравнений от значений элементов?',
-        en: 'What fundamentally distinguishes sorting networks from ordinary algorithms - does the comparison sequence depend on element values?',
+        ru: 'Смотрите первый пункт whenToUse (углублённого) и последний абзац раздела «Углублённо» на вкладке «Суть» (общая статья Батчера 1968 года).',
+        en: 'See the first extended "When to use" item and the last "Deep dive" paragraph on the "Intent" tab (Batcher\'s single 1968 paper).',
       },
     },
     {
@@ -325,8 +501,8 @@ export const sortingNetwork = {
         en: 'Odd-even merge (and bitonic merge) are based on recursive halving that must work at every level. A non-power-of-two size breaks this symmetry.',
       },
       hint: {
-        ru: 'Что происходит при рекурсивном делении нечётного числа элементов пополам - получаются ли равные половины?',
-        en: 'What happens when you recursively split an odd number of elements in half - do you always get equal halves?',
+        ru: 'Смотрите первый пункт минусов на вкладке «Плюсы и минусы» и шестой абзац раздела «Углублённо» на вкладке «Суть».',
+        en: 'See the first "Cons" item on the "Pros & Cons" tab and the sixth "Deep dive" paragraph on the "Intent" tab.',
       },
     },
     {
@@ -346,8 +522,8 @@ export const sortingNetwork = {
         en: 'A "compare and swap if needed" comparator exchanges elements regardless of their original positions. If two equal elements happen to be in the "wrong" comparator order, they will be swapped.',
       },
       hint: {
-        ru: 'Компаратор сети меняет элементы, если они стоят в неправильном порядке. Учитывает ли он исходные позиции равных элементов?',
-        en: 'A network comparator swaps elements when they are out of order. Does it consider the original positions of equal elements?',
+        ru: 'Смотрите третий пункт минусов на вкладке «Плюсы и минусы» и шаг «Компаратор» построчного разбора на вкладке «Реализация».',
+        en: 'See the third "Cons" item on the "Pros & Cons" tab and the "The comparator" walkthrough step on the "Implementation" tab.',
       },
     },
     {
@@ -367,8 +543,8 @@ export const sortingNetwork = {
         en: 'Since the comparison set is fixed and data-independent, each comparator can be implemented as a separate logic circuit. Independent comparators at the same network level operate simultaneously.',
       },
       hint: {
-        ru: 'Если все операции сравнения известны заранее и некоторые из них независимы - что можно сделать с такими операциями на параллельном оборудовании?',
-        en: 'If all comparison operations are known in advance and some of them are independent - what can be done with those operations on parallel hardware?',
+        ru: 'Смотрите третий пункт «Примеры из практики» (углублённого) на вкладке «Суть» (FPGA-модули аппаратной сортировки).',
+        en: 'See the third extended "Real world" item on the "Intent" tab (FPGA hardware sorting modules).',
       },
     },
     {
@@ -388,8 +564,8 @@ export const sortingNetwork = {
         en: 'In ordinary algorithms (quicksort, mergesort) the next comparison depends on the result of the previous one. In a sorting network all comparisons are predefined - input data only affects whether a swap occurs at each specific comparison.',
       },
       hint: {
-        ru: 'В quicksort следующий шаг зависит от того, как элемент сравнился с опорным. В сортирующей сети - зависит ли следующий шаг от результата текущего сравнения?',
-        en: 'In quicksort the next step depends on how an element compared to the pivot. In a sorting network - does the next step depend on the current comparison\'s result?',
+        ru: 'Смотрите первый абзац раздела «Углублённо» на вкладке «Суть» (шаг `r` рекурсии фиксирован заранее, а не зависит от сравнений).',
+        en: 'See the first "Deep dive" paragraph on the "Intent" tab (the recursion stride `r` is fixed in advance, not derived from comparisons).',
       },
     },
     {
@@ -409,8 +585,8 @@ export const sortingNetwork = {
         en: 'Odd-even sort has depth O(log² n), same as bitonic sort. A theoretically optimal sorting network would have depth O(log n), but practically constructible networks yield O(log² n).',
       },
       hint: {
-        ru: 'Глубина сети определяет, сколько параллельных шагов нужно для завершения сортировки. Вспомните асимптотику из вопроса о временной сложности.',
-        en: 'Network depth determines how many parallel steps are needed to complete sorting. Recall the asymptotic from the time complexity question.',
+        ru: 'Смотрите пятый абзац раздела «Углублённо» на вкладке «Суть» (расчёт глубины для n = 1 000 000).',
+        en: 'See the fifth "Deep dive" paragraph on the "Intent" tab (the depth calculation for n = 1,000,000).',
       },
     },
   ],
