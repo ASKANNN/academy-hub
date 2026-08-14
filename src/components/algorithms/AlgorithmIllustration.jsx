@@ -1,14 +1,20 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { imageFor } from '../../utils/algorithmImages.js';
+
+function prefersReducedMotion() {
+  return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
 
 export function AlgorithmIllustration({ slug, alt, t }) {
   const src = imageFor(slug);
   const ref = useRef(null);
   const triggerRef = useRef(null);
   const closeRef = useRef(null);
+  const lightboxImgRef = useRef(null);
+  const originRectRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [phase, setPhase] = useState('closed'); // closed | opening | open | closing
 
   useEffect(() => {
     if (!src) return;
@@ -27,8 +33,71 @@ export function AlgorithmIllustration({ slug, alt, t }) {
     return () => observer.disconnect();
   }, [src]);
 
+  function openLightbox() {
+    originRectRef.current = triggerRef.current.getBoundingClientRect();
+    setPhase(prefersReducedMotion() ? 'open' : 'opening');
+  }
+
+  function closeLightbox() {
+    if (prefersReducedMotion()) {
+      setPhase('closed');
+      triggerRef.current?.focus();
+      return;
+    }
+    const img = lightboxImgRef.current;
+    const origin = triggerRef.current?.getBoundingClientRect();
+    if (img && origin) {
+      const target = img.getBoundingClientRect();
+      const dx = origin.left + origin.width / 2 - (target.left + target.width / 2);
+      const dy = origin.top + origin.height / 2 - (target.top + target.height / 2);
+      const sx = origin.width / target.width;
+      const sy = origin.height / target.height;
+      img.style.transition = 'transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)';
+      img.style.transform = `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})`;
+    }
+    setPhase('closing');
+  }
+
+  function handleTransitionEnd() {
+    if (phase === 'closing') {
+      setPhase('closed');
+      triggerRef.current?.focus();
+    }
+  }
+
+  // FLIP: measure the just-mounted full-size image, jump it back to the
+  // trigger's rect with no transition, then release the transform on the
+  // next frame so the browser animates from thumbnail -> fullscreen.
+  useLayoutEffect(() => {
+    if (phase !== 'opening') return;
+    const img = lightboxImgRef.current;
+    const origin = originRectRef.current;
+    if (!img || !origin) return;
+
+    const target = img.getBoundingClientRect();
+    const dx = origin.left + origin.width / 2 - (target.left + target.width / 2);
+    const dy = origin.top + origin.height / 2 - (target.top + target.height / 2);
+    const sx = origin.width / target.width;
+    const sy = origin.height / target.height;
+
+    img.style.transition = 'none';
+    img.style.transform = `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})`;
+    // Force layout so the browser commits the starting transform before we
+    // animate away from it.
+    // eslint-disable-next-line no-unused-expressions
+    img.offsetHeight;
+
+    requestAnimationFrame(() => {
+      img.style.transition = 'transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)';
+      img.style.transform = 'none';
+      setPhase('open');
+    });
+  }, [phase]);
+
+  const isOpenish = phase !== 'closed';
+
   useEffect(() => {
-    if (!isExpanded) return undefined;
+    if (!isOpenish) return undefined;
     closeRef.current?.focus();
 
     const onKeyDown = (e) => {
@@ -40,12 +109,8 @@ export function AlgorithmIllustration({ slug, alt, t }) {
       document.removeEventListener('keydown', onKeyDown);
       document.body.style.overflow = '';
     };
-  }, [isExpanded]);
-
-  function closeLightbox() {
-    setIsExpanded(false);
-    triggerRef.current?.focus();
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpenish]);
 
   if (!src) return null;
 
@@ -59,7 +124,7 @@ export function AlgorithmIllustration({ slug, alt, t }) {
           ref={triggerRef}
           type="button"
           className="algorithm-illustration__trigger"
-          onClick={() => setIsExpanded(true)}
+          onClick={openLightbox}
           aria-label={t.illustrationExpand}
         >
           <img
@@ -71,9 +136,9 @@ export function AlgorithmIllustration({ slug, alt, t }) {
           />
         </button>
       </div>
-      {isExpanded && createPortal(
+      {isOpenish && createPortal(
         <div
-          className="illustration-lightbox"
+          className={`illustration-lightbox${phase === 'open' ? ' is-open' : ''}`}
           role="dialog"
           aria-modal="true"
           aria-label={alt}
@@ -89,10 +154,12 @@ export function AlgorithmIllustration({ slug, alt, t }) {
             ×
           </button>
           <img
+            ref={lightboxImgRef}
             src={src}
             alt={alt}
             className="illustration-lightbox__img"
             onClick={(e) => e.stopPropagation()}
+            onTransitionEnd={handleTransitionEnd}
           />
         </div>,
         document.body

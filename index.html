@@ -55,6 +55,7 @@
 </head>
 <body>
 <script>if(sessionStorage.getItem('academy-intro')!=='1')document.documentElement.classList.add('intro-pending');</script>
+<script>var t=localStorage.getItem('academy-hub-theme');document.documentElement.setAttribute('data-theme',t==='light'?'light':'dark');</script>
 <div id="root"></div>
 <script type="module" src="/src/main.jsx"></script>
 </body>

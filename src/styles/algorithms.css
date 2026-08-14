@@ -203,6 +203,17 @@
   border: none;
   background: none;
   cursor: zoom-in;
+  transition: transform 0.3s var(--ease-smooth, ease-out), box-shadow 0.3s var(--ease-smooth, ease-out);
+}
+
+/* Hover-lift only on devices with real hover + a precise pointer - a tap on
+   mobile/tablet would otherwise leave the "hover" state stuck until the next
+   tap elsewhere. */
+@media (hover: hover) and (pointer: fine) {
+  .algorithm-illustration__trigger:hover {
+    transform: scale(1.012);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.25);
+  }
 }
 
 .algorithm-illustration__trigger:focus-visible {
@@ -218,7 +229,8 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .algorithm-illustration {
+  .algorithm-illustration,
+  .algorithm-illustration__trigger {
     transition: none;
     opacity: 1;
     transform: none;
@@ -229,12 +241,23 @@
   position: fixed;
   inset: 0;
   z-index: var(--z-modal);
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(0, 0, 0, 0);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: var(--space-6);
   cursor: zoom-out;
+  transition: background-color 0.4s var(--ease-smooth, ease-out);
+}
+
+.illustration-lightbox.is-open {
+  background: rgba(0, 0, 0, 0.85);
+}
+
+@media (max-width: 640px) {
+  .illustration-lightbox {
+    padding: var(--space-4) var(--space-3);
+  }
 }
 
 .illustration-lightbox__img {
@@ -243,6 +266,7 @@
   object-fit: contain;
   border-radius: var(--radius-md);
   cursor: default;
+  will-change: transform;
 }
 
 .illustration-lightbox__close {
@@ -255,9 +279,17 @@
   border: none;
   background: rgba(255, 255, 255, 0.1);
   color: #fff;
+  opacity: 0;
+  transition: opacity 0.3s var(--ease-smooth, ease-out), background-color 0.2s;
+  pointer-events: none;
   font-size: var(--text-2xl);
   line-height: 1;
   cursor: pointer;
+}
+
+.illustration-lightbox.is-open .illustration-lightbox__close {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .illustration-lightbox__close:hover {
@@ -267,6 +299,13 @@
 .illustration-lightbox__close:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .illustration-lightbox,
+  .illustration-lightbox__close {
+    transition: none;
+  }
 }
 
 /* ---------- breadcrumb ---------- */

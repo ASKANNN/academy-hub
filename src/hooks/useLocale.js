@@ -5,7 +5,7 @@ const STORAGE_KEY = 'academy-hub-lang';
 function getInitialLang() {
   const stored = localStorage.getItem(STORAGE_KEY);
   if (stored === 'ru' || stored === 'en') return stored;
-  return navigator.language.startsWith('ru') ? 'ru' : 'en';
+  return 'en';
 }
 
 export function useLocale() {
