@@ -96,6 +96,141 @@ export const radixSort = {
     return a`,
   },
 
+  walkthrough: {
+    javascript: [
+      {
+        lines: [1],
+        title: { ru: 'Сигнатура', en: 'Signature' },
+        explanation: {
+          ru: '`radixSort` принимает массив `arr` и выполняет фиксированную последовательность проходов от младшего разряда к старшему.',
+          en: '`radixSort` takes an array `arr` and runs a fixed sequence of passes from the least significant digit to the most significant.',
+        },
+      },
+      {
+        lines: [2],
+        title: { ru: 'Пустой массив', en: 'The empty-array guard' },
+        explanation: {
+          ru: 'Для пустого входа сразу возвращается пустой массив - `Math.max(...a)` на пустом массиве дал бы `-Infinity` и сломал бы цикл ниже.',
+          en: 'An empty input returns an empty array right away - `Math.max(...a)` on an empty array would give `-Infinity` and break the loop below.',
+        },
+      },
+      {
+        lines: [3, 4],
+        title: { ru: 'Копия массива и максимум', en: 'Array copy and the maximum' },
+        explanation: {
+          ru: '`a` - копия входа, переприсваиваемая на каждом проходе (`let`, не `const`). `max` определяет, сколько разрядов нужно обработать - последний проход остановится, когда `exp` превысит `max`.',
+          en: '`a` is a copy of the input, reassigned on every pass (`let`, not `const`). `max` determines how many digit positions need processing - the last pass stops once `exp` exceeds `max`.',
+        },
+      },
+      {
+        lines: [6],
+        title: { ru: 'Управление проходами', en: 'Controlling the passes' },
+        explanation: {
+          ru: '`exp` идёт `1, 10, 100, ...` - множитель текущего разряда. Условие `Math.floor(max / exp) > 0` останавливает цикл, как только `exp` становится больше `max`, то есть ровно после разрядов самого длинного числа.',
+          en: '`exp` runs `1, 10, 100, ...` - the multiplier for the current digit. The condition `Math.floor(max / exp) > 0` stops the loop as soon as `exp` exceeds `max`, i.e. exactly after the longest number\'s digit positions are exhausted.',
+        },
+      },
+      {
+        lines: [7],
+        title: { ru: 'Корзины на проход', en: 'Buckets for this pass' },
+        explanation: {
+          ru: 'На каждом проходе создаются заново 10 пустых корзин - по одной на цифру 0-9. Ничего не переносится между проходами.',
+          en: 'Every pass creates 10 fresh empty buckets - one per digit 0-9. Nothing carries over between passes.',
+        },
+      },
+      {
+        lines: [8, 11],
+        title: { ru: 'Раскладка по текущему разряду', en: 'Distributing by the current digit' },
+        explanation: {
+          ru: 'Каждое значение из `a` (в порядке, оставшемся от предыдущего прохода) добавляется в конец корзины, соответствующей его цифре на позиции `exp` (`Math.floor(value / exp) % 10`). Добавление именно в конец сохраняет относительный порядок - это и есть устойчивость.',
+          en: 'Every value from `a` (in the order left over from the previous pass) is appended to the bucket matching its digit at position `exp` (`Math.floor(value / exp) % 10`). Appending to the end preserves relative order - this is exactly what makes the pass stable.',
+        },
+      },
+      {
+        lines: [12],
+        title: { ru: 'Сборка прохода', en: 'Reassembling the pass' },
+        explanation: {
+          ru: '`buckets.flat()` соединяет все 10 корзин по порядку от 0 до 9 в новый массив `a` - это и есть промежуточно отсортированный по текущему разряду результат, готовый для следующего прохода.',
+          en: '`buckets.flat()` concatenates all 10 buckets in order from 0 to 9 into a new `a` - this is the result sorted so far by the current digit, ready for the next pass.',
+        },
+      },
+      {
+        lines: [14],
+        title: { ru: 'Возврат результата', en: 'Returning the result' },
+        explanation: {
+          ru: 'После последнего прохода (по самому старшему разряду наибольшего числа) `a` полностью отсортирован.',
+          en: 'After the last pass (over the most significant digit of the largest number), `a` is fully sorted.',
+        },
+      },
+    ],
+    python: [
+      {
+        lines: [1],
+        title: { ru: 'Сигнатура', en: 'Signature' },
+        explanation: {
+          ru: '`radix_sort` принимает список `arr` и выполняет ту же последовательность проходов, что и JS-версия.',
+          en: '`radix_sort` takes a list `arr` and runs the same sequence of passes as the JS version.',
+        },
+      },
+      {
+        lines: [2, 3],
+        title: { ru: 'Пустой список', en: 'The empty-list guard' },
+        explanation: {
+          ru: 'Для пустого входа сразу возвращается пустой список - `max(a)` на пустом списке выбросил бы `ValueError`.',
+          en: 'An empty input returns an empty list right away - `max(a)` on an empty list would raise a `ValueError`.',
+        },
+      },
+      {
+        lines: [4, 5],
+        title: { ru: 'Копия списка и максимум', en: 'List copy and the maximum' },
+        explanation: {
+          ru: '`a` - копия входа, переприсваиваемая на каждом проходе. `max_val` определяет число разрядов, которые нужно обработать.',
+          en: '`a` is a copy of the input, reassigned on every pass. `max_val` determines how many digit positions need processing.',
+        },
+      },
+      {
+        lines: [7, 8],
+        title: { ru: 'Управление проходами', en: 'Controlling the passes' },
+        explanation: {
+          ru: '`exp` начинается с 1 и умножается на 10 в конце каждой итерации `while`. Цикл идёт, пока `max_val // exp > 0` - ровно до тех пор, пока в `max_val` остаются необработанные разряды.',
+          en: '`exp` starts at 1 and is multiplied by 10 at the end of each `while` iteration. The loop runs while `max_val // exp > 0` - exactly as long as `max_val` still has unprocessed digit positions.',
+        },
+      },
+      {
+        lines: [9],
+        title: { ru: 'Корзины на проход', en: 'Buckets for this pass' },
+        explanation: {
+          ru: 'Список из 10 пустых списков создаётся заново на каждой итерации `while`.',
+          en: 'A list of 10 empty lists is created fresh on every `while` iteration.',
+        },
+      },
+      {
+        lines: [10, 12],
+        title: { ru: 'Раскладка по текущему разряду', en: 'Distributing by the current digit' },
+        explanation: {
+          ru: 'Каждое `value` из `a` добавляется в конец корзины `(value // exp) % 10` - идентично JS-версии, порядок внутри корзины сохраняется.',
+          en: 'Every `value` from `a` is appended to bucket `(value // exp) % 10` - identical to the JS version, preserving order within the bucket.',
+        },
+      },
+      {
+        lines: [13, 14],
+        title: { ru: 'Сборка прохода и переход к следующему разряду', en: 'Reassembling the pass and advancing the digit' },
+        explanation: {
+          ru: 'Генератор списков `[v for bucket in buckets for v in bucket]` соединяет все 10 корзин по порядку - тот же результат, что и `buckets.flat()` в JS. `exp *= 10` сразу после этого сдвигает множитель на следующий, более значимый разряд для очередной проверки условия `while`.',
+          en: 'The list comprehension `[v for bucket in buckets for v in bucket]` concatenates all 10 buckets in order - the same result as JS\'s `buckets.flat()`. `exp *= 10` right after it shifts the multiplier to the next, more significant digit for the next `while` check.',
+        },
+      },
+      {
+        lines: [15],
+        title: { ru: 'Возврат результата', en: 'Returning the result' },
+        explanation: {
+          ru: 'После выхода из цикла `while` (когда `exp` превысило `max_val`) список `a` полностью отсортирован.',
+          en: 'After the `while` loop exits (once `exp` has exceeded `max_val`), list `a` is fully sorted.',
+        },
+      },
+    ],
+  },
+
   pros: [
     {
       ru: 'Линейное время O(d · n) при фиксированном числе разрядов d - на практике быстрее любой сравнивающей сортировки для чисел ограниченной длины.',
@@ -147,6 +282,79 @@ export const radixSort = {
     },
   ],
 
+  details: {
+    deepDive: [
+      {
+        ru: 'Проследим все три прохода на массиве `[170, 45, 75, 90, 802, 24, 2, 66]` (n = 8, max = 802, значит 3 разряда). Проход по единицам (`exp = 1`) даёт `[170, 90, 802, 2, 24, 45, 75, 66]` - обратите внимание, что 170 и 90 (оба с цифрой единиц 0) сохранили свой исходный взаимный порядок, как и 45 и 75 (оба с цифрой 5).',
+        en: 'Let\'s trace all three passes on `[170, 45, 75, 90, 802, 24, 2, 66]` (n = 8, max = 802, so 3 digit positions). The ones-digit pass (`exp = 1`) yields `[170, 90, 802, 2, 24, 45, 75, 66]` - notice that 170 and 90 (both with ones-digit 0) kept their original relative order, as did 45 and 75 (both with ones-digit 5).',
+      },
+      {
+        ru: 'Проход по десяткам (`exp = 10`) берёт результат первого прохода как есть и даёт `[802, 2, 24, 45, 66, 170, 75, 90]`. Здесь видна цена неустойчивости: 802 и 2 оба имеют цифру десятков 0, и их порядок (802 перед 2) - это в точности порядок, унаследованный от конца первого прохода, а не случайность. Если бы распределение по корзинам не было устойчивым, это наследование сломалось бы, и результат перестал бы быть корректным после третьего прохода.',
+        en: 'The tens-digit pass (`exp = 10`) takes the first pass\'s result as-is and produces `[802, 2, 24, 45, 66, 170, 75, 90]`. This is where stability\'s value shows: 802 and 2 both have tens-digit 0, and their order (802 before 2) is exactly the order inherited from the end of the first pass, not chance. If the bucket distribution weren\'t stable, that inheritance would break, and the result after the third pass would no longer be correct.',
+      },
+      {
+        ru: 'Финальный проход по сотням (`exp = 100`) даёт `[2, 24, 45, 66, 75, 90, 170, 802]` - массив полностью отсортирован. Цикл останавливается на следующей проверке: `Math.floor(802 / 1000) === 0`, значит `exp = 1000` уже превышает `max`, и четвёртый проход не нужен.',
+        en: 'The final hundreds-digit pass (`exp = 100`) produces `[2, 24, 45, 66, 75, 90, 170, 802]` - the array is fully sorted. The loop stops on the next check: `Math.floor(802 / 1000) === 0`, meaning `exp = 1000` already exceeds `max`, so a fourth pass isn\'t needed.',
+      },
+      {
+        ru: 'Каждый проход стоит O(n + 10): O(n) на раскладку по корзинам плюс O(10) на сборку 10 корзин обратно (в общем случае - O(n + k), где k - основание системы счисления). При d = 3 прохода общая стоимость - O(3 · (n + 10)) = O(d · (n + k)), в точности заявленная асимптотика.',
+        en: 'Each pass costs O(n + 10): O(n) to distribute into buckets plus O(10) to reassemble the 10 buckets (in general, O(n + k), where k is the numeral base). With d = 3 passes, the total cost is O(3 · (n + 10)) = O(d · (n + k)), exactly the stated asymptotics.',
+      },
+      {
+        ru: 'В отличие от MSD-варианта (`postman-sort` в этом курсе), здесь число проходов d не зависит от того, насколько быстро числа расходятся по значению - все n элементов проходят через все d раундов раскладки безусловно. Это делает LSD проще (без рекурсии, без явного отслеживания диапазонов), но лишает его возможности завершить обработку части данных раньше срока.',
+        en: 'Unlike the MSD variant (`postman-sort` in this course), the pass count d here doesn\'t depend on how quickly the numbers diverge in value - all n elements go through all d rounds of distribution unconditionally. This makes LSD simpler (no recursion, no explicit range tracking), but it can\'t finish part of the data early.',
+      },
+      {
+        ru: 'Выбор основания k = 10 удобен для примеров, но не оптимален: для 32-битных целых чисел основание k = 256 (один байт) требует всего d = 4 прохода вместо d = 10 при основании 10 (для чисел до ~4 миллиардов). Компромисс - больше памяти на корзины за проход (256 вместо 10), но меньше самих проходов, и битовые операции для извлечения байта (`(value >> (8 * i)) & 0xFF`) быстрее деления по основанию 10.',
+        en: 'Base k = 10 is convenient for examples but not optimal: for 32-bit integers, base k = 256 (one byte) needs only d = 4 passes instead of d = 10 at base 10 (for numbers up to ~4 billion). The trade-off is more per-pass bucket memory (256 instead of 10) but fewer passes overall, and byte-extraction via bit operations (`(value >> (8 * i)) & 0xFF`) is faster than base-10 division.',
+      },
+      {
+        ru: 'Формальный анализ LSD- и MSD-поразрядной сортировки, включая терминологию «radix sort» и доказательство корректности через устойчивость промежуточных проходов, приведён в **Дональде Кнуте (Donald Knuth), «The Art of Computer Programming, Volume 3: Sorting and Searching»** (1973, раздел 5.2.5) - это же издание формализовало и нижнюю границу Ω(n log n) для сортировок сравнением, от которой поразрядная сортировка как раз свободна.',
+        en: 'The formal analysis of LSD and MSD radix sort, including the "radix sort" terminology and a correctness proof via the stability of intermediate passes, appears in **Donald Knuth\'s "The Art of Computer Programming, Volume 3: Sorting and Searching"** (1973, section 5.2.5) - the same volume that formalized the Ω(n log n) lower bound for comparison sorts, which radix sort is exempt from.',
+      },
+      {
+        ru: 'Итог: поразрядная сортировка обходит нижнюю границу Ω(n log n), потому что вообще не сравнивает элементы друг с другом - она читает цифры и раскладывает по корзинам, и цена этого - линейная зависимость от d, числа разрядов, а не от log n. Пока d ограничено (32-битные числа, почтовые индексы, IP-адреса), это выгодный обмен; для ключей с непредсказуемо большим или переменным числом разрядов выигрыш исчезает.',
+        en: 'The takeaway: radix sort bypasses the Ω(n log n) lower bound because it never compares elements to each other at all - it reads digits and distributes into buckets, and the price is a linear dependence on d, the digit count, rather than on log n. As long as d is bounded (32-bit numbers, postal codes, IP addresses), this is a favorable trade; for keys with an unpredictably large or variable digit count, the advantage disappears.',
+      },
+    ],
+    whenToUse: [
+      {
+        ru: '**Фиксированное, небольшое основание k** - например, байтовое основание 256 для 32/64-битных целых чисел даёт предсказуемое малое d (4 или 8 проходов) и хорошо ложится на битовые операции вместо деления.',
+        en: '**A fixed, small base k** - e.g. byte-wise base 256 for 32/64-bit integers gives a predictably small d (4 or 8 passes) and maps well onto bit operations instead of division.',
+      },
+      {
+        ru: '**Против MSD-варианта (`postman-sort`)** - если ключи в основном одинаковой длины и не расходятся рано по значению, простота LSD (без рекурсии) перевешивает потенциальную экономию MSD на ранней остановке; для сильно неравномерных данных выигрывает MSD.',
+        en: '**Against the MSD variant (`postman-sort`)** - if keys are mostly the same length and don\'t diverge in value early, LSD\'s simplicity (no recursion) outweighs MSD\'s potential early-exit savings; for strongly uneven data, MSD wins.',
+      },
+      {
+        ru: '**Многоключевая сортировка** (сначала по фамилии, затем по имени) - устойчивость каждого прохода позволяет буквально прогнать сортировку по каждому ключу от наименее значимого к наиболее значимому, получив корректный составной порядок без единой явной функции сравнения.',
+        en: '**Multi-key sorting** (last name first, then first name) - each pass\'s stability lets you literally run a sort by each key from least to most significant, producing a correct composite order without a single explicit comparator function.',
+      },
+      {
+        ru: '**Избегать при переменной длине ключей** - строки или числа сильно разной длины требуют выравнивания (дополнения нулями/пробелами до общей длины) перед LSD-проходами; для таких данных MSD-подход без выравнивания обычно естественнее.',
+        en: '**Avoid it for variable-length keys** - strings or numbers of widely differing lengths require padding (with zeros/spaces to a common length) before LSD passes; for such data, the MSD approach without padding is usually more natural.',
+      },
+    ],
+    realWorld: [
+      {
+        ru: '**Donald Knuth, «The Art of Computer Programming, Volume 3: Sorting and Searching»** (1973, раздел 5.2.5) - формальный источник термина «radix sort» и анализа LSD/MSD-вариантов.',
+        en: '**Donald Knuth, "The Art of Computer Programming, Volume 3: Sorting and Searching"** (1973, section 5.2.5) - the formal source of the term "radix sort" and the analysis of the LSD/MSD variants.',
+      },
+      {
+        ru: '**Jon Bentley, Robert Sedgewick, «Fast Algorithms for Sorting and Searching Strings»** (1997) - строит на поразрядном подходе алгоритмы сортировки строк (three-way radix quicksort, MSD string sort), обобщая «разряд» на символ строки.',
+        en: '**Jon Bentley, Robert Sedgewick, "Fast Algorithms for Sorting and Searching Strings"** (1997) - builds string-sorting algorithms (three-way radix quicksort, MSD string sort) on top of the radix approach, generalizing "digit" to a string character.',
+      },
+      {
+        ru: '**GPU-библиotеки сортировки** (например, NVIDIA Thrust) используют поразрядную сортировку как реализацию по умолчанию для примитивных числовых ключей - у неё нет зависящих от данных ветвлений, что делает её удобной для параллельного исполнения на тысячах ядер.',
+        en: '**GPU sorting libraries** (e.g. NVIDIA Thrust) use radix sort as the default implementation for primitive numeric keys - it has no data-dependent branching, which makes it a good fit for parallel execution across thousands of cores.',
+      },
+      {
+        ru: '**Алгоритм построения суффиксного массива DC3/skew** (Kärkkäinen, Sanders, 2003) использует поразрядную сортировку как линейную по времени подпрограмму для сортировки троек символов - без неё заявленная линейная сложность DC3 была бы недостижима.',
+        en: '**The DC3/skew suffix-array construction algorithm** (Kärkkäinen, Sanders, 2003) uses radix sort as a linear-time subroutine for sorting character triples - without it, DC3\'s claimed linear time complexity would be unreachable.',
+      },
+    ],
+  },
+
   relatedAlgorithms: ['counting-sort', 'bucket-sort'],
 
   quiz: [
@@ -167,8 +375,8 @@ export const radixSort = {
         en: 'LSD (least significant digit) sort starts from the ones place and moves toward more significant digits, relying on the stability of each pass.',
       },
       hint: {
-        ru: 'Расшифровка аббревиатуры LSD подсказывает ответ: с какого конца числа начинается обработка?',
-        en: 'The LSD abbreviation itself is a hint: which end of the number does processing start from?',
+        ru: 'Смотрите абзац `solution` на вкладке «Суть» и шаг «Управление проходами» построчного разбора на вкладке «Реализация».',
+        en: 'See the `solution` paragraph on the "Intent" tab and the "Controlling the passes" walkthrough step on the "Implementation" tab.',
       },
     },
     {
@@ -188,8 +396,8 @@ export const radixSort = {
         en: 'If the sort on the current digit weren\'t stable, it could scramble elements already correctly ordered by lower digits from previous passes.',
       },
       hint: {
-        ru: 'Что случится с порядком, установленным на прошлом проходе, если следующий проход не сохранит относительный порядок равных элементов?',
-        en: 'What happens to the order set by the previous pass if the next pass doesn\'t preserve the relative order of equal elements?',
+        ru: 'Смотрите второй абзац раздела «Углублённо» на вкладке «Суть» (802 и 2 на конкретном примере) и шаг «Раскладка по текущему разряду» построчного разбора на вкладке «Реализация».',
+        en: 'See the second "Deep dive" paragraph on the "Intent" tab (802 and 2 in the concrete example) and the "Distributing by the current digit" walkthrough step on the "Implementation" tab.',
       },
     },
     {
@@ -209,8 +417,8 @@ export const radixSort = {
         en: 'The algorithm processes digits until it handles the most significant digit of the largest value - so d equals that value\'s digit count.',
       },
       hint: {
-        ru: 'Алгоритм должен обработать все разряды хотя бы одного числа. Какое число задаёт верхнюю границу числа проходов?',
-        en: 'The algorithm must process every digit position of at least one number. Which number sets the upper bound on the pass count?',
+        ru: 'Смотрите шаг «Управление проходами» построчного разбора на вкладке «Реализация» (условие `Math.floor(max / exp) > 0`) и третий абзац раздела «Углублённо» на вкладке «Суть».',
+        en: 'See the "Controlling the passes" walkthrough step on the "Implementation" tab (the `Math.floor(max / exp) > 0` condition) and the third "Deep dive" paragraph on the "Intent" tab.',
       },
     },
     {
@@ -230,8 +438,8 @@ export const radixSort = {
         en: 'The pass count d is set by the largest value - one abnormally long "outlier" forces many passes for the sake of a few short numbers.',
       },
       hint: {
-        ru: 'Какое единственное число во входных данных диктует количество проходов, и что происходит, если это число аномально велико?',
-        en: 'Which single number in the input dictates the pass count, and what happens when that number is abnormally large?',
+        ru: 'Смотрите первый пункт минусов на вкладке «Плюсы и минусы» и четвёртый абзац раздела «Углублённо» на вкладке «Суть» (O(d · (n + k))).',
+        en: 'See the first "Cons" item on the "Pros & Cons" tab and the fourth "Deep dive" paragraph on the "Intent" tab (O(d · (n + k))).',
       },
     },
     {
@@ -251,8 +459,8 @@ export const radixSort = {
         en: 'Since each digit is a value 0-9, the inner counting sort\'s counters/buckets are always a fixed size of 10, regardless of the original numbers\' range.',
       },
       hint: {
-        ru: 'Сколько возможных значений может принимать одна десятичная цифра?',
-        en: 'How many possible values can a single decimal digit take?',
+        ru: 'Смотрите шаг «Корзины на проход» построчного разбора на вкладке «Реализация» и пятый абзац раздела «Углублённо» на вкладке «Суть» (основание 256 вместо 10).',
+        en: 'See the "Buckets for this pass" walkthrough step on the "Implementation" tab and the fifth "Deep dive" paragraph on the "Intent" tab (base 256 instead of 10).',
       },
     },
     {
@@ -272,8 +480,8 @@ export const radixSort = {
         en: 'Counting sort requires a counter array as large as the entire value range. Radix sort breaks the task into single-digit passes, each needing only 10 counters.',
       },
       hint: {
-        ru: 'Сколько счётчиков нужно сортировке подсчётом для чисел от 0 до миллиарда - и сколько нужно поразрядной сортировке на один проход?',
-        en: 'How many counters does counting sort need for numbers from 0 to one billion - and how many does radix sort need per pass?',
+        ru: 'Смотрите абзац `problem` на вкладке «Суть» и второй пункт плюсов на вкладке «Плюсы и минусы».',
+        en: 'See the `problem` paragraph on the "Intent" tab and the second "Pros" item on the "Pros & Cons" tab.',
       },
     },
     {
@@ -293,8 +501,8 @@ export const radixSort = {
         en: 'Radix sort generalizes to fixed-length strings: the character position plays the role of "digit place," and the character code plays the role of "digit value." This is the basis of LSD string sorting.',
       },
       hint: {
-        ru: 'Что является «разрядом» для строки, если применить аналогию с числами?',
-        en: 'What serves as a "digit position" for a string if you apply the analogy with numbers?',
+        ru: 'Смотрите второй пункт whenToUse (углублённого) на вкладке «Суть» и второй пункт раздела «Примеры из практики» (углублённого) там же (Bentley и Sedgewick, 1997).',
+        en: 'See the second extended "When to use" item on the "Intent" tab and the second extended "Real world" item there (Bentley and Sedgewick, 1997).',
       },
     },
     {
@@ -314,8 +522,8 @@ export const radixSort = {
         en: 'Base 256 (one byte) splits a 32-bit integer into just 4 passes, each with 256 buckets. This gives an excellent balance between pass count and counter-array size.',
       },
       hint: {
-        ru: 'Подумайте о том, какой единицей данных оперирует процессор - и какое основание позволяет минимизировать число проходов для 32-битных чисел.',
-        en: 'Think about what unit of data a processor naturally works with - and which base minimizes passes for 32-bit integers.',
+        ru: 'Смотрите пятый абзац раздела «Углублённо» на вкладке «Суть» (d = 4 прохода при основании 256 против d = 10 при основании 10).',
+        en: 'See the fifth "Deep dive" paragraph on the "Intent" tab (d = 4 passes at base 256 versus d = 10 at base 10).',
       },
     },
     {
@@ -335,8 +543,8 @@ export const radixSort = {
         en: 'The pass count equals the digit count of the largest number in the array. All three-digit numbers means the largest is also three digits, so exactly three passes suffice.',
       },
       hint: {
-        ru: 'Сколько разрядов у трёхзначного числа - и сколько проходов делает алгоритм по разрядам?',
-        en: 'How many digit positions does a three-digit number have - and how many passes does the algorithm make per digit position?',
+        ru: 'Смотрите первый абзац раздела «Углублённо» на вкладке «Суть» (максимум 802 → 3 разряда → 3 прохода) и шаг «Управление проходами» построчного разбора на вкладке «Реализация».',
+        en: 'See the first "Deep dive" paragraph on the "Intent" tab (max 802 → 3 digits → 3 passes) and the "Controlling the passes" walkthrough step on the "Implementation" tab.',
       },
     },
     {
@@ -356,8 +564,8 @@ export const radixSort = {
         en: 'Radix sort does not belong to the comparison-based class - it bypasses the Ω(n log n) lower bound by reading digit values rather than comparing pairs of elements.',
       },
       hint: {
-        ru: 'Нижняя граница Ω(n log n) применяется к сортировкам сравнением. Нарушает ли поразрядная сортировка эту границу - и если да, то как?',
-        en: 'The Ω(n log n) lower bound applies to comparison sorts. Does radix sort violate that bound - and if so, how?',
+        ru: 'Смотрите тег `non-comparison` рядом с названием алгоритма вверху страницы и последний абзац раздела «Углублённо» на вкладке «Суть».',
+        en: 'See the `non-comparison` tag next to the algorithm name at the top of the page and the final "Deep dive" paragraph on the "Intent" tab.',
       },
     },
   ],
