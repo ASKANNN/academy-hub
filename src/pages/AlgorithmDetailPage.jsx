@@ -88,7 +88,7 @@ export default function AlgorithmDetailPage() {
           <span className="algorithm-card__complexity-badge">{t.worst}: {algorithm.complexity.time.worst}</span>
           <span className="algorithm-card__complexity-badge">{t.space}: {algorithm.complexity.space}</span>
         </div>
-        <AlgorithmIllustration slug={algorithm.slug} alt={name} />
+        <AlgorithmIllustration slug={algorithm.slug} alt={name} t={t} />
       </section>
 
       <section className="container algorithm-detail__section">

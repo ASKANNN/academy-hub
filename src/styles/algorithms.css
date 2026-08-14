@@ -177,7 +177,10 @@
 
 .algorithm-illustration {
   width: 100%;
-  aspect-ratio: 16 / 9;
+  /* Matches the generated infographics' real output size (1536x1024) - using
+     16/9 here cropped the top/bottom via object-fit: cover since the actual
+     images are 3/2, not 16/9. */
+  aspect-ratio: 3 / 2;
   border-radius: var(--radius-lg);
   overflow: hidden;
   background: var(--color-bg-subtle);
@@ -190,6 +193,21 @@
 .algorithm-illustration.is-visible {
   opacity: 1;
   transform: none;
+}
+
+.algorithm-illustration__trigger {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: zoom-in;
+}
+
+.algorithm-illustration__trigger:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
 }
 
 .algorithm-illustration__img {
@@ -205,6 +223,50 @@
     opacity: 1;
     transform: none;
   }
+}
+
+.illustration-lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-6);
+  cursor: zoom-out;
+}
+
+.illustration-lightbox__img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: var(--radius-md);
+  cursor: default;
+}
+
+.illustration-lightbox__close {
+  position: absolute;
+  top: var(--space-5);
+  right: var(--space-5);
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  border: none;
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  font-size: var(--text-2xl);
+  line-height: 1;
+  cursor: pointer;
+}
+
+.illustration-lightbox__close:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.illustration-lightbox__close:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
 
 /* ---------- breadcrumb ---------- */
