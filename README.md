@@ -26,9 +26,10 @@ Source-available, non-commercial license.
 - Client-side routing (`react-router-dom`) with a fade/slide page transition
   on every navigation
 - **Algorithms Academy** — full in-app section (`/algorithms/...`): 31 sorting
-  algorithms with animated visualizers, 5-tab detail pages (Intent / Visualization /
-  Implementation / Pros&Cons / Quiz), bilingual RU/EN explanations and JS/Python
-  code samples
+  algorithms, each with animated visualizers, a 5-tab detail page (Intent /
+  Visualization / Implementation / Pros&Cons / Quiz), a deep-dive writeup,
+  line-by-line JS/Python code walkthroughs, and a 10-question quiz — all
+  bilingual RU/EN
 - **Prerendering** — all 34 routes ship pre-rendered HTML (title, description,
   canonical, OG tags, JSON-LD, `#root` content), visible to crawlers without JS
 
@@ -61,8 +62,9 @@ src/
     PageIntro.jsx                  — canvas constellation animation, shown once per session, skippable
     AccessibilityWidget.jsx         — floating button + accessibility settings panel
     BackToTop.jsx                   — floating scroll-to-top button
-    algorithms/                      — AlgorithmCard, CategoryCard, AlgorithmVisualizer, AlgorithmIcon, Breadcrumb, PrevNextNav
-    ui/                                — CodeBlock, Quiz, Tabs, RichText, Accordion, PrerequisiteBadge
+    ErrorBoundary.jsx                — catches render errors, wraps AlgorithmDetailPage
+    algorithms/                      — AlgorithmCard, CategoryCard, AlgorithmVisualizer, AlgorithmIcon, Breadcrumb, PrevNextNav, ComplexityPips
+    ui/                                — CodeBlock, WalkthroughBlock, Quiz, Tabs, RichText, Accordion, PrerequisiteBadge, ExpandHint, TopicsList
   pages/                     — one component per route: HomePage, AlgorithmsCatalogPage, AlgorithmsCategoryPage, AlgorithmDetailPage, NotFoundPage
   hooks/
     useTheme.js              — light/dark theme, localStorage
@@ -70,8 +72,10 @@ src/
     useIntro.js                 — sessionStorage flag gating PageIntro
     useAccessibility.js          — a11y settings, localStorage
     usePageMeta.js               — sets title/description/canonical/OG per route via useEffect
+    usePageContext.js             — wraps react-router's useOutletContext(), reads { lang, theme, t } from Layout
   utils/
     algorithmSteps.js         — pure step generators per algorithm slug; replays the real algorithm into visualizer frames
+    sound.js                    — Web Audio tone synthesis (no audio files), used by Quiz.jsx for answer feedback
   i18n/
     strings.js                — ALL UI text in RU and EN; read via getStrings(lang); never add local TEXTS/LABELS
   styles/
