@@ -7,6 +7,7 @@ import { PrevNextNav } from '../components/algorithms/PrevNextNav.jsx';
 import { AlgorithmCard } from '../components/algorithms/AlgorithmCard.jsx';
 import { AlgorithmIcon } from '../components/algorithms/AlgorithmIcon.jsx';
 import { ComplexityPips } from '../components/algorithms/ComplexityPips.jsx';
+import { AlgorithmIllustration } from '../components/algorithms/AlgorithmIllustration.jsx';
 import { AlgorithmVisualizer } from '../components/algorithms/AlgorithmVisualizer.jsx';
 import { CodeBlock } from '../components/ui/CodeBlock.jsx';
 import { WalkthroughBlock } from '../components/ui/WalkthroughBlock.jsx';
@@ -87,6 +88,7 @@ export default function AlgorithmDetailPage() {
           <span className="algorithm-card__complexity-badge">{t.worst}: {algorithm.complexity.time.worst}</span>
           <span className="algorithm-card__complexity-badge">{t.space}: {algorithm.complexity.space}</span>
         </div>
+        <AlgorithmIllustration slug={algorithm.slug} alt={name} />
       </section>
 
       <section className="container algorithm-detail__section">

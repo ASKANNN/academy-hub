@@ -175,6 +175,38 @@
   max-width: var(--container-sm);
 }
 
+.algorithm-illustration {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--color-bg-subtle);
+  margin-top: var(--space-6);
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.5s var(--ease-smooth, ease-out), transform 0.5s var(--ease-smooth, ease-out);
+}
+
+.algorithm-illustration.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.algorithm-illustration__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .algorithm-illustration {
+    transition: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
 /* ---------- breadcrumb ---------- */
 
 .breadcrumb ol {

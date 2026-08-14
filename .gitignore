@@ -31,6 +31,9 @@ TASKS_ARCHIVE.md
 CONTENT_TEMPLATE.md
 ICON_SYSTEM.md
 .claude
+# Generated image-gen prompts (regenerate via /tmp scratch script, not app code)
+image-prompts/
+
 # Temporary QA screenshots
 .playwright-mcp/
 bubble-sort-quiz.png
