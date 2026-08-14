@@ -1,4 +1,8 @@
+import { useId } from 'react';
+
 export function BrandMark({ size = 28 }) {
+  const gradientId = useId();
+
   return (
     <svg
       className="brand-mark"
@@ -8,20 +12,21 @@ export function BrandMark({ size = 28 }) {
       fill="none"
       aria-hidden="true"
     >
-      <line x1="16" y1="16" x2="16" y2="6.4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" opacity="0.85" />
-      <line x1="16" y1="16" x2="7.4" y2="21.8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" opacity="0.85" />
-      <line x1="16" y1="16" x2="24.6" y2="21.8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" opacity="0.85" />
+      <defs>
+        <linearGradient id={gradientId} x1="5" y1="24" x2="27" y2="4" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stopColor="#a855f7" />
+          <stop offset="35%" stopColor="#3b82f6" />
+          <stop offset="100%" stopColor="#22d3ee" />
+        </linearGradient>
+      </defs>
       <polygon
-        points="16 11.5 20 14 20 18 16 20.5 12 18 12 14"
-        fill="currentColor"
-        fillOpacity="0.16"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinejoin="round"
+        points="16 4, 27 24, 23.3 24, 16 12, 8.7 24, 5 24"
+        fill={`url(#${gradientId})`}
       />
-      <circle cx="16" cy="6.4" r="2.1" fill="currentColor" />
-      <circle cx="7.4" cy="21.8" r="2.1" fill="currentColor" />
-      <circle cx="24.6" cy="21.8" r="2.1" fill="currentColor" />
+      <polygon
+        points="16 17.5, 18.2 20.8, 16 24.2, 13.8 20.8"
+        fill={`url(#${gradientId})`}
+      />
     </svg>
   );
 }
