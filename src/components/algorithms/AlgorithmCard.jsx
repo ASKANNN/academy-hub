@@ -22,10 +22,12 @@ export function AlgorithmCard({ algorithm, lang = 'ru', index = 0 }) {
             <ComplexityPips popularity={algorithm.popularity} />
           </div>
           <p className="academy-card__tagline">{intent}</p>
-          <div className="algorithm-card__complexity">
-            <span className="algorithm-card__complexity-badge">{algorithm.complexity.time.average}</span>
-            <span className="algorithm-card__complexity-badge">{algorithm.complexity.space}</span>
-          </div>
+          {algorithm.category !== 'big-o' && (
+            <div className="algorithm-card__complexity">
+              <span className="algorithm-card__complexity-badge">{algorithm.complexity.time.average}</span>
+              <span className="algorithm-card__complexity-badge">{algorithm.complexity.space}</span>
+            </div>
+          )}
         </div>
       </div>
     </Link>

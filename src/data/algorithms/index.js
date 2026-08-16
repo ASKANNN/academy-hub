@@ -30,6 +30,7 @@ import { spreadSort } from './sorting/spread-sort.js';
 import { flashSort } from './sorting/flash-sort.js';
 import { bogoSort } from './sorting/bogo-sort.js';
 import { stoogeSort } from './sorting/stooge-sort.js';
+import { oN } from './big-o/o-n.js';
 
 export { ALGORITHM_CATEGORIES, getCategory };
 
@@ -66,6 +67,9 @@ const ALGORITHMS_BY_CATEGORY = {
     flashSort,
     bogoSort,
     stoogeSort,
+  ],
+  'big-o': [
+    oN,
   ],
 };
 

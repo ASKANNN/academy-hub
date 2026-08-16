@@ -1,12 +1,13 @@
 import { readdir } from 'node:fs/promises';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
+import { ALGORITHM_CATEGORIES } from '../../src/data/algorithms/categories.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '../..');
 
-export async function getSortingSlugs() {
-  const dir = resolve(root, 'src/data/algorithms/sorting');
+export async function getCategorySlugs(category) {
+  const dir = resolve(root, 'src/data/algorithms', category);
   const files = (await readdir(dir)).filter((f) => f.endsWith('.js'));
   const modules = await Promise.all(
     files.map((f) => import(pathToFileURL(resolve(dir, f)).href))
@@ -17,11 +18,13 @@ export async function getSortingSlugs() {
 }
 
 export async function getAllRoutes() {
-  const slugs = await getSortingSlugs();
-  return [
-    '/',
-    '/algorithms',
-    '/algorithms/sorting',
-    ...slugs.map((slug) => `/algorithms/sorting/${slug}`),
-  ];
+  const liveCategories = ALGORITHM_CATEGORIES.filter((c) => c.status === 'live');
+
+  const routes = ['/', '/algorithms'];
+  for (const category of liveCategories) {
+    routes.push(`/algorithms/${category.slug}`);
+    const slugs = await getCategorySlugs(category.slug);
+    for (const slug of slugs) routes.push(`/algorithms/${category.slug}/${slug}`);
+  }
+  return routes;
 }

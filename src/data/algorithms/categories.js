@@ -17,11 +17,7 @@ export const ALGORITHM_CATEGORIES = [
       ru: 'Язык, на котором индустрия обсуждает скорость и память алгоритмов',
       en: 'The language the industry uses to talk about speed and memory',
     },
-    status: 'coming-soon',
-    topics: {
-      ru: ['O(1) и O(n)', 'O(log n)', 'O(n²) и вложенные циклы', 'Лучший/средний/худший случай'],
-      en: ['O(1) and O(n)', 'O(log n)', 'O(n²) and nested loops', 'Best/average/worst case'],
-    },
+    status: 'live',
   },
   {
     slug: 'searching',

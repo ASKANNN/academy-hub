@@ -4,6 +4,12 @@ const F = 'algorithm-icon__accent algorithm-icon__accent--fill';
 const D = 'style="fill:currentColor;stroke:none"';
 
 const GLYPHS = {
+  'o-n': `
+    <path class="${B}" d="M3 21H21"/>
+    <path class="${B}" d="M3 21V3"/>
+    <path class="${A}" d="M4 19L20 5"/>
+    <circle class="${F}" cx="14" cy="10.3" r="1.8"/>`,
+
   'bitonic-sort': `
     <path class="${B}" d="M3 19L12 5"/>
     <path class="${A}" d="M12 5L21 19"/>

@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 export function PrerequisiteBadge({ t }) {
   return (
     <div className="prerequisite-badge">
@@ -7,7 +9,7 @@ export function PrerequisiteBadge({ t }) {
         <circle cx="8" cy="5" r="0.5" fill="currentColor" stroke="none" />
       </svg>
       <span className="prerequisite-badge__label">{t.prerequisiteLabel}:</span>
-      <a href="#" className="prerequisite-badge__link">{t.prerequisiteBigO}</a>
+      <Link to="/algorithms/big-o" className="prerequisite-badge__link">{t.prerequisiteBigO}</Link>
     </div>
   );
 }

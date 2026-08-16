@@ -1,17 +1,22 @@
-import { readdirSync } from 'node:fs';
+import { readdirSync, statSync } from 'node:fs';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { dirname, join } from 'node:path';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const sortingDir = join(__dirname, '..', 'src', 'data', 'algorithms', 'sorting');
+const algorithmsRoot = join(__dirname, '..', 'src', 'data', 'algorithms');
 
-const files = readdirSync(sortingDir).filter((f) => f.endsWith('.js'));
+const categoryDirs = readdirSync(algorithmsRoot)
+  .filter((entry) => statSync(join(algorithmsRoot, entry)).isDirectory());
 
 const allData = [];
-for (const file of files) {
-  const mod = await import(pathToFileURL(join(sortingDir, file)).href);
-  const data = Object.values(mod)[0];
-  allData.push({ file, data });
+for (const category of categoryDirs) {
+  const categoryDir = join(algorithmsRoot, category);
+  const files = readdirSync(categoryDir).filter((f) => f.endsWith('.js'));
+  for (const file of files) {
+    const mod = await import(pathToFileURL(join(categoryDir, file)).href);
+    const data = Object.values(mod)[0];
+    allData.push({ file: `${category}/${file}`, data });
+  }
 }
 
 const validSlugs = new Set(allData.map(({ data }) => data?.slug).filter(Boolean));

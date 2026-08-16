@@ -6,14 +6,16 @@ function prefersReducedMotion() {
   return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 }
 
-export function AlgorithmIllustration({ slug, alt, t }) {
-  const src = imageFor(slug);
+export function AlgorithmIllustration({ category, slug, alt, t }) {
+  const src = imageFor(category, slug);
   const ref = useRef(null);
+  const heroImgRef = useRef(null);
   const triggerRef = useRef(null);
   const closeRef = useRef(null);
   const lightboxImgRef = useRef(null);
   const originRectRef = useRef(null);
   const [isVisible, setIsVisible] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [phase, setPhase] = useState('closed'); // closed | opening | open | closing
 
   useEffect(() => {
@@ -31,6 +33,10 @@ export function AlgorithmIllustration({ slug, alt, t }) {
     );
     observer.observe(node);
     return () => observer.disconnect();
+  }, [src]);
+
+  useEffect(() => {
+    if (heroImgRef.current?.complete) setIsLoaded(true);
   }, [src]);
 
   function openLightbox() {
@@ -65,9 +71,6 @@ export function AlgorithmIllustration({ slug, alt, t }) {
     }
   }
 
-  // FLIP: measure the just-mounted full-size image, jump it back to the
-  // trigger's rect with no transition, then release the transform on the
-  // next frame so the browser animates from thumbnail -> fullscreen.
   useLayoutEffect(() => {
     if (phase !== 'opening') return;
     const img = lightboxImgRef.current;
@@ -82,9 +85,6 @@ export function AlgorithmIllustration({ slug, alt, t }) {
 
     img.style.transition = 'none';
     img.style.transform = `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})`;
-    // Force layout so the browser commits the starting transform before we
-    // animate away from it.
-    // eslint-disable-next-line no-unused-expressions
     img.offsetHeight;
 
     requestAnimationFrame(() => {
@@ -109,7 +109,6 @@ export function AlgorithmIllustration({ slug, alt, t }) {
       document.removeEventListener('keydown', onKeyDown);
       document.body.style.overflow = '';
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpenish]);
 
   if (!src) return null;
@@ -128,11 +127,13 @@ export function AlgorithmIllustration({ slug, alt, t }) {
           aria-label={t.illustrationExpand}
         >
           <img
+            ref={heroImgRef}
             src={src}
             alt={alt}
             loading="lazy"
             decoding="async"
-            className="algorithm-illustration__img"
+            onLoad={() => setIsLoaded(true)}
+            className={`algorithm-illustration__img${isLoaded ? ' is-loaded' : ''}`}
           />
         </button>
       </div>

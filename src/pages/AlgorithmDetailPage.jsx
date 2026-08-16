@@ -9,6 +9,7 @@ import { AlgorithmIcon } from '../components/algorithms/AlgorithmIcon.jsx';
 import { ComplexityPips } from '../components/algorithms/ComplexityPips.jsx';
 import { AlgorithmIllustration } from '../components/algorithms/AlgorithmIllustration.jsx';
 import { AlgorithmVisualizer } from '../components/algorithms/AlgorithmVisualizer.jsx';
+import { BigOVisualizer } from '../components/algorithms/BigOVisualizer.jsx';
 import { CodeBlock } from '../components/ui/CodeBlock.jsx';
 import { WalkthroughBlock } from '../components/ui/WalkthroughBlock.jsx';
 import { Tabs } from '../components/ui/Tabs.jsx';
@@ -81,14 +82,16 @@ export default function AlgorithmDetailPage() {
           <ComplexityPips popularity={algorithm.popularity} />
         </div>
         <p className="algorithms-hero__subtitle">{algorithm.intent[lang] ?? algorithm.intent.ru}</p>
-        <PrerequisiteBadge t={t} />
-        <div className="algorithm-detail__complexity">
-          <span className="algorithm-card__complexity-badge">{t.best}: {algorithm.complexity.time.best}</span>
-          <span className="algorithm-card__complexity-badge">{t.average}: {algorithm.complexity.time.average}</span>
-          <span className="algorithm-card__complexity-badge">{t.worst}: {algorithm.complexity.time.worst}</span>
-          <span className="algorithm-card__complexity-badge">{t.space}: {algorithm.complexity.space}</span>
-        </div>
-        <AlgorithmIllustration slug={algorithm.slug} alt={name} t={t} />
+        {categorySlug !== 'big-o' && <PrerequisiteBadge t={t} />}
+        {categorySlug !== 'big-o' && (
+          <div className="algorithm-detail__complexity">
+            <span className="algorithm-card__complexity-badge">{t.best}: {algorithm.complexity.time.best}</span>
+            <span className="algorithm-card__complexity-badge">{t.average}: {algorithm.complexity.time.average}</span>
+            <span className="algorithm-card__complexity-badge">{t.worst}: {algorithm.complexity.time.worst}</span>
+            <span className="algorithm-card__complexity-badge">{t.space}: {algorithm.complexity.space}</span>
+          </div>
+        )}
+        <AlgorithmIllustration category={categorySlug} slug={algorithm.slug} alt={name} t={t} />
       </section>
 
       <section className="container algorithm-detail__section">
@@ -154,7 +157,9 @@ export default function AlgorithmDetailPage() {
               label: t.sectionVisualization,
               content: (
                 <div className="detail-section">
-                  <AlgorithmVisualizer slug={algorithm.slug} t={t} steps={algorithm.steps} lang={lang} stepBreakpoints={algorithm.stepBreakpoints} />
+                  {categorySlug === 'big-o'
+                    ? <BigOVisualizer slug={algorithm.slug} t={t} steps={algorithm.steps} lang={lang} stepBreakpoints={algorithm.stepBreakpoints} />
+                    : <AlgorithmVisualizer slug={algorithm.slug} t={t} steps={algorithm.steps} lang={lang} stepBreakpoints={algorithm.stepBreakpoints} />}
                   <ol className="algorithm-steps">
                     {algorithm.steps.map((step, i) => (
                       <li key={i} className="algorithm-steps__item">

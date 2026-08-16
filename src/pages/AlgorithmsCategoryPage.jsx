@@ -28,8 +28,11 @@ export default function AlgorithmsCategoryPage() {
 
   const algorithms = getAlgorithmsByCategory(categorySlug);
 
-  const accordionItems = t.sortingAccordion
-    ? t.sortingAccordion.map(item => ({
+  const accordionKey = `${categorySlug.replace(/-([a-z])/g, (_, c) => c.toUpperCase())}Accordion`;
+  const accordionData = t[accordionKey];
+
+  const accordionItems = accordionData
+    ? accordionData.map(item => ({
         title: item.title,
         content: item.blocks.map((block, i) =>
           block.type === 'ul'
