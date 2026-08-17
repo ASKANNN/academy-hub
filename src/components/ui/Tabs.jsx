@@ -5,6 +5,7 @@ export function Tabs({ items, defaultIndex = 0, className = '', panelClassName =
   const [scrollState, setScrollState] = useState({ left: false, right: false });
   const listRef = useRef(null);
   const tabRefs = useRef([]);
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
     const list = listRef.current;
@@ -30,6 +31,10 @@ export function Tabs({ items, defaultIndex = 0, className = '', panelClassName =
   }, [items]);
 
   useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
     tabRefs.current[active]?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
   }, [active]);
 
