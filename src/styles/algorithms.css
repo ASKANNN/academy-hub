@@ -352,6 +352,14 @@
   top: -1px;
 }
 
+/* Big O names follow 'O(x) - Title Case Name' - structurally longer than
+   sorting names, so they wrap to 3 lines more often than the shared
+   2-line title reservation accounts for, leaving cards in the same grid
+   row at visibly different heights. */
+.algorithm-card--big-o .academy-card__title {
+  min-height: calc(var(--line-height-snug) * var(--text-lg) * 3);
+}
+
 .complexity-pips {
   display: inline-flex;
   gap: 3px;
@@ -390,8 +398,12 @@
 
 .algorithm-detail__head {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: var(--space-3);
+}
+
+.algorithm-detail__head .algorithm-icon {
+  margin-top: var(--space-1);
 }
 
 .prerequisite-badge {

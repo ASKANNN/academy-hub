@@ -4,6 +4,18 @@ const F = 'algorithm-icon__accent algorithm-icon__accent--fill';
 const D = 'style="fill:currentColor;stroke:none"';
 
 const GLYPHS = {
+  'o-1': `
+    <path class="${B}" d="M3 21H21"/>
+    <path class="${B}" d="M3 21V3"/>
+    <path class="${A}" d="M4 8H20"/>
+    <circle class="${F}" cx="14" cy="8" r="1.8"/>`,
+
+  'o-log-n': `
+    <path class="${B}" d="M3 21H21"/>
+    <path class="${B}" d="M3 21V3"/>
+    <path class="${A}" d="M4 20Q8 6 20 5"/>
+    <circle class="${F}" cx="14" cy="6" r="1.8"/>`,
+
   'o-n': `
     <path class="${B}" d="M3 21H21"/>
     <path class="${B}" d="M3 21V3"/>

@@ -12,7 +12,7 @@ export function AlgorithmCard({ algorithm, lang = 'ru', index = 0 }) {
       className="academy-card-link algorithm-card-link"
       style={{ '--card-index': index }}
     >
-      <div className="academy-card academy-card--live algorithm-card">
+      <div className={`academy-card academy-card--live algorithm-card${algorithm.category === 'big-o' ? ' algorithm-card--big-o' : ''}`}>
         <div className="academy-card__body">
           <div className="academy-card__head">
             <h3 className="academy-card__title">

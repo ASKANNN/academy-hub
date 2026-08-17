@@ -31,6 +31,8 @@ import { flashSort } from './sorting/flash-sort.js';
 import { bogoSort } from './sorting/bogo-sort.js';
 import { stoogeSort } from './sorting/stooge-sort.js';
 import { oN } from './big-o/o-n.js';
+import { o1 } from './big-o/o-1.js';
+import { oLogN } from './big-o/o-log-n.js';
 
 export { ALGORITHM_CATEGORIES, getCategory };
 
@@ -69,6 +71,8 @@ const ALGORITHMS_BY_CATEGORY = {
     stoogeSort,
   ],
   'big-o': [
+    o1,
+    oLogN,
     oN,
   ],
 };

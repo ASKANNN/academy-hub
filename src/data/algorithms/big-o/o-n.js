@@ -1,7 +1,7 @@
 export const oN = {
   slug: 'o-n',
   category: 'big-o',
-  name: { ru: 'O(n) - Линейное Время', en: 'O(n) - Linear Time' },
+  name: { ru: 'O(n) - Линейная Сложность', en: 'O(n) - Linear Time' },
   complexity: {
     time: { best: 'O(n)', average: 'O(n)', worst: 'O(n)' },
     space: 'O(1)',
@@ -270,7 +270,7 @@ export const oN = {
     ],
   },
 
-  relatedAlgorithms: [],
+  relatedAlgorithms: ['o-1', 'o-log-n'],
 
   quiz: [
     {
