@@ -32,6 +32,8 @@ const IMAGE_FILES = {
     'tournament-sort': 'TournamentSort.png',
   },
   'big-o': {
+    'o-1': 'ConstantTime.png',
+    'o-log-n': 'LogarithmicTime.png',
     'o-n': 'LinearTime.png',
   },
 };
