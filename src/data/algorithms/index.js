@@ -35,6 +35,7 @@ import { o1 } from './big-o/o-1.js';
 import { oLogN } from './big-o/o-log-n.js';
 import { oNLogN } from './big-o/o-n-log-n.js';
 import { oN2 } from './big-o/o-n-2.js';
+import { oN3 } from './big-o/o-n-3.js';
 
 export { ALGORITHM_CATEGORIES, getCategory };
 
@@ -78,6 +79,7 @@ const ALGORITHMS_BY_CATEGORY = {
     oN,
     oNLogN,
     oN2,
+    oN3,
   ],
 };
 

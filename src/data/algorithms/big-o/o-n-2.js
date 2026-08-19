@@ -288,7 +288,7 @@ export const oN2 = {
     ],
   },
 
-  relatedAlgorithms: ['o-n-log-n', 'o-n'],
+  relatedAlgorithms: ['o-n-log-n', 'o-n', 'o-n-3'],
 
   quiz: [
     {

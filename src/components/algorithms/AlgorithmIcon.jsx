@@ -34,6 +34,12 @@ const GLYPHS = {
     <path class="${A}" d="M4 20Q18 20 20 3"/>
     <circle class="${F}" cx="17.7" cy="11.7" r="1.8"/>`,
 
+  'o-n-3': `
+    <path class="${B}" d="M3 21H21"/>
+    <path class="${B}" d="M3 21V3"/>
+    <path class="${A}" d="M4 21Q16 21 16 3"/>
+    <circle class="${F}" cx="15.3" cy="10.9" r="1.8"/>`,
+
   'bitonic-sort': `
     <path class="${B}" d="M3 19L12 5"/>
     <path class="${A}" d="M12 5L21 19"/>
