@@ -270,7 +270,7 @@ export const oN = {
     ],
   },
 
-  relatedAlgorithms: ['o-1', 'o-log-n'],
+  relatedAlgorithms: ['o-1', 'o-log-n', 'o-n-log-n'],
 
   quiz: [
     {

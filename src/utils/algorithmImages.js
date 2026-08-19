@@ -35,6 +35,8 @@ const IMAGE_FILES = {
     'o-1': 'ConstantTime.png',
     'o-log-n': 'LogarithmicTime.png',
     'o-n': 'LinearTime.png',
+    'o-n-log-n': 'LinearithmicTime.png',
+    'o-n-2': 'QuadraticTime.png',
   },
 };
 

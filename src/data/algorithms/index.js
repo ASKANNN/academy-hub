@@ -33,6 +33,8 @@ import { stoogeSort } from './sorting/stooge-sort.js';
 import { oN } from './big-o/o-n.js';
 import { o1 } from './big-o/o-1.js';
 import { oLogN } from './big-o/o-log-n.js';
+import { oNLogN } from './big-o/o-n-log-n.js';
+import { oN2 } from './big-o/o-n-2.js';
 
 export { ALGORITHM_CATEGORIES, getCategory };
 
@@ -74,6 +76,8 @@ const ALGORITHMS_BY_CATEGORY = {
     o1,
     oLogN,
     oN,
+    oNLogN,
+    oN2,
   ],
 };
 
