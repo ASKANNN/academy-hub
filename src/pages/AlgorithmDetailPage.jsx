@@ -79,7 +79,7 @@ export default function AlgorithmDetailPage() {
         <div className="algorithm-detail__head">
           <AlgorithmIcon slug={slug} size="lg" />
           <h1 className="algorithms-hero__title">{name}</h1>
-          <ComplexityPips popularity={algorithm.popularity} />
+          {categorySlug !== 'big-o' && <ComplexityPips popularity={algorithm.popularity} />}
         </div>
         <p className="algorithms-hero__subtitle">{algorithm.intent[lang] ?? algorithm.intent.ru}</p>
         {categorySlug !== 'big-o' && <PrerequisiteBadge t={t} />}

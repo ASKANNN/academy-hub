@@ -29,7 +29,7 @@ export function AlgorithmCard({ algorithm, lang = 'ru', index = 0 }) {
               <AlgorithmIcon slug={algorithm.slug} size="md" />
               {name}
             </h3>
-            <ComplexityPips popularity={algorithm.popularity} />
+            {algorithm.category !== 'big-o' && <ComplexityPips popularity={algorithm.popularity} />}
           </div>
           <p className="academy-card__tagline">{intent}</p>
           {algorithm.category !== 'big-o' && (
