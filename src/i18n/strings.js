@@ -226,17 +226,37 @@ export const STRINGS = {
                 {
                     title: 'Шпаргалка по классам сложности',
                     blocks: [
-                        { type: 'ul', items: [
-                            '<strong>O(1)</strong> - константное время. Доступ к элементу массива по индексу.',
-                            '<strong>O(log n)</strong> - логарифмическое. Бинарный поиск в отсортированном массиве.',
-                            '<strong>O(n)</strong> - линейное. Один проход по всем элементам: поиск, сумма, копирование.',
-                            '<strong>O(n log n)</strong> - линейно-логарифмическое. Эффективные сортировки сравнением: Merge Sort, Heap Sort.',
-                            '<strong>O(n²)</strong> - квадратичное. Вложенный цикл: Bubble Sort, Insertion Sort.',
-                            '<strong>O(n³)</strong> - кубическое. Тройной вложенный цикл, например перебор всех троек элементов.',
-                            '<strong>O(2ⁿ)</strong> - экспоненциальное. Перебор всех подмножеств множества из n элементов.',
-                            '<strong>O(n!)</strong> - факториальное. Перебор всех перестановок n элементов - самый редкий и самый тяжёлый случай.',
+                        { type: 'group', tier: 'fast', label: 'Быстрые', items: [
+                            '<strong>O(1)</strong> - константная. Доступ к элементу массива по индексу.',
+                            '<strong>O(log n)</strong> - логарифмическая. Бинарный поиск в отсортированном массиве.',
+                        ]},
+                        { type: 'group', tier: 'moderate', label: 'Умеренные', items: [
+                            '<strong>O(n)</strong> - линейная. Один проход по всем элементам: поиск, сумма, копирование.',
+                            '<strong>O(n log n)</strong> - линейно-логарифмическая. Эффективные сортировки сравнением: Merge Sort, Heap Sort.',
+                        ]},
+                        { type: 'group', tier: 'slow', label: 'Медленные', items: [
+                            '<strong>O(n²)</strong> - квадратичная. Вложенный цикл: Bubble Sort, Insertion Sort.',
+                            '<strong>O(n³)</strong> - кубическая. Тройной вложенный цикл, например перебор всех троек элементов.',
+                        ]},
+                        { type: 'group', tier: 'catastrophic', label: 'Катастрофические', items: [
+                            '<strong>O(2ⁿ)</strong> - экспоненциальная. Перебор всех подмножеств множества из n элементов.',
+                            '<strong>O(n!)</strong> - факториальная. Перебор всех перестановок n элементов - самый редкий и самый тяжёлый случай.',
                         ]},
                         { type: 'p', html: 'Дальше в этом разделе - подробный разбор каждого класса: график роста, разбор кода и примеры из уже реализованных сортировок.' },
+                    ],
+                },
+                {
+                    title: 'Более редкие классы сложности',
+                    blocks: [
+                        { type: 'p', html: 'Восемь классов выше покрывают почти весь код, который реально пишут в индустрии, но существуют и более редкие классы. Они не получили в этом разделе отдельных страниц - каждый либо частный случай уже разобранных восьми, либо встречается настолько редко, что для него не нужна отдельная карточка.' },
+                        { type: 'ul', items: [
+                            '<strong>O(√n)</strong> - корневая, растёт быстрее логарифма, но заметно медленнее линейной. Пример: проверка числа на простоту перебором делителей только до квадратного корня из него - для миллиона это тысяча проверок вместо миллиона.',
+                            '<strong>O(log log n)</strong> - ещё медленнее логарифма. Пример: дерево ван Эмде Боаса для операций «предшественник» и «преемник», интерполяционный поиск в среднем случае на равномерно распределённых отсортированных данных.',
+                            '<strong>Смешанные классы вроде O(n log² n)</strong> - возникают, когда одна структура данных с логарифмической стоимостью операции вложена в цикл на n элементов. Пример: персистентное дерево отрезков, где каждый из n запросов сам стоит O(log² n).',
+                            '<strong>O(nᵏ)</strong> при k больше трёх - обобщённая полиномиальная сложность, о которой уже говорилось в материале про O(n³). Пример: перебор всех четвёрок элементов массива, чтобы проверить, образуют ли какие-то из них прямоугольник, - O(n⁴).',
+                            '<strong>O(nⁿ)</strong> - гипотетический класс хуже факториала: растёт даже быстрее n!, потому что на каждом из n шагов выбор идёт заново из всех n вариантов, а не из уменьшающегося набора, как при переборе перестановок. Почти не встречается в реальных алгоритмах - обычно это признак кода, который стоит переписать.',
+                        ]},
+                        { type: 'p', html: 'Если в разделе появится алгоритм, для которого один из этих классов - не побочная деталь, а суть, для него заведётся отдельный материал по тому же стандарту, что и у восьми основных.' },
                     ],
                 },
             ],
@@ -484,17 +504,37 @@ export const STRINGS = {
                 {
                     title: 'Complexity class cheat sheet',
                     blocks: [
-                        { type: 'ul', items: [
+                        { type: 'group', tier: 'fast', label: 'Fast', items: [
                             '<strong>O(1)</strong> - constant time. Indexing into an array.',
                             '<strong>O(log n)</strong> - logarithmic. Binary search in a sorted array.',
+                        ]},
+                        { type: 'group', tier: 'moderate', label: 'Moderate', items: [
                             '<strong>O(n)</strong> - linear. A single pass over every element: search, sum, copy.',
                             '<strong>O(n log n)</strong> - linearithmic. Efficient comparison sorts: Merge Sort, Heap Sort.',
+                        ]},
+                        { type: 'group', tier: 'slow', label: 'Slow', items: [
                             '<strong>O(n²)</strong> - quadratic. A nested loop: Bubble Sort, Insertion Sort.',
                             '<strong>O(n³)</strong> - cubic. A triple nested loop, such as checking every triple of elements.',
+                        ]},
+                        { type: 'group', tier: 'catastrophic', label: 'Catastrophic', items: [
                             '<strong>O(2ⁿ)</strong> - exponential. Enumerating every subset of an n-element set.',
                             '<strong>O(n!)</strong> - factorial. Enumerating every permutation of n elements - the rarest and heaviest case.',
                         ]},
                         { type: 'p', html: 'Further down this section: a detailed breakdown of every class, with a growth chart, a code walkthrough, and examples from the sorting algorithms already implemented here.' },
+                    ],
+                },
+                {
+                    title: 'Rarer complexity classes',
+                    blocks: [
+                        { type: 'p', html: 'The eight classes above cover nearly everything written in real-world code, but rarer classes exist too. None of them got a dedicated page in this section - each one is either a special case of the eight already covered, or shows up rarely enough that a full card is not worth it.' },
+                        { type: 'ul', items: [
+                            '<strong>O(√n)</strong> - root complexity, grows faster than a logarithm but noticeably slower than linear. Example: testing a number for primality by checking divisors only up to its square root - for a million that is a thousand checks instead of a million.',
+                            '<strong>O(log log n)</strong> - even slower than a logarithm. Example: a van Emde Boas tree for "predecessor" and "successor" operations, interpolation search in the average case on uniformly distributed sorted data.',
+                            '<strong>Mixed classes like O(n log² n)</strong> - appear when a data structure with logarithmic-cost operations sits inside a loop over n elements. Example: a persistent segment tree, where each of n queries costs O(log² n) on its own.',
+                            '<strong>O(nᵏ)</strong> for k greater than three - the generalized polynomial class already mentioned in the O(n³) material. Example: checking every quadruple of elements in an array to see if any of them form a rectangle - O(n⁴).',
+                            '<strong>O(nⁿ)</strong> - a hypothetical class worse than factorial: it grows even faster than n!, because at each of the n steps the choice is made fresh from all n options, instead of from a shrinking set the way permutations work. Almost never shows up in real algorithms - usually a sign of code that needs rewriting.',
+                        ]},
+                        { type: 'p', html: 'If an algorithm ever gets added to this section where one of these classes is the point rather than a side detail, it will get its own material built to the same standard as the eight core classes.' },
                     ],
                 },
             ],

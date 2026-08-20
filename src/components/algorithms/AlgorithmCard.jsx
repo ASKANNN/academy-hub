@@ -2,9 +2,17 @@ import { Link } from 'react-router-dom';
 import { AlgorithmIcon } from './AlgorithmIcon.jsx';
 import { ComplexityPips } from './ComplexityPips.jsx';
 
+const TIER_LABEL = {
+  fast: { ru: 'Быстрая', en: 'Fast' },
+  moderate: { ru: 'Умеренная', en: 'Moderate' },
+  slow: { ru: 'Медленная', en: 'Slow' },
+  catastrophic: { ru: 'Катастрофическая', en: 'Catastrophic' },
+};
+
 export function AlgorithmCard({ algorithm, lang = 'ru', index = 0 }) {
   const name = algorithm.name[lang] ?? algorithm.name.ru;
   const intent = algorithm.intent[lang] ?? algorithm.intent.ru;
+  const tierLabel = algorithm.tier ? TIER_LABEL[algorithm.tier][lang] ?? TIER_LABEL[algorithm.tier].ru : null;
 
   return (
     <Link
@@ -26,6 +34,11 @@ export function AlgorithmCard({ algorithm, lang = 'ru', index = 0 }) {
             <div className="algorithm-card__complexity">
               <span className="algorithm-card__complexity-badge">{algorithm.complexity.time.average}</span>
               <span className="algorithm-card__complexity-badge">{algorithm.complexity.space}</span>
+            </div>
+          )}
+          {tierLabel && (
+            <div className="algorithm-card__complexity">
+              <span className={`algorithm-card__tier-badge is-${algorithm.tier}`}>{tierLabel}</span>
             </div>
           )}
         </div>

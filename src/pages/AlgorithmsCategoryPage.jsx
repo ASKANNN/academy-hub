@@ -34,11 +34,21 @@ export default function AlgorithmsCategoryPage() {
   const accordionItems = accordionData
     ? accordionData.map(item => ({
         title: item.title,
-        content: item.blocks.map((block, i) =>
-          block.type === 'ul'
+        content: item.blocks.map((block, i) => {
+          if (block.type === 'group') {
+            return (
+              <div key={i} className={`accordion__group is-${block.tier}`}>
+                <p className="accordion__group-label">{block.label}</p>
+                <ul className="accordion__list">
+                  {block.items.map((li, j) => <li key={j} dangerouslySetInnerHTML={{ __html: li }} />)}
+                </ul>
+              </div>
+            );
+          }
+          return block.type === 'ul'
             ? <ul key={i} className="accordion__list">{block.items.map((li, j) => <li key={j} dangerouslySetInnerHTML={{ __html: li }} />)}</ul>
-            : <p key={i} dangerouslySetInnerHTML={{ __html: block.html }} />
-        ),
+            : <p key={i} dangerouslySetInnerHTML={{ __html: block.html }} />;
+        }),
       }))
     : null;
 

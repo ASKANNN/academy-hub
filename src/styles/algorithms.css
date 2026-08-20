@@ -116,6 +116,34 @@
   color: var(--color-text-primary);
 }
 
+.accordion__group + .accordion__group {
+  margin-top: var(--space-3);
+}
+
+.accordion__group-label {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-semibold);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: var(--space-2);
+}
+
+.accordion__group-label::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background-color: currentColor;
+}
+
+.accordion__group.is-fast .accordion__group-label { color: var(--color-success); }
+.accordion__group.is-moderate .accordion__group-label { color: var(--palette-yellow-500); }
+.accordion__group.is-slow .accordion__group-label { color: var(--color-error); }
+.accordion__group.is-catastrophic .accordion__group-label { color: var(--color-catastrophic); }
+
 /* ---------- algorithm icon ---------- */
 
 .algorithm-icon {
@@ -392,6 +420,29 @@
   background-color: var(--color-bg-subtle);
   border-radius: var(--radius-full);
   padding: var(--space-1) var(--space-2);
+}
+
+.algorithm-card__tier-badge {
+  font-size: var(--text-xs);
+  font-weight: var(--font-weight-medium);
+  border-radius: var(--radius-full);
+  padding: var(--space-1) var(--space-2);
+}
+.algorithm-card__tier-badge.is-fast {
+  color: var(--color-success);
+  background-color: var(--color-success-subtle);
+}
+.algorithm-card__tier-badge.is-moderate {
+  color: var(--color-text-primary);
+  background-color: var(--color-warning-subtle);
+}
+.algorithm-card__tier-badge.is-slow {
+  color: var(--color-error);
+  background-color: var(--color-error-subtle);
+}
+.algorithm-card__tier-badge.is-catastrophic {
+  color: var(--color-catastrophic);
+  background-color: var(--color-catastrophic-subtle);
 }
 
 /* ---------- algorithm detail ---------- */
