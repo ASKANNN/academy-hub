@@ -37,7 +37,7 @@ const IMAGE_FILES = {
     'o-n': 'LinearTime.webp',
     'o-n-log-n': 'LinearithmicTime.webp',
     'o-n-2': 'QuadraticTime.webp',
-    'o-n-3': 'CubicTime.png',
+    'o-n-3': 'CubicTime.webp',
   },
 };
 
