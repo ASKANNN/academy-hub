@@ -422,6 +422,10 @@
   padding: var(--space-1) var(--space-2);
 }
 
+.algorithm-card--big-o .algorithm-card__complexity {
+  min-height: 2.375rem;
+}
+
 .algorithm-card__tier-badge {
   font-size: var(--text-xs);
   font-weight: var(--font-weight-medium);

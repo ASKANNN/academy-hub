@@ -38,9 +38,11 @@ export function AlgorithmCard({ algorithm, lang = 'ru', index = 0 }) {
               <span className="algorithm-card__complexity-badge">{algorithm.complexity.space}</span>
             </div>
           )}
-          {tierLabel && (
+          {algorithm.category === 'big-o' && (
             <div className="algorithm-card__complexity">
-              <span className={`algorithm-card__tier-badge is-${algorithm.tier}`}>{tierLabel}</span>
+              {tierLabel && (
+                <span className={`algorithm-card__tier-badge is-${algorithm.tier}`}>{tierLabel}</span>
+              )}
             </div>
           )}
         </div>
