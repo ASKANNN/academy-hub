@@ -38,6 +38,7 @@ import { oN2 } from './big-o/o-n-2.js';
 import { oN3 } from './big-o/o-n-3.js';
 import { o2N } from './big-o/o-2-n.js';
 import { oNFactorial } from './big-o/o-n-factorial.js';
+import { bestAverageWorstCase } from './big-o/best-average-worst-case.js';
 
 export { ALGORITHM_CATEGORIES, getCategory };
 
@@ -84,6 +85,7 @@ const ALGORITHMS_BY_CATEGORY = {
     oN3,
     o2N,
     oNFactorial,
+    bestAverageWorstCase,
   ],
 };
 

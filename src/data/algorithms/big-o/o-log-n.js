@@ -292,7 +292,7 @@ export const oLogN = {
     ],
   },
 
-  relatedAlgorithms: ['o-1', 'o-n'],
+  relatedAlgorithms: ['o-1', 'o-n', 'best-average-worst-case'],
 
   quiz: [
     {

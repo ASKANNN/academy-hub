@@ -211,6 +211,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://askanacademy.com/algorithms/big-o/best-average-worst-case</loc>
+    <lastmod>2026-08-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://askanacademy.com/algorithms/big-o/o-1</loc>
     <lastmod>2026-08-20</lastmod>
     <changefreq>monthly</changefreq>

@@ -271,7 +271,7 @@ export const oN = {
     ],
   },
 
-  relatedAlgorithms: ['o-1', 'o-log-n', 'o-n-log-n'],
+  relatedAlgorithms: ['o-1', 'o-log-n', 'o-n-log-n', 'best-average-worst-case'],
 
   quiz: [
     {

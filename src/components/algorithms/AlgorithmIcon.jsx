@@ -52,6 +52,14 @@ const GLYPHS = {
     <path class="${A}" d="M4 21Q20.7 21 20.7 3"/>
     <circle class="${F}" cx="20.2" cy="7" r="1.8"/>`,
 
+  'best-average-worst-case': `
+    <path class="${B}" d="M3 21H21"/>
+    <path class="${B}" d="M3 21V3"/>
+    <path class="${B}" d="M4 19.5L20 18.5"/>
+    <path class="${B}" d="M4 19.5L20 10"/>
+    <path class="${A}" d="M4 19.5L20 4"/>
+    <circle class="${F}" cx="20" cy="4" r="1.8"/>`,
+
   'bitonic-sort': `
     <path class="${B}" d="M3 19L12 5"/>
     <path class="${A}" d="M12 5L21 19"/>
