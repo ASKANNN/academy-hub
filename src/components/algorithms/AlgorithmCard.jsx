@@ -1,18 +1,20 @@
 import { Link } from 'react-router-dom';
 import { AlgorithmIcon } from './AlgorithmIcon.jsx';
 import { ComplexityPips } from './ComplexityPips.jsx';
+import { getStrings } from '../../i18n/strings.js';
 
-const TIER_LABEL = {
-  fast: { ru: 'Быстрая', en: 'Fast' },
-  moderate: { ru: 'Умеренная', en: 'Moderate' },
-  slow: { ru: 'Медленная', en: 'Slow' },
-  catastrophic: { ru: 'Катастрофическая', en: 'Catastrophic' },
+const TIER_KEY = {
+  fast: 'tierFast',
+  moderate: 'tierModerate',
+  slow: 'tierSlow',
+  catastrophic: 'tierCatastrophic',
 };
 
 export function AlgorithmCard({ algorithm, lang = 'ru', index = 0 }) {
+  const t = getStrings(lang).algorithms;
   const name = algorithm.name[lang] ?? algorithm.name.ru;
   const intent = algorithm.intent[lang] ?? algorithm.intent.ru;
-  const tierLabel = algorithm.tier ? TIER_LABEL[algorithm.tier][lang] ?? TIER_LABEL[algorithm.tier].ru : null;
+  const tierLabel = algorithm.tier ? t[TIER_KEY[algorithm.tier]] : null;
 
   return (
     <Link
