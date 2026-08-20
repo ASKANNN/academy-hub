@@ -1,11 +1,12 @@
 export const bestAverageWorstCase = {
   slug: 'best-average-worst-case',
   category: 'big-o',
-  name: { ru: 'Лучший, Средний и Худший Случай', en: 'Best, Average, and Worst Case' },
+  name: { ru: 'Best, Average, and Worst Case', en: 'Best, Average, and Worst Case' },
   complexity: {
     time: { best: 'O(1)', average: 'O(n)', worst: 'O(n)' },
     space: 'O(1)',
   },
+  tier: 'compare',
   popularity: 3,
   tags: ['best-case', 'average-case', 'worst-case', 'algorithm-analysis'],
 
@@ -98,7 +99,7 @@ export const bestAverageWorstCase = {
         },
       },
       {
-        lines: [3, 5],
+        lines: [3, 4],
         title: { ru: 'Точка расхождения трёх случаев', en: 'Where the three cases actually diverge' },
         explanation: {
           ru: '`if (arr[i] === target) return i;` - именно эта строка решает исход. Если совпадение находится на итерации i, функция делает ровно i + 1 сравнение: i = 0 даёт лучший случай, i = n - 1 или отсутствие совпадения - худший.',
@@ -106,7 +107,7 @@ export const bestAverageWorstCase = {
         },
       },
       {
-        lines: [6],
+        lines: [7],
         title: { ru: 'Худший случай: цикл исчерпан без совпадения', en: 'The worst case: the loop runs out with no match' },
         explanation: {
           ru: '`return -1` выполняется, только когда цикл дошёл до конца, ни разу не найдя совпадения, - это ровно n сравнений, максимум из всех возможных для этого алгоритма.',

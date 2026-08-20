@@ -26,7 +26,7 @@ export default function AlgorithmsCatalogPage() {
           <CategoryCard
             key={category.slug}
             category={category}
-            count={getAlgorithmsByCategory(category.slug).length}
+            count={getAlgorithmsByCategory(category.slug).filter((a) => a.tier !== 'compare').length}
             algorithms={getAlgorithmsByCategory(category.slug)}
             lang={lang}
           />

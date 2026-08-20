@@ -448,6 +448,10 @@
   color: var(--color-catastrophic);
   background-color: var(--color-catastrophic-subtle);
 }
+.algorithm-card__tier-badge.is-compare {
+  color: var(--color-accent);
+  background-color: var(--color-accent-subtle);
+}
 
 /* ---------- algorithm detail ---------- */
 
@@ -965,6 +969,26 @@
   font-weight: var(--font-weight-medium);
   color: var(--color-text-secondary);
   text-align: center;
+}
+
+.bigo-chart__readout--cases {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-1);
+}
+
+.bigo-chart__readout-n {
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  margin: 0 0 var(--space-1);
+}
+
+.bigo-chart__readout-case {
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  margin: 0;
 }
 
 .bigo-legend {

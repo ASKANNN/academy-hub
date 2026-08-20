@@ -4,6 +4,7 @@ const N_MIN = 1;
 const N_MAX = 10;
 const N_STEPS = N_MAX - N_MIN + 1;
 const Y_CAP = 100;
+const Y_CAP_CASES = 10;
 const PLAY_INTERVAL = 750;
 
 const VIEW_W = 640;
@@ -56,13 +57,13 @@ function xScale(n) {
   return PAD_LEFT + ((n - N_MIN) / (N_MAX - N_MIN)) * PLOT_W;
 }
 
-function yScale(value) {
-  return PAD_TOP + (1 - value / Y_CAP) * PLOT_H;
+function yScale(value, cap = Y_CAP) {
+  return PAD_TOP + (1 - value / cap) * PLOT_H;
 }
 
-function curvePoints(fn) {
+function curvePoints(fn, cap = Y_CAP) {
   const pts = [];
-  for (let n = N_MIN; n <= N_MAX; n++) pts.push(`${xScale(n)},${yScale(fn(n))}`);
+  for (let n = N_MIN; n <= N_MAX; n++) pts.push(`${xScale(n)},${yScale(fn(n), cap)}`);
   return pts.join(' ');
 }
 
@@ -77,6 +78,7 @@ function formatOps(value, t) {
 }
 
 const GRID_Y = [0, 25, 50, 75, 100];
+const GRID_Y_CASES = [0, 2, 4, 6, 8, 10];
 
 export function BigOVisualizer({ slug, t, steps, lang, stepBreakpoints }) {
   const [step, setStep] = useState(0);
@@ -149,16 +151,16 @@ export function BigOVisualizer({ slug, t, steps, lang, stepBreakpoints }) {
             {t.bigOAxisN}
           </text>
 
-          {GRID_Y.map((v) => (
+          {(isCaseMode ? GRID_Y_CASES : GRID_Y).map((v) => (
             <g key={v}>
               <line
                 className="bigo-chart__gridline"
                 x1={PAD_LEFT}
-                y1={yScale(v)}
+                y1={yScale(v, isCaseMode ? Y_CAP_CASES : Y_CAP)}
                 x2={plotRight}
-                y2={yScale(v)}
+                y2={yScale(v, isCaseMode ? Y_CAP_CASES : Y_CAP)}
               />
-              <text className="bigo-chart__tick" x={PAD_LEFT - 8} y={yScale(v)} textAnchor="end" dominantBaseline="middle">
+              <text className="bigo-chart__tick" x={PAD_LEFT - 8} y={yScale(v, isCaseMode ? Y_CAP_CASES : Y_CAP)} textAnchor="end" dominantBaseline="middle">
                 {v}
               </text>
             </g>
@@ -199,21 +201,35 @@ export function BigOVisualizer({ slug, t, steps, lang, stepBreakpoints }) {
             )}
             {isCaseMode && CASE_CURVES.map(({ key, fn, color }) => (
               <g key={key}>
-                <polyline className="bigo-chart__curve bigo-chart__curve--active" points={curvePoints(fn)} style={{ stroke: color }} />
-                <circle className="bigo-chart__marker" cx={xScale(n)} cy={yScale(fn(n))} r="5" style={{ fill: color }} />
+                <polyline className="bigo-chart__curve bigo-chart__curve--active" points={curvePoints(fn, Y_CAP_CASES)} style={{ stroke: color }} />
+                <circle className="bigo-chart__marker" cx={xScale(n)} cy={yScale(fn(n), Y_CAP_CASES)} r="5" style={{ fill: color }} />
               </g>
             ))}
           </g>
         </svg>
       </div>
 
-      <p className="bigo-chart__readout">
-        {(() => {
-          const { text, opsWord } = formatOps(isCaseMode ? n : CURVES[slug](n), t);
-          return t.bigOReadout(n, text, opsWord);
-        })()}
-        {!isCaseMode && CURVES[slug](n) > Y_CAP ? t.bigOOffChart : ''}
-      </p>
+      {isCaseMode ? (
+        <div className="bigo-chart__readout bigo-chart__readout--cases">
+          <p className="bigo-chart__readout-n">{t.bigOReadoutN(n)}</p>
+          {CASE_CURVES.map(({ key, fn, color }) => {
+            const { text, opsWord } = formatOps(fn(n), t);
+            return (
+              <p key={key} className="bigo-chart__readout-case" style={{ color }}>
+                {t.bigOReadoutCase(t[key], text, opsWord)}
+              </p>
+            );
+          })}
+        </div>
+      ) : (
+        <p className="bigo-chart__readout">
+          {(() => {
+            const { text, opsWord } = formatOps(CURVES[slug](n), t);
+            return t.bigOReadout(n, text, opsWord);
+          })()}
+          {CURVES[slug](n) > Y_CAP ? t.bigOOffChart : ''}
+        </p>
+      )}
 
       <div className="bigo-legend">
         {!isCaseMode && CURVE_ORDER.map((key) => (

@@ -8,6 +8,7 @@ const TIER_KEY = {
   moderate: 'tierModerate',
   slow: 'tierSlow',
   catastrophic: 'tierCatastrophic',
+  compare: 'tierCompare',
 };
 
 export function AlgorithmCard({ algorithm, lang = 'ru', index = 0 }) {
