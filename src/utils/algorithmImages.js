@@ -12,7 +12,7 @@ const IMAGE_FILES = {
     'comb-sort': 'CombSort.webp',
     'counting-sort': 'CountingSort.webp',
     'cycle-sort': 'CycleSort.webp',
-    'gnome-sort': 'GnomeSort.png',
+    'gnome-sort': 'GnomeSort.webp',
     'heap-sort': 'HeapSort.webp',
     'insertion-sort': 'InsertionSort.webp',
     'intro-sort': 'IntroSort.webp',
