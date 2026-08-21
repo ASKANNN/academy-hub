@@ -38,6 +38,7 @@ const IMAGE_FILES = {
     'o-n-log-n': 'LinearithmicTime.webp',
     'o-n-2': 'QuadraticTime.webp',
     'o-n-3': 'CubicTime.webp',
+    'o-2-n': 'ExponentialTime.png',
   },
 };
 
