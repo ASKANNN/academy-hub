@@ -6,7 +6,7 @@ const IMAGE_FOLDERS = {
 const IMAGE_FILES = {
   sorting: {
     'block-sort': 'BlockSort.png',
-    'bubble-sort': 'BubbleSort.png',
+    'bubble-sort': 'BubbleSort.webp',
     'bucket-sort': 'BucketSort.webp',
     'cocktail-shaker-sort': 'CocktailShakerSort.webp',
     'comb-sort': 'CombSort.webp',
@@ -26,10 +26,9 @@ const IMAGE_FILES = {
     'radix-sort': 'RadixSort.webp',
     'selection-sort': 'SelectionSort.webp',
     'shell-sort': 'ShellSort.webp',
-    'smooth-sort': 'SmoothSort.png',
+    'smooth-sort': 'SmoothSort.webp',
     'strand-sort': 'StrandSort.png',
     'tim-sort': 'TimSort.webp',
-    'tournament-sort': 'TournamentSort.png',
   },
   'big-o': {
     'o-1': 'ConstantTime.webp',
@@ -38,9 +37,9 @@ const IMAGE_FILES = {
     'o-n-log-n': 'LinearithmicTime.webp',
     'o-n-2': 'QuadraticTime.webp',
     'o-n-3': 'CubicTime.webp',
-    'o-2-n': 'ExponentialTime.png',
-    'o-n-factorial': 'FactorialTime.png',
-    'best-average-worst-case': 'BAWCase.png',
+    'o-2-n': 'ExponentialTime.webp',
+    'o-n-factorial': 'FactorialTime.webp',
+    'best-average-worst-case': 'BAWCase.webp',
   },
 };
 
