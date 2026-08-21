@@ -5,7 +5,7 @@ const IMAGE_FOLDERS = {
 
 const IMAGE_FILES = {
   sorting: {
-    'block-sort': 'BlockSort.png',
+    'block-sort': 'BlockSort.webp',
     'bubble-sort': 'BubbleSort.webp',
     'bucket-sort': 'BucketSort.webp',
     'cocktail-shaker-sort': 'CocktailShakerSort.webp',
@@ -16,7 +16,7 @@ const IMAGE_FILES = {
     'heap-sort': 'HeapSort.webp',
     'insertion-sort': 'InsertionSort.webp',
     'intro-sort': 'IntroSort.webp',
-    'library-sort': 'LibrarySort.png',
+    'library-sort': 'LibrarySort.webp',
     'merge-sort': 'MergeSort.webp',
     'odd-even-sort': 'Odd-EvenSort.png',
     'pancake-sort': 'PancakeSort.png',
