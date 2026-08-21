@@ -18,7 +18,7 @@ const IMAGE_FILES = {
     'intro-sort': 'IntroSort.webp',
     'library-sort': 'LibrarySort.webp',
     'merge-sort': 'MergeSort.webp',
-    'odd-even-sort': 'Odd-EvenSort.png',
+    'odd-even-sort': 'OddEvenSort.webp',
     'pancake-sort': 'PancakeSort.png',
     'patience-sort': 'PatienceSort.webp',
     'postman-sort': 'PostmanSort.png',
