@@ -2,14 +2,7 @@ import { Link } from 'react-router-dom';
 import { AlgorithmIcon } from './AlgorithmIcon.jsx';
 import { ComplexityPips } from './ComplexityPips.jsx';
 import { getStrings } from '../../i18n/strings.js';
-
-const TIER_KEY = {
-  fast: 'tierFast',
-  moderate: 'tierModerate',
-  slow: 'tierSlow',
-  catastrophic: 'tierCatastrophic',
-  compare: 'tierCompare',
-};
+import { TIER_KEY } from '../../utils/tierLabels.js';
 
 export function AlgorithmCard({ algorithm, lang = 'ru', index = 0 }) {
   const t = getStrings(lang).algorithms;

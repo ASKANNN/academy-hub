@@ -17,6 +17,7 @@ import { Quiz } from '../components/ui/Quiz.jsx';
 import { RichText } from '../components/ui/RichText.jsx';
 import { PrerequisiteBadge } from '../components/ui/PrerequisiteBadge.jsx';
 import { getCategory, getAlgorithm, getAdjacentAlgorithms, getAlgorithmsByCategory } from '../data/algorithms/index.js';
+import { TIER_KEY } from '../utils/tierLabels.js';
 import { getStrings } from '../i18n/strings.js';
 import { usePageMeta } from '../hooks/usePageMeta.js';
 
@@ -80,6 +81,11 @@ export default function AlgorithmDetailPage() {
           <AlgorithmIcon slug={slug} size="lg" />
           <h1 className="algorithms-hero__title">{name}</h1>
           {categorySlug !== 'big-o' && <ComplexityPips popularity={algorithm.popularity} />}
+          {categorySlug === 'big-o' && algorithm.tier && (
+            <span className={`algorithm-card__tier-badge algorithm-detail__tier-badge is-${algorithm.tier}`}>
+              {t[TIER_KEY[algorithm.tier]]}
+            </span>
+          )}
         </div>
         <p className="algorithms-hero__subtitle">{algorithm.intent[lang] ?? algorithm.intent.ru}</p>
         {categorySlug !== 'big-o' && <PrerequisiteBadge t={t} />}

@@ -465,6 +465,12 @@
   margin-top: var(--space-1);
 }
 
+.algorithm-detail__tier-badge {
+  margin-top: var(--space-2);
+  align-self: flex-start;
+  flex-shrink: 0;
+}
+
 .prerequisite-badge {
   display: inline-flex;
   align-items: center;
