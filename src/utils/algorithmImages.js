@@ -29,6 +29,7 @@ const IMAGE_FILES = {
     'smooth-sort': 'SmoothSort.webp',
     'strand-sort': 'StrandSort.png',
     'tim-sort': 'TimSort.webp',
+    'tournament-sort': 'TournamentSort.webp',
   },
   'big-o': {
     'o-1': 'ConstantTime.webp',
