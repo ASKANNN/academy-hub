@@ -13,6 +13,7 @@
     "preview": "vite preview",
     "snapshot": "node scripts/generate-snapshot.mjs",
     "validate": "node scripts/validate-algorithms.mjs",
+    "validate:architecture": "node scripts/validate-architecture-patterns.mjs",
     "audit:quiz": "node scripts/audit-quiz-length.mjs"
   },
   "dependencies": {

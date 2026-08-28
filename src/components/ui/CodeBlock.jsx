@@ -49,7 +49,7 @@ export function CodeBlock({ code, defaultLanguage, activeLanguage, onLanguageCha
         <span className="code-block__dots" aria-hidden="true">
           <span /><span /><span />
         </span>
-        {languages.length > 1 && (
+        {languages.length > 1 ? (
           <div className="code-block__lang-tabs" role="tablist">
             {languages.map((lang) => (
               <button
@@ -64,6 +64,8 @@ export function CodeBlock({ code, defaultLanguage, activeLanguage, onLanguageCha
               </button>
             ))}
           </div>
+        ) : (
+          <span className="code-block__lang-label">{LANGUAGE_LABELS[active] ?? active}</span>
         )}
         <button type="button" className={`code-block__copy${copied ? ' is-copied' : ''}`} onClick={handleCopy}>
           {copied ? '✓' : 'copy'}

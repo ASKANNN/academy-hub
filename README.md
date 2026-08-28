@@ -26,11 +26,16 @@ Source-available, non-commercial license.
 - Client-side routing (`react-router-dom`) with a fade/slide page transition
   on every navigation
 - **Algorithms Academy** — full in-app section (`/algorithms/...`): 31 sorting
-  algorithms, each with animated visualizers, a 5-tab detail page (Intent /
-  Visualization / Implementation / Pros&Cons / Quiz), a deep-dive writeup,
-  line-by-line JS/Python code walkthroughs, and a 10-question quiz — all
-  bilingual RU/EN
-- **Prerendering** — all 34 routes ship pre-rendered HTML (title, description,
+  algorithms plus a Big O Notation category, each with animated visualizers,
+  a 5-tab detail page (Intent / Visualization / Implementation / Pros&Cons /
+  Quiz), a deep-dive writeup, line-by-line JS/Python code walkthroughs, and a
+  10-question quiz — all bilingual RU/EN
+- **Architectural Patterns Academy** — full in-app section
+  (`/architectural-patterns/...`): classic architectural patterns (MVC live
+  so far, 9 more planned) on a static SVG component/relationship diagram
+  instead of an animated visualizer, same 5-tab detail page and 10-question
+  quiz format, bilingual RU/EN
+- **Prerendering** — all 47 routes ship pre-rendered HTML (title, description,
   canonical, OG tags, JSON-LD, `#root` content), visible to crawlers without JS
 
 ## Stack
@@ -50,6 +55,7 @@ src/
   data/
     academies.js            — hub tree: live (external url or internal path) and planned (topics) academies
     algorithms/              — Algorithms Academy content: categories.js, per-algorithm modules (bilingual), index.js registry
+    architectural-patterns/  — Architectural Patterns Academy content: categories.js, per-pattern modules (bilingual), index.js registry
   components/
     Layout.jsx               — shared route shell: intro, header, page-transition wrapper around <Outlet/>, footer, a11y widget
     Header.jsx                — logo, RU|EN switcher, theme toggle

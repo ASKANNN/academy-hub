@@ -1,6 +1,6 @@
 import { Navigate, useParams } from 'react-router-dom';
 import { usePageContext } from '../hooks/usePageContext.js';
-import { Breadcrumb } from '../components/algorithms/Breadcrumb.jsx';
+import { Breadcrumb } from '../components/ui/Breadcrumb.jsx';
 import { AlgorithmCard } from '../components/algorithms/AlgorithmCard.jsx';
 import { Accordion } from '../components/ui/Accordion.jsx';
 import { getCategory, getAlgorithmsByCategory } from '../data/algorithms/index.js';

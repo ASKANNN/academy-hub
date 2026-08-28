@@ -2,12 +2,13 @@ import { readdir } from 'node:fs/promises';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { ALGORITHM_CATEGORIES } from '../../src/data/algorithms/categories.js';
+import { ARCHITECTURE_CATEGORIES } from '../../src/data/architectural-patterns/categories.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '../..');
 
-export async function getCategorySlugs(category) {
-  const dir = resolve(root, 'src/data/algorithms', category);
+export async function getCategorySlugs(dataDir, category) {
+  const dir = resolve(root, dataDir, category);
   const files = (await readdir(dir)).filter((f) => f.endsWith('.js'));
   const modules = await Promise.all(
     files.map((f) => import(pathToFileURL(resolve(dir, f)).href))
@@ -18,13 +19,21 @@ export async function getCategorySlugs(category) {
 }
 
 export async function getAllRoutes() {
-  const liveCategories = ALGORITHM_CATEGORIES.filter((c) => c.status === 'live');
+  const routes = ['/', '/algorithms', '/architectural-patterns'];
 
-  const routes = ['/', '/algorithms'];
-  for (const category of liveCategories) {
+  const liveAlgorithmCategories = ALGORITHM_CATEGORIES.filter((c) => c.status === 'live');
+  for (const category of liveAlgorithmCategories) {
     routes.push(`/algorithms/${category.slug}`);
-    const slugs = await getCategorySlugs(category.slug);
+    const slugs = await getCategorySlugs('src/data/algorithms', category.slug);
     for (const slug of slugs) routes.push(`/algorithms/${category.slug}/${slug}`);
   }
+
+  const liveArchitectureCategories = ARCHITECTURE_CATEGORIES.filter((c) => c.status === 'live');
+  for (const category of liveArchitectureCategories) {
+    routes.push(`/architectural-patterns/${category.slug}`);
+    const slugs = await getCategorySlugs('src/data/architectural-patterns', category.slug);
+    for (const slug of slugs) routes.push(`/architectural-patterns/${category.slug}/${slug}`);
+  }
+
   return routes;
 }

@@ -1,0 +1,224 @@
+/* ---------- architecture icon (two-layer: base + accent) ---------- */
+
+.architecture-icon {
+  --icon-accent: var(--color-accent);
+  display: inline-block;
+  flex: none;
+  vertical-align: middle;
+  color: var(--color-text-primary);
+}
+
+.architecture-icon__base {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.architecture-icon__accent {
+  fill: none;
+  stroke: var(--icon-accent);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.architecture-icon__accent--fill {
+  fill: var(--icon-accent);
+  stroke: none;
+}
+
+.architecture-icon--sm { width: var(--icon-sm);  height: var(--icon-sm); }
+.architecture-icon--md { width: var(--icon-lg);  height: var(--icon-lg); }
+.architecture-icon--lg { width: var(--icon-xl);  height: var(--icon-xl); }
+.architecture-icon--xl { width: var(--icon-2xl); height: var(--icon-2xl); }
+
+/* ---------- architecture detail head ---------- */
+
+.architecture-detail__head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+/* ---------- architecture diagram ---------- */
+
+.architecture-diagram__viewport {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-6);
+  margin-bottom: var(--space-6);
+  background:
+    radial-gradient(60% 75% at 82% 12%, color-mix(in srgb, var(--color-accent) 14%, transparent), transparent 70%),
+    var(--color-bg-subtle);
+  box-shadow: var(--shadow-sm);
+}
+
+[data-theme='light'] .architecture-diagram__viewport {
+  background:
+    radial-gradient(46% 60% at 86% 6%, color-mix(in srgb, var(--color-accent) 16%, transparent), transparent 70%),
+    linear-gradient(150deg, var(--palette-gray-50), var(--palette-gray-200));
+  border-color: var(--color-border-strong);
+}
+
+.architecture-diagram {
+  width: 100%;
+  max-width: 640px;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+  overflow: visible;
+}
+
+.architecture-diagram__node {
+  cursor: default;
+  animation: architecture-fade-in 480ms var(--ease-out) both;
+}
+
+.architecture-diagram__node:focus-visible {
+  outline: none;
+}
+
+.architecture-diagram__node-box {
+  fill: var(--color-bg-elevated);
+  stroke: color-mix(in srgb, var(--color-border-strong) 70%, transparent);
+  stroke-width: 1;
+  filter:
+    drop-shadow(0 2px 4px rgba(109, 40, 217, 0.08))
+    drop-shadow(0 12px 22px rgba(109, 40, 217, 0.12));
+  transition:
+    stroke var(--duration-normal) var(--ease-out),
+    filter var(--duration-normal) var(--ease-out);
+}
+
+[data-theme='dark'] .architecture-diagram__node-box {
+  filter:
+    drop-shadow(0 2px 6px rgba(0, 0, 0, 0.5))
+    drop-shadow(0 14px 26px rgba(0, 0, 0, 0.55));
+}
+
+.architecture-diagram__node.is-active .architecture-diagram__node-box,
+.architecture-diagram__node:focus-visible .architecture-diagram__node-box {
+  stroke: var(--color-accent);
+  stroke-width: 1.5;
+  filter:
+    drop-shadow(0 2px 6px rgba(99, 102, 241, 0.18))
+    drop-shadow(0 16px 30px color-mix(in srgb, var(--color-accent) 38%, transparent));
+}
+
+.architecture-diagram__node-chip {
+  fill: color-mix(in srgb, var(--color-accent) 14%, transparent);
+  transition: fill var(--duration-normal) var(--ease-out);
+}
+
+.architecture-diagram__node.is-active .architecture-diagram__node-chip {
+  fill: color-mix(in srgb, var(--color-accent) 24%, transparent);
+}
+
+.architecture-diagram__node-icon path {
+  stroke: var(--color-accent);
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.architecture-diagram__node-icon-fill {
+  fill: var(--color-accent);
+}
+
+.architecture-diagram__node-label {
+  fill: var(--color-text-primary);
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+.architecture-diagram__edge {
+  animation: architecture-fade-in 500ms var(--ease-out) both;
+}
+
+@keyframes architecture-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.architecture-diagram__edge-line {
+  stroke: var(--color-border-strong);
+  stroke-width: 2;
+  transition: stroke var(--duration-normal) var(--ease-out), stroke-width var(--duration-normal) var(--ease-out);
+}
+
+.architecture-diagram__edge.is-active .architecture-diagram__edge-line {
+  stroke: var(--color-accent);
+  stroke-width: 2.5;
+}
+
+.architecture-diagram__edge-flow {
+  stroke: var(--color-accent);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-dasharray: 0.1 18;
+  opacity: 0;
+}
+
+.architecture-diagram__edge.is-active .architecture-diagram__edge-flow {
+  opacity: 1;
+  filter: drop-shadow(0 0 5px color-mix(in srgb, var(--color-accent) 70%, transparent));
+  animation: architecture-flow-pulse 1.1s linear infinite;
+}
+
+@keyframes architecture-flow-pulse {
+  to { stroke-dashoffset: -18; }
+}
+
+.architecture-diagram__edge-label {
+  fill: var(--color-text-primary);
+  font-size: 12.5px;
+  font-weight: 700;
+  paint-order: stroke;
+  stroke: var(--color-bg-subtle);
+  stroke-width: 6px;
+  stroke-linejoin: round;
+}
+
+.architecture-diagram__edge.is-active .architecture-diagram__edge-label {
+  fill: var(--color-accent);
+}
+
+.architecture-diagram__arrowhead {
+  fill: var(--color-border-strong);
+}
+
+.architecture-diagram__arrowhead--active {
+  fill: var(--color-accent);
+}
+
+/* ---------- architecture roles legend ---------- */
+
+.architecture-roles {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+
+.architecture-roles__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  padding: var(--space-3);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-bg-surface);
+}
+
+.architecture-roles__item strong {
+  color: var(--color-text-primary);
+}
+
+.architecture-roles__item span {
+  color: var(--color-text-secondary);
+  font-size: var(--text-sm);
+}

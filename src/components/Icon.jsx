@@ -13,6 +13,14 @@ const GLYPHS = {
   searching: 'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14Z M16.2 16.2 21 21',
   recursion: 'M12 4a8 8 0 1 0 8 8h-3a5 5 0 1 1-5-5V4Z M17 4v4h-4',
   'dynamic-programming': 'M4 4h16v16H4z M4 10.5h16 M10.5 4v16',
+  'architectural-patterns':
+    'M9 3h6v4H9z M3 15h6v4H3z M15 15h6v4H15z M12 7V12 M12 12 6 15 M12 12 18 15',
+  'arch-presentation':
+    'M4 4h16v13H4z M4 7.5h16 M6.5 5.75h.01 M9 5.75h.01 M13.5 11 13.5 19.5 15.3 17.7 16.7 20.6 18 20 16.6 17.1 19 17.1Z',
+  'arch-structure':
+    'M4 4h16v4H4z M4 10h16v4H4z M4 16h16v4H4z M12 8v2 M12 14v2',
+  'arch-distributed':
+    'M6 6m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0 M18 6m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0 M6 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0 M18 18m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0 M8 6h8 M6 8v8 M18 8v8 M8 18h8 M7.5 7.5 16.5 16.5',
 };
 
 export function Icon({ name, size = 24, className = '' }) {

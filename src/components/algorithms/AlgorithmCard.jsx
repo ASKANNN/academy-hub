@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { AlgorithmIcon } from './AlgorithmIcon.jsx';
-import { ComplexityPips } from './ComplexityPips.jsx';
+import { ComplexityPips } from '../ui/ComplexityPips.jsx';
 import { getStrings } from '../../i18n/strings.js';
 import { TIER_KEY } from '../../utils/tierLabels.js';
 

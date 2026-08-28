@@ -33,6 +33,22 @@ export const ACADEMIES = [
         ],
     },
     {
+        id: 'architectural-patterns',
+        name: 'Architectural Patterns Academy',
+        tagline: {
+            ru: 'MVC, слоистая архитектура, микросервисы, событийная архитектура',
+            en: 'MVC, layered architecture, microservices, event-driven architecture',
+        },
+        icon: 'architectural-patterns',
+        status: 'live',
+        internal: true,
+        path: '/architectural-patterns',
+        topics: {
+            ru: ['Слой представления', 'Структура системы', 'Распределённые системы'],
+            en: ['Presentation Layer', 'System Structure', 'Distributed Systems'],
+        },
+    },
+    {
         id: 'algorithms',
         name: 'Algorithms Academy',
         tagline: {
