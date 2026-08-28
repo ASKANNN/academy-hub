@@ -475,8 +475,8 @@ controller.addItem('Learn MVC');`,
     },
     {
       question: {
-        ru: 'Что случится, если в `TodoController` забыть подписать `view.onItemClick` на изменение Model?',
-        en: 'What happens if `TodoController` forgets to wire up `view.onItemClick`?',
+        ru: 'Что случится, если в конструкторе `TodoController` пропустить строку с подпиской `view.onItemClick`?',
+        en: 'What happens if the `TodoController` constructor is missing the `view.onItemClick` subscription line?',
       },
       options: [
         { ru: 'Клики по элементам списка перестанут доходить до Model, и её состояние не будет обновляться', en: 'Clicks on list items stop reaching the Model, and its state never gets updated by user action' },

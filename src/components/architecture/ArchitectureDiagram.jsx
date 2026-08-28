@@ -113,7 +113,7 @@ export function ArchitectureDiagram({ diagram, lang }) {
         className="architecture-diagram"
         viewBox={`0 0 ${width} ${height}`}
         role="img"
-        aria-label={diagram.nodes.map((n) => n.label[lang] ?? n.label.ru).join(' — ')}
+        aria-label={diagram.nodes.map((n) => n.label[lang] ?? n.label.ru).join(', ')}
       >
         <defs>
           <marker id={arrowId} markerWidth="9" markerHeight="9" refX="7" refY="4.5" orient="auto">

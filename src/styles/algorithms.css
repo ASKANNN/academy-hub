@@ -457,17 +457,22 @@
 
 .algorithm-detail__head {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: var(--space-3);
+  margin-top: var(--space-4);
+  margin-bottom: var(--space-3);
 }
 
-.algorithm-detail__head .algorithm-icon {
-  margin-top: var(--space-1);
+.algorithm-detail__head .algorithms-hero__title {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.algorithm-detail__head .complexity-pips {
+  margin-top: 0;
 }
 
 .algorithm-detail__tier-badge {
-  margin-top: var(--space-2);
-  align-self: flex-start;
   flex-shrink: 0;
 }
 
