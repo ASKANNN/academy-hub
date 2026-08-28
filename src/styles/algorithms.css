@@ -373,7 +373,8 @@
   background-color: #FEFBF6;
 }
 
-.academy-card__title .algorithm-icon {
+.academy-card__title .algorithm-icon,
+.academy-card__title .architecture-icon {
   margin-right: var(--space-2);
   vertical-align: middle;
   position: relative;
