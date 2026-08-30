@@ -1,11 +1,13 @@
 import { ARCHITECTURE_CATEGORIES, getArchitectureCategory } from './categories.js';
 import { mvc } from './presentation/mvc.js';
+import { mvp } from './presentation/mvp.js';
 
 export { ARCHITECTURE_CATEGORIES, getArchitectureCategory };
 
 const PATTERNS_BY_CATEGORY = {
   presentation: [
     mvc,
+    mvp,
   ],
 };
 

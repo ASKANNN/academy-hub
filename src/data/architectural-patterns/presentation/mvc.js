@@ -6,12 +6,12 @@ export const mvc = {
   tags: ['presentation-layer', 'separation-of-concerns', 'ui'],
 
   intent: {
-    ru: 'MVC разделяет приложение на три взаимосвязанные части: Model хранит данные и бизнес-логику, View отображает их пользователю, а Controller принимает пользовательский ввод и решает, как на него отреагировать - так экран, данные и логика ввода можно менять и тестировать по отдельности.',
+    ru: 'MVC разделяет приложение на три взаимосвязанные части: Model хранит данные и бизнес-логику, View отображает их пользователю, а Controller принимает пользовательский ввод и решает, как на него отреагировать - так что экран, данные и логику ввода можно менять и тестировать по отдельности.',
     en: 'MVC splits an application into three interconnected parts: the Model holds data and business logic, the View displays it to the user, and the Controller takes user input and decides how to react to it - so the screen, the data, and the input logic can each be changed and tested independently.',
   },
 
   problem: {
-    ru: 'Когда экран, данные и логика обработки ввода перемешаны в одном классе, любое изменение дизайна интерфейса рискует сломать бизнес-логику, а любой тест бизнес-правил вынужден тянуть за собой весь UI. Нужен способ развести эти три ответственности так, чтобы каждую можно было менять, не трогая остальные.',
+    ru: 'Когда экран, данные и логика обработки ввода перемешаны в одном классе, любое изменение дизайна интерфейса может сломать бизнес-логику, а любой тест бизнес-правил вынужден тянуть за собой весь UI. Нужен способ развести эти три ответственности так, чтобы каждую можно было менять, не трогая остальные.',
     en: 'When the screen, the data, and the input-handling logic are all tangled together in one class, any interface redesign risks breaking business logic, and any test of business rules is forced to drag the whole UI along with it. What is needed is a way to split these three responsibilities so each can change without touching the others.',
   },
 
@@ -303,7 +303,7 @@ controller.addItem('Learn MVC');`,
         en: 'It was precisely the problem of testing a Controller tied to a concrete View that pushed the **IBM/Taligent** ecosystem in the early 1990s to propose a separate **Model-View-Presenter** pattern: there the Presenter talks to the View only through an abstract interface rather than a concrete widget, which lets the View be swapped for a test double. MVC doesn\'t require that separation - the Controller in the classic scheme can freely reach into the View directly, and that\'s one reason a Controller\'s code in real projects gradually accumulates knowledge of one specific screen\'s layout.',
       },
       {
-        ru: 'Веб-фреймворки вроде **Ruby on Rails** и **Django** называют себя MVC, но реализуют его в урезанном виде: на каждый HTTP-запрос создаётся новый экземпляр Controller-а, который один раз читает Model и один раз рендерит View в HTML-ответ - никакого долгоживущего объекта, который «уведомляет» View о будущих изменениях, там физически нет. То, что в оригинальном Smalltalk-варианте было подпиской через Observer, в вебе превращается в простой прямой вызов метода рендеринга внутри тела обработчика запроса.',
+        ru: 'Веб-фреймворки вроде **Ruby on Rails** и **Django** называют себя MVC, но реализуют его в урезанном виде: на каждый HTTP-запрос создаётся новый экземпляр Controller-а, который один раз читает Model и один раз рендерит View в HTML-ответ - никакого долгоживущего объекта, который «уведомляет» View о будущих изменениях, там попросту нет. То, что в оригинальном Smalltalk-варианте было подпиской через Observer, в вебе превращается в простой прямой вызов метода рендеринга внутри тела обработчика запроса.',
         en: 'Web frameworks like **Ruby on Rails** and **Django** call themselves MVC but implement a trimmed-down version of it: a fresh Controller instance is created per HTTP request, reads the Model exactly once, and renders the View to an HTML response exactly once - there is no long-lived object physically "notifying" the View of future changes. What was an Observer subscription in the original Smalltalk design becomes a plain, direct call to a render method inside the request handler\'s body.',
       },
       {
@@ -365,7 +365,7 @@ controller.addItem('Learn MVC');`,
     ],
   },
 
-  relatedPatterns: [],
+  relatedPatterns: ['mvp'],
 
   quiz: [
     {

@@ -11,6 +11,14 @@ const GLYPHS = {
   mvc: `
     <path class="${B}" d="M10 2h4v4h-4z M17 17h4v4h-4z M10.9 6.3 6.1 16.7 M13.1 6.3 17.9 16.7 M7.5 19H16.5"/>
     <path class="${F}" d="M3 17h4v4h-4z"/>`,
+
+  // Accent = the Presenter - the one part paired one-to-one with the View
+  // through an interface (the double-tick seam), the only thing that turns
+  // user gestures into Model calls and formats the result back for the
+  // screen. View (top) and Model (bottom) are plain passive structure.
+  mvp: `
+    <path class="${B}" d="M4 3h9v5H4z M11 16h9v5h-9z M6 8v2 M8 8v2 M9 15 12 16.6"/>
+    <path class="${F}" d="M4 10h6v5H4z"/>`,
 };
 
 export function ArchitectureIcon({ slug = '', size = 'md', className = '' }) {
