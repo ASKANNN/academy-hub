@@ -50,8 +50,9 @@ export const mvp = {
     ],
     connections: [
       { from: 'view', to: 'presenter', label: { ru: 'событие ввода', en: 'input event' } },
-      { from: 'presenter', to: 'model', label: { ru: 'обновляет', en: 'updates' } },
-      { from: 'model', to: 'view', label: { ru: 'уведомляет', en: 'notifies' } },
+      { from: 'presenter', to: 'model', label: { ru: 'меняет', en: 'updates' } },
+      { from: 'model', to: 'presenter', label: { ru: 'результат', en: 'result' } },
+      { from: 'presenter', to: 'view', label: { ru: 'обновляет', en: 'updates view' } },
     ],
   },
 

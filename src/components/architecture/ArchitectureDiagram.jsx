@@ -104,6 +104,19 @@ export function ArchitectureDiagram({ diagram, lang }) {
   const { width, height, positions } = layoutFn(diagram.nodes);
   const posById = Object.fromEntries(positions.map((p) => [p.id, p]));
   const indexById = Object.fromEntries(diagram.nodes.map((n, i) => [n.id, i]));
+
+  // Group connections by the unordered pair of nodes they link. A pair joined
+  // by two connections (MVP's flow goes back and forth: View <-> Presenter and
+  // Presenter <-> Model) can't be drawn as two straight lines - they'd sit
+  // exactly on top of each other - so each side is bowed out in opposite
+  // directions below.
+  const pairKeyOf = (conn) => [conn.from, conn.to].slice().sort().join('~');
+  const connectionsByPair = {};
+  diagram.connections.forEach((conn, i) => {
+    const key = pairKeyOf(conn);
+    (connectionsByPair[key] ??= []).push(i);
+  });
+
   const arrowId = `${uid}-arrow`;
   const arrowActiveId = `${uid}-arrow-active`;
 
@@ -131,22 +144,44 @@ export function ArchitectureDiagram({ diagram, lang }) {
           const fromCenter = center(fromBox);
           const toCenter = center(toBox);
 
-          // Connections between non-adjacent nodes bow out to a control point
-          // instead of drawing a straight line, so they don't visually cut
-          // through an intermediate node's box (e.g. Model -> View in MVC's
-          // three-node cycle would otherwise pass right through Controller).
-          // A quadratic bezier's max distance from the straight chord is half
-          // the control point's offset, so the offset needs to clear the box
-          // by twice the box's half-extent plus a visible margin.
           const indexGap = Math.abs(indexById[conn.to] - indexById[conn.from]);
           const clearance = Math.max(BOX_W, BOX_H) / 2 + 40;
-          const bow = indexGap > 1 ? 2 * clearance + 60 * (indexGap - 2) : 0;
-          const sign = i % 2 === 0 ? 1 : -1;
-          const dx = toCenter.x - fromCenter.x;
-          const dy = toCenter.y - fromCenter.y;
-          const len = Math.hypot(dx, dy) || 1;
-          const nx = (-dy / len) * bow * sign;
-          const ny = (dx / len) * bow * sign;
+
+          const twinIndices = connectionsByPair[pairKeyOf(conn)];
+          const isTwin = twinIndices.length > 1 && indexGap === 1;
+
+          let nx;
+          let ny;
+          if (isTwin) {
+            // Two connections share this node pair. Take the perpendicular in a
+            // fixed node order (low index -> high index) so the pair's arrows
+            // land on opposite sides regardless of which way each one points.
+            const loId = indexById[conn.from] <= indexById[conn.to] ? conn.from : conn.to;
+            const hiId = loId === conn.from ? conn.to : conn.from;
+            const loC = center(posById[loId]);
+            const hiC = center(posById[hiId]);
+            const cdx = hiC.x - loC.x;
+            const cdy = hiC.y - loC.y;
+            const clen = Math.hypot(cdx, cdy) || 1;
+            const side = twinIndices.indexOf(i) === 0 ? 1 : -1;
+            nx = (-cdy / clen) * clearance * side;
+            ny = (cdx / clen) * clearance * side;
+          } else {
+            // Connections between non-adjacent nodes bow out to a control point
+            // instead of drawing a straight line, so they don't visually cut
+            // through an intermediate node's box (e.g. Model -> View in MVC's
+            // three-node cycle would otherwise pass right through Controller).
+            // A quadratic bezier's max distance from the straight chord is half
+            // the control point's offset, so the offset needs to clear the box
+            // by twice the box's half-extent plus a visible margin.
+            const bow = indexGap > 1 ? 2 * clearance + 60 * (indexGap - 2) : 0;
+            const sign = i % 2 === 0 ? 1 : -1;
+            const dx = toCenter.x - fromCenter.x;
+            const dy = toCenter.y - fromCenter.y;
+            const len = Math.hypot(dx, dy) || 1;
+            nx = (-dy / len) * bow * sign;
+            ny = (dx / len) * bow * sign;
+          }
           const controlX = (fromCenter.x + toCenter.x) / 2 + nx;
           const controlY = (fromCenter.y + toCenter.y) / 2 + ny;
 
