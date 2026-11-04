@@ -6,7 +6,7 @@ export const mvvm = {
   tags: ['presentation-layer', 'data-binding', 'testability'],
 
   intent: {
-    ru: 'MVVM (Model-View-ViewModel, «модель - представление - модель представления») выносит состояние и поведение экрана в ViewModel - обычный объект с наблюдаемыми свойствами и командами, который ничего не знает о View. View описывает, какой виджет к какому свойству привязан, а синхронизацию в обе стороны берёт на себя слой связывания данных. Логику экрана можно тестировать без UI, и при этом не нужно писать ни одного ручного вызова обновления экрана.',
+    ru: 'MVVM (Model-View-ViewModel) выносит состояние и поведение экрана в ViewModel - обычный объект с наблюдаемыми свойствами и командами, который ничего не знает о View. View описывает, какой виджет к какому свойству привязан, а синхронизацию в обе стороны берёт на себя слой связывания данных. Логику экрана можно тестировать без UI, и при этом не нужно писать ни одного ручного вызова обновления экрана.',
     en: 'MVVM (Model-View-ViewModel) moves a screen\'s state and behaviour into a ViewModel - a plain object with observable properties and commands that knows nothing about the View. The View declares which widget is bound to which property, and a data-binding layer keeps both sides in sync. The screen logic can be tested without a UI, and nobody has to write a single manual screen-update call.',
   },
 

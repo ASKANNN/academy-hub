@@ -6,7 +6,7 @@ export const mvc = {
   tags: ['presentation-layer', 'separation-of-concerns', 'ui'],
 
   intent: {
-    ru: 'MVC (Model-View-Controller, «модель - представление - контроллер») разделяет приложение на три взаимосвязанные части: Model хранит данные и бизнес-логику, View отображает их пользователю, а Controller принимает пользовательский ввод и решает, как на него отреагировать - так что экран, данные и логику ввода можно менять и тестировать по отдельности.',
+    ru: 'MVC (Model-View-Controller) разделяет приложение на три взаимосвязанные части: Model хранит данные и бизнес-логику, View отображает их пользователю, а Controller принимает пользовательский ввод и решает, как на него отреагировать - так что экран, данные и логику ввода можно менять и тестировать по отдельности.',
     en: 'MVC (Model-View-Controller) splits an application into three interconnected parts: the Model holds data and business logic, the View displays it to the user, and the Controller takes user input and decides how to react to it - so the screen, the data, and the input logic can each be changed and tested independently.',
   },
 

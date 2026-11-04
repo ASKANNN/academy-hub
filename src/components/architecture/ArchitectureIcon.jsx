@@ -21,13 +21,13 @@ const GLYPHS = {
     <path class="${B}" d="M4 3h9v5H4z M11 16h9v5h-9z M6 8v2 M8 8v2 M9 15 12 16.6"/>
     <path class="${F}" d="M4 10h6v5H4z"/>`,
 
-  // Accent = the two-way binding - the paired arrows that keep the View (a
-  // form, left) and the ViewModel (the filled block) in sync both ways, so the
-  // ViewModel never has to call the View. Model (bottom right) is structure.
+  // Accent = the two-way binding - two arcs closing a sync loop between the
+  // View (screen, top left) and the filled ViewModel, so changes flow both
+  // ways automatically and the ViewModel never calls the View.
   mvvm: `
-    <path class="${B}" d="M2.75 4h7.5v16h-7.5z M5 8h3 M5 11.5h3 M5 15h3 M15.5 15h5.5v5h-5.5z M18.25 10.5V15"/>
-    <path class="${A}" d="M11.5 5.5h3 M13.25 4.25 14.5 5.5 13.25 6.75 M14.5 10h-3 M12.75 8.75 11.5 10 12.75 11.25"/>
-    <path class="${F}" d="M15.5 5H21v5.5h-5.5z"/>`,
+    <path class="${B}" d="M3 3.5h9v7H3z M3 6h9"/>
+    <path class="${A}" d="M14 7h2.5a2 2 0 0 1 2 2v2.5 M17 10 18.5 11.5 20 10 M10 17H7.5a2 2 0 0 1-2-2v-2.5 M4 14 5.5 12.5 7 14"/>
+    <path class="${F}" d="M12 13.5h9v7h-9z"/>`,
 };
 
 export function ArchitectureIcon({ slug = '', size = 'md', className = '' }) {

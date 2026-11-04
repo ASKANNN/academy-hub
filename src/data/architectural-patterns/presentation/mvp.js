@@ -6,7 +6,7 @@ export const mvp = {
   tags: ['presentation-layer', 'separation-of-concerns', 'testability'],
 
   intent: {
-    ru: 'MVP (Model-View-Presenter, «модель - представление - презентер») развивает MVC и доводит View до полной пассивности: он не выполняет никакой логики и лишь передаёт действия пользователя в Presenter, а для обновления экрана предоставляет несколько простых методов. Presenter закреплён за своим View один к одному, работает с ним через интерфейс, меняет Model и готовит её данные к выводу. За счёт этого всю логику представления можно покрыть юнит-тестами, подставив вместо настоящего View заглушку.',
+    ru: 'MVP (Model-View-Presenter) развивает MVC и доводит View до полной пассивности: он не выполняет никакой логики и лишь передаёт действия пользователя в Presenter, а для обновления экрана предоставляет несколько простых методов. Presenter закреплён за своим View один к одному, работает с ним через интерфейс, меняет Model и готовит её данные к выводу. За счёт этого всю логику представления можно покрыть юнит-тестами, подставив вместо настоящего View заглушку.',
     en: 'MVP (Model-View-Presenter) grows out of MVC by making the View fully passive: the screen holds no logic, it only forwards the user\'s actions to the Presenter and exposes simple update methods. The Presenter is paired one to one with its View, talks to it through an interface, changes the Model, and prepares its data for display - so the entire presentation logic can be unit-tested by swapping the real View for a stub.',
   },
 
