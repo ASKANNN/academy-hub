@@ -6,8 +6,8 @@ export const mvc = {
   tags: ['presentation-layer', 'separation-of-concerns', 'ui'],
 
   intent: {
-    ru: 'MVC разделяет приложение на три взаимосвязанные части: Model хранит данные и бизнес-логику, View отображает их пользователю, а Controller принимает пользовательский ввод и решает, как на него отреагировать - так что экран, данные и логику ввода можно менять и тестировать по отдельности.',
-    en: 'MVC splits an application into three interconnected parts: the Model holds data and business logic, the View displays it to the user, and the Controller takes user input and decides how to react to it - so the screen, the data, and the input logic can each be changed and tested independently.',
+    ru: 'MVC (Model-View-Controller, «модель - представление - контроллер») разделяет приложение на три взаимосвязанные части: Model хранит данные и бизнес-логику, View отображает их пользователю, а Controller принимает пользовательский ввод и решает, как на него отреагировать - так что экран, данные и логику ввода можно менять и тестировать по отдельности.',
+    en: 'MVC (Model-View-Controller) splits an application into three interconnected parts: the Model holds data and business logic, the View displays it to the user, and the Controller takes user input and decides how to react to it - so the screen, the data, and the input logic can each be changed and tested independently.',
   },
 
   problem: {
@@ -287,11 +287,11 @@ controller.addItem('Learn MVC');`,
   details: {
     deepDive: [
       {
-        ru: 'MVC придумал **Трюгве Реенскауг (Trygve Reenskaug)** в 1978-1979 годах в исследовательском центре **Xerox PARC**, работая над средой **Smalltalk-79**. Его первоначальное название было длиннее и точнее сути - «Thing-Model-View-Editor»: «Thing» обозначало объект предметной области, а «Editor» позже сократили до «Controller». Цель была не архитектурной абстракцией ради красоты, а конкретной инженерной задачей - позволить конечным пользователям Smalltalk самим собирать интерфейсы из готовых блоков, не переписывая бизнес-логику.',
+        ru: 'MVC придумал **Трюгве Реенскауг (Trygve Reenskaug)** в 1978-1979 годах в исследовательском центре **Xerox PARC**, работая над средой **Smalltalk-79**. Его первоначальное название было длиннее и точнее сути - «Thing-Model-View-Editor»: «Thing» обозначало объект предметной области, а «Editor» позже переименовали в «Controller». Цель была не архитектурной абстракцией ради красоты, а конкретной инженерной задачей - позволить конечным пользователям Smalltalk самим собирать интерфейсы из готовых блоков, не переписывая бизнес-логику.',
         en: '**Trygve Reenskaug** invented MVC in 1978-1979 at the **Xerox PARC** research center while working on the **Smalltalk-79** environment. His original name was longer and closer to the point - "Thing-Model-View-Editor": "Thing" stood for the domain object, and "Editor" was later shortened to "Controller". The goal wasn\'t architectural abstraction for its own sake but a concrete engineering problem - letting end users of Smalltalk assemble interfaces from reusable pieces without rewriting business logic.',
       },
       {
-        ru: 'В оригинальной задумке View - это не один класс, а потенциально несколько объектов, одновременно наблюдающих за одной Model через классический **паттерн Observer**: изменение Model рассылает уведомление всем подписанным View сразу. Controller изначально был жёстко связан один-к-одному со своим View, образуя маленький «триад» Model-View-Controller, и такие триады можно было вкладывать друг в друга - составной View собирался из под-View, у каждого из которых был свой Controller.',
+        ru: 'В оригинальной задумке View - это не один класс, а потенциально несколько объектов, одновременно наблюдающих за одной Model через классический **паттерн Observer**: изменение Model рассылает уведомление всем подписанным View сразу. Controller изначально был жёстко связан один-к-одному со своим View, образуя маленькую «триаду» Model-View-Controller, и такие триады можно было вкладывать друг в друга - составной View собирался из под-View, у каждого из которых был свой Controller.',
         en: 'In the original design the View isn\'t a single class but potentially several objects simultaneously watching one Model through the classic **Observer pattern**: a Model change broadcasts a notification to every subscribed View at once. The Controller was originally paired one-to-one with its View, forming a small Model-View-Controller "triad", and such triads could be nested - a composite View was assembled from sub-Views, each with its own Controller.',
       },
       {
@@ -299,8 +299,8 @@ controller.addItem('Learn MVC');`,
         en: 'Nearly three decades later **Martin Fowler**, in his "GUI Architectures" article (2006), formalized two variants of how exactly the View learns about Model changes: **Passive View**, where the Controller (or Presenter) explicitly pokes View methods after every change, and **Supervising Controller**, where the View is itself subscribed to simple changes via data binding, and the Controller only steps in for complex logic. The first variant is easier to test - you can verify the Controller called the right View method through a mock object without spinning up any real UI at all.',
       },
       {
-        ru: 'Именно проблема тестирования Controller-а, завязанного на конкретный View, подтолкнула экосистему **IBM/Taligent** в начале 1990-х предложить отдельный паттерн **Model-View-Presenter**: там Presenter общается с View только через абстрактный интерфейс, а не с конкретным виджетом напрямую, что позволяет подменить View на тестовую заглушку. MVC этого разделения не требует - Controller в классической схеме может свободно обращаться к View напрямую, и это одна из причин, почему код Controller-а в реальных проектах постепенно обрастает знаниями об устройстве конкретного экрана.',
-        en: 'It was precisely the problem of testing a Controller tied to a concrete View that pushed the **IBM/Taligent** ecosystem in the early 1990s to propose a separate **Model-View-Presenter** pattern: there the Presenter talks to the View only through an abstract interface rather than a concrete widget, which lets the View be swapped for a test double. MVC doesn\'t require that separation - the Controller in the classic scheme can freely reach into the View directly, and that\'s one reason a Controller\'s code in real projects gradually accumulates knowledge of one specific screen\'s layout.',
+        ru: 'Отдельный паттерн **Model-View-Presenter** появился позже: его описали в **Taligent** (совместное предприятие Apple, IBM и HP) в 1996 году, а упрощённый вариант, которым пользуются сегодня, - в Dolphin Smalltalk около 2000 года. Там Presenter общается с View только через абстрактный интерфейс, а не с конкретным виджетом напрямую. В 2000-х именно это сделало MVP популярным: View можно подменить тестовой заглушкой. MVC этого разделения не требует - Controller в классической схеме может свободно обращаться к View напрямую, и это одна из причин, почему код Controller-а в реальных проектах постепенно обрастает знаниями об устройстве конкретного экрана.',
+        en: 'The separate **Model-View-Presenter** pattern came later: **Taligent** (the Apple, IBM, and HP joint venture) described it in 1996, and the simplified version used today came from Dolphin Smalltalk around 2000. There the Presenter talks to the View only through an abstract interface rather than a concrete widget. In the 2000s this is exactly what made MVP popular: the View can be swapped for a test double. MVC doesn\'t require that separation - the Controller in the classic scheme can freely reach into the View directly, and that\'s one reason a Controller\'s code in real projects gradually accumulates knowledge of one specific screen\'s layout.',
       },
       {
         ru: 'Веб-фреймворки вроде **Ruby on Rails** и **Django** называют себя MVC, но реализуют его в урезанном виде: на каждый HTTP-запрос создаётся новый экземпляр Controller-а, который один раз читает Model и один раз рендерит View в HTML-ответ - никакого долгоживущего объекта, который «уведомляет» View о будущих изменениях, там попросту нет. То, что в оригинальном Smalltalk-варианте было подпиской через Observer, в вебе превращается в простой прямой вызов метода рендеринга внутри тела обработчика запроса.',
@@ -359,13 +359,13 @@ controller.addItem('Learn MVC');`,
         en: '**ASP.NET MVC (Microsoft, 2009)** - explicitly named after the pattern and shipped as an alternative to ASP.NET WebForms specifically for the separation of concerns the older framework lacked.',
       },
       {
-        ru: '**NSNotificationCenter в Apple Cocoa AppKit (с 1988 года, NeXTSTEP)** - механизм рассылки уведомлений, который до сих пор используется в macOS-приложениях как реальная реализация оповещения View со стороны Model, максимально близкая к оригинальному замыслу Реенскауга.',
-        en: '**NSNotificationCenter in Apple Cocoa AppKit (since 1988, NeXTSTEP)** - a notification-broadcasting mechanism still used in macOS applications today as a real implementation of the Model notifying the View, staying as close to Reenskaug\'s original design as any mainstream framework gets.',
+        ru: '**NSNotificationCenter в Apple Cocoa (Foundation Kit, со времён OpenStep, 1994)** - механизм рассылки уведомлений, который до сих пор используется в macOS-приложениях как реальная реализация оповещения View со стороны Model, максимально близкая к оригинальному замыслу Реенскауга.',
+        en: '**NSNotificationCenter in Apple Cocoa (Foundation Kit, since OpenStep, 1994)** - a notification-broadcasting mechanism still used in macOS applications today as a real implementation of the Model notifying the View, staying as close to Reenskaug\'s original design as any mainstream framework gets.',
       },
     ],
   },
 
-  relatedPatterns: ['mvp'],
+  relatedPatterns: ['mvp', 'mvvm'],
 
   quiz: [
     {
@@ -517,8 +517,8 @@ controller.addItem('Learn MVC');`,
     },
     {
       question: {
-        ru: 'Чем Model-View-Presenter принципиально отличается от классического MVC, судя по причине его появления?',
-        en: 'What is the essential difference between Model-View-Presenter and classic MVC, given the reason MVP was created?',
+        ru: 'Чем Model-View-Presenter принципиально отличается от классического MVC?',
+        en: 'What is the essential difference between Model-View-Presenter and classic MVC?',
       },
       options: [
         { ru: 'Presenter общается с View только через абстрактный интерфейс, а не напрямую, что позволяет тестировать его логику без запуска реального UI вообще', en: 'The Presenter talks to the View only through an abstract interface rather than directly, which lets it be tested without a real UI' },
@@ -528,12 +528,12 @@ controller.addItem('Learn MVC');`,
       ],
       correct: 0,
       explanation: {
-        ru: 'MVP появился именно из проблемы тестирования - Controller в MVC обычно обращается к View напрямую, а Presenter в MVP - только через интерфейс, который легко подменить заглушкой.',
-        en: 'MVP arose precisely from the testing problem - the Controller in MVC usually reaches into the View directly, while the Presenter in MVP does so only through an interface that\'s easy to swap for a test double.',
+        ru: 'Controller в MVC обычно обращается к View напрямую, а Presenter в MVP - только через интерфейс. Именно это в 2000-х сделало MVP популярным: интерфейс легко подменить заглушкой и тестировать логику без UI.',
+        en: 'The Controller in MVC usually reaches into the View directly, while the Presenter in MVP does so only through an interface. In the 2000s that is exactly what made MVP popular: the interface is easy to swap for a test double and test the logic without a UI.',
       },
       hint: {
-        ru: 'Смотрите раздел «Как это работает» на вкладке «Суть» - абзац про IBM/Taligent и Model-View-Presenter.',
-        en: 'See the "How it works" section on the "Intent" tab - the paragraph about IBM/Taligent and Model-View-Presenter.',
+        ru: 'Смотрите раздел «Как это работает» на вкладке «Суть» - абзац про Taligent и Model-View-Presenter.',
+        en: 'See the "How it works" section on the "Intent" tab - the paragraph about Taligent and Model-View-Presenter.',
       },
     },
     {
@@ -574,8 +574,8 @@ controller.addItem('Learn MVC');`,
         en: 'This is exactly the scenario the Model\'s independence from the View is meant for - one piece of state can feed any number of representations at once.',
       },
       hint: {
-        ru: 'Смотрите первый пункт плюсов на вкладке «Плюсы и минусы» - одна Model, несколько View.',
-        en: 'See the first "Pros" item on the "Pros & Cons" tab - one Model, several Views.',
+        ru: 'Смотрите третий пункт плюсов на вкладке «Плюсы и минусы» - одна Model, несколько View.',
+        en: 'See the third "Pros" item on the "Pros & Cons" tab - one Model, several Views.',
       },
     },
   ],

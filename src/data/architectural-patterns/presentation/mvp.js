@@ -6,8 +6,8 @@ export const mvp = {
   tags: ['presentation-layer', 'separation-of-concerns', 'testability'],
 
   intent: {
-    ru: 'MVP развивает MVC и доводит View до полной пассивности: он не выполняет никакой логики и лишь передаёт действия пользователя в Presenter, а для обновления экрана предоставляет несколько простых методов. Presenter закреплён за своим View один к одному, работает с ним через интерфейс, меняет Model и готовит её данные к выводу. За счёт этого всю логику представления можно покрыть юнит-тестами, подставив вместо настоящего View заглушку.',
-    en: 'MVP grows out of MVC by making the View fully passive: the screen holds no logic, it only forwards the user\'s actions to the Presenter and exposes simple update methods. The Presenter is paired one to one with its View, talks to it through an interface, changes the Model, and prepares its data for display - so the entire presentation logic can be unit-tested by swapping the real View for a stub.',
+    ru: 'MVP (Model-View-Presenter, «модель - представление - презентер») развивает MVC и доводит View до полной пассивности: он не выполняет никакой логики и лишь передаёт действия пользователя в Presenter, а для обновления экрана предоставляет несколько простых методов. Presenter закреплён за своим View один к одному, работает с ним через интерфейс, меняет Model и готовит её данные к выводу. За счёт этого всю логику представления можно покрыть юнит-тестами, подставив вместо настоящего View заглушку.',
+    en: 'MVP (Model-View-Presenter) grows out of MVC by making the View fully passive: the screen holds no logic, it only forwards the user\'s actions to the Presenter and exposes simple update methods. The Presenter is paired one to one with its View, talks to it through an interface, changes the Model, and prepares its data for display - so the entire presentation logic can be unit-tested by swapping the real View for a stub.',
   },
 
   problem: {
@@ -74,8 +74,8 @@ export const mvp = {
     {
       title: { ru: 'Model меняет состояние', en: 'The Model changes state' },
       explanation: {
-        ru: 'Model применяет свои бизнес-правила, обновляет состояние и оповещает подписчиков - так же, как в MVC.',
-        en: 'The Model applies its business rules, updates its state, and notifies its observers - the same as in MVC.',
+        ru: 'Model применяет свои бизнес-правила и обновляет состояние. В варианте Passive View она никого не оповещает: Presenter сам забирает у неё результат сразу после вызова.',
+        en: 'The Model applies its business rules and updates its state. In the Passive View variant it notifies nobody: the Presenter reads the result back right after the call.',
       },
     },
     {
@@ -143,7 +143,10 @@ class TodoView {
   }
 
   bind(presenter) {
-    this.form.addEventListener('submit', () => presenter.onAddClicked(this.form.text.value));
+    this.form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      presenter.onAddClicked(this.form.text.value);
+    });
     this.listRoot.addEventListener('click', (event) => {
       const li = event.target.closest('li');
       if (li) presenter.onItemClicked(Number(li.dataset.index));
@@ -239,15 +242,15 @@ presenter.onAddClicked('Learn MVP');`,
         },
       },
       {
-        lines: [49, 61],
+        lines: [49, 64],
         title: { ru: 'TodoView - конкретный виджет', en: 'TodoView - the concrete widget' },
         explanation: {
-          ru: '`bind` связывает DOM-события с методами Presenter и больше ничего не делает: `submit` формы превращается в `onAddClicked`, клик по `<li>` - в `onItemClicked`. Сам виджет ничего не трактует.',
-          en: '`bind` wires DOM events to Presenter methods and does nothing else: the form\'s `submit` becomes `onAddClicked`, a click on an `<li>` becomes `onItemClicked`. The widget interprets nothing.',
+          ru: '`bind` связывает DOM-события с методами Presenter и больше ничего не делает: `submit` формы превращается в `onAddClicked`, клик по `<li>` - в `onItemClicked`. `event.preventDefault()` нужен только чтобы браузер не перезагрузил страницу при отправке формы; сам виджет ничего не трактует.',
+          en: '`bind` wires DOM events to Presenter methods and does nothing else: the form\'s `submit` becomes `onAddClicked`, a click on an `<li>` becomes `onItemClicked`. `event.preventDefault()` is there only so the browser does not reload the page on submit; the widget interprets nothing.',
         },
       },
       {
-        lines: [63, 75],
+        lines: [66, 78],
         title: { ru: 'showItems / showRemaining / showError - интерфейс View в коде', en: 'showItems / showRemaining / showError - the View interface made concrete' },
         explanation: {
           ru: 'Три метода, каждый просто пишет полученное в DOM. Ни Model, ни форматирования, ни ветвлений сложнее `map`. Это и есть тот интерфейс, который в тесте подменяют заглушкой.',
@@ -255,7 +258,7 @@ presenter.onAddClicked('Learn MVP');`,
         },
       },
       {
-        lines: [78, 82],
+        lines: [81, 85],
         title: { ru: 'Сборка триады снаружи', en: 'Wiring the triad from outside' },
         explanation: {
           ru: 'Model, View и Presenter создаются вне всех трёх классов; `view.bind(presenter)` замыкает связь View -> Presenter, а один вызов `onAddClicked` прогоняет весь цикл из четырёх шагов со вкладки «Схема».',
@@ -311,8 +314,8 @@ presenter.onAddClicked('Learn MVP');`,
       en: '**Android** apps of roughly 2015-2019 leaned heavily on MVP: a `Contract` interface with nested `View` and `Presenter` types per screen was the dominant community approach before Google shipped `ViewModel` and `LiveData`.',
     },
     {
-      ru: '**Google Web Toolkit (GWT)** предлагал MVP как официальную архитектуру для крупных приложений: Places и Activities соответствовали Presenter-ам, которые управляли пассивными виджетами View, скомпилированными в JavaScript.',
-      en: '**Google Web Toolkit (GWT)** promoted MVP as its official architecture for large applications: Places and Activities mapped to Presenters driving passive View widgets compiled to JavaScript.',
+      ru: '**Google Web Toolkit (GWT)** предлагал MVP как официальную архитектуру для крупных приложений: роль Presenter-ов играли Activities, которые управляли пассивными виджетами View, скомпилированными в JavaScript, а Places отвечали за навигацию.',
+      en: '**Google Web Toolkit (GWT)** promoted MVP as its official architecture for large applications: Activities acted as Presenters driving passive View widgets compiled to JavaScript, while Places handled navigation.',
     },
   ],
 
@@ -397,7 +400,7 @@ presenter.onAddClicked('Learn MVP');`,
     ],
   },
 
-  relatedPatterns: ['mvc'],
+  relatedPatterns: ['mvc', 'mvvm'],
 
   quiz: [
     {
