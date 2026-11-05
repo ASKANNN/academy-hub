@@ -35,6 +35,13 @@ const GLYPHS = {
     <path class="${B}" d="M3 3.5h12v4H3z M3 10h12v4H3z M3 16.5h12v4H3z"/>
     <path class="${A}" d="M19 4v12"/>
     <path class="${F}" d="M16.5 15.5 19 20.5 21.5 15.5Z"/>`,
+
+  // Accent = the core - the filled centre that every adapter (the two plugs
+  // on the left and right) connects to through a port on the hexagon's
+  // boundary, while nothing leads outward from the core itself.
+  hexagonal: `
+    <path class="${B}" d="M12 5 18.06 8.5v7L12 19 5.94 15.5v-7Z M2 10h3v4H2z M19 10h3v4h-3z M5 12h.94 M18.06 12H19"/>
+    <path class="${F}" d="M12 8.8 14.77 10.4v3.2L12 15.2 9.23 13.6v-3.2Z"/>`,
 };
 
 export function ArchitectureIcon({ slug = '', size = 'md', className = '' }) {

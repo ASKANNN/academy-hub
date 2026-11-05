@@ -36,22 +36,28 @@ function pipelinePositions(nodes) {
 }
 
 function hubPositions(nodes) {
-  const width = 680;
-  const height = 540;
-  const cx = width / 2 - BOX_W / 2;
-  const cy = height / 2 - BOX_H / 2;
   const satellites = nodes.slice(1);
-  const radius = 210;
-  const positions = [{ id: nodes[0].id, x: cx, y: cy }];
-  satellites.forEach((node, i) => {
-    const angle = (2 * Math.PI * i) / satellites.length - Math.PI / 2;
-    positions.push({
-      id: node.id,
-      x: width / 2 + radius * Math.cos(angle) - BOX_W / 2,
-      y: height / 2 + radius * Math.sin(angle) - BOX_H / 2,
-    });
-  });
-  return { width, height, positions };
+  // Satellites sit on an ellipse, rotated half a step so four of them land on
+  // the diagonals: on a circle the wide boxes at 0deg and 180deg would overlap
+  // the centre box sideways.
+  const rx = 368;
+  const ry = 250;
+  const centers = [
+    { id: nodes[0].id, x: 0, y: 0 },
+    ...satellites.map((node, i) => {
+      const angle = (2 * Math.PI * (i - 0.5)) / satellites.length - Math.PI / 2;
+      return { id: node.id, x: rx * Math.cos(angle), y: ry * Math.sin(angle) };
+    }),
+  ];
+  const minX = Math.min(...centers.map((c) => c.x));
+  const maxX = Math.max(...centers.map((c) => c.x));
+  const minY = Math.min(...centers.map((c) => c.y));
+  const maxY = Math.max(...centers.map((c) => c.y));
+  return {
+    width: maxX - minX + BOX_W + 80,
+    height: maxY - minY + BOX_H + 80,
+    positions: centers.map((c) => ({ id: c.id, x: c.x - minX + 40, y: c.y - minY + 40 })),
+  };
 }
 
 const LAYOUTS = { stack: stackPositions, pipeline: pipelinePositions, hub: hubPositions };
@@ -81,6 +87,16 @@ const NODE_ICONS = {
   business: { d: 'M6.5 4.5h11v16h-11z M10 3h4v3h-4z M9.5 13l2 2 3.5-4' },
   persistence: { d: 'M4 13h4.5l1.5 2.5h4l1.5-2.5H20v6H4z M12 3.5v8 M8.8 8.3 12 11.5l3.2-3.2' },
   database: {
+    d: 'M6 6a6 2.1 0 1 0 12 0a6 2.1 0 1 0 -12 0 M6 6v11.5 M18 6v11.5 M6 11.75a6 2.1 0 0 0 12 0 M6 17.5a6 2.1 0 0 0 12 0',
+  },
+  core: {
+    d: 'M12 3.5 19.4 7.75v8.5L12 20.5 4.6 16.25v-8.5Z',
+    fillD: 'M12 9.4 14.25 10.7v2.6L12 14.6 9.75 13.3v-2.6Z',
+  },
+  form: { d: 'M3.5 5.5h17v5h-17z M6 8h6 M12 14h8.5v4.5H12z' },
+  tests: { d: 'M9 3.5h6 M10.5 3.5v6L5.4 18.3a1.5 1.5 0 0 0 1.3 2.2h10.6a1.5 1.5 0 0 0 1.3-2.2L13.5 9.5v-6 M7.6 14.5h8.8' },
+  memory: { d: 'M7.5 7.5h9v9h-9z M10 4.5v3 M14 4.5v3 M10 16.5v3 M14 16.5v3 M4.5 10h3 M4.5 14h3 M16.5 10h3 M16.5 14h3' },
+  'browser-storage': {
     d: 'M6 6a6 2.1 0 1 0 12 0a6 2.1 0 1 0 -12 0 M6 6v11.5 M18 6v11.5 M6 11.75a6 2.1 0 0 0 12 0 M6 17.5a6 2.1 0 0 0 12 0',
   },
   default: { d: 'M12 3 21 12 12 21 3 12Z' },
@@ -180,7 +196,11 @@ export function ArchitectureDiagram({ diagram, lang }) {
             // A quadratic bezier's max distance from the straight chord is half
             // the control point's offset, so the offset needs to clear the box
             // by twice the box's half-extent plus a visible margin.
-            const bow = indexGap > 1 ? 2 * clearance + 60 * (indexGap - 2) : 0;
+            // In a hub the centre is adjacent to every satellite, so the index
+            // gap between them says nothing about nodes in the way.
+            const touchesHubCentre =
+              diagram.layout === 'hub' && (indexById[conn.from] === 0 || indexById[conn.to] === 0);
+            const bow = indexGap > 1 && !touchesHubCentre ? 2 * clearance + 60 * (indexGap - 2) : 0;
             const sign = i % 2 === 0 ? 1 : -1;
             const dx = toCenter.x - fromCenter.x;
             const dy = toCenter.y - fromCenter.y;

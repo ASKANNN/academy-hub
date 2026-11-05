@@ -425,7 +425,7 @@ new RegistrationPage(root, new UserService(new UserRepository(new Database())));
     ],
   },
 
-  relatedPatterns: [],
+  relatedPatterns: ['hexagonal'],
 
   quiz: [
     {

@@ -3,6 +3,7 @@ import { mvc } from './presentation/mvc.js';
 import { mvp } from './presentation/mvp.js';
 import { mvvm } from './presentation/mvvm.js';
 import { layered } from './structure/layered.js';
+import { hexagonal } from './structure/hexagonal.js';
 
 export { ARCHITECTURE_CATEGORIES, getArchitectureCategory };
 
@@ -14,6 +15,7 @@ const PATTERNS_BY_CATEGORY = {
   ],
   structure: [
     layered,
+    hexagonal,
   ],
 };
 
