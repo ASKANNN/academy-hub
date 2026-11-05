@@ -28,6 +28,13 @@ const GLYPHS = {
     <path class="${B}" d="M3 3.5h9v7H3z M3 6h9"/>
     <path class="${A}" d="M14 7h2.5a2 2 0 0 1 2 2v2.5 M17 10 18.5 11.5 20 10 M10 17H7.5a2 2 0 0 1-2-2v-2.5 M4 14 5.5 12.5 7 14"/>
     <path class="${F}" d="M12 13.5h9v7h-9z"/>`,
+
+  // Accent = the one-way downward arrow beside the stack: calls go only from
+  // an upper layer to the one below it, and no layer ever calls upward.
+  layered: `
+    <path class="${B}" d="M3 3.5h12v4H3z M3 10h12v4H3z M3 16.5h12v4H3z"/>
+    <path class="${A}" d="M19 4v12"/>
+    <path class="${F}" d="M16.5 15.5 19 20.5 21.5 15.5Z"/>`,
 };
 
 export function ArchitectureIcon({ slug = '', size = 'md', className = '' }) {

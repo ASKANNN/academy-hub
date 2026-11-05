@@ -17,11 +17,7 @@ export const ARCHITECTURE_CATEGORIES = [
       ru: 'Слоистая архитектура, гексагональная архитектура, микроядро, клиент-сервер',
       en: 'Layered architecture, hexagonal architecture, microkernel, client-server',
     },
-    status: 'coming-soon',
-    topics: {
-      ru: ['Слоистая архитектура', 'Гексагональная архитектура', 'Микроядро', 'Клиент-сервер'],
-      en: ['Layered Architecture', 'Hexagonal Architecture', 'Microkernel', 'Client-Server'],
-    },
+    status: 'live',
   },
   {
     slug: 'distributed',

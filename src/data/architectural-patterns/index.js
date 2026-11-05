@@ -2,6 +2,7 @@ import { ARCHITECTURE_CATEGORIES, getArchitectureCategory } from './categories.j
 import { mvc } from './presentation/mvc.js';
 import { mvp } from './presentation/mvp.js';
 import { mvvm } from './presentation/mvvm.js';
+import { layered } from './structure/layered.js';
 
 export { ARCHITECTURE_CATEGORIES, getArchitectureCategory };
 
@@ -10,6 +11,9 @@ const PATTERNS_BY_CATEGORY = {
     mvc,
     mvp,
     mvvm,
+  ],
+  structure: [
+    layered,
   ],
 };
 
