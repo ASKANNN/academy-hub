@@ -31,11 +31,11 @@ Source-available, non-commercial license.
   Quiz), a deep-dive writeup, line-by-line JS/Python code walkthroughs, and a
   10-question quiz — all bilingual RU/EN
 - **Architectural Patterns Academy** — full in-app section
-  (`/architectural-patterns/...`): classic architectural patterns (MVC live
-  so far, 9 more planned) on a static SVG component/relationship diagram
+  (`/architectural-patterns/...`): classic architectural patterns (MVC, MVP,
+  MVVM and Layered live, 6 more planned) on a static SVG component/relationship diagram
   instead of an animated visualizer, same 5-tab detail page and 10-question
   quiz format, bilingual RU/EN
-- **Prerendering** — all 47 routes ship pre-rendered HTML (title, description,
+- **Prerendering** — all 51 routes ship pre-rendered HTML (title, description,
   canonical, OG tags, JSON-LD, `#root` content), visible to crawlers without JS
 
 ## Stack
@@ -68,10 +68,11 @@ src/
     PageIntro.jsx                  — canvas constellation animation, shown once per session, skippable
     AccessibilityWidget.jsx         — floating button + accessibility settings panel
     BackToTop.jsx                   — floating scroll-to-top button
-    ErrorBoundary.jsx                — catches render errors, wraps AlgorithmDetailPage
-    algorithms/                      — AlgorithmCard, CategoryCard, AlgorithmVisualizer, AlgorithmIcon, Breadcrumb, PrevNextNav, ComplexityPips
-    ui/                                — CodeBlock, WalkthroughBlock, Quiz, Tabs, RichText, Accordion, PrerequisiteBadge, ExpandHint, TopicsList
-  pages/                     — one component per route: HomePage, AlgorithmsCatalogPage, AlgorithmsCategoryPage, AlgorithmDetailPage, NotFoundPage
+    ErrorBoundary.jsx                — catches render errors, wraps detail pages
+    algorithms/                      — AlgorithmCard, CategoryCard, AlgorithmVisualizer, BigOVisualizer, AlgorithmIcon, PrevNextNav
+    architecture/                    — ArchitecturePatternCard, ArchitectureCategoryCard, ArchitectureDiagram, ArchitectureIcon, ArchitecturePrevNextNav
+    ui/                                — Breadcrumb, ComplexityPips, CodeBlock, WalkthroughBlock, Quiz, Tabs, RichText, Accordion, PrerequisiteBadge, ExpandHint, TopicsList
+  pages/                     — one component per route: HomePage, AlgorithmsCatalogPage, AlgorithmsCategoryPage, AlgorithmDetailPage, ArchitecturalPatternsCatalogPage, ArchitecturalPatternsCategoryPage, ArchitecturalPatternDetailPage, NotFoundPage
   hooks/
     useTheme.js              — light/dark theme, localStorage
     useLocale.js               — RU/EN language, localStorage
@@ -89,16 +90,18 @@ src/
     base.css                   — CSS reset and base typography
     app.css                     — hub component styles
     algorithms.css               — Algorithms Academy styles
+    architecture.css              — Architectural Patterns Academy styles (diagram, roles legend, pattern icons)
     accessibility.css             — a11y widget styles and global override classes
 scripts/
-  lib/routes.mjs             — getAllRoutes() / getSortingSlugs(), shared by sitemap + snapshot scripts
-  generate-sitemap.mjs       — writes public/sitemap.xml (34 URLs); runs automatically via npm run build
+  lib/routes.mjs             — getAllRoutes() / getCategorySlugs(dataDir, category), shared by sitemap + snapshot scripts; walks every live category of both academies
+  generate-sitemap.mjs       — writes public/sitemap.xml (51 URLs); runs automatically via npm run build
   generate-snapshot.mjs      — dev-only: visits every route in headless Chromium, writes prerendered/**/page.json
   inject-prerender.mjs       — postbuild: reads page.json files, writes dist/<route>/index.html with pre-rendered content
   validate-algorithms.mjs       — schema validation for all algorithm files (structure, bilingual fields, quiz format, length-tell check)
+  validate-architecture-patterns.mjs — the same for architectural pattern files (own schema with diagram), npm run validate:architecture
   audit-quiz-length.mjs         — standalone length-tell check for quiz answers (both RU and EN)
   compute-step-breakpoints.mjs  — dev-only; computes exact frame-index breakpoints for the visualizer step labels and writes them back into each algorithm module; re-run after editing algorithmSteps.js
-prerendered/                 — one page.json per route (34 total); commit these — they are the prerendered content source
+prerendered/                 — one page.json per route (51 total); commit these — they are the prerendered content source
 ```
 
 ## How to add an academy
