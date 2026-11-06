@@ -58,8 +58,13 @@ for (const { file, data } of allData) {
   }
 
   if (data.diagram) {
-    if (!['stack', 'pipeline', 'hub'].includes(data.diagram.layout)) {
-      errs.push(`diagram.layout must be one of stack/pipeline/hub, got: ${JSON.stringify(data.diagram.layout)}`);
+    const SIDES = { hexagon: ['left', 'right'], plugin: ['top', 'bottom'] };
+    if (!['stack', 'pipeline', 'hub', 'hexagon', 'plugin'].includes(data.diagram.layout)) {
+      errs.push(`diagram.layout must be one of stack/pipeline/hub/hexagon/plugin, got: ${JSON.stringify(data.diagram.layout)}`);
+    }
+    if (data.diagram.layout === 'hexagon') {
+      errs.push(...checkBilingual(data.diagram.ports?.left, 'diagram.ports.left'));
+      errs.push(...checkBilingual(data.diagram.ports?.right, 'diagram.ports.right'));
     }
     const nodeIds = new Set();
     if (Array.isArray(data.diagram.nodes)) {
@@ -68,6 +73,11 @@ for (const { file, data } of allData) {
         else nodeIds.add(node.id);
         errs.push(...checkBilingual(node?.label, `diagram.nodes[${i}].label`));
         errs.push(...checkBilingual(node?.role, `diagram.nodes[${i}].role`));
+        if (node?.note != null) errs.push(...checkBilingual(node.note, `diagram.nodes[${i}].note`));
+        const sides = SIDES[data.diagram.layout];
+        if (sides && i > 0 && !sides.includes(node?.side)) {
+          errs.push(`diagram.nodes[${i}].side must be one of ${sides.join('/')} for layout ${data.diagram.layout}`);
+        }
       });
     } else {
       errs.push('diagram.nodes must be an array');

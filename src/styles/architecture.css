@@ -134,6 +134,50 @@
   letter-spacing: -0.01em;
 }
 
+.architecture-diagram__node-label--compact {
+  font-size: 14px;
+}
+
+.architecture-diagram__node-note {
+  fill: var(--color-text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.architecture-diagram__port rect,
+.architecture-diagram__socket {
+  fill: var(--color-accent);
+  stroke: var(--color-bg-elevated);
+  stroke-width: 2;
+}
+
+.architecture-diagram__port text {
+  fill: var(--color-accent);
+  font-size: 12.5px;
+  font-weight: 700;
+}
+
+.architecture-diagram__socket--free {
+  fill: var(--color-bg-elevated);
+  stroke: var(--color-accent);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+}
+
+.architecture-diagram__free-slot rect,
+.architecture-diagram__free-slot line {
+  fill: none;
+  stroke: var(--color-border-strong);
+  stroke-width: 1.5;
+  stroke-dasharray: 6 5;
+}
+
+.architecture-diagram__free-slot text {
+  fill: var(--color-text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+}
+
 .architecture-diagram__edge {
   animation: architecture-fade-in 500ms var(--ease-out) both;
 }

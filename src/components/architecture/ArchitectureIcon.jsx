@@ -42,6 +42,14 @@ const GLYPHS = {
   hexagonal: `
     <path class="${B}" d="M12 5 18.06 8.5v7L12 19 5.94 15.5v-7Z M2 10h3v4H2z M19 10h3v4h-3z M5 12h.94 M18.06 12H19"/>
     <path class="${F}" d="M12 8.8 14.77 10.4v3.2L12 15.2 9.23 13.6v-3.2Z"/>`,
+
+  // Accent = the new plug-in with its prongs, about to connect to the tall
+  // core block (one plug-in is already attached above): the product grows by
+  // plugging pieces into a core that itself stays the same.
+  microkernel: `
+    <path class="${B}" d="M3 3.5h8.5v17H3z M15 3.5h6v5.5h-6z M11.5 6.25H15"/>
+    <path class="${A}" d="M13 15.75h2.5 M13 18.25h2.5"/>
+    <path class="${F}" d="M15.5 14h5.5v6h-5.5z"/>`,
 };
 
 export function ArchitectureIcon({ slug = '', size = 'md', className = '' }) {

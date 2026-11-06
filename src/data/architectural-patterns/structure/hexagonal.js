@@ -21,19 +21,25 @@ export const hexagonal = {
   },
 
   diagram: {
-    layout: 'hub',
+    layout: 'hexagon',
+    ports: {
+      left: { ru: 'Регистрация', en: 'Registration' },
+      right: { ru: 'Хранилище', en: 'User store' },
+    },
     nodes: [
       {
         id: 'core',
         label: { ru: 'Ядро', en: 'Core' },
+        note: { ru: 'правила регистрации', en: 'registration rules' },
         role: {
-          ru: 'Бизнес-правила и порты. Ведущий порт - методы `register` и `listEmails`, ведомый - список методов хранилища `UserStorePort`. Ядро не импортирует ни один адаптер и не знает ни про `document`, ни про `localStorage`, поэтому ни одна стрелка из него не выходит.',
-          en: 'The business rules and the ports. The driving port is the `register` and `listEmails` methods; the driven port is the `UserStorePort` list of store methods. The core imports no adapter and knows nothing about `document` or `localStorage`, which is why no arrow leaves it.',
+          ru: 'Бизнес-правила и порты. Ведущий порт - методы `register` и `listEmails`, ведомый - список методов хранилища `UserStorePort`. На схеме ведущий порт - метка «Регистрация» на левой грани шестиугольника, ведомый - «Хранилище» на правой. Ядро не импортирует ни один адаптер и не знает ни про `document`, ни про `localStorage`, поэтому ни одна стрелка из него не выходит.',
+          en: 'The business rules and the ports. The driving port is the `register` and `listEmails` methods; the driven port is the `UserStorePort` list of store methods. On the diagram the driving port is the "Registration" mark on the hexagon\'s left face, the driven port is "User store" on the right face. The core imports no adapter and knows nothing about `document` or `localStorage`, which is why no arrow leaves it.',
         },
       },
       {
         id: 'form',
-        label: { ru: 'Адаптер формы', en: 'Form adapter' },
+        side: 'left',
+        label: { ru: 'Форма', en: 'Form' },
         role: {
           ru: 'Ведущий адаптер. Переводит отправку HTML-формы в вызов `register`, а ответ ядра или текст ошибки - обратно в текст на странице; список адресов берёт через `listEmails`. Правил не знает, только переводит между браузером и ведущим портом.',
           en: 'A driving adapter. Turns an HTML form submit into a `register` call, and the core\'s answer or error text back into text on the page; it gets the address list through `listEmails`. It knows no rules - it only translates between the browser and the driving port.',
@@ -41,6 +47,7 @@ export const hexagonal = {
       },
       {
         id: 'memory',
+        side: 'right',
         label: { ru: 'В памяти', en: 'In-memory' },
         role: {
           ru: 'Ведомый адаптер `InMemoryUserStore`: реализует порт хранилища на обычном `Set`. Данные живут, пока существует сам объект: в примере его использует только самопроверка, и тесту этого достаточно.',
@@ -49,6 +56,7 @@ export const hexagonal = {
       },
       {
         id: 'browser-storage',
+        side: 'right',
         label: { ru: 'localStorage', en: 'localStorage' },
         role: {
           ru: 'Ведомый адаптер `LocalStorageUserStore`: реализует тот же порт поверх `localStorage` браузера, так что адреса переживают перезагрузку страницы. Для ядра он неотличим от адаптера в памяти.',
@@ -57,6 +65,7 @@ export const hexagonal = {
       },
       {
         id: 'tests',
+        side: 'left',
         label: { ru: 'Тест-драйвер', en: 'Test driver' },
         role: {
           ru: 'Второй ведущий адаптер - самопроверка `runSelfCheck`. Вызывает тот же ведущий порт, что и форма, но без браузерной формы и со своим экземпляром ядра на адаптере в памяти. Это одна из целей, ради которых Кокберн придумал паттерн: чтобы приложением одинаково могли управлять люди и автотесты.',
@@ -65,10 +74,10 @@ export const hexagonal = {
       },
     ],
     connections: [
-      { from: 'form', to: 'core', label: { ru: 'вызывает порт', en: 'calls port' } },
-      { from: 'memory', to: 'core', label: { ru: 'реализует порт', en: 'implements port' } },
-      { from: 'browser-storage', to: 'core', label: { ru: 'реализует порт', en: 'implements port' } },
-      { from: 'tests', to: 'core', label: { ru: 'вызывает порт', en: 'calls port' } },
+      { from: 'form', to: 'core', label: { ru: 'вызывает', en: 'calls' } },
+      { from: 'memory', to: 'core', label: { ru: 'реализует', en: 'implements' } },
+      { from: 'browser-storage', to: 'core', label: { ru: 'реализует', en: 'implements' } },
+      { from: 'tests', to: 'core', label: { ru: 'вызывает', en: 'calls' } },
     ],
   },
 
@@ -474,7 +483,7 @@ root.querySelector('small').textContent =
     ],
   },
 
-  relatedPatterns: ['layered'],
+  relatedPatterns: ['layered', 'microkernel'],
 
   quiz: [
     {
