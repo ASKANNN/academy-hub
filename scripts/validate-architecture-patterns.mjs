@@ -64,15 +64,16 @@ for (const { file, data } of allData) {
       'client-server': ['left', 'below'],
       microservices: ['service', 'store'],
       'event-driven': ['producer', 'broker', 'consumer', 'store'],
+      cqrs: ['write', 'broker', 'read'],
     };
-    if (!['stack', 'pipeline', 'hub', 'hexagon', 'plugin', 'client-server', 'microservices', 'event-driven'].includes(data.diagram.layout)) {
-      errs.push(`diagram.layout must be one of stack/pipeline/hub/hexagon/plugin/client-server/microservices/event-driven, got: ${JSON.stringify(data.diagram.layout)}`);
+    if (!['stack', 'pipeline', 'hub', 'hexagon', 'plugin', 'client-server', 'microservices', 'event-driven', 'cqrs'].includes(data.diagram.layout)) {
+      errs.push(`diagram.layout must be one of stack/pipeline/hub/hexagon/plugin/client-server/microservices/event-driven/cqrs, got: ${JSON.stringify(data.diagram.layout)}`);
     }
     if (data.diagram.layout === 'hexagon') {
       errs.push(...checkBilingual(data.diagram.ports?.left, 'diagram.ports.left'));
       errs.push(...checkBilingual(data.diagram.ports?.right, 'diagram.ports.right'));
     }
-    if (['client-server', 'microservices', 'event-driven'].includes(data.diagram.layout)) {
+    if (['client-server', 'microservices', 'event-driven', 'cqrs'].includes(data.diagram.layout)) {
       errs.push(...checkBilingual(data.diagram.boundary?.label, 'diagram.boundary.label'));
       errs.push(...checkBilingual(data.diagram.boundary?.note, 'diagram.boundary.note'));
     }
@@ -93,6 +94,14 @@ for (const { file, data } of allData) {
           errs.push(`diagram.nodes[${i + 1}] is a store with no producer or consumer declared before it`);
         }
       });
+    }
+    if (data.diagram.layout === 'cqrs') {
+      errs.push(...checkBilingual(data.diagram.zoneLabels?.write, 'diagram.zoneLabels.write'));
+      errs.push(...checkBilingual(data.diagram.zoneLabels?.read, 'diagram.zoneLabels.read'));
+      const sides = (data.diagram.nodes ?? []).slice(1).map((n) => n?.side);
+      if (sides.filter((s) => s === 'broker').length !== 1) errs.push('cqrs diagram needs exactly one broker node');
+      if (!sides.includes('write')) errs.push('cqrs diagram needs at least one write node');
+      if (!sides.includes('read')) errs.push('cqrs diagram needs at least one read node');
     }
     const nodeIds = new Set();
     if (Array.isArray(data.diagram.nodes)) {

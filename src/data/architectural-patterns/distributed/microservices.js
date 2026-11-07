@@ -627,7 +627,7 @@ new RegistrationPage(app, network).refresh();`,
     ],
   },
 
-  relatedPatterns: ['event-driven'],
+  relatedPatterns: ['event-driven', 'cqrs'],
 
   quiz: [
     {

@@ -289,6 +289,46 @@ function eventDrivenPositions(nodes) {
   };
 }
 
+// CQRS: the page on top, the write side stacked down the left, the read side
+// stacked down the right, each inside its own dashed frame, and the broker
+// between the frames at the level of the write side's last node - the only
+// way from one side to the other is the event that goes through it.
+function cqrsPositions(nodes) {
+  const margin = 30;
+  const pad = 20;
+  const gap = 120;
+  const step = BOX_H + 80;
+  const width = 2 * margin + 3 * BOX_W + 2 * gap;
+  const columnX = (j) => margin + j * (BOX_W + gap);
+  const rowY = (i) => 30 + BOX_H + 110 + i * step;
+  const write = nodes.filter((n) => n.side === 'write');
+  const read = nodes.filter((n) => n.side === 'read');
+  const zone = (side, list, j) => ({
+    side,
+    x: columnX(j) - pad,
+    y: rowY(0) - pad,
+    w: BOX_W + 2 * pad,
+    h: (list.length - 1) * step + BOX_H + 2 * pad + 28,
+  });
+  const zones = [zone('write', write, 0), zone('read', read, 2)];
+  return {
+    width,
+    height: Math.max(...zones.map((z) => z.y + z.h)) + margin,
+    positions: [
+      { id: nodes[0].id, x: columnX(1), y: 30 },
+      ...write.map((node, i) => ({ id: node.id, x: columnX(0), y: rowY(i) })),
+      ...read.map((node, i) => ({ id: node.id, x: columnX(2), y: rowY(i) })),
+      ...nodes
+        .filter((n) => n.side === 'broker')
+        .map((node) => ({ id: node.id, x: columnX(1), y: rowY(write.length - 1) })),
+    ],
+    zones,
+    boundary: { x: margin, y: 52, anchor: 'start' },
+    parallel: true,
+    pairLabelAt: 0.5,
+  };
+}
+
 const LAYOUTS = {
   stack: stackPositions,
   pipeline: pipelinePositions,
@@ -298,6 +338,7 @@ const LAYOUTS = {
   'client-server': clientServerPositions,
   microservices: microservicesPositions,
   'event-driven': eventDrivenPositions,
+  cqrs: cqrsPositions,
 };
 
 // Node icons are keyed by the common vocabulary the 10 planned patterns share
@@ -364,6 +405,13 @@ const NODE_ICONS = {
   'audit-store': {
     d: 'M6 6a6 2.1 0 1 0 12 0a6 2.1 0 1 0 -12 0 M6 6v11.5 M18 6v11.5 M6 11.75a6 2.1 0 0 0 12 0 M6 17.5a6 2.1 0 0 0 12 0',
   },
+  commands: { d: 'M4 20h4L19 9l-4-4L4 16z M13 7l4 4' },
+  'write-store': {
+    d: 'M6 6a6 2.1 0 1 0 12 0a6 2.1 0 1 0 -12 0 M6 6v11.5 M18 6v11.5 M6 11.75a6 2.1 0 0 0 12 0 M6 17.5a6 2.1 0 0 0 12 0',
+  },
+  projector: { d: 'M2.5 12h6 M6.5 9.5 9 12l-2.5 2.5 M11.5 5h9v14h-9z M11.5 9.67h9 M11.5 14.33h9' },
+  'read-store': { d: 'M4 5h16v14H4z M4 9.5h16 M4 14h16 M10 5v14' },
+  queries: { d: 'M10.5 10.5m-6 0a6 6 0 1 0 12 0a6 6 0 1 0 -12 0 M15 15l5 5' },
   default: { d: 'M12 3 21 12 12 21 3 12Z' },
 };
 
@@ -676,7 +724,7 @@ export function ArchitectureDiagram({ diagram, lang }) {
           <g key={zone.x} className="architecture-diagram__zone">
             <rect x={zone.x} y={zone.y} width={zone.w} height={zone.h} rx={22} />
             <text x={zone.x + zone.w / 2} y={zone.y + zone.h - 16} textAnchor="middle">
-              {pick(diagram.zoneLabel)}
+              {pick(diagram.zoneLabels?.[zone.side] ?? diagram.zoneLabel)}
             </text>
           </g>
         ))}

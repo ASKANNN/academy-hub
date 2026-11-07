@@ -734,7 +734,7 @@ app.querySelector('.connect').addEventListener('click', (event) => {
     ],
   },
 
-  relatedPatterns: ['microservices'],
+  relatedPatterns: ['microservices', 'cqrs'],
 
   quiz: [
     {

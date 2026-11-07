@@ -8,6 +8,7 @@ import { microkernel } from './structure/microkernel.js';
 import { clientServer } from './structure/client-server.js';
 import { microservices } from './distributed/microservices.js';
 import { eventDriven } from './distributed/event-driven.js';
+import { cqrs } from './distributed/cqrs.js';
 
 export { ARCHITECTURE_CATEGORIES, getArchitectureCategory };
 
@@ -26,6 +27,7 @@ const PATTERNS_BY_CATEGORY = {
   distributed: [
     microservices,
     eventDriven,
+    cqrs,
   ],
 };
 

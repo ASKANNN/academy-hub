@@ -74,6 +74,14 @@ const GLYPHS = {
     <path class="${B}" d="M9 4h3v16H9z M17.5 3h4v4h-4z M17.5 10h4v4h-4z M17.5 17h4v4h-4z"/>
     <path class="${A}" d="M6.5 12H9 M12 12H16 M14.5 10.5 16 12 14.5 13.5 M12 7.5 16 5 M13.95 4.53 16 5 15.53 7.05 M12 16.5 16 19 M15.53 16.95 16 19 13.95 19.47"/>
     <path class="${F}" d="M2.5 12a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/>`,
+
+  // Accent = the two separate paths: writes go down into the write store (the
+  // cylinder), reads come up out of the read model laid out as a table, and
+  // the only link between the two is the event (the filled dot).
+  cqrs: `
+    <path class="${B}" d="M2.5 11a3 1.25 0 1 0 6 0a3 1.25 0 1 0 -6 0 M2.5 11v8.25a3 1.25 0 0 0 6 0V11 M15.5 9.75h6v10.75h-6z M15.5 13.33h6 M15.5 16.92h6"/>
+    <path class="${A}" d="M5.5 2.5V7.5 M3.5 5.5 5.5 7.5 7.5 5.5 M18.5 7.5V2.5 M16.5 4.5 18.5 2.5 20.5 4.5 M8.5 15.5h2 M13.5 15.5h2"/>
+    <path class="${F}" d="M10.5 15.5a1.5 1.5 0 1 0 3 0a1.5 1.5 0 1 0 -3 0"/>`,
 };
 
 export function ArchitectureIcon({ slug = '', size = 'md', className = '' }) {
