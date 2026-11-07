@@ -180,6 +180,7 @@ function clientServerPositions(nodes) {
   const serverX = margin + BOX_W + gapNet;
   const serverY = top + ((Math.max(clients.length, 1) - 1) * step) / 2;
   const bottom = Math.max(top + (clients.length - 1) * step, serverY + below.length * step) + BOX_H;
+  const boundaryX = margin + BOX_W + gapNet / 2;
   return {
     width: serverX + BOX_W + margin,
     height: bottom + margin,
@@ -188,8 +189,47 @@ function clientServerPositions(nodes) {
       ...clients.map((node, i) => ({ id: node.id, x: margin, y: top + i * step })),
       ...below.map((node, i) => ({ id: node.id, x: serverX, y: serverY + (i + 1) * step })),
     ],
-    boundary: { x: margin + BOX_W + gapNet / 2, y1: 14, y2: bottom + 10 },
+    boundary: {
+      line: { x1: boundaryX, y1: 58, x2: boundaryX, y2: bottom + 10 },
+      x: boundaryX,
+      y: 26,
+      anchor: 'middle',
+    },
     parallel: true,
+  };
+}
+
+// Microservices: the entry point on top, and each service with its own store
+// underneath inside a dashed frame - one process with its own data. An arrow
+// that leaves a frame is a network message, drawn as a request and reply
+// pair; a service's call to its own store stays inside the frame.
+function microservicesPositions(nodes) {
+  const margin = 30;
+  const pad = 24;
+  const gap = 200;
+  const zoneW = BOX_W + 2 * pad;
+  const services = nodes.filter((n) => n.side === 'service');
+  const width = 2 * margin + services.length * zoneW + (services.length - 1) * gap;
+  const zoneY = 30 + BOX_H + 130;
+  const serviceY = zoneY + pad;
+  const storeY = serviceY + 150;
+  const zoneH = storeY + BOX_H + 44 - zoneY;
+  const zoneX = (i) => margin + i * (zoneW + gap);
+  let column = -1;
+  const satellites = nodes.slice(1).map((node) => {
+    if (node.side === 'service') column += 1;
+    return { id: node.id, x: zoneX(column) + pad, y: node.side === 'service' ? serviceY : storeY };
+  });
+  return {
+    width,
+    height: zoneY + zoneH + margin,
+    positions: [{ id: nodes[0].id, x: width / 2 - BOX_W / 2, y: 30 }, ...satellites],
+    zones: services.map((_, i) => ({ x: zoneX(i), y: zoneY, w: zoneW, h: zoneH })),
+    boundary: { x: margin, y: 52, anchor: 'start' },
+    parallel: true,
+    // Pairs here diverge from the page instead of converging on one port, so
+    // their labels can sit mid-line, clear of the frames' dashed tops.
+    pairLabelAt: 0.5,
   };
 }
 
@@ -200,6 +240,7 @@ const LAYOUTS = {
   hexagon: hexagonPositions,
   plugin: pluginPositions,
   'client-server': clientServerPositions,
+  microservices: microservicesPositions,
 };
 
 // Node icons are keyed by the common vocabulary the 10 planned patterns share
@@ -249,6 +290,14 @@ const NODE_ICONS = {
   server: { d: 'M4.5 4.5h15v6h-15z M4.5 13.5h15v6h-15z M7.5 7.5h.01 M7.5 16.5h.01 M11 7.5h5 M11 16.5h5' },
   'client-a': { d: 'M4 4h16v12H4z M4 7.5h16 M10 16v3h4v-3' },
   'client-b': { d: 'M4 4h16v12H4z M4 7.5h16 M10 16v3h4v-3' },
+  accounts: { d: 'M12 8.5m-3.5 0a3.5 3.5 0 1 0 7 0a3.5 3.5 0 1 0 -7 0 M5 20a7 7 0 0 1 14 0' },
+  'accounts-store': {
+    d: 'M6 6a6 2.1 0 1 0 12 0a6 2.1 0 1 0 -12 0 M6 6v11.5 M18 6v11.5 M6 11.75a6 2.1 0 0 0 12 0 M6 17.5a6 2.1 0 0 0 12 0',
+  },
+  welcome: { d: 'M3.5 6h17v12h-17z M3.5 6.5 12 13l8.5-6.5' },
+  'letters-store': {
+    d: 'M6 6a6 2.1 0 1 0 12 0a6 2.1 0 1 0 -12 0 M6 6v11.5 M18 6v11.5 M6 11.75a6 2.1 0 0 0 12 0 M6 17.5a6 2.1 0 0 0 12 0',
+  },
   default: { d: 'M12 3 21 12 12 21 3 12Z' },
 };
 
@@ -361,7 +410,7 @@ export function ArchitectureDiagram({ diagram, lang }) {
   const uid = useId();
   const [activeId, setActiveId] = useState(null);
   const layoutFn = LAYOUTS[diagram.layout] ?? LAYOUTS.stack;
-  const { width, height, positions, anchors, ports, sockets, freeSlot, boundary, parallel } = layoutFn(diagram.nodes);
+  const { width, height, positions, anchors, ports, sockets, freeSlot, boundary, zones, parallel, pairLabelAt } = layoutFn(diagram.nodes);
   const posById = Object.fromEntries(positions.map((p) => [p.id, p]));
   const indexById = Object.fromEntries(diagram.nodes.map((n, i) => [n.id, i]));
   const t = getStrings(lang).architecturalPatterns;
@@ -436,7 +485,7 @@ export function ArchitectureDiagram({ diagram, lang }) {
     // the shared node where every pair's lines converge.
     const near = hiId === conn.from ? start : end;
     const far = hiId === conn.from ? end : start;
-    const at = twins.length > 1 ? 0.3 : 0.5;
+    const at = twins.length > 1 ? (pairLabelAt ?? 0.3) : 0.5;
     const mid = shift({ x: near.x + (far.x - near.x) * at, y: near.y + (far.y - near.y) * at }, side * 17);
     return {
       start,
@@ -503,6 +552,37 @@ export function ArchitectureDiagram({ diagram, lang }) {
     return { start, end, controlX, controlY };
   }
 
+  function renderEdge(conn, i, overlay) {
+    if (!posById[conn.from] || !posById[conn.to]) return null;
+    const route = anchors ? anchoredPath : parallel ? parallelPath : bowedPath;
+    const { start, end, controlX, controlY, labelX, labelY, d } = route(conn, i);
+    const midX = labelX ?? 0.25 * start.x + 0.5 * controlX + 0.25 * end.x;
+    const midY = labelY ?? 0.25 * start.y + 0.5 * controlY + 0.25 * end.y;
+    const label = pick(conn.label);
+    const pathD = d ?? `M ${start.x} ${start.y} Q ${controlX} ${controlY} ${end.x} ${end.y}`;
+    // Only the outgoing edge highlights - hovering a node should teach
+    // the one thing that node actively does next, not also whatever
+    // notifies it from elsewhere (e.g. hovering View must not light up
+    // Model's "notifies" edge just because it happens to end at View).
+    const isActive = overlay || (activeId && conn.from === activeId);
+
+    return (
+      <g
+        key={overlay ? `overlay-${i}` : i}
+        className={`architecture-diagram__edge${isActive ? ' is-active' : ''}${overlay ? ' is-overlay' : ''}`}
+        style={{ animationDelay: `${i * 90}ms` }}
+      >
+        <path d={pathD} fill="none" className="architecture-diagram__edge-line" markerEnd={`url(#${isActive ? arrowActiveId : arrowId})`} />
+        <path d={pathD} fill="none" className="architecture-diagram__edge-flow" style={{ animationDelay: `${i * 550}ms` }} />
+        {label && (
+          <text x={midX} y={midY} dy="4.5" textAnchor="middle" className="architecture-diagram__edge-label">
+            {label}
+          </text>
+        )}
+      </g>
+    );
+  }
+
   return (
     <div className="architecture-diagram__viewport">
       <svg
@@ -521,13 +601,22 @@ export function ArchitectureDiagram({ diagram, lang }) {
           </marker>
         </defs>
 
+        {zones?.map((zone) => (
+          <g key={zone.x} className="architecture-diagram__zone">
+            <rect x={zone.x} y={zone.y} width={zone.w} height={zone.h} rx={22} />
+            <text x={zone.x + zone.w / 2} y={zone.y + zone.h - 16} textAnchor="middle">
+              {pick(diagram.zoneLabel)}
+            </text>
+          </g>
+        ))}
+
         {boundary && (
           <g className="architecture-diagram__boundary">
-            <line x1={boundary.x} y1={boundary.y1 + 44} x2={boundary.x} y2={boundary.y2} />
-            <text x={boundary.x} y={boundary.y1 + 12} textAnchor="middle">
+            {boundary.line && <line {...boundary.line} />}
+            <text x={boundary.x} y={boundary.y} textAnchor={boundary.anchor}>
               {pick(diagram.boundary?.label)}
             </text>
-            <text x={boundary.x} y={boundary.y1 + 30} textAnchor="middle" className="architecture-diagram__boundary-note">
+            <text x={boundary.x} y={boundary.y + 18} textAnchor={boundary.anchor} className="architecture-diagram__boundary-note">
               {pick(diagram.boundary?.note)}
             </text>
           </g>
@@ -543,41 +632,13 @@ export function ArchitectureDiagram({ diagram, lang }) {
           </g>
         )}
 
-        {/* The hovered node's edges are drawn last, so where edges share a
-            segment (a hexagon port) the highlighted one stays on top. */}
-        {diagram.connections
-          .map((conn, i) => [conn, i])
-          .sort(([a], [b]) => (a.from === activeId) - (b.from === activeId))
-          .map(([conn, i]) => {
-          if (!posById[conn.from] || !posById[conn.to]) return null;
-          const route = anchors ? anchoredPath : parallel ? parallelPath : bowedPath;
-          const { start, end, controlX, controlY, labelX, labelY, d } = route(conn, i);
-          const midX = labelX ?? 0.25 * start.x + 0.5 * controlX + 0.25 * end.x;
-          const midY = labelY ?? 0.25 * start.y + 0.5 * controlY + 0.25 * end.y;
-          const label = pick(conn.label);
-          const pathD = d ?? `M ${start.x} ${start.y} Q ${controlX} ${controlY} ${end.x} ${end.y}`;
-          // Only the outgoing edge highlights - hovering a node should teach
-          // the one thing that node actively does next, not also whatever
-          // notifies it from elsewhere (e.g. hovering View must not light up
-          // Model's "notifies" edge just because it happens to end at View).
-          const isActive = activeId && conn.from === activeId;
-
-          return (
-            <g
-              key={i}
-              className={`architecture-diagram__edge${isActive ? ' is-active' : ''}`}
-              style={{ animationDelay: `${i * 90}ms` }}
-            >
-              <path d={pathD} fill="none" className="architecture-diagram__edge-line" markerEnd={`url(#${isActive ? arrowActiveId : arrowId})`} />
-              <path d={pathD} fill="none" className="architecture-diagram__edge-flow" style={{ animationDelay: `${i * 550}ms` }} />
-              {label && (
-                <text x={midX} y={midY} dy="4.5" textAnchor="middle" className="architecture-diagram__edge-label">
-                  {label}
-                </text>
-              )}
-            </g>
-          );
-        })}
+        {diagram.connections.map((conn, i) => renderEdge(conn, i, false))}
+        {/* The hovered node's edges are drawn once more on top, so where
+            edges share a segment (a hexagon port) the highlighted one wins.
+            A second copy instead of reordering: moving the original <g>
+            re-inserts it into the DOM and replays its fade-in, so the edge
+            blinks out on every hover. */}
+        {diagram.connections.map((conn, i) => conn.from === activeId && renderEdge(conn, i, true))}
 
         {diagram.nodes.map((node, i) => {
           const pos = posById[node.id];

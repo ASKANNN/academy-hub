@@ -178,6 +178,20 @@
   font-weight: 600;
 }
 
+.architecture-diagram__zone rect {
+  fill: color-mix(in srgb, var(--color-accent) 4%, transparent);
+  stroke: var(--color-accent);
+  stroke-width: 1.5;
+  stroke-dasharray: 7 6;
+  opacity: 0.7;
+}
+
+.architecture-diagram__zone text {
+  fill: var(--color-text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+}
+
 .architecture-diagram__boundary line {
   stroke: var(--color-accent);
   stroke-width: 1.5;
@@ -199,6 +213,11 @@
 
 .architecture-diagram__edge {
   animation: architecture-fade-in 500ms var(--ease-out) both;
+}
+
+.architecture-diagram__edge.is-overlay {
+  animation: none;
+  pointer-events: none;
 }
 
 @keyframes architecture-fade-in {

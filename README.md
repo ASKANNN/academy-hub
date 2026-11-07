@@ -32,10 +32,10 @@ Source-available, non-commercial license.
   10-question quiz — all bilingual RU/EN
 - **Architectural Patterns Academy** — full in-app section
   (`/architectural-patterns/...`): classic architectural patterns (MVC, MVP,
-  MVVM, Layered, Hexagonal, Microkernel and Client-Server live, 3 more planned) on a static SVG component/relationship diagram
+  MVVM, Layered, Hexagonal, Microkernel, Client-Server and Microservices live, 2 more planned) on a static SVG component/relationship diagram
   instead of an animated visualizer, same 5-tab detail page and 10-question
   quiz format, bilingual RU/EN
-- **Prerendering** — all 54 routes ship pre-rendered HTML (title, description,
+- **Prerendering** — all 56 routes ship pre-rendered HTML (title, description,
   canonical, OG tags, JSON-LD, `#root` content), visible to crawlers without JS
 
 ## Stack
@@ -94,14 +94,14 @@ src/
     accessibility.css             — a11y widget styles and global override classes
 scripts/
   lib/routes.mjs             — getAllRoutes() / getCategorySlugs(dataDir, category), shared by sitemap + snapshot scripts; walks every live category of both academies
-  generate-sitemap.mjs       — writes public/sitemap.xml (54 URLs); runs automatically via npm run build
+  generate-sitemap.mjs       — writes public/sitemap.xml (56 URLs); runs automatically via npm run build
   generate-snapshot.mjs      — dev-only: visits every route in headless Chromium, writes prerendered/**/page.json
   inject-prerender.mjs       — postbuild: reads page.json files, writes dist/<route>/index.html with pre-rendered content
   validate-algorithms.mjs       — schema validation for all algorithm files (structure, bilingual fields, quiz format, length-tell check)
   validate-architecture-patterns.mjs — the same for architectural pattern files (own schema with diagram), npm run validate:architecture
   audit-quiz-length.mjs         — standalone length-tell check for quiz answers (both RU and EN)
   compute-step-breakpoints.mjs  — dev-only; computes exact frame-index breakpoints for the visualizer step labels and writes them back into each algorithm module; re-run after editing algorithmSteps.js
-prerendered/                 — one page.json per route (54 total); commit these — they are the prerendered content source
+prerendered/                 — one page.json per route (56 total); commit these — they are the prerendered content source
 ```
 
 ## How to add an academy

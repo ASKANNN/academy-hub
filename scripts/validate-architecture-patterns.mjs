@@ -58,17 +58,28 @@ for (const { file, data } of allData) {
   }
 
   if (data.diagram) {
-    const SIDES = { hexagon: ['left', 'right'], plugin: ['top', 'bottom'], 'client-server': ['left', 'below'] };
-    if (!['stack', 'pipeline', 'hub', 'hexagon', 'plugin', 'client-server'].includes(data.diagram.layout)) {
-      errs.push(`diagram.layout must be one of stack/pipeline/hub/hexagon/plugin/client-server, got: ${JSON.stringify(data.diagram.layout)}`);
+    const SIDES = {
+      hexagon: ['left', 'right'],
+      plugin: ['top', 'bottom'],
+      'client-server': ['left', 'below'],
+      microservices: ['service', 'store'],
+    };
+    if (!['stack', 'pipeline', 'hub', 'hexagon', 'plugin', 'client-server', 'microservices'].includes(data.diagram.layout)) {
+      errs.push(`diagram.layout must be one of stack/pipeline/hub/hexagon/plugin/client-server/microservices, got: ${JSON.stringify(data.diagram.layout)}`);
     }
     if (data.diagram.layout === 'hexagon') {
       errs.push(...checkBilingual(data.diagram.ports?.left, 'diagram.ports.left'));
       errs.push(...checkBilingual(data.diagram.ports?.right, 'diagram.ports.right'));
     }
-    if (data.diagram.layout === 'client-server') {
+    if (['client-server', 'microservices'].includes(data.diagram.layout)) {
       errs.push(...checkBilingual(data.diagram.boundary?.label, 'diagram.boundary.label'));
       errs.push(...checkBilingual(data.diagram.boundary?.note, 'diagram.boundary.note'));
+    }
+    if (data.diagram.layout === 'microservices') {
+      errs.push(...checkBilingual(data.diagram.zoneLabel, 'diagram.zoneLabel'));
+      if (data.diagram.nodes?.[1]?.side !== 'service') {
+        errs.push('diagram.nodes[1] must be a service: each store belongs to the service declared before it');
+      }
     }
     const nodeIds = new Set();
     if (Array.isArray(data.diagram.nodes)) {

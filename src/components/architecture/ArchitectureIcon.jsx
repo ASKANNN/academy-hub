@@ -58,6 +58,14 @@ const GLYPHS = {
     <path class="${B}" d="M2.5 5.5h6.5v5h-6.5z M5.75 10.5v3 M4 13.5h3.5 M17.5 3.5h4v17h-4z M19.5 7h.01 M19.5 10h.01"/>
     <path class="${A}" d="M10 8H13 M16 16H10.5 M12.3 14.2 10.5 16 12.3 17.8"/>
     <path class="${F}" d="M13 6 15.75 8 13 10Z"/>`,
+
+  // Accent = one service lifted out of the row and shipped on its own (the
+  // filled box and its upward arrow), while its neighbours stay where they
+  // are: independent deployment is the style's defining property.
+  microservices: `
+    <path class="${B}" d="M2.5 11.5h5.5v9h-5.5z M16 11.5h5.5v9h-5.5z M9.5 20.5h5"/>
+    <path class="${A}" d="M12 6V2.5 M10 4.5 12 2.5 14 4.5"/>
+    <path class="${F}" d="M9.25 7.5h5.5v9h-5.5z"/>`,
 };
 
 export function ArchitectureIcon({ slug = '', size = 'md', className = '' }) {

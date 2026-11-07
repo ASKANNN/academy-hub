@@ -6,6 +6,7 @@ import { layered } from './structure/layered.js';
 import { hexagonal } from './structure/hexagonal.js';
 import { microkernel } from './structure/microkernel.js';
 import { clientServer } from './structure/client-server.js';
+import { microservices } from './distributed/microservices.js';
 
 export { ARCHITECTURE_CATEGORIES, getArchitectureCategory };
 
@@ -20,6 +21,9 @@ const PATTERNS_BY_CATEGORY = {
     hexagonal,
     microkernel,
     clientServer,
+  ],
+  distributed: [
+    microservices,
   ],
 };
 

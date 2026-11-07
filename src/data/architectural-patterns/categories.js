@@ -27,11 +27,7 @@ export const ARCHITECTURE_CATEGORIES = [
       ru: 'Микросервисы, событийная архитектура, CQRS',
       en: 'Microservices, event-driven architecture, CQRS',
     },
-    status: 'coming-soon',
-    topics: {
-      ru: ['Микросервисы', 'Событийная архитектура', 'CQRS'],
-      en: ['Microservices', 'Event-Driven Architecture', 'CQRS'],
-    },
+    status: 'live',
   },
 ];
 
