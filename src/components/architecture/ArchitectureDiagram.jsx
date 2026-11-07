@@ -1,4 +1,4 @@
-import { useId, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { getStrings } from '../../i18n/strings.js';
 
 const BOX_W = 216;
@@ -523,6 +523,17 @@ function NodeContent({ pos, label, note, icon }) {
 export function ArchitectureDiagram({ diagram, lang }) {
   const uid = useId();
   const [activeId, setActiveId] = useState(null);
+  const viewportRef = useRef(null);
+  const [scrollable, setScrollable] = useState(false);
+
+  useEffect(() => {
+    const viewport = viewportRef.current;
+    const measure = () => setScrollable(viewport.scrollWidth > viewport.clientWidth + 1);
+    measure();
+    const observer = new ResizeObserver(measure);
+    observer.observe(viewport);
+    return () => observer.disconnect();
+  }, []);
   const layoutFn = LAYOUTS[diagram.layout] ?? LAYOUTS.stack;
   const { width, height, positions, anchors, core, ports, sockets, freeSlot, boundary, zones, parallel, pairLabelAt } = layoutFn(diagram.nodes);
   const coreId = core ?? diagram.nodes[0].id;
@@ -542,6 +553,13 @@ export function ArchitectureDiagram({ diagram, lang }) {
     const key = pairKeyOf(conn);
     (connectionsByPair[key] ??= []).push(i);
   });
+  // Where a connection sits in its pair's fan: +1 and -1 for the outer two,
+  // evenly spaced in between (0 for the middle one of three), 0 if alone.
+  // For a pair of two this is +1 / -1, the original request/reply split.
+  const fanOf = (conn, i) => {
+    const twins = connectionsByPair[pairKeyOf(conn)];
+    return twins.length > 1 ? 1 - (2 * twins.indexOf(i)) / (twins.length - 1) : 0;
+  };
 
   const arrowId = `${uid}-arrow`;
   const arrowActiveId = `${uid}-arrow-active`;
@@ -589,10 +607,11 @@ export function ArchitectureDiagram({ diagram, lang }) {
     const hi = center(posById[hiId]);
     const len = Math.hypot(hi.x - lo.x, hi.y - lo.y) || 1;
     const normal = { x: -(hi.y - lo.y) / len, y: (hi.x - lo.x) / len };
-    const side = twins.length > 1 ? (twins.indexOf(i) === 0 ? 1 : -1) : 0;
+    // Neighbouring lines of a fan are 26px apart, as a request/reply pair was.
+    const side = (fanOf(conn, i) * (twins.length - 1)) / 2;
     const shift = (p, by) => ({ x: p.x + normal.x * by, y: p.y + normal.y * by });
-    const a = shift(center(fromBox), side * 13);
-    const b = shift(center(toBox), side * 13);
+    const a = shift(center(fromBox), side * 26);
+    const b = shift(center(toBox), side * 26);
     const dir = { x: b.x - a.x, y: b.y - a.y };
     const start = exitPoint(a, dir, fromBox);
     const end = exitPoint(b, { x: -dir.x, y: -dir.y }, toBox);
@@ -601,7 +620,7 @@ export function ArchitectureDiagram({ diagram, lang }) {
     const near = hiId === conn.from ? start : end;
     const far = hiId === conn.from ? end : start;
     const at = twins.length > 1 ? (pairLabelAt ?? 0.3) : 0.5;
-    const mid = shift({ x: near.x + (far.x - near.x) * at, y: near.y + (far.y - near.y) * at }, side * 17);
+    const mid = shift({ x: near.x + (far.x - near.x) * at, y: near.y + (far.y - near.y) * at }, Math.sign(side) * 17);
     return {
       start,
       end,
@@ -621,15 +640,21 @@ export function ArchitectureDiagram({ diagram, lang }) {
     const indexGap = Math.abs(indexById[conn.to] - indexById[conn.from]);
     const clearance = Math.max(BOX_W, BOX_H) / 2 + 40;
 
-    const twinIndices = connectionsByPair[pairKeyOf(conn)];
-    const isTwin = twinIndices.length > 1 && indexGap === 1;
+    const isTwin = connectionsByPair[pairKeyOf(conn)].length > 1;
+    // In a hub the centre is adjacent to every satellite, so the index gap
+    // between them says nothing about nodes in the way.
+    const touchesHubCentre =
+      diagram.layout === 'hub' && (indexById[conn.from] === 0 || indexById[conn.to] === 0);
+    const bow = indexGap > 1 && !touchesHubCentre ? 2 * clearance + 60 * (indexGap - 2) : 0;
 
     let nx;
     let ny;
     if (isTwin) {
-      // Two connections share this node pair. Take the perpendicular in a
-      // fixed node order (low index -> high index) so the pair's arrows
-      // land on opposite sides regardless of which way each one points.
+      // Several connections share this node pair. Take the perpendicular in
+      // a fixed node order (low index -> high index) so the arrows fan out to
+      // fixed sides regardless of which way each one points. Adjacent nodes
+      // bow by the plain clearance, non-adjacent ones by the full bow that
+      // clears the boxes in between - either side clears them.
       const loId = indexById[conn.from] <= indexById[conn.to] ? conn.from : conn.to;
       const hiId = loId === conn.from ? conn.to : conn.from;
       const loC = center(posById[loId]);
@@ -637,9 +662,9 @@ export function ArchitectureDiagram({ diagram, lang }) {
       const cdx = hiC.x - loC.x;
       const cdy = hiC.y - loC.y;
       const clen = Math.hypot(cdx, cdy) || 1;
-      const side = twinIndices.indexOf(i) === 0 ? 1 : -1;
-      nx = (-cdy / clen) * clearance * side;
-      ny = (cdx / clen) * clearance * side;
+      const amount = (bow || clearance) * fanOf(conn, i);
+      nx = (-cdy / clen) * amount;
+      ny = (cdx / clen) * amount;
     } else {
       // Connections between non-adjacent nodes bow out to a control point
       // instead of drawing a straight line, so they don't visually cut
@@ -648,11 +673,6 @@ export function ArchitectureDiagram({ diagram, lang }) {
       // A quadratic bezier's max distance from the straight chord is half
       // the control point's offset, so the offset needs to clear the box
       // by twice the box's half-extent plus a visible margin.
-      // In a hub the centre is adjacent to every satellite, so the index
-      // gap between them says nothing about nodes in the way.
-      const touchesHubCentre =
-        diagram.layout === 'hub' && (indexById[conn.from] === 0 || indexById[conn.to] === 0);
-      const bow = indexGap > 1 && !touchesHubCentre ? 2 * clearance + 60 * (indexGap - 2) : 0;
       const sign = i % 2 === 0 ? 1 : -1;
       const dx = toCenter.x - fromCenter.x;
       const dy = toCenter.y - fromCenter.y;
@@ -703,10 +723,11 @@ export function ArchitectureDiagram({ diagram, lang }) {
   }
 
   return (
-    <div className="architecture-diagram__viewport">
+    <div className="architecture-diagram__viewport" ref={viewportRef}>
+      {scrollable && <p className="architecture-diagram__scroll-hint">{t.diagramScrollHint}</p>}
       <svg
         className="architecture-diagram"
-        style={{ maxWidth: `${width}px` }}
+        style={{ maxWidth: `${width}px`, '--diagram-w': `${width}px` }}
         viewBox={`0 0 ${width} ${height}`}
         role="img"
         aria-label={diagram.nodes.map((n) => pick(n.label)).join(', ')}

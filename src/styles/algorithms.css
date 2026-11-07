@@ -388,6 +388,19 @@
   margin-top: calc((var(--line-height-snug) * var(--text-lg) - var(--icon-lg)) / 2);
 }
 
+/* The 2-line title reservation alone can't keep a row even: a long word in a
+   narrow column ("Клиент-серверная") still wraps to a third line. Item cards
+   are plain links that never expand, so they stretch to the tallest card in
+   their row; expandable hub and category cards keep the grid's
+   align-items: start, or opening one would stretch its neighbours. */
+.academy-tree > .algorithm-card-link {
+  align-self: stretch;
+}
+
+.algorithm-card-link > .algorithm-card {
+  height: 100%;
+}
+
 /* Big O names follow 'O(x) - Title Case Name' - structurally longer than
    sorting names, so they wrap to 3 lines more often than the shared
    2-line title reservation accounts for, leaving cards in the same grid

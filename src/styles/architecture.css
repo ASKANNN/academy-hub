@@ -71,6 +71,28 @@
   overflow: visible;
 }
 
+/* Shrunk to a phone's width a diagram's edge labels end up ~5px tall. Below
+   this width the diagram keeps at least 72% of its own size (labels ~9px)
+   and scrolls sideways inside its frame instead of shrinking further. */
+@media (max-width: 599px) {
+  .architecture-diagram__viewport {
+    overflow-x: auto;
+    padding: var(--space-4);
+  }
+
+  .architecture-diagram {
+    min-width: calc(var(--diagram-w) * 0.72);
+  }
+
+  .architecture-diagram__scroll-hint {
+    position: sticky;
+    left: 0;
+    margin: 0 0 var(--space-3);
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+  }
+}
+
 .architecture-diagram__node {
   cursor: default;
   animation: architecture-fade-in 480ms var(--ease-out) both;

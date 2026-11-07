@@ -291,6 +291,7 @@ export const STRINGS = {
             sectionRealWorldDetails: 'Примеры и история',
             sectionDiagram: 'Схема',
             diagramFreeSlot: '+ свободный слот',
+            diagramScrollHint: 'Схема шире экрана - прокрутите её вбок',
             sectionImplementation: 'Реализация',
             sectionProsCons: 'Плюсы и минусы',
             sectionPros: 'Плюсы',
@@ -351,6 +352,96 @@ export const STRINGS = {
                         { type: 'ul', items: [
                             '<strong>По тестируемости без реального UI:</strong> MVC сложнее всего - Controller обычно трогает View напрямую. MVP проще - интерфейс View подменяется моком. MVVM проще всего - ViewModel вообще не хранит ссылку на View.',
                             '<strong>По накладным расходам:</strong> MVC добавляет меньше всего кода на маленьком экране, MVVM требует инфраструктуры для observable-свойств, но окупается на экранах с большим количеством полей и сложной валидацией.',
+                        ]},
+                    ],
+                },
+            ],
+            structureAccordion: [
+                {
+                    title: 'Что значит «структура системы»',
+                    blocks: [
+                        { type: 'p', html: 'Паттерны этого раздела отвечают на два вопроса: <strong>на какие части делить код</strong> и <strong>в какую сторону смотрят зависимости</strong> между частями. От ответа зависит, что можно поменять, не трогая остального, и что придётся переписывать при каждой правке.' },
+                        { type: 'p', html: 'Все четыре паттерна показаны на одной задаче - регистрации по email, - поэтому разница видна напрямую: те же правила, разное устройство вокруг них.' },
+                        { type: 'ul', items: [
+                            '<strong>Направление зависимостей:</strong> в слоистой архитектуре вызовы идут сверху вниз, до хранилища. В гексагональной архитектуре и микроядре всё зависит от ядра, а ядро - ни от чего снаружи.',
+                            '<strong>Граница процесса:</strong> слоистая, гексагональная архитектура и микроядро могут жить в одном процессе. В клиент-серверной архитектуре между частями сеть, и ответ может потеряться по дороге.',
+                        ]},
+                    ],
+                },
+                {
+                    title: 'Как выбрать паттерн',
+                    blocks: [
+                        { type: 'ul', items: [
+                            '<strong>Слоистая архитектура</strong> - простой старт для обычного приложения: экран, правила, хранение и база стопкой, каждый слой зовёт только нижний.',
+                            '<strong>Гексагональная архитектура</strong> - когда правила должны работать и тестироваться без базы и интерфейса, а хранилище или форму нужно заменять адаптером того же порта.',
+                            '<strong>Микроядро</strong> - когда продукт растёт подключаемыми плагинами, а ядро остаётся тем же: редакторы, IDE, браузеры с расширениями.',
+                            '<strong>Клиент-сервер</strong> - когда данные и правила должны быть общими для многих пользователей, а интерфейс работает у каждого на своём устройстве.',
+                        ]},
+                        { type: 'p', html: 'Стили сочетаются: сервер в клиент-серверной системе внутри может быть слоистым или гексагональным, а ядро микроядра - разделено на слои.' },
+                    ],
+                },
+                {
+                    title: 'Слой и уровень',
+                    blocks: [
+                        { type: 'p', html: '<strong>Слой (layer)</strong> - логическая часть кода: модуль или набор классов с одной ответственностью. <strong>Уровень (tier)</strong> - физическая часть: отдельный процесс или машина. Слои могут жить на одном уровне, а один слой не обязан совпадать с уровнем.' },
+                        { type: 'ul', items: [
+                            '<strong>Вызов внутри процесса</strong> возвращает результат значением и не теряется - так общаются слои.',
+                            '<strong>Сообщение по сети</strong> может потеряться, прийти поздно или дважды - поэтому в клиент-серверном примере запрос и ответ нарисованы отдельными стрелками, а повтор идёт с тем же ключом запроса.',
+                        ]},
+                    ],
+                },
+                {
+                    title: 'Как это классифицируется',
+                    blocks: [
+                        { type: 'ul', items: [
+                            '<strong>По тому, что заменяемо:</strong> нижний слой (Layered), адаптер у порта (Hexagonal), плагин в слоте (Microkernel), клиент или сервер по общему протоколу (Client-Server).',
+                            '<strong>По смыслу стрелки на схеме:</strong> в слоистой и клиент-серверной это вызов или сообщение по направлению движения, в гексагональной и микроядре - зависимость, которая всегда указывает на ядро.',
+                            '<strong>По тому, что защищено от изменений:</strong> правила в ядре (Hexagonal, Microkernel) или верхние слои от деталей нижних (Layered).',
+                        ]},
+                    ],
+                },
+            ],
+            distributedAccordion: [
+                {
+                    title: 'Что меняется, когда система распределена',
+                    blocks: [
+                        { type: 'p', html: 'Как только части системы работают в <strong>разных процессах</strong> и говорят по сети, вызов перестаёт быть надёжным: сообщение может потеряться, прийти поздно или прийти дважды, а у каждой части свои данные, которые какое-то время расходятся с соседскими.' },
+                        { type: 'p', html: 'Все три паттерна раздела показаны на той же регистрации по email, и в каждом есть свой ответ на эти беды.' },
+                        { type: 'ul', items: [
+                            '<strong>Тайм-аут - не отказ:</strong> сервис, который не ответил вовремя, мог уже сделать работу. Поэтому повтор идёт с <strong>ключом идемпотентности</strong>, и работа не выполняется дважды.',
+                            '<strong>Доставка «хотя бы один раз»:</strong> брокер может доставить событие повторно, поэтому получатель запоминает, что уже обработал.',
+                        ]},
+                    ],
+                },
+                {
+                    title: 'Как выбрать паттерн',
+                    blocks: [
+                        { type: 'ul', items: [
+                            '<strong>Микросервисы</strong> - когда части системы нужно развёртывать и масштабировать независимо, у каждой своя команда и свои данные. Цена - сеть между всеми.',
+                            '<strong>Событийная архитектура</strong> - когда на одно действие реагируют несколько независимых частей, и отправителю не нужен их результат, чтобы ответить пользователю.',
+                            '<strong>CQRS</strong> - для отдельной части системы, где запись охраняет сложные правила, а чтение нужно в нескольких формах. По Фаулеру, для большинства систем это рискованная сложность.',
+                        ]},
+                        { type: 'p', html: 'Паттерны сочетаются: микросервисы могут общаться событиями, а модель чтения CQRS обновляется теми же событиями.' },
+                    ],
+                },
+                {
+                    title: 'О согласованности',
+                    blocks: [
+                        { type: 'p', html: 'Когда данные живут в нескольких местах, они какое-то время расходятся: аккаунт уже есть, а письма ещё нет, команда принята, а список её ещё не показывает. Это <strong>итоговая согласованность (eventual consistency)</strong>, и интерфейс должен её пережить.' },
+                        { type: 'ul', items: [
+                            '<strong>Прочитать свою запись (read-your-writes):</strong> пользователь ждёт увидеть своё действие сразу. В примере CQRS страница ждёт, пока модель чтения догонит версию из ответа команды.',
+                            '<strong>Outbox:</strong> запись в базу и отправка события - две системы. Событие пишут в ту же базу вместе с данными, а отдельный процесс потом отправляет его в брокер.',
+                            '<strong>Идемпотентный получатель:</strong> повторная доставка того же события не меняет результат - получатель помнит <code>id</code> или версию обработанных событий.',
+                        ]},
+                    ],
+                },
+                {
+                    title: 'Как это классифицируется',
+                    blocks: [
+                        { type: 'ul', items: [
+                            '<strong>По способу общения:</strong> запрос с ответом (микросервисы, команды в CQRS) или событие без ответа (событийная архитектура, обновление модели чтения).',
+                            '<strong>По тому, что разделено:</strong> процессы и данные по бизнес-возможностям (микросервисы), отправитель и получатели реакции (событийная), модели записи и чтения (CQRS).',
+                            '<strong>По масштабу:</strong> микросервисы и событийная архитектура описывают устройство системы, CQRS - приём для одного её участка.',
                         ]},
                     ],
                 },
@@ -680,6 +771,7 @@ export const STRINGS = {
             sectionRealWorldDetails: 'Examples and history',
             sectionDiagram: 'Diagram',
             diagramFreeSlot: '+ free slot',
+            diagramScrollHint: 'The diagram is wider than the screen - scroll it sideways',
             sectionImplementation: 'Implementation',
             sectionProsCons: 'Pros & Cons',
             sectionPros: 'Pros',
@@ -740,6 +832,96 @@ export const STRINGS = {
                         { type: 'ul', items: [
                             '<strong>By testability without a real UI:</strong> MVC is hardest - the Controller usually touches the View directly. MVP is easier - the View interface gets replaced by a mock. MVVM is easiest - the ViewModel never holds a reference to the View at all.',
                             '<strong>By overhead:</strong> MVC adds the least code on a small screen, MVVM needs infrastructure for observable properties but pays off on screens with many fields and complex validation.',
+                        ]},
+                    ],
+                },
+            ],
+            structureAccordion: [
+                {
+                    title: 'What "system structure" means',
+                    blocks: [
+                        { type: 'p', html: 'The patterns in this section answer two questions: <strong>which parts to split the code into</strong> and <strong>which way the dependencies between the parts point</strong>. The answer decides what can be changed without touching the rest, and what has to be rewritten with every edit.' },
+                        { type: 'p', html: 'All four patterns are shown on one task - registration by email - so the difference is visible directly: the same rules, a different structure around them.' },
+                        { type: 'ul', items: [
+                            '<strong>Direction of dependencies:</strong> in layered architecture calls go from top to bottom, down to storage. In hexagonal architecture and microkernel everything depends on the core, and the core depends on nothing outside.',
+                            '<strong>Process boundary:</strong> layered architecture, hexagonal architecture, and microkernel can live in one process. In client-server architecture there is a network between the parts, and a reply can be lost on the way.',
+                        ]},
+                    ],
+                },
+                {
+                    title: 'How to choose a pattern',
+                    blocks: [
+                        { type: 'ul', items: [
+                            '<strong>Layered architecture</strong> - a simple start for an ordinary application: screen, rules, persistence, and database in a stack, each layer calling only the one below.',
+                            '<strong>Hexagonal architecture</strong> - when the rules must work and be tested without a database or an interface, and storage or a form must be replaceable by an adapter of the same port.',
+                            '<strong>Microkernel</strong> - when the product grows through plug-ins while the core stays the same: editors, IDEs, browsers with extensions.',
+                            '<strong>Client-server</strong> - when data and rules must be shared by many users, while the interface runs on each user\'s own device.',
+                        ]},
+                        { type: 'p', html: 'The styles combine: the server in a client-server system can be layered or hexagonal inside, and a microkernel\'s core can be split into layers.' },
+                    ],
+                },
+                {
+                    title: 'Layer and tier',
+                    blocks: [
+                        { type: 'p', html: 'A <strong>layer</strong> is a logical part of the code: a module or a set of classes with one responsibility. A <strong>tier</strong> is a physical part: a separate process or machine. Layers can live on one tier, and a layer need not coincide with a tier.' },
+                        { type: 'ul', items: [
+                            '<strong>A call inside a process</strong> returns its result as a value and is never lost - this is how layers talk.',
+                            '<strong>A message over the network</strong> can be lost, arrive late, or arrive twice - which is why in the client-server example the request and the reply are separate arrows, and a retry goes out with the same request key.',
+                        ]},
+                    ],
+                },
+                {
+                    title: 'How it is classified',
+                    blocks: [
+                        { type: 'ul', items: [
+                            '<strong>By what is replaceable:</strong> a lower layer (Layered), an adapter at a port (Hexagonal), a plug-in in a socket (Microkernel), a client or a server behind a shared protocol (Client-Server).',
+                            '<strong>By what a diagram arrow means:</strong> in layered and client-server it is a call or a message in the direction it travels, in hexagonal and microkernel a dependency, which always points at the core.',
+                            '<strong>By what is protected from change:</strong> the rules in the core (Hexagonal, Microkernel), or the upper layers from the details of the lower ones (Layered).',
+                        ]},
+                    ],
+                },
+            ],
+            distributedAccordion: [
+                {
+                    title: 'What changes when a system is distributed',
+                    blocks: [
+                        { type: 'p', html: 'As soon as the parts of a system run in <strong>different processes</strong> and talk over a network, a call stops being reliable: a message can be lost, arrive late, or arrive twice, and each part has its own data, which disagrees with its neighbours\' for a while.' },
+                        { type: 'p', html: 'All three patterns in this section are shown on the same registration by email, and each has its own answer to these troubles.' },
+                        { type: 'ul', items: [
+                            '<strong>A timeout is not a failure:</strong> a service that did not reply in time may already have done the work. So a retry carries an <strong>idempotency key</strong>, and the work is not done twice.',
+                            '<strong>"At least once" delivery:</strong> a broker may deliver an event again, so the receiver remembers what it has already handled.',
+                        ]},
+                    ],
+                },
+                {
+                    title: 'How to choose a pattern',
+                    blocks: [
+                        { type: 'ul', items: [
+                            '<strong>Microservices</strong> - when parts of the system must be deployed and scaled independently, each with its own team and its own data. The price is a network between all of them.',
+                            '<strong>Event-driven architecture</strong> - when several independent parts react to one action, and the sender does not need their result to reply to the user.',
+                            '<strong>CQRS</strong> - for one part of a system where writes guard complex rules and reads are needed in several shapes. Per Fowler, for most systems it is risky complexity.',
+                        ]},
+                        { type: 'p', html: 'The patterns combine: microservices can talk through events, and a CQRS read model is updated by the same events.' },
+                    ],
+                },
+                {
+                    title: 'On consistency',
+                    blocks: [
+                        { type: 'p', html: 'When data lives in several places, it disagrees for a while: the account exists but the letter does not yet, the command was accepted but the list does not show it yet. This is <strong>eventual consistency</strong>, and the interface has to live with it.' },
+                        { type: 'ul', items: [
+                            '<strong>Read-your-writes:</strong> users expect to see their own action at once. In the CQRS example the page waits until the read model catches up with the version from the command\'s reply.',
+                            '<strong>Outbox:</strong> writing to the database and sending an event are two systems. The event is written to the same database together with the data, and a separate process later sends it to the broker.',
+                            '<strong>Idempotent receiver:</strong> a repeated delivery of the same event does not change the result - the receiver remembers the <code>id</code> or the version of the events it has handled.',
+                        ]},
+                    ],
+                },
+                {
+                    title: 'How it is classified',
+                    blocks: [
+                        { type: 'ul', items: [
+                            '<strong>By how parts talk:</strong> a request with a reply (microservices, commands in CQRS) or an event with no reply (event-driven architecture, updating a read model).',
+                            '<strong>By what is split:</strong> processes and data by business capability (microservices), the sender and the receivers of a reaction (event-driven), the write and read models (CQRS).',
+                            '<strong>By scale:</strong> microservices and event-driven architecture describe how a system is built, CQRS is a technique for one area of it.',
                         ]},
                     ],
                 },

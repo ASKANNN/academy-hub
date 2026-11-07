@@ -228,8 +228,11 @@ class Broker {
       try {
         await queue.consumer.handle(JSON.parse(item.wire));
       } catch {
-        setTimeout(() => this.drain(name), 2000);
-        break;
+        setTimeout(() => {
+          queue.busy = false;
+          this.drain(name);
+        }, 2000);
+        return;
       }
       const ackLost = queue.mode === 'no-ack' && item.deliveries === 1;
       if (!ackLost) queue.events.shift();
@@ -472,15 +475,15 @@ app.querySelector('.connect').addEventListener('click', (event) => {
         },
       },
       {
-        lines: [39, 44],
+        lines: [39, 47],
         title: { ru: 'Если подписчик упал', en: 'If the subscriber crashes' },
         explanation: {
-          ru: 'Брокер вызывает `handle` подписчика и ждёт, пока тот закончит. Если `handle` выбросил ошибку, событие не убирается из очереди, и брокер попробует ещё раз через 2 секунды. Так сбой подписчика не теряет событие. Событие, на котором подписчик падает каждый раз, повторялось бы бесконечно; настоящие брокеры после нескольких попыток откладывают такое событие в отдельную очередь (её называют dead letter).',
-          en: 'The broker calls the subscriber\'s `handle` and waits for it to finish. If `handle` threw an error, the event is not removed from the queue, and the broker tries again after 2 seconds. That way a subscriber crash does not lose the event. An event the subscriber crashes on every time would repeat forever; real brokers set such an event aside in a separate queue (called a dead letter queue) after a few attempts.',
+          ru: 'Брокер вызывает `handle` подписчика и ждёт, пока тот закончит. Если `handle` выбросил ошибку, событие не убирается из очереди, и брокер попробует ещё раз через 2 секунды. Флажок `busy` остаётся включённым до повтора, чтобы новые события не запускали вторую цепочку попыток. Так сбой подписчика не теряет событие. Событие, на котором подписчик падает каждый раз, повторялось бы бесконечно; настоящие брокеры после нескольких попыток откладывают такое событие в отдельную очередь (её называют dead letter).',
+          en: 'The broker calls the subscriber\'s `handle` and waits for it to finish. If `handle` threw an error, the event is not removed from the queue, and the broker tries again after 2 seconds. The `busy` flag stays on until the retry, so new events do not start a second chain of attempts. That way a subscriber crash does not lose the event. An event the subscriber crashes on every time would repeat forever; real brokers set such an event aside in a separate queue (called a dead letter queue) after a few attempts.',
         },
       },
       {
-        lines: [45, 50],
+        lines: [48, 53],
         title: { ru: 'Потерянное «принял»', en: 'The lost acknowledgement' },
         explanation: {
           ru: 'Если `handle` закончился без ошибки, событие убирается из очереди (`shift`) - это и есть подтверждение «принял». В настоящей сети это подтверждение может потеряться, и брокер, не зная, что событие уже обработано, доставит его снова. Режим `no-ack` это изображает: после первой доставки событие остаётся в очереди и приходит второй раз. Поэтому подписчик обязан быть готов к повтору (шаг «Одно письмо на событие»). Когда очередь пуста, флажок `busy` снимается.',
@@ -488,7 +491,7 @@ app.querySelector('.connect').addEventListener('click', (event) => {
         },
       },
       {
-        lines: [52, 57],
+        lines: [55, 60],
         title: { ru: 'Сервис аккаунтов и его данные', en: 'The accounts service and its data' },
         explanation: {
           ru: '`AccountsService` создаёт аккаунты и сообщает об этом. Его данные: `emails` - зарегистрированные адреса, `replies` - уже отправленные ответы. В конструктор он получает только брокер. О письмах, статистике и аудите он не знает ничего.',
@@ -496,7 +499,7 @@ app.querySelector('.connect').addEventListener('click', (event) => {
         },
       },
       {
-        lines: [59, 70],
+        lines: [62, 73],
         title: { ru: 'Команда «зарегистрировать»', en: 'The "register" command' },
         explanation: {
           ru: '`handle` принимает запрос от страницы - это команда, и на неё нужен ответ. Сначала проверяется форма запроса: тип `register`, адрес и ключ - строки. На `null`, массив или `email: 42` ответ `Bad request`. Ключ `requestId` защищает от двойной отправки: регистрация выполняется один раз на ключ, а повторный запрос с тем же ключом получает сохранённый ответ.',
@@ -504,7 +507,7 @@ app.querySelector('.connect').addEventListener('click', (event) => {
         },
       },
       {
-        lines: [72, 79],
+        lines: [75, 82],
         title: { ru: 'Правила регистрации', en: 'The registration rules' },
         explanation: {
           ru: 'Адрес приводится к нижнему регистру, проверяются формат и то, что такого адреса ещё нет. Если правило нарушено, сервис просто отвечает ошибкой и событие не публикует: аккаунт не создан, сообщать подписчикам не о чем.',
@@ -512,7 +515,7 @@ app.querySelector('.connect').addEventListener('click', (event) => {
         },
       },
       {
-        lines: [80, 89],
+        lines: [83, 92],
         title: { ru: 'Запись и публикация', en: 'Saving and publishing' },
         explanation: {
           ru: 'Аккаунт записывается в `emails`, и публикуется событие `UserRegistered`: тип в прошедшем времени («пользователь зарегистрирован» - факт, а не просьба), адрес, время и уникальный `id`, по которому подписчики узнают повтор. Здесь запись и публикация - две соседние строки, и между ними ничего не может сломаться. В настоящей системе это запись в базу данных и отправка в брокер: если программа упадёт между ними, аккаунт будет, а события нет, и письмо не придёт никогда. Обычное решение называется **outbox**: событие записывают в ту же базу вместе с аккаунтом, а отдельная программа потом отправляет его в брокер. Она может отправить событие дважды, так что `id` подписчикам нужен всё равно.',
@@ -520,7 +523,7 @@ app.querySelector('.connect').addEventListener('click', (event) => {
         },
       },
       {
-        lines: [91, 94],
+        lines: [94, 97],
         title: { ru: 'Подписчик проверяет событие', en: 'A subscriber checks the event' },
         explanation: {
           ru: 'Брокер передаёт всё, что ему опубликовали, в том числе событие, набранное в консоли. Поэтому подписчик сначала проверяет: тип `UserRegistered`, а `id`, адрес и время - строки. Неподходящее событие (массив, пустой объект, `id: 7`) просто пропускается. Если бы подписчик на нём падал, событие повторялось бы вечно (шаг «Если подписчик упал»).',
@@ -528,7 +531,7 @@ app.querySelector('.connect').addEventListener('click', (event) => {
         },
       },
       {
-        lines: [96, 107],
+        lines: [99, 110],
         title: { ru: 'Одно письмо на событие', en: 'One letter per event' },
         explanation: {
           ru: 'Первый подписчик отправляет приветственное письмо. В `handled` он запоминает `id` событий, которые уже обработал. Пришло событие с уже знакомым `id` (повторная доставка из шага «Потерянное „принял“») - он ничего не делает, и второго письма не будет. Такого подписчика называют идемпотентным: сколько раз ни доставь событие, результат как от одной доставки.',
@@ -536,7 +539,7 @@ app.querySelector('.connect').addEventListener('click', (event) => {
         },
       },
       {
-        lines: [109, 121],
+        lines: [112, 124],
         title: { ru: 'Второй подписчик - статистика', en: 'The second subscriber - statistics' },
         explanation: {
           ru: 'Тот же факт, другая работа: подсчёт регистраций по домену почты (`example.com: 2`). Свои данные, свой `handled`. Без проверки `id` повторная доставка посчитала бы одну регистрацию дважды.',
@@ -544,7 +547,7 @@ app.querySelector('.connect').addEventListener('click', (event) => {
         },
       },
       {
-        lines: [123, 134],
+        lines: [126, 137],
         title: { ru: 'Третий подписчик - аудит', en: 'The third subscriber - audit' },
         explanation: {
           ru: 'Журнал аудита записывает время события и адрес. Этот класс сервис аккаунтов нигде не упоминает: аудит подключают позже, кнопкой (шаг «Подписчик на ходу»).',
@@ -552,7 +555,7 @@ app.querySelector('.connect').addEventListener('click', (event) => {
         },
       },
       {
-        lines: [136, 141],
+        lines: [139, 144],
         title: { ru: 'send: запрос и ответ', en: 'send: a request and a reply' },
         explanation: {
           ru: 'Так страница разговаривает с сервисом аккаунтов: пауза, вызов `handle` с копией запроса через JSON, ещё пауза и копия ответа. Это обычный запрос с ответом, без сбоев сети - их разбирала тема микросервисов.',
@@ -560,7 +563,7 @@ app.querySelector('.connect').addEventListener('click', (event) => {
         },
       },
       {
-        lines: [143, 154],
+        lines: [146, 157],
         title: { ru: 'Страница', en: 'The page' },
         explanation: {
           ru: '`RegistrationPage` находит поле ввода, кнопку и строку для сообщений и слушает отправку формы. `preventDefault()` нужен, чтобы браузер не перезагрузил страницу. Странице дают только сервис аккаунтов: о брокере и подписчиках она не знает.',
@@ -568,7 +571,7 @@ app.querySelector('.connect').addEventListener('click', (event) => {
         },
       },
       {
-        lines: [156, 174],
+        lines: [159, 177],
         title: { ru: 'Отправка формы', en: 'Submitting the form' },
         explanation: {
           ru: 'Адрес проверяется сразу, чтобы быстро подсказать про опечатку; настоящая проверка всё равно в сервисе. Ключ `requestId` создаётся для нового адреса и живёт до ответа, поэтому двойная отправка уходит с одним ключом. Пока ждём ответа, кнопка выключена. «Registered» приходит примерно через 600 мс, даже если все подписчики в `down`: письмо и статистика появятся позже.',
@@ -576,7 +579,7 @@ app.querySelector('.connect').addEventListener('click', (event) => {
         },
       },
       {
-        lines: [176, 202],
+        lines: [179, 205],
         title: { ru: 'Панель наблюдения', en: 'The observation panel' },
         explanation: {
           ru: 'Панель под формой нужна только для наглядности, и на схеме её нет. Для каждого подписчика она показывает выпадающий список режима, число событий в его очереди и содержимое его хранилища и обновляет всё 4 раза в секунду. Она читает данные брокера и подписчиков напрямую - в настоящей системе так нельзя. Текст выводится через `textContent`, поэтому адрес вроде `<b>x</b>@example.com` показывается как текст, а не как разметка.',
@@ -584,7 +587,7 @@ app.querySelector('.connect').addEventListener('click', (event) => {
         },
       },
       {
-        lines: [204, 225],
+        lines: [207, 228],
         title: { ru: 'Сборка', en: 'Assembly' },
         explanation: {
           ru: 'Разметка страницы статичная, без данных пользователя, поэтому `innerHTML` здесь безопасен. Создаются брокер, сервис аккаунтов (ему передают брокер) и два подписчика, которые подписываются у брокера. Сервис аккаунтов в подписке не участвует.',
@@ -592,7 +595,7 @@ app.querySelector('.connect').addEventListener('click', (event) => {
         },
       },
       {
-        lines: [227, 232],
+        lines: [230, 235],
         title: { ru: 'Подписчик на ходу', en: 'A subscriber on the fly' },
         explanation: {
           ru: 'Кнопка «Connect audit log» подписывает аудит прямо во время работы и выключается, чтобы не подписать его дважды. Ни одна строка сервиса аккаунтов при этом не меняется. Аудит получит только регистрации, сделанные после подписки: прошлых событий в его новой очереди нет.',

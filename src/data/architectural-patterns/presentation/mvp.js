@@ -154,9 +154,12 @@ class TodoView {
   }
 
   showItems(lines) {
-    this.listRoot.innerHTML = lines
-      .map((line, i) => \`<li data-index="\${i}">\${line}</li>\`)
-      .join('');
+    this.listRoot.replaceChildren(...lines.map((line, i) => {
+      const li = document.createElement('li');
+      li.dataset.index = i;
+      li.textContent = line;
+      return li;
+    }));
   }
 
   showRemaining(text) {
@@ -202,7 +205,7 @@ presenter.onAddClicked('Learn MVP');`,
         },
       },
       {
-        lines: [15, 17],
+        lines: [15, 18],
         title: { ru: 'remaining - производное значение', en: 'remaining - a derived value' },
         explanation: {
           ru: 'Model умеет посчитать число невыполненных пунктов, но не превращает его в текст для экрана и не должна этого делать. Presenter возьмёт это число и отформатирует, а View получит уже готовую строку.',
@@ -250,15 +253,15 @@ presenter.onAddClicked('Learn MVP');`,
         },
       },
       {
-        lines: [66, 78],
+        lines: [66, 82],
         title: { ru: 'showItems / showRemaining / showError - интерфейс View в коде', en: 'showItems / showRemaining / showError - the View interface made concrete' },
         explanation: {
-          ru: 'Три метода, каждый просто пишет полученное в DOM. Ни Model, ни форматирования, ни ветвлений сложнее `map`. Это и есть тот интерфейс, который в тесте подменяют заглушкой.',
-          en: 'Three methods, each just writes what it received into the DOM. No Model, no formatting, no branching beyond `map`. This is the interface a test replaces with a stub.',
+          ru: 'Три метода, каждый просто пишет полученное в DOM. Ни Model, ни форматирования, ни ветвлений сложнее `map`. Строки списка идут через `textContent`, поэтому пункт вроде `<b>x</b>` показывается как текст, а не как разметка. Это и есть тот интерфейс, который в тесте подменяют заглушкой.',
+          en: 'Three methods, each just writes what it received into the DOM. No Model, no formatting, no branching beyond `map`. List lines go in through `textContent`, so an item such as `<b>x</b>` shows as text, not as markup. This is the interface a test replaces with a stub.',
         },
       },
       {
-        lines: [81, 85],
+        lines: [84, 88],
         title: { ru: 'Сборка триады снаружи', en: 'Wiring the triad from outside' },
         explanation: {
           ru: 'Model, View и Presenter создаются вне всех трёх классов; `view.bind(presenter)` замыкает связь View -> Presenter, а один вызов `onAddClicked` прогоняет весь цикл из четырёх шагов со вкладки «Схема».',

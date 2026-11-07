@@ -118,9 +118,12 @@ class TodoView {
   }
 
   render(items) {
-    this.root.innerHTML = items
-      .map((item, i) => \`<li data-index="\${i}">\${item.done ? 'x' : ' '} \${item.text}</li>\`)
-      .join('');
+    this.root.replaceChildren(...items.map((item, i) => {
+      const li = document.createElement('li');
+      li.dataset.index = i;
+      li.textContent = (item.done ? 'x ' : '  ') + item.text;
+      return li;
+    }));
   }
 
   onItemClick(handler) {
@@ -183,7 +186,7 @@ controller.addItem('Learn MVC');`,
         },
       },
       {
-        lines: [21, 23],
+        lines: [21, 24],
         title: { ru: '_notify - сердце Observer-цикла', en: '_notify - the heart of the Observer loop' },
         explanation: {
           ru: 'Приватный метод, который перебирает `listeners` и вызывает каждого с текущим состоянием `items`. Это именно тот механизм оповещения, о котором шла речь в разделе «Как это работает» - здесь он не абстракция, а четыре строки конкретного кода.',
@@ -191,15 +194,15 @@ controller.addItem('Learn MVC');`,
         },
       },
       {
-        lines: [26, 35],
+        lines: [26, 38],
         title: { ru: 'TodoView - только чтение и отрисовка', en: 'TodoView - reading and rendering only' },
         explanation: {
-          ru: '`render` строит HTML напрямую из массива `items`, полученного аргументом - View никогда не читает `model.items` сама и не хранит собственную копию данных. Условие `item.done ? \'x\' : \' \'` - единственная «логика» здесь, и она про отображение, не про бизнес-правила.',
-          en: '`render` builds HTML directly from the `items` array it receives as an argument - the View never reads `model.items` itself and keeps no copy of the data. The `item.done ? \'x\' : \' \'` check is the only "logic" here, and it\'s about display, not business rules.',
+          ru: '`render` строит элементы списка напрямую из массива `items`, полученного аргументом - View никогда не читает `model.items` сама и не хранит собственную копию данных. Текст пункта пишется через `textContent`, поэтому пункт вроде `<b>x</b>` показывается как текст, а не как разметка. Условие `item.done ? \'x \' : \'  \'` - единственная «логика» здесь, и она про отображение, не про бизнес-правила.',
+          en: '`render` builds the list items directly from the `items` array it receives as an argument - the View never reads `model.items` itself and keeps no copy of the data. The item text goes in through `textContent`, so an item such as `<b>x</b>` shows as text, not as markup. The `item.done ? \'x \' : \'  \'` check is the only "logic" here, and it\'s about display, not business rules.',
         },
       },
       {
-        lines: [37, 42],
+        lines: [40, 46],
         title: { ru: 'onItemClick - View передаёт событие дальше', en: 'onItemClick - the View forwards the event' },
         explanation: {
           ru: 'View подписывается на клик по DOM и вычисляет, по какому элементу списка кликнули, но сама ничего не решает - просто вызывает переданный ей `handler` с индексом. Кто передаст этот `handler` и что он сделает - решает Controller, не View.',
@@ -207,7 +210,7 @@ controller.addItem('Learn MVC');`,
         },
       },
       {
-        lines: [45, 51],
+        lines: [48, 54],
         title: { ru: 'Controller - обе связи собираются в конструкторе', en: 'The Controller - both links wired in the constructor' },
         explanation: {
           ru: 'Две строки здесь - это буквально диаграмма со вкладки «Схема»: `model.onChange(...)` подписывает View на Model (стрелка «уведомляет»), `view.onItemClick(...)` подключает Controller к событиям View (стрелка «событие ввода»). Без этих двух строк остальные классы просто не узнают друг о друге.',
@@ -215,7 +218,7 @@ controller.addItem('Learn MVC');`,
         },
       },
       {
-        lines: [53, 55],
+        lines: [56, 59],
         title: { ru: 'Controller.addItem - третий путь ввода', en: 'Controller.addItem - a third input path' },
         explanation: {
           ru: 'Не каждый ввод обязан идти через DOM-событие: этот метод показывает, что Controller может вызвать метод Model и в ответ на что угодно ещё (например, программный вызов ниже) - роль Controller-а не в том, откуда пришёл сигнал, а в том, что он решает, какой метод Model вызвать.',
@@ -223,7 +226,7 @@ controller.addItem('Learn MVC');`,
         },
       },
       {
-        lines: [58, 59],
+        lines: [61, 62],
         title: { ru: 'Сборка триады и первый запуск цикла', en: 'Wiring the triad and firing the cycle once' },
         explanation: {
           ru: 'Три объекта создаются и передаются друг другу только здесь, снаружи всех трёх классов - ни один из них не создаёт себе партнёров сам. `controller.addItem(...)` запускает ровно тот цикл из четырёх шагов, что описан на вкладке «Схема»: Controller -> Model -> _notify -> View.render.',
