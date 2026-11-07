@@ -233,6 +233,62 @@ function microservicesPositions(nodes) {
   };
 }
 
+// Event-Driven: the entry point and the producer on the left, a wide broker
+// across every column with one queue per consumer on its bottom edge, and
+// each consumer with its own store underneath. The event goes one way only:
+// producer -> broker -> one copy per queue, with no reply coming back, so a
+// single arrow enters the broker and the fan-out leaves from separate queues.
+function eventDrivenPositions(nodes) {
+  const margin = 30;
+  const gap = 40;
+  const consumers = nodes.filter((n) => n.side === 'consumer');
+  const columns = Math.max(consumers.length, 3);
+  const width = 2 * margin + columns * BOX_W + (columns - 1) * gap;
+  const columnX = (j) => margin + j * (BOX_W + gap);
+  const producerY = 30 + BOX_H + 100;
+  const brokerY = producerY + BOX_H + 90;
+  const queueY = brokerY + BOX_H;
+  const consumerY = queueY + 100;
+  const storeY = consumerY + BOX_H + 80;
+  const positions = [{ id: nodes[0].id, x: columnX(0), y: 30 }];
+  const anchors = {};
+  let core = null;
+  let owner = null;
+  let column = -1;
+  for (const node of nodes.slice(1)) {
+    if (node.side === 'producer') {
+      owner = node.side;
+      positions.push({ id: node.id, x: columnX(0), y: producerY });
+      anchors[node.id] = { x: columnX(0) + BOX_W / 2, y: brokerY };
+    } else if (node.side === 'broker') {
+      core = node.id;
+      positions.push({ id: node.id, x: margin, y: brokerY, w: width - 2 * margin, h: BOX_H });
+    } else if (node.side === 'consumer') {
+      owner = node.side;
+      column += 1;
+      positions.push({ id: node.id, x: columnX(column), y: consumerY });
+      anchors[node.id] = { x: columnX(column) + BOX_W / 2, y: queueY + SOCKET_H / 2 };
+    } else {
+      // A store sits next to the producer it belongs to, or under its consumer.
+      positions.push(
+        owner === 'producer'
+          ? { id: node.id, x: columnX(columns - 1), y: producerY }
+          : { id: node.id, x: columnX(column), y: storeY },
+      );
+    }
+  }
+  return {
+    width,
+    height: storeY + BOX_H + 30,
+    positions,
+    anchors,
+    core,
+    sockets: consumers.map((_, j) => ({ x: columnX(j) + BOX_W / 2, y: queueY })),
+    boundary: { x: width - margin, y: 52, anchor: 'end' },
+    parallel: true,
+  };
+}
+
 const LAYOUTS = {
   stack: stackPositions,
   pipeline: pipelinePositions,
@@ -241,6 +297,7 @@ const LAYOUTS = {
   plugin: pluginPositions,
   'client-server': clientServerPositions,
   microservices: microservicesPositions,
+  'event-driven': eventDrivenPositions,
 };
 
 // Node icons are keyed by the common vocabulary the 10 planned patterns share
@@ -296,6 +353,15 @@ const NODE_ICONS = {
   },
   welcome: { d: 'M3.5 6h17v12h-17z M3.5 6.5 12 13l8.5-6.5' },
   'letters-store': {
+    d: 'M6 6a6 2.1 0 1 0 12 0a6 2.1 0 1 0 -12 0 M6 6v11.5 M18 6v11.5 M6 11.75a6 2.1 0 0 0 12 0 M6 17.5a6 2.1 0 0 0 12 0',
+  },
+  broker: { d: 'M3 7h18v10H3z M8 7v10 M12.5 7v10', fillD: 'M15.5 9.5h3v5h-3z' },
+  stats: { d: 'M4 20h16 M6.5 20v-6 M11 20V9 M15.5 20V5' },
+  'stats-store': {
+    d: 'M6 6a6 2.1 0 1 0 12 0a6 2.1 0 1 0 -12 0 M6 6v11.5 M18 6v11.5 M6 11.75a6 2.1 0 0 0 12 0 M6 17.5a6 2.1 0 0 0 12 0',
+  },
+  audit: { d: 'M6 4.5h12v16H6z M9 3h6v3H9z M9 10.5h6 M9 14h6 M9 17.5h3.5' },
+  'audit-store': {
     d: 'M6 6a6 2.1 0 1 0 12 0a6 2.1 0 1 0 -12 0 M6 6v11.5 M18 6v11.5 M6 11.75a6 2.1 0 0 0 12 0 M6 17.5a6 2.1 0 0 0 12 0',
   },
   default: { d: 'M12 3 21 12 12 21 3 12Z' },
@@ -410,7 +476,8 @@ export function ArchitectureDiagram({ diagram, lang }) {
   const uid = useId();
   const [activeId, setActiveId] = useState(null);
   const layoutFn = LAYOUTS[diagram.layout] ?? LAYOUTS.stack;
-  const { width, height, positions, anchors, ports, sockets, freeSlot, boundary, zones, parallel, pairLabelAt } = layoutFn(diagram.nodes);
+  const { width, height, positions, anchors, core, ports, sockets, freeSlot, boundary, zones, parallel, pairLabelAt } = layoutFn(diagram.nodes);
+  const coreId = core ?? diagram.nodes[0].id;
   const posById = Object.fromEntries(positions.map((p) => [p.id, p]));
   const indexById = Object.fromEntries(diagram.nodes.map((n, i) => [n.id, i]));
   const t = getStrings(lang).architecturalPatterns;
@@ -554,7 +621,11 @@ export function ArchitectureDiagram({ diagram, lang }) {
 
   function renderEdge(conn, i, overlay) {
     if (!posById[conn.from] || !posById[conn.to]) return null;
-    const route = anchors ? anchoredPath : parallel ? parallelPath : bowedPath;
+    // Only an edge between an anchored node and the core goes to the anchor;
+    // the anchored node's other edges (a producer's store) are drawn normally.
+    const anchored =
+      anchors && ((anchors[conn.from] && conn.to === coreId) || (anchors[conn.to] && conn.from === coreId));
+    const route = anchored ? anchoredPath : parallel ? parallelPath : bowedPath;
     const { start, end, controlX, controlY, labelX, labelY, d } = route(conn, i);
     const midX = labelX ?? 0.25 * start.x + 0.5 * controlX + 0.25 * end.x;
     const midY = labelY ?? 0.25 * start.y + 0.5 * controlY + 0.25 * end.y;

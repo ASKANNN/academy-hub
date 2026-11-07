@@ -63,15 +63,16 @@ for (const { file, data } of allData) {
       plugin: ['top', 'bottom'],
       'client-server': ['left', 'below'],
       microservices: ['service', 'store'],
+      'event-driven': ['producer', 'broker', 'consumer', 'store'],
     };
-    if (!['stack', 'pipeline', 'hub', 'hexagon', 'plugin', 'client-server', 'microservices'].includes(data.diagram.layout)) {
-      errs.push(`diagram.layout must be one of stack/pipeline/hub/hexagon/plugin/client-server/microservices, got: ${JSON.stringify(data.diagram.layout)}`);
+    if (!['stack', 'pipeline', 'hub', 'hexagon', 'plugin', 'client-server', 'microservices', 'event-driven'].includes(data.diagram.layout)) {
+      errs.push(`diagram.layout must be one of stack/pipeline/hub/hexagon/plugin/client-server/microservices/event-driven, got: ${JSON.stringify(data.diagram.layout)}`);
     }
     if (data.diagram.layout === 'hexagon') {
       errs.push(...checkBilingual(data.diagram.ports?.left, 'diagram.ports.left'));
       errs.push(...checkBilingual(data.diagram.ports?.right, 'diagram.ports.right'));
     }
-    if (['client-server', 'microservices'].includes(data.diagram.layout)) {
+    if (['client-server', 'microservices', 'event-driven'].includes(data.diagram.layout)) {
       errs.push(...checkBilingual(data.diagram.boundary?.label, 'diagram.boundary.label'));
       errs.push(...checkBilingual(data.diagram.boundary?.note, 'diagram.boundary.note'));
     }
@@ -80,6 +81,18 @@ for (const { file, data } of allData) {
       if (data.diagram.nodes?.[1]?.side !== 'service') {
         errs.push('diagram.nodes[1] must be a service: each store belongs to the service declared before it');
       }
+    }
+    if (data.diagram.layout === 'event-driven') {
+      const sides = (data.diagram.nodes ?? []).slice(1).map((n) => n?.side);
+      const count = (side) => sides.filter((s) => s === side).length;
+      if (count('producer') !== 1) errs.push('event-driven diagram needs exactly one producer node');
+      if (count('broker') !== 1) errs.push('event-driven diagram needs exactly one broker node');
+      if (count('consumer') < 1) errs.push('event-driven diagram needs at least one consumer node');
+      sides.forEach((side, i) => {
+        if (side === 'store' && !['producer', 'consumer'].includes(sides.slice(0, i).filter((s) => s !== 'store' && s !== 'broker').at(-1))) {
+          errs.push(`diagram.nodes[${i + 1}] is a store with no producer or consumer declared before it`);
+        }
+      });
     }
     const nodeIds = new Set();
     if (Array.isArray(data.diagram.nodes)) {

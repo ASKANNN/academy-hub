@@ -627,7 +627,7 @@ new RegistrationPage(app, network).refresh();`,
     ],
   },
 
-  relatedPatterns: [],
+  relatedPatterns: ['event-driven'],
 
   quiz: [
     {

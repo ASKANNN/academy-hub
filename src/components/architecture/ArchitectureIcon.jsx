@@ -66,6 +66,14 @@ const GLYPHS = {
     <path class="${B}" d="M2.5 11.5h5.5v9h-5.5z M16 11.5h5.5v9h-5.5z M9.5 20.5h5"/>
     <path class="${A}" d="M12 6V2.5 M10 4.5 12 2.5 14 4.5"/>
     <path class="${F}" d="M9.25 7.5h5.5v9h-5.5z"/>`,
+
+  // Accent = one event (the filled dot) going into the channel and leaving it
+  // as a copy for every subscriber, in one direction only: the producer does
+  // not wait for anyone and nothing comes back.
+  'event-driven': `
+    <path class="${B}" d="M9 4h3v16H9z M17.5 3h4v4h-4z M17.5 10h4v4h-4z M17.5 17h4v4h-4z"/>
+    <path class="${A}" d="M6.5 12H9 M12 12H16 M14.5 10.5 16 12 14.5 13.5 M12 7.5 16 5 M13.95 4.53 16 5 15.53 7.05 M12 16.5 16 19 M15.53 16.95 16 19 13.95 19.47"/>
+    <path class="${F}" d="M2.5 12a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"/>`,
 };
 
 export function ArchitectureIcon({ slug = '', size = 'md', className = '' }) {

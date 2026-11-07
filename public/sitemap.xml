@@ -331,6 +331,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://askanacademy.com/architectural-patterns/distributed/event-driven</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://askanacademy.com/architectural-patterns/distributed/microservices</loc>
     <lastmod>2026-11-07</lastmod>
     <changefreq>monthly</changefreq>
