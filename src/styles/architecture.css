@@ -178,6 +178,25 @@
   font-weight: 600;
 }
 
+.architecture-diagram__boundary line {
+  stroke: var(--color-accent);
+  stroke-width: 1.5;
+  stroke-dasharray: 7 6;
+  opacity: 0.7;
+}
+
+.architecture-diagram__boundary text {
+  fill: var(--color-accent);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.architecture-diagram__boundary .architecture-diagram__boundary-note {
+  fill: var(--color-text-secondary);
+  font-size: 12px;
+  font-weight: 500;
+}
+
 .architecture-diagram__edge {
   animation: architecture-fade-in 500ms var(--ease-out) both;
 }

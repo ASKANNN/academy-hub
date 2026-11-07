@@ -50,6 +50,14 @@ const GLYPHS = {
     <path class="${B}" d="M3 3.5h8.5v17H3z M15 3.5h6v5.5h-6z M11.5 6.25H15"/>
     <path class="${A}" d="M13 15.75h2.5 M13 18.25h2.5"/>
     <path class="${F}" d="M15.5 14h5.5v6h-5.5z"/>`,
+
+  // Accent = the request and its reply - two opposite arrows between the
+  // client's screen (left) and the server tower (right): only the client
+  // starts an exchange (the filled head), the server only answers.
+  'client-server': `
+    <path class="${B}" d="M2.5 5.5h6.5v5h-6.5z M5.75 10.5v3 M4 13.5h3.5 M17.5 3.5h4v17h-4z M19.5 7h.01 M19.5 10h.01"/>
+    <path class="${A}" d="M10 8H13 M16 16H10.5 M12.3 14.2 10.5 16 12.3 17.8"/>
+    <path class="${F}" d="M13 6 15.75 8 13 10Z"/>`,
 };
 
 export function ArchitectureIcon({ slug = '', size = 'md', className = '' }) {

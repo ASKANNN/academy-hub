@@ -490,7 +490,7 @@ new RegistrationPage(root, new RegistrationCore(), [noDisposable, corporateOnly,
     ],
   },
 
-  relatedPatterns: ['layered', 'hexagonal'],
+  relatedPatterns: ['layered', 'hexagonal', 'client-server'],
 
   quiz: [
     {

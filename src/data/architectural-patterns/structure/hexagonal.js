@@ -483,7 +483,7 @@ root.querySelector('small').textContent =
     ],
   },
 
-  relatedPatterns: ['layered', 'microkernel'],
+  relatedPatterns: ['layered', 'microkernel', 'client-server'],
 
   quiz: [
     {

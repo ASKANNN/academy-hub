@@ -476,6 +476,20 @@
   margin-bottom: 0;
 }
 
+/* On a phone a long Big O title leaves no room for the tier badge, which
+   never shrinks, so it overflowed the page. Here the row wraps: the title
+   keeps the icon on its line (capped at the row minus the icon) and the
+   badge drops to the next line. */
+@media (max-width: 599px) {
+  .algorithm-detail__head {
+    flex-wrap: wrap;
+  }
+
+  .algorithm-detail__head .algorithms-hero__title {
+    max-width: calc(100% - var(--icon-xl) - var(--space-3));
+  }
+}
+
 .algorithm-detail__head .complexity-pips {
   margin-top: 0;
 }

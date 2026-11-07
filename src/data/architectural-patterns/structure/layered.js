@@ -425,7 +425,7 @@ new RegistrationPage(root, new UserService(new UserRepository(new Database())));
     ],
   },
 
-  relatedPatterns: ['hexagonal', 'microkernel'],
+  relatedPatterns: ['hexagonal', 'microkernel', 'client-server'],
 
   quiz: [
     {

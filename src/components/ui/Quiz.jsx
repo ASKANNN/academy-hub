@@ -1,5 +1,6 @@
 import { useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import { playErrorTone, playSuccessChime } from '../../utils/sound.js';
+import { RichText } from './RichText.jsx';
 
 function shuffle(list) {
   const arr = [...list];
@@ -210,7 +211,7 @@ export function Quiz({ quiz, lang, t, reportUrl = '' }) {
     <div ref={quizRef} className="quiz">
       <p className="quiz__progress">{step + 1} / {total}</p>
       <div className="quiz__prompt-row">
-        <p className="quiz__question">{question.question[lang] ?? question.question.ru}</p>
+        <p className="quiz__question"><RichText text={question.question[lang] ?? question.question.ru} /></p>
         {question.hint && (
           <button
             type="button"
@@ -226,10 +227,10 @@ export function Quiz({ quiz, lang, t, reportUrl = '' }) {
       </div>
       {question.hint && (
         <div className={`quiz__hint-wrap${hintOpen ? ' is-open' : ''}`}>
-          <p className="quiz__hint">{question.hint[lang] ?? question.hint.ru}</p>
+          <p className="quiz__hint"><RichText text={question.hint[lang] ?? question.hint.ru} /></p>
         </div>
       )}
-      <ul className="quiz__options" role="radiogroup" aria-label={question.question[lang] ?? question.question.ru}>
+      <ul className="quiz__options" role="radiogroup" aria-label={(question.question[lang] ?? question.question.ru).replaceAll('`', '')}>
         {question.options.map((opt, i) => {
           const isCor = i === question.correct;
           const isSel = i === selected;
@@ -243,7 +244,7 @@ export function Quiz({ quiz, lang, t, reportUrl = '' }) {
                 disabled={answered}
               >
                 <span className="quiz__option-marker" aria-hidden="true" />
-                <span className="quiz__option-text">{opt[lang] ?? opt.ru}</span>
+                <span className="quiz__option-text"><RichText text={opt[lang] ?? opt.ru} /></span>
               </button>
             </li>
           );
@@ -257,7 +258,7 @@ export function Quiz({ quiz, lang, t, reportUrl = '' }) {
               <strong className="quiz__feedback-label">
                 {isCorrect ? t.quizCorrect : t.quizIncorrect}
               </strong>{' '}
-              {question.explanation[lang] ?? question.explanation.ru}
+              <RichText text={question.explanation[lang] ?? question.explanation.ru} />
             </span>
           </p>
           <button ref={nextBtnRef} type="button" className="btn btn--primary btn--md" onClick={handleNext}>
