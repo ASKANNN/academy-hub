@@ -2,6 +2,37 @@ function frame(array, active = [], sorted = []) {
   return { array: [...array], active, sorted };
 }
 
+// Search frames never change the array. `range` is the part still in play
+// (everything outside it is dimmed), `sorted` doubles as the found index
+// (drawn green, like a placed element), and `phase` names the concept step
+// the frame belongs to - the frame count depends on the target, so the label
+// can't come from fixed breakpoints the way it does for sorting.
+function searchFrame(array, { active = [], found = null, range = null, phase }) {
+  return { array: [...array], active, sorted: found === null ? [] : [found], range, phase };
+}
+
+function linearSearchSteps(input, target) {
+  const a = [...input];
+  const n = a.length;
+  const frames = [searchFrame(a, { range: [0, n - 1], phase: 0 })];
+  for (let i = 0; i < n; i++) {
+    frames.push(searchFrame(a, { active: [i], range: [i, n - 1], phase: 1 }));
+    if (a[i] === target) {
+      frames.push(searchFrame(a, { found: i, range: [i, i], phase: 3 }));
+      return frames;
+    }
+    if (i < n - 1) frames.push(searchFrame(a, { range: [i + 1, n - 1], phase: 2 }));
+  }
+  frames.push(searchFrame(a, { range: [n, n - 1], phase: 4 }));
+  return frames;
+}
+
+// Sample array and default target per search algorithm; the visualizer
+// switches to search mode for any slug listed here.
+export const SEARCH_SAMPLES = {
+  'linear-search': { array: [8, 3, 9, 1, 6, 4, 7, 2, 5], target: 7 },
+};
+
 function bubbleSortSteps(input) {
   const a = [...input];
   const frames = [frame(a, [], [])];
@@ -1324,9 +1355,10 @@ const GENERATORS = {
   flashsort: flashSortSteps,
   bogosort: bogosortSteps,
   'stooge-sort': stoogeSortSteps,
+  'linear-search': linearSearchSteps,
 };
 
-export function generateSteps(slug, array) {
+export function generateSteps(slug, array, target) {
   const generator = GENERATORS[slug];
-  return generator ? generator(array) : [frame(array, [], [])];
+  return generator ? generator(array, target) : [frame(array, [], [])];
 }

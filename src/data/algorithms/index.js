@@ -39,6 +39,7 @@ import { oN3 } from './big-o/o-n-3.js';
 import { o2N } from './big-o/o-2-n.js';
 import { oNFactorial } from './big-o/o-n-factorial.js';
 import { bestAverageWorstCase } from './big-o/best-average-worst-case.js';
+import { linearSearch } from './searching/linear-search.js';
 
 export { ALGORITHM_CATEGORIES, getCategory };
 
@@ -86,6 +87,9 @@ const ALGORITHMS_BY_CATEGORY = {
     o2N,
     oNFactorial,
     bestAverageWorstCase,
+  ],
+  searching: [
+    linearSearch,
   ],
 };
 

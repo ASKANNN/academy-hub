@@ -273,6 +273,14 @@ const GLYPHS = {
     <line class="${A}" x1="14" y1="9" x2="14" y2="15"/>
     <line class="${A}" x1="14" y1="12" x2="20" y2="12"/>
     <circle class="${F}" cx="20" cy="12" r="2"/>`,
+
+  // Accent = the scan itself: an arrow walking the row of cells from the left
+  // edge, stopping under the first cell that matches (the filled one) - every
+  // cell before it was checked one by one, the ones after it never are.
+  'linear-search': `
+    <path class="${B}" d="M2.5 4.5h3v7h-3z M8 4.5h3v7H8z M19 4.5h3v7h-3z"/>
+    <path class="${A}" d="M3 17.5H15 M12 14.5 15 17.5 12 20.5"/>
+    <path class="${F}" d="M13.5 4.5h3v7h-3z"/>`,
 };
 
 export function AlgorithmIcon({ slug = '', size = 'md', className = '' }) {

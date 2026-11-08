@@ -24,14 +24,10 @@ export const ALGORITHM_CATEGORIES = [
     icon: 'searching',
     name: { ru: 'Поиск', en: 'Searching' },
     tagline: {
-      ru: 'Линейный и бинарный поиск, поиск в отсортированных и неотсортированных данных',
-      en: 'Linear and binary search, sorted vs. unsorted data',
+      ru: 'Как найти значение в массиве: от линейного поиска по любым данным до бинарного, прыжкового, интерполяционного и экспоненциального по отсортированным',
+      en: 'How to find a value in an array: from linear search over any data to binary, jump, interpolation, and exponential search over sorted data',
     },
-    status: 'coming-soon',
-    topics: {
-      ru: ['Линейный поиск', 'Бинарный поиск', 'Поиск в дереве', 'Интерполяционный поиск'],
-      en: ['Linear search', 'Binary search', 'Tree search', 'Interpolation search'],
-    },
+    status: 'live',
   },
   {
     slug: 'recursion',

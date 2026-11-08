@@ -900,6 +900,13 @@
   background-color: var(--color-success);
   color: #ffffff;
 }
+/* Search demos: the part of the array already ruled out - an empty outline,
+   so it reads as "no longer a candidate" rather than as a paler bar. */
+.visualizer__bar.is-out {
+  background-color: transparent;
+  box-shadow: inset 0 0 0 1px var(--color-border);
+  color: var(--color-text-tertiary);
+}
 
 @keyframes stepLabelFade {
   from { opacity: 0; transform: translateY(5px); }
@@ -913,9 +920,16 @@
 }
 
 .visualizer__step-count {
+  margin-left: auto;
   font-size: var(--text-xs);
   color: var(--color-text-tertiary);
   white-space: nowrap;
+}
+
+.visualizer__target {
+  font-size: var(--text-sm);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-text-primary);
 }
 
 .visualizer__step-label {

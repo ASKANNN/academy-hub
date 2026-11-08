@@ -26,7 +26,7 @@ Source-available, non-commercial license.
 - Client-side routing (`react-router-dom`) with a fade/slide page transition
   on every navigation
 - **Algorithms Academy** — full in-app section (`/algorithms/...`): 31 sorting
-  algorithms plus a Big O Notation category, each with animated visualizers,
+  algorithms, a Big O Notation category, and a Searching category (in progress), each with animated visualizers,
   a 5-tab detail page (Intent / Visualization / Implementation / Pros&Cons /
   Quiz), a deep-dive writeup, line-by-line JS/Python code walkthroughs, and a
   10-question quiz — all bilingual RU/EN
@@ -35,7 +35,7 @@ Source-available, non-commercial license.
   MVVM, Layered, Hexagonal, Microkernel, Client-Server, Microservices, Event-Driven and CQRS live) on a static SVG component/relationship diagram
   instead of an animated visualizer, same 5-tab detail page and 10-question
   quiz format, bilingual RU/EN
-- **Prerendering** — all 58 routes ship pre-rendered HTML (title, description,
+- **Prerendering** — all 60 routes ship pre-rendered HTML (title, description,
   canonical, OG tags, JSON-LD, `#root` content), visible to crawlers without JS
 
 ## Stack
@@ -94,14 +94,14 @@ src/
     accessibility.css             — a11y widget styles and global override classes
 scripts/
   lib/routes.mjs             — getAllRoutes() / getCategorySlugs(dataDir, category), shared by sitemap + snapshot scripts; walks every live category of both academies
-  generate-sitemap.mjs       — writes public/sitemap.xml (58 URLs); runs automatically via npm run build
+  generate-sitemap.mjs       — writes public/sitemap.xml (60 URLs); runs automatically via npm run build
   generate-snapshot.mjs      — dev-only: visits every route in headless Chromium, writes prerendered/**/page.json
   inject-prerender.mjs       — postbuild: reads page.json files, writes dist/<route>/index.html with pre-rendered content
   validate-algorithms.mjs       — schema validation for all algorithm files (structure, bilingual fields, quiz format, length-tell check)
   validate-architecture-patterns.mjs — the same for architectural pattern files (own schema with diagram), npm run validate:architecture
   audit-quiz-length.mjs         — standalone length-tell check for quiz answers (both RU and EN)
   compute-step-breakpoints.mjs  — dev-only; computes exact frame-index breakpoints for the visualizer step labels and writes them back into each algorithm module; re-run after editing algorithmSteps.js
-prerendered/                 — one page.json per route (58 total); commit these — they are the prerendered content source
+prerendered/                 — one page.json per route (60 total); commit these — they are the prerendered content source
 ```
 
 ## How to add an academy
