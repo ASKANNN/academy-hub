@@ -85,7 +85,8 @@ export function AlgorithmIllustration({ category, slug, alt, t }) {
 
     img.style.transition = 'none';
     img.style.transform = `translate(${dx}px, ${dy}px) scale(${sx}, ${sy})`;
-    img.offsetHeight;
+    // Force a layout so the start transform is applied before the transition is re-enabled.
+    img.getBoundingClientRect();
 
     requestAnimationFrame(() => {
       img.style.transition = 'transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)';

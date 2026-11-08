@@ -27,10 +27,31 @@ function linearSearchSteps(input, target) {
   return frames;
 }
 
+function binarySearchSteps(input, target) {
+  const a = [...input];
+  let lo = 0;
+  let hi = a.length - 1;
+  const frames = [searchFrame(a, { range: [lo, hi], phase: 0 })];
+  while (lo <= hi) {
+    const mid = lo + Math.floor((hi - lo) / 2);
+    frames.push(searchFrame(a, { active: [mid], range: [lo, hi], phase: 1 }));
+    if (a[mid] === target) {
+      frames.push(searchFrame(a, { found: mid, range: [mid, mid], phase: 3 }));
+      return frames;
+    }
+    if (a[mid] < target) lo = mid + 1;
+    else hi = mid - 1;
+    if (lo <= hi) frames.push(searchFrame(a, { range: [lo, hi], phase: 2 }));
+  }
+  frames.push(searchFrame(a, { range: [lo, hi], phase: 4 }));
+  return frames;
+}
+
 // Sample array and default target per search algorithm; the visualizer
 // switches to search mode for any slug listed here.
 export const SEARCH_SAMPLES = {
   'linear-search': { array: [8, 3, 9, 1, 6, 4, 7, 2, 5], target: 7 },
+  'binary-search': { array: [3, 5, 6, 8, 10, 11, 13, 15, 17, 18, 20], target: 15 },
 };
 
 function bubbleSortSteps(input) {
@@ -1356,6 +1377,7 @@ const GENERATORS = {
   bogosort: bogosortSteps,
   'stooge-sort': stoogeSortSteps,
   'linear-search': linearSearchSteps,
+  'binary-search': binarySearchSteps,
 };
 
 export function generateSteps(slug, array, target) {

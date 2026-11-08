@@ -34,6 +34,7 @@ export function AlgorithmVisualizer({ slug, t, steps, lang, stepBreakpoints }) {
   const frames = useMemo(() => generateSteps(slug, array, target), [slug, array, target]);
   const [step, setStep] = useState(0);
   const [playing, setPlaying] = useState(false);
+  const [shownFrames, setShownFrames] = useState(frames);
   const intervalRef = useRef(null);
 
   useEffect(() => {
@@ -41,10 +42,14 @@ export function AlgorithmVisualizer({ slug, t, steps, lang, stepBreakpoints }) {
     setTarget(SEARCH_SAMPLES[slug]?.target);
   }, [slug]);
 
-  useEffect(() => {
+  // Reset during render, not in an effect: an effect runs after paint, so a
+  // new run (shuffle, another target) was drawn for one frame with the old
+  // step number before jumping back to step 1.
+  if (frames !== shownFrames) {
+    setShownFrames(frames);
     setStep(0);
     setPlaying(false);
-  }, [frames]);
+  }
 
   useEffect(() => {
     if (!playing) return undefined;
@@ -60,9 +65,9 @@ export function AlgorithmVisualizer({ slug, t, steps, lang, stepBreakpoints }) {
     return () => clearInterval(intervalRef.current);
   }, [playing, frames.length]);
 
-  // New frames (a shuffle, another target) arrive one render before the
-  // effect above resets `step`; if the new run is shorter, `frames[step]`
-  // would be undefined and the whole visualizer would crash.
+  // The render that sees new frames still runs to the end with the old
+  // `step` before React discards it for the reset above; if the new run is
+  // shorter, `frames[step]` would be undefined and the visualizer would crash.
   const shown = Math.min(step, frames.length - 1);
   const current = frames[shown];
   const max = Math.max(...current.array);

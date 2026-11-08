@@ -281,6 +281,15 @@ const GLYPHS = {
     <path class="${B}" d="M2.5 4.5h3v7h-3z M8 4.5h3v7H8z M19 4.5h3v7h-3z"/>
     <path class="${A}" d="M3 17.5H15 M12 14.5 15 17.5 12 20.5"/>
     <path class="${F}" d="M13.5 4.5h3v7h-3z"/>`,
+
+  // Accent = the range shrinking: a bracket over the whole row, then one over
+  // only its right half - one comparison discarded the left half - and the
+  // filled cell is where the next middle lands. Brackets above the row, not an
+  // arrow below it, so the shape of the move differs from linear-search.
+  'binary-search': `
+    <path class="${B}" d="M2.5 13.5h3v7h-3z M8 13.5h3v7H8z M19 13.5h3v7h-3z"/>
+    <path class="${A}" d="M2.5 5.5V3H22V5.5 M13.5 10.5V8H22V10.5"/>
+    <path class="${F}" d="M13.5 13.5h3v7h-3z"/>`,
 };
 
 export function AlgorithmIcon({ slug = '', size = 'md', className = '' }) {

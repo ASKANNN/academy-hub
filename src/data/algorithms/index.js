@@ -40,6 +40,7 @@ import { o2N } from './big-o/o-2-n.js';
 import { oNFactorial } from './big-o/o-n-factorial.js';
 import { bestAverageWorstCase } from './big-o/best-average-worst-case.js';
 import { linearSearch } from './searching/linear-search.js';
+import { binarySearch } from './searching/binary-search.js';
 
 export { ALGORITHM_CATEGORIES, getCategory };
 
@@ -90,6 +91,7 @@ const ALGORITHMS_BY_CATEGORY = {
   ],
   searching: [
     linearSearch,
+    binarySearch,
   ],
 };
 
