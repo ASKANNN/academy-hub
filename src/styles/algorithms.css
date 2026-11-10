@@ -954,6 +954,14 @@
 }
 
 @media (max-width: 599px) {
+  /* 16 bars (Jump Search) at 375px: with the desktop 8px gap a bar was
+     ~10px wide and two-digit labels spilled onto the neighbours. */
+  .visualizer__bars {
+    gap: var(--space-1);
+  }
+  .visualizer__bar {
+    letter-spacing: -0.05em;
+  }
   .visualizer__step-label {
     min-height: 76px;
   }

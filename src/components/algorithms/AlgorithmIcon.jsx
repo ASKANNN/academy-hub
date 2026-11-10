@@ -290,6 +290,15 @@ const GLYPHS = {
     <path class="${B}" d="M2.5 13.5h3v7h-3z M8 13.5h3v7H8z M19 13.5h3v7h-3z"/>
     <path class="${A}" d="M2.5 5.5V3H22V5.5 M13.5 10.5V8H22V10.5"/>
     <path class="${F}" d="M13.5 13.5h3v7h-3z"/>`,
+
+  // Accent = equal jumps: the row is two blocks of two cells, one hop of the
+  // same size over each block, and the second lands (arrowhead) on the end of
+  // the last block; the filled cell is inside that block, where the linear
+  // pass finds it. Separate arcs, not touching: joined ones read as an "m".
+  'jump-search': `
+    <path class="${B}" d="M2.5 13.5h3v7h-3z M8 13.5h3v7H8z M19 13.5h3v7h-3z"/>
+    <path class="${A}" d="M3 11Q6.75 2 10.5 11 M14 11Q17.75 2 21.5 11 M19.6 9.9 21.5 11 21.8 8.8"/>
+    <path class="${F}" d="M13.5 13.5h3v7h-3z"/>`,
 };
 
 export function AlgorithmIcon({ slug = '', size = 'md', className = '' }) {

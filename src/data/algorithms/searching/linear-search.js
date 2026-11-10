@@ -377,7 +377,7 @@ def linear_search_sentinel(arr, target):
     ],
   },
 
-  relatedAlgorithms: ['binary-search'],
+  relatedAlgorithms: ['binary-search', 'jump-search'],
 
   quiz: [
     {

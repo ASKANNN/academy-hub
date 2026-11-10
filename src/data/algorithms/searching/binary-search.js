@@ -436,7 +436,7 @@ def lower_bound(arr, target):
     ],
   },
 
-  relatedAlgorithms: ['linear-search'],
+  relatedAlgorithms: ['linear-search', 'jump-search'],
 
   quiz: [
     {
