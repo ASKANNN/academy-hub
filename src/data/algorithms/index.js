@@ -42,6 +42,7 @@ import { bestAverageWorstCase } from './big-o/best-average-worst-case.js';
 import { linearSearch } from './searching/linear-search.js';
 import { binarySearch } from './searching/binary-search.js';
 import { jumpSearch } from './searching/jump-search.js';
+import { interpolationSearch } from './searching/interpolation-search.js';
 
 export { ALGORITHM_CATEGORIES, getCategory };
 
@@ -94,6 +95,7 @@ const ALGORITHMS_BY_CATEGORY = {
     linearSearch,
     binarySearch,
     jumpSearch,
+    interpolationSearch,
   ],
 };
 

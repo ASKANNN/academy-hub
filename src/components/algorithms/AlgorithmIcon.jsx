@@ -299,6 +299,16 @@ const GLYPHS = {
     <path class="${B}" d="M2.5 13.5h3v7h-3z M8 13.5h3v7H8z M19 13.5h3v7h-3z"/>
     <path class="${A}" d="M3 11Q6.75 2 10.5 11 M14 11Q17.75 2 21.5 11 M19.6 9.9 21.5 11 21.8 8.8"/>
     <path class="${F}" d="M13.5 13.5h3v7h-3z"/>`,
+
+  // Accent = the estimate: a straight line from the low end of the row to the
+  // high end (the values of arr[lo] and arr[hi]), and an arrow from that line
+  // down onto the filled cell - the position is read off the line by value,
+  // not taken from the middle. The arrow starts below the line: touching it,
+  // the arrowhead merged with the line into a knot at 24px.
+  'interpolation-search': `
+    <path class="${B}" d="M2.5 13.5h3v7h-3z M8 13.5h3v7H8z M19 13.5h3v7h-3z"/>
+    <path class="${A}" d="M3 10 21.5 3 M15 7.6V11.5 M13 9.5 15 11.5 17 9.5"/>
+    <path class="${F}" d="M13.5 13.5h3v7h-3z"/>`,
 };
 
 export function AlgorithmIcon({ slug = '', size = 'md', className = '' }) {

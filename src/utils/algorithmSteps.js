@@ -75,12 +75,39 @@ function jumpSearchSteps(input, target) {
   return frames;
 }
 
+function interpolationSearchSteps(input, target) {
+  const a = [...input];
+  let lo = 0;
+  let hi = a.length - 1;
+  const frames = [];
+  while (lo <= hi) {
+    frames.push(searchFrame(a, { active: lo === hi ? [lo] : [lo, hi], range: [lo, hi], phase: 0 }));
+    if (target < a[lo] || target > a[hi]) break;
+    if (a[hi] === a[lo]) {
+      frames.push(searchFrame(a, { found: lo, range: [lo, lo], phase: 3 }));
+      return frames;
+    }
+    const pos = lo + Math.floor(((target - a[lo]) * (hi - lo)) / (a[hi] - a[lo]));
+    frames.push(searchFrame(a, { active: [pos], range: [lo, hi], phase: 1 }));
+    if (a[pos] === target) {
+      frames.push(searchFrame(a, { found: pos, range: [pos, pos], phase: 3 }));
+      return frames;
+    }
+    if (a[pos] < target) lo = pos + 1;
+    else hi = pos - 1;
+    if (lo <= hi) frames.push(searchFrame(a, { range: [lo, hi], phase: 2 }));
+  }
+  frames.push(searchFrame(a, { range: [lo, lo - 1], phase: 4 }));
+  return frames;
+}
+
 // Sample array and default target per search algorithm; the visualizer
 // switches to search mode for any slug listed here.
 export const SEARCH_SAMPLES = {
   'linear-search': { array: [8, 3, 9, 1, 6, 4, 7, 2, 5], target: 7 },
   'binary-search': { array: [3, 5, 6, 8, 10, 11, 13, 15, 17, 18, 20], target: 15 },
   'jump-search': { array: [5, 6, 8, 9, 11, 12, 14, 16, 17, 19, 21, 22, 24, 26, 27, 29], target: 21 },
+  'interpolation-search': { array: [10, 13, 17, 20, 24, 28, 31, 34, 38, 42, 45, 49], target: 42 },
 };
 
 function bubbleSortSteps(input) {
@@ -1408,6 +1435,7 @@ const GENERATORS = {
   'linear-search': linearSearchSteps,
   'binary-search': binarySearchSteps,
   'jump-search': jumpSearchSteps,
+  'interpolation-search': interpolationSearchSteps,
 };
 
 export function generateSteps(slug, array, target) {
