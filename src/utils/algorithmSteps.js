@@ -101,6 +101,39 @@ function interpolationSearchSteps(input, target) {
   return frames;
 }
 
+function exponentialSearchSteps(input, target) {
+  const a = [...input];
+  const n = a.length;
+  const frames = [searchFrame(a, { active: [0], range: [0, n - 1], phase: 0 })];
+  if (a[0] === target) {
+    frames.push(searchFrame(a, { found: 0, range: [0, 0], phase: 4 }));
+    return frames;
+  }
+  let bound = 1;
+  while (bound < n) {
+    frames.push(searchFrame(a, { active: [bound], range: [Math.floor(bound / 2), n - 1], phase: 1 }));
+    if (a[bound] >= target) break;
+    bound *= 2;
+    frames.push(searchFrame(a, { range: [bound / 2, n - 1], phase: 1 }));
+  }
+  let lo = Math.floor(bound / 2);
+  let hi = Math.min(bound, n - 1);
+  frames.push(searchFrame(a, { range: [lo, hi], phase: 2 }));
+  while (lo <= hi) {
+    const mid = lo + Math.floor((hi - lo) / 2);
+    frames.push(searchFrame(a, { active: [mid], range: [lo, hi], phase: 3 }));
+    if (a[mid] === target) {
+      frames.push(searchFrame(a, { found: mid, range: [mid, mid], phase: 4 }));
+      return frames;
+    }
+    if (a[mid] < target) lo = mid + 1;
+    else hi = mid - 1;
+    if (lo <= hi) frames.push(searchFrame(a, { range: [lo, hi], phase: 3 }));
+  }
+  frames.push(searchFrame(a, { range: [lo, lo - 1], phase: 4 }));
+  return frames;
+}
+
 // Sample array and default target per search algorithm; the visualizer
 // switches to search mode for any slug listed here.
 export const SEARCH_SAMPLES = {
@@ -108,6 +141,7 @@ export const SEARCH_SAMPLES = {
   'binary-search': { array: [3, 5, 6, 8, 10, 11, 13, 15, 17, 18, 20], target: 15 },
   'jump-search': { array: [5, 6, 8, 9, 11, 12, 14, 16, 17, 19, 21, 22, 24, 26, 27, 29], target: 21 },
   'interpolation-search': { array: [10, 13, 17, 20, 24, 28, 31, 34, 38, 42, 45, 49], target: 42 },
+  'exponential-search': { array: [12, 15, 17, 20, 23, 26, 28, 31, 34, 37, 39, 42], target: 26 },
 };
 
 function bubbleSortSteps(input) {
@@ -1436,6 +1470,7 @@ const GENERATORS = {
   'binary-search': binarySearchSteps,
   'jump-search': jumpSearchSteps,
   'interpolation-search': interpolationSearchSteps,
+  'exponential-search': exponentialSearchSteps,
 };
 
 export function generateSteps(slug, array, target) {

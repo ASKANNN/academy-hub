@@ -43,6 +43,7 @@ import { linearSearch } from './searching/linear-search.js';
 import { binarySearch } from './searching/binary-search.js';
 import { jumpSearch } from './searching/jump-search.js';
 import { interpolationSearch } from './searching/interpolation-search.js';
+import { exponentialSearch } from './searching/exponential-search.js';
 
 export { ALGORITHM_CATEGORIES, getCategory };
 
@@ -96,6 +97,7 @@ const ALGORITHMS_BY_CATEGORY = {
     binarySearch,
     jumpSearch,
     interpolationSearch,
+    exponentialSearch,
   ],
 };
 

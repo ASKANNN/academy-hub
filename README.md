@@ -12,7 +12,7 @@ The home page is a map of academies. Each one is either live or planned.
 
 | Academy | Status | Content |
 | --- | --- | --- |
-| Algorithms | Live | Sorting (31), Big O Notation (9), Searching (4 of 5). Recursion and Dynamic Programming are planned. |
+| Algorithms | Live | Sorting (31), Big O Notation (9), Searching (5 of 5). Recursion and Dynamic Programming are planned. |
 | Architectural Patterns | Live | Presentation (MVC, MVP, MVVM), System Structure (Layered, Hexagonal, Microkernel, Client-Server), Distributed Systems (Microservices, Event-Driven, CQRS). |
 | Design Patterns | Live | A separate site, linked from the hub. |
 | Data Structures, Backend, DevOps, AI | Planned | The card lists the topics that are on the way. |

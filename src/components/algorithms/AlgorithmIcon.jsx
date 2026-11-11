@@ -309,6 +309,15 @@ const GLYPHS = {
     <path class="${B}" d="M2.5 13.5h3v7h-3z M8 13.5h3v7H8z M19 13.5h3v7h-3z"/>
     <path class="${A}" d="M3 10 21.5 3 M15 7.6V11.5 M13 9.5 15 11.5 17 9.5"/>
     <path class="${F}" d="M13.5 13.5h3v7h-3z"/>`,
+
+  // Accent = the doubling bound: a staircase whose treads double in length
+  // (2.5, 5, 10.5) - each jump is twice the last - and the longest tread spans
+  // the last stretch, where the binary search finds the filled cell. Steps,
+  // not arcs (jump-search) or a slanted line (interpolation-search).
+  'exponential-search': `
+    <path class="${B}" d="M2.5 13.5h3v7h-3z M8 13.5h3v7H8z M19 13.5h3v7h-3z"/>
+    <path class="${A}" d="M3 11V9H5.5V6.5H10.5V3.5H21"/>
+    <path class="${F}" d="M13.5 13.5h3v7h-3z"/>`,
 };
 
 export function AlgorithmIcon({ slug = '', size = 'md', className = '' }) {
