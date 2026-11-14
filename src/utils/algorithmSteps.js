@@ -7,8 +7,8 @@ function frame(array, active = [], sorted = []) {
 // (drawn green, like a placed element), and `phase` names the concept step
 // the frame belongs to - the frame count depends on the target, so the label
 // can't come from fixed breakpoints the way it does for sorting.
-function searchFrame(array, { active = [], found = null, range = null, phase }) {
-  return { array: [...array], active, sorted: found === null ? [] : [found], range, phase };
+function searchFrame(array, { active = [], found = null, range = null, phase, caption }) {
+  return { array: [...array], active, sorted: found === null ? [] : [found], range, phase, caption };
 }
 
 function linearSearchSteps(input, target) {
@@ -181,8 +181,36 @@ function fibonacciSearchSteps(input, target) {
   return frames;
 }
 
+// Peak search: no target. `caption` is [key, ...values] for the line under
+// the bars - the two numbers compared are the whole step, and a bar label
+// alone does not say which way the comparison went.
+function ternarySearchSteps(input) {
+  const a = [...input];
+  let lo = 0;
+  let hi = a.length - 1;
+  const frames = [searchFrame(a, { range: [lo, hi], phase: 0 })];
+  while (hi - lo > 2) {
+    const third = Math.floor((hi - lo) / 3);
+    const m1 = lo + third;
+    const m2 = hi - third;
+    frames.push(searchFrame(a, { active: [m1, m2], range: [lo, hi], phase: 1, caption: ['probes', a[m1], a[m2]] }));
+    if (a[m1] < a[m2]) lo = m1 + 1;
+    else hi = m2 - 1;
+    frames.push(searchFrame(a, { range: [lo, hi], phase: 2 }));
+  }
+  let best = lo;
+  if (lo === hi) frames.push(searchFrame(a, { range: [lo, hi], phase: 3 }));
+  for (let i = lo + 1; i <= hi; i++) {
+    frames.push(searchFrame(a, { active: [best, i], range: [lo, hi], phase: 3, caption: ['scan', a[i], a[best]] }));
+    if (a[i] > a[best]) best = i;
+  }
+  frames.push(searchFrame(a, { found: best, range: [best, best], phase: 4 }));
+  return frames;
+}
+
 // Sample array and default target per search algorithm; the visualizer
-// switches to search mode for any slug listed here.
+// switches to search mode for any slug listed here. `peak: true` instead of
+// a target: the demo looks for the maximum of a unimodal array.
 export const SEARCH_SAMPLES = {
   'linear-search': { array: [8, 3, 9, 1, 6, 4, 7, 2, 5], target: 7 },
   'binary-search': { array: [3, 5, 6, 8, 10, 11, 13, 15, 17, 18, 20], target: 15 },
@@ -190,6 +218,7 @@ export const SEARCH_SAMPLES = {
   'interpolation-search': { array: [10, 13, 17, 20, 24, 28, 31, 34, 38, 42, 45, 49], target: 42 },
   'exponential-search': { array: [12, 15, 17, 20, 23, 26, 28, 31, 34, 37, 39, 42], target: 26 },
   'fibonacci-search': { array: [12, 15, 19, 22, 26, 29, 33, 36, 40, 43, 47, 50, 54], target: 33 },
+  'ternary-search': { array: [14, 18, 23, 27, 31, 36, 40, 45, 49, 43, 35, 26, 17], peak: true },
 };
 
 function bubbleSortSteps(input) {
@@ -1520,6 +1549,7 @@ const GENERATORS = {
   'interpolation-search': interpolationSearchSteps,
   'exponential-search': exponentialSearchSteps,
   'fibonacci-search': fibonacciSearchSteps,
+  'ternary-search': ternarySearchSteps,
 };
 
 export function generateSteps(slug, array, target) {

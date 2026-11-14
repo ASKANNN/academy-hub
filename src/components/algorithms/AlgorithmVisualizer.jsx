@@ -18,6 +18,22 @@ function randomTarget(array, current) {
   return options[Math.floor(Math.random() * options.length)];
 }
 
+// A new array for a peak search: strictly rising up to a random peak (never
+// the current one, so the run visibly changes), strictly falling after it,
+// every bar at least 12 high so its label still fits.
+function randomUnimodal(array) {
+  const n = array.length;
+  const old = array.indexOf(Math.max(...array));
+  const options = [...Array(n).keys()].filter((i) => i !== old);
+  const peak = options[Math.floor(Math.random() * options.length)];
+  const drop = () => 3 + Math.floor(Math.random() * 4);
+  const a = new Array(n).fill(0);
+  for (let i = peak - 1; i >= 0; i--) a[i] = a[i + 1] - drop();
+  for (let i = peak + 1; i < n; i++) a[i] = a[i - 1] - drop();
+  const low = Math.min(...a);
+  return a.map((v) => v - low + 12);
+}
+
 function shuffleArray(base) {
   const arr = [...base];
   for (let i = arr.length - 1; i > 0; i--) {
@@ -73,6 +89,17 @@ export function AlgorithmVisualizer({ slug, t, steps, lang, stepBreakpoints }) {
   const max = Math.max(...current.array);
 
   const isLast = shown === frames.length - 1;
+  const hasCaptions = frames.some((f) => f.caption);
+  let result = null;
+  if (search && isLast) {
+    if (search.peak) result = t.visualizerPeakFound(current.sorted[0], current.array[current.sorted[0]]);
+    else result = current.sorted.length ? t.visualizerFound(current.sorted[0]) : t.visualizerNotFound;
+  }
+  const nextRun = () => {
+    if (search?.peak) setArray(randomUnimodal(array));
+    else if (search) setTarget(randomTarget(array, target));
+    else setArray(shuffleArray(sampleFor(slug)));
+  };
   const conceptStep = steps?.length
     ? (current.phase !== undefined
       ? current.phase
@@ -86,8 +113,8 @@ export function AlgorithmVisualizer({ slug, t, steps, lang, stepBreakpoints }) {
       <div className="visualizer__topbar">
         {search && (
           <span className="visualizer__target">
-            {t.visualizerTarget(target)}
-            {isLast && ` · ${current.sorted.length ? t.visualizerFound(current.sorted[0]) : t.visualizerNotFound}`}
+            {search.peak ? t.visualizerPeak : t.visualizerTarget(target)}
+            {result && ` · ${result}`}
           </span>
         )}
         <span className="visualizer__step-count">
@@ -110,6 +137,11 @@ export function AlgorithmVisualizer({ slug, t, steps, lang, stepBreakpoints }) {
           );
         })}
       </div>
+      {hasCaptions && (
+        <p className="visualizer__caption">
+          {current.caption ? t.visualizerCaptions[current.caption[0]](...current.caption.slice(1)) : '\u00a0'}
+        </p>
+      )}
       {steps?.length > 0 && (
         <p key={conceptStep} className="visualizer__step-label">
           <strong>{conceptStep + 1}. {steps[conceptStep].title[lang] ?? steps[conceptStep].title.ru}</strong>
@@ -119,9 +151,9 @@ export function AlgorithmVisualizer({ slug, t, steps, lang, stepBreakpoints }) {
         <button
           type="button"
           className="btn btn--secondary"
-          onClick={() => (search ? setTarget(randomTarget(array, target)) : setArray(shuffleArray(sampleFor(slug))))}
+          onClick={nextRun}
         >
-          {search ? t.visualizerNewTarget : t.visualizerShuffle}
+          {search?.peak ? t.visualizerNewArray : search ? t.visualizerNewTarget : t.visualizerShuffle}
         </button>
         <button
           type="button"

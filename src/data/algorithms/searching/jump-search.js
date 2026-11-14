@@ -380,7 +380,7 @@ def jump_search(arr, target):
     ],
   },
 
-  relatedAlgorithms: ['linear-search', 'binary-search', 'interpolation-search', 'exponential-search', 'fibonacci-search'],
+  relatedAlgorithms: ['linear-search', 'binary-search', 'interpolation-search', 'exponential-search', 'fibonacci-search', 'ternary-search'],
 
   quiz: [
     {

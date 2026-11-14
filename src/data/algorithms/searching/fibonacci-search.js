@@ -419,7 +419,7 @@ export const fibonacciSearch = {
     ],
   },
 
-  relatedAlgorithms: ['binary-search', 'exponential-search', 'jump-search', 'interpolation-search', 'linear-search'],
+  relatedAlgorithms: ['binary-search', 'exponential-search', 'jump-search', 'interpolation-search', 'linear-search', 'ternary-search'],
 
   quiz: [
     {

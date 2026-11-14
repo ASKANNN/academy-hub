@@ -408,7 +408,7 @@ def binary_search(arr, target, lo, hi):
     ],
   },
 
-  relatedAlgorithms: ['binary-search', 'jump-search', 'interpolation-search', 'linear-search', 'fibonacci-search'],
+  relatedAlgorithms: ['binary-search', 'jump-search', 'interpolation-search', 'linear-search', 'fibonacci-search', 'ternary-search'],
 
   quiz: [
     {

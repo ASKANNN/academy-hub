@@ -45,6 +45,7 @@ import { jumpSearch } from './searching/jump-search.js';
 import { interpolationSearch } from './searching/interpolation-search.js';
 import { exponentialSearch } from './searching/exponential-search.js';
 import { fibonacciSearch } from './searching/fibonacci-search.js';
+import { ternarySearch } from './searching/ternary-search.js';
 
 export { ALGORITHM_CATEGORIES, getCategory };
 
@@ -100,6 +101,7 @@ const ALGORITHMS_BY_CATEGORY = {
     interpolationSearch,
     exponentialSearch,
     fibonacciSearch,
+    ternarySearch,
   ],
 };
 

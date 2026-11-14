@@ -377,7 +377,7 @@ def linear_search_sentinel(arr, target):
     ],
   },
 
-  relatedAlgorithms: ['binary-search', 'jump-search', 'interpolation-search', 'exponential-search', 'fibonacci-search'],
+  relatedAlgorithms: ['binary-search', 'jump-search', 'interpolation-search', 'exponential-search', 'fibonacci-search', 'ternary-search'],
 
   quiz: [
     {

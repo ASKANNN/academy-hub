@@ -932,6 +932,17 @@
   color: var(--color-text-primary);
 }
 
+/* A line under the bars for demos whose frames carry a `caption` (the two
+   values a peak search compares); always rendered, so it never shifts the
+   controls when a frame has none. */
+.visualizer__caption {
+  margin-top: var(--space-2);
+  font-size: var(--text-sm);
+  font-variant-numeric: tabular-nums;
+  color: var(--color-text-primary);
+  text-align: center;
+}
+
 .visualizer__step-label {
   min-height: 46px;
   padding: var(--space-2) 0;

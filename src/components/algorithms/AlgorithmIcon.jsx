@@ -327,6 +327,15 @@ const GLYPHS = {
     <path class="${B}" d="M2.5 13.5h3v7h-3z M8 13.5h3v7H8z M19 13.5h3v7h-3z"/>
     <path class="${A}" d="M5.5 11A8 8 0 0 1 13.5 3A5 5 0 0 1 18.5 8A3 3 0 0 1 15.5 11A2 2 0 0 1 13.5 9"/>
     <path class="${F}" d="M13.5 13.5h3v7h-3z"/>`,
+
+  // Accent = the two probes: the cells are a hill (the data is unimodal, not
+  // sorted), a tick over each probe bar splits it into three parts, and the
+  // filled bar is the peak between them. A hill of bars, not the flat row of
+  // the other searches, because the shape of the data is the whole point.
+  'ternary-search': `
+    <path class="${B}" d="M2.5 15h3v5.5h-3z M8 11.5h3v9H8z M19 12h3v8.5h-3z"/>
+    <path class="${A}" d="M9.5 3.5V8 M20.5 3.5V8.5"/>
+    <path class="${F}" d="M13.5 7.5h3v13h-3z"/>`,
 };
 
 export function AlgorithmIcon({ slug = '', size = 'md', className = '' }) {
