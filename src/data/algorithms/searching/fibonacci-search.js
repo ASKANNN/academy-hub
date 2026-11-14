@@ -28,8 +28,8 @@ export const fibonacciSearch = {
     {
       title: { ru: 'Подобрать числа Фибоначчи', en: 'Pick the Fibonacci numbers' },
       explanation: {
-        ru: 'Числа растут 1, 2, 3, 5, 8, 13, пока не станут не меньше длины массива. В демо 13 элементов, и тройка - 13, 8, 5. Массив пока не читается: это одни сложения, ни одного сравнения элементов.',
-        en: 'The numbers grow 1, 2, 3, 5, 8, 13 until they are not less than the length of the array. The demo has 13 elements, and the triple is 13, 8, 5. The array is not read yet: these are additions only, not a single comparison of elements.',
+        ru: 'Числа растут 1, 2, 3, 5, 8, 13, пока не станут не меньше длины массива. В демо 13 элементов, и тройка - 13, 8, 5: она видна под столбиками и меняется после каждой пробы. Массив пока не читается: это одни сложения, ни одного сравнения элементов.',
+        en: 'The numbers grow 1, 2, 3, 5, 8, 13 until they are not less than the length of the array. The demo has 13 elements, and the triple is 13, 8, 5: it shows under the bars and changes after every probe. The array is not read yet: these are additions only, not a single comparison of elements.',
       },
     },
     {

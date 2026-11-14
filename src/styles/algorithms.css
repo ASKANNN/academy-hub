@@ -934,8 +934,9 @@
 
 /* A line under the bars for demos whose frames carry a `caption` (the two
    values a peak search compares); always rendered, so it never shifts the
-   controls when a frame has none. */
-.visualizer__caption {
+   controls when a frame has none. Two classes: `.detail-section p` (0,1,1)
+   otherwise wins and sets the base text size. */
+.visualizer .visualizer__caption {
   margin-top: var(--space-2);
   font-size: var(--text-sm);
   font-variant-numeric: tabular-nums;
@@ -943,7 +944,17 @@
   text-align: center;
 }
 
-.visualizer__step-label {
+/* At 320px the caption line is ~220px wide, and "49 > 45: наибольший пока
+   49" wrapped to a second line, pushing the controls down. */
+@media (max-width: 359px) {
+  .visualizer .visualizer__caption {
+    font-size: var(--text-xs);
+  }
+}
+
+/* Two classes for the same reason as the caption: `.detail-section p`
+   (0,1,1) otherwise set the label to the base 16px on every visualizer. */
+.visualizer .visualizer__step-label {
   min-height: 46px;
   padding: var(--space-2) 0;
   font-size: var(--text-sm);
@@ -973,8 +984,15 @@
   .visualizer__bar {
     letter-spacing: -0.05em;
   }
-  .visualizer__step-label {
+  .visualizer .visualizer__step-label {
     min-height: 76px;
+  }
+  /* The result joins the target on the last frame ("Ищем 15 · найдено,
+     индекс 7") and wrapped to a second line at 320px, pushing the bars down
+     at the end of every search run; two lines are reserved up front. */
+  .visualizer__target {
+    line-height: var(--line-height-relaxed);
+    min-height: calc(2em * var(--line-height-relaxed));
   }
   .visualizer__controls {
     display: grid;

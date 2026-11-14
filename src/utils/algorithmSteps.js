@@ -6,7 +6,10 @@ function frame(array, active = [], sorted = []) {
 // (everything outside it is dimmed), `sorted` doubles as the found index
 // (drawn green, like a placed element), and `phase` names the concept step
 // the frame belongs to - the frame count depends on the target, so the label
-// can't come from fixed breakpoints the way it does for sorting.
+// can't come from fixed breakpoints the way it does for sorting. `caption`
+// is an optional [key, ...values] for the line under the bars - whatever the
+// step depends on that the bars alone do not show (the Fibonacci numbers,
+// how two probes compared).
 function searchFrame(array, { active = [], found = null, range = null, phase, caption }) {
   return { array: [...array], active, sorted: found === null ? [] : [found], range, phase, caption };
 }
@@ -150,10 +153,11 @@ function fibonacciSearchSteps(input, target) {
   }
   let offset = -1;
   let hi = n - 1;
-  const frames = [searchFrame(a, { range: [0, hi], phase: 0 })];
+  const fib = () => ['fib', fibM, fibMm1, fibMm2];
+  const frames = [searchFrame(a, { range: [0, hi], phase: 0, caption: fib() })];
   while (fibM > 1) {
     const i = Math.min(offset + fibMm2, n - 1);
-    frames.push(searchFrame(a, { active: [i], range: [offset + 1, hi], phase: 1 }));
+    frames.push(searchFrame(a, { active: [i], range: [offset + 1, hi], phase: 1, caption: fib() }));
     if (a[i] < target) {
       fibM = fibMm1;
       fibMm1 = fibMm2;
@@ -168,10 +172,10 @@ function fibonacciSearchSteps(input, target) {
       frames.push(searchFrame(a, { found: i, range: [i, i], phase: 4 }));
       return frames;
     }
-    if (offset + 1 <= hi) frames.push(searchFrame(a, { range: [offset + 1, hi], phase: 2 }));
+    if (offset + 1 <= hi) frames.push(searchFrame(a, { range: [offset + 1, hi], phase: 2, caption: fib() }));
   }
   if (fibMm1 === 1 && offset + 1 < n) {
-    frames.push(searchFrame(a, { active: [offset + 1], range: [offset + 1, offset + 1], phase: 3 }));
+    frames.push(searchFrame(a, { active: [offset + 1], range: [offset + 1, offset + 1], phase: 3, caption: fib() }));
     if (a[offset + 1] === target) {
       frames.push(searchFrame(a, { found: offset + 1, range: [offset + 1, offset + 1], phase: 4 }));
       return frames;
@@ -181,9 +185,7 @@ function fibonacciSearchSteps(input, target) {
   return frames;
 }
 
-// Peak search: no target. `caption` is [key, ...values] for the line under
-// the bars - the two numbers compared are the whole step, and a bar label
-// alone does not say which way the comparison went.
+// Peak search: no target - the two probes are compared with each other.
 function ternarySearchSteps(input) {
   const a = [...input];
   let lo = 0;

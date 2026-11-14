@@ -90,13 +90,14 @@ export const STRINGS = {
             visualizerFound: (i) => `найдено, индекс ${i}`,
             visualizerNotFound: 'в массиве нет',
             visualizerPeak: 'Ищем максимум',
-            visualizerPeakFound: (i, v) => `максимум ${v}, индекс ${i}`,
+            visualizerPeakFound: (i, v) => `${v}, индекс ${i}`,
             visualizerNewArray: 'Другой массив',
             visualizerCaptions: {
                 probes: (a, b) => (a < b
-                    ? `${a} < ${b}: пик правее левой пробы`
-                    : `${a} ${a === b ? '=' : '>'} ${b}: пик левее правой пробы`),
+                    ? `${a} < ${b}: пик правее ${a}`
+                    : `${a} ${a === b ? '=' : '>'} ${b}: пик левее ${b}`),
                 scan: (a, b) => `${a} ${a > b ? '>' : a === b ? '=' : '<'} ${b}: наибольший пока ${Math.max(a, b)}`,
+                fib: (f, f1, f2) => `Числа Фибоначчи: ${f}, ${f1}, ${f2}`,
             },
             visualizerPlay: 'Запустить',
             visualizerPause: 'Пауза',
@@ -653,14 +654,15 @@ export const STRINGS = {
             visualizerTarget: (v) => `Looking for ${v}`,
             visualizerFound: (i) => `found at index ${i}`,
             visualizerNotFound: 'not in the array',
-            visualizerPeak: 'Looking for the maximum',
-            visualizerPeakFound: (i, v) => `maximum ${v}, index ${i}`,
+            visualizerPeak: 'Looking for the peak',
+            visualizerPeakFound: (i, v) => `${v} at index ${i}`,
             visualizerNewArray: 'Another array',
             visualizerCaptions: {
                 probes: (a, b) => (a < b
-                    ? `${a} < ${b}: peak right of the left probe`
-                    : `${a} ${a === b ? '=' : '>'} ${b}: peak left of the right probe`),
+                    ? `${a} < ${b}: the peak is right of ${a}`
+                    : `${a} ${a === b ? '=' : '>'} ${b}: the peak is left of ${b}`),
                 scan: (a, b) => `${a} ${a > b ? '>' : a === b ? '=' : '<'} ${b}: largest so far ${Math.max(a, b)}`,
+                fib: (f, f1, f2) => `Fibonacci numbers: ${f}, ${f1}, ${f2}`,
             },
             visualizerPlay: 'Play',
             visualizerPause: 'Pause',
