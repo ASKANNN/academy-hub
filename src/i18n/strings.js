@@ -99,6 +99,18 @@ export const STRINGS = {
                 scan: (a, b) => `${a} ${a > b ? '>' : a === b ? '=' : '<'} ${b}: наибольший пока ${Math.max(a, b)}`,
                 fib: (f, f1, f2) => `Числа Фибоначчи: ${f}, ${f1}, ${f2}`,
             },
+            recursionTarget: (call) => `Считаем ${call}`,
+            recursionNewN: 'Другое n',
+            recursionTree: 'Дерево вызовов',
+            recursionStack: 'Стек',
+            recursionCalls: (n) => `${n} ${pluralizeRu(n, 'вызов', 'вызова', 'вызовов')}`,
+            recursionDepth: (d) => `глубина ${d}`,
+            recursionCaptions: {
+                factorialStep: (n) => `${n} ≤ 1? Нет: ${n} × factorial(${n - 1})`,
+                factorialBase: (n) => `${n} ≤ 1? Да: базовый случай, вернуть 1`,
+                factorialCombine: (n, sub, v) => `factorial(${n}) = ${n} × ${sub} = ${v}`,
+                answer: (call, v, calls) => `${call} = ${v}, ${calls} ${pluralizeRu(calls, 'вызов', 'вызова', 'вызовов')}`,
+            },
             visualizerPlay: 'Запустить',
             visualizerPause: 'Пауза',
             visualizerReset: 'Сбросить',
@@ -349,6 +361,49 @@ export const STRINGS = {
                             '<strong>Первое вхождение среди дубликатов:</strong> Linear и Jump Search - всегда; остальные поиски значения - любое. Первое гарантирует lower bound. Ternary Search ищет не значение, а пик, и при плато на вершине возвращает его левый край.',
                         ]},
                         { type: 'p', html: 'За рамками раздела - поиск в других структурах: <strong>хеш-таблицы</strong> (O(1) в среднем), деревья поиска, обход графов (BFS, DFS) и поиск подстроки (KMP, Boyer-Moore). Они устроены иначе и относятся к своим темам.' },
+                    ],
+                },
+            ],
+            recursionAccordion: [
+                {
+                    title: 'Что такое рекурсия',
+                    blocks: [
+                        { type: 'p', html: '<strong>Рекурсивная функция</strong> решает задачу, вызывая себя на задаче поменьше: <code>n!</code> - это <code>n × (n - 1)!</code>, папка - это файлы и папки внутри неё. У каждой такой функции две части: <strong>базовый случай</strong>, где ответ известен сразу, и <strong>рекурсивный шаг</strong>, который сводит задачу к меньшей и достраивает ответ из её ответа.' },
+                        { type: 'ul', items: [
+                            '<strong>Чтобы рекурсия кончилась</strong>, базовый случай должен проверяться раньше рекурсивного вызова, а каждый шаг - приближать аргумент к нему. Третье легко нарушить незаметно: <code>NaN - 1</code> - снова <code>NaN</code>, а <code>1e300 - 1 === 1e300</code>.',
+                            '<strong>Каждый вызов получает свои переменные</strong> - отдельный кадр на стеке вызовов. Пока вызов ждёт ответа меньшего, его кадр занимает память.',
+                        ]},
+                    ],
+                },
+                {
+                    title: 'Рекурсия или цикл',
+                    blocks: [
+                        { type: 'p', html: 'Любую рекурсию можно переписать циклом с явным стеком в массиве, а простую, как факториал, - циклом со счётчиком. Выбор решает <strong>форма данных</strong> и <strong>глубина</strong>.' },
+                        { type: 'ul', items: [
+                            '<strong>Рекурсия</strong> - когда данные вложены сами в себя: деревья, папки, JSON, выражения со скобками - и глубина заведомо небольшая.',
+                            '<strong>Цикл</strong> - когда глубина растёт вместе с входом: факториал, сумма длинного списка, связный список. Так в CPython 3.12 сделан <code>os.walk</code>: обход папок идёт по явному стеку, а не рекурсией.',
+                        ]},
+                    ],
+                },
+                {
+                    title: 'Время, память и глубина',
+                    blocks: [
+                        { type: 'p', html: '<strong>Время</strong> рекурсии - это работа всех вызовов вместе; если внутри каждого она одинаковая, то число вызовов, умноженное на неё. <strong>Память под стек</strong> - это наибольшая глубина: сколько вызовов одновременно ещё не вернулись. У факториала оба числа равны <code>n</code>, а у обхода сбалансированного дерева из миллиона узлов вызовов миллион, но глубина около 20.' },
+                        { type: 'ul', items: [
+                            '<strong>Python</strong> считает предел в вызовах: <code>sys.getrecursionlimit()</code> по умолчанию 1000, за ним - <code>RecursionError</code>.',
+                            '<strong>Node</strong> ограничивает стек в байтах (<code>--stack-size</code>, по умолчанию 984 КБ), за ним - <code>RangeError: Maximum call stack size exceeded</code>. Сколько вызовов влезает, зависит от размера кадра: рекурсивный факториал в Node 24 проходит от 8 897 до 15 565 уровней, смотря по тому, успел ли V8 его оптимизировать.',
+                        ]},
+                    ],
+                },
+                {
+                    title: 'Виды рекурсии',
+                    blocks: [
+                        { type: 'ul', items: [
+                            '<strong>Линейная:</strong> каждый вызов делает не больше одного рекурсивного вызова - факториал, сумма списка. Дерево вызовов - цепочка.',
+                            '<strong>Ветвящаяся:</strong> вызов делает два и больше - наивные числа Фибоначчи, обход дерева, Ханойская башня. Вызовов становится намного больше, чем уровней.',
+                            '<strong>Хвостовая:</strong> рекурсивный вызов - последнее действие функции, после него ничего не досчитывается, как в <code>factorial(n - 1, n * acc)</code>.',
+                            '<strong>Взаимная:</strong> две функции вызывают друг друга, как <code>isEven</code> и <code>isOdd</code>; базовый случай нужен хотя бы одной из них.',
+                        ]},
                     ],
                 },
             ],
@@ -664,6 +719,18 @@ export const STRINGS = {
                 scan: (a, b) => `${a} ${a > b ? '>' : a === b ? '=' : '<'} ${b}: largest so far ${Math.max(a, b)}`,
                 fib: (f, f1, f2) => `Fibonacci numbers: ${f}, ${f1}, ${f2}`,
             },
+            recursionTarget: (call) => `Computing ${call}`,
+            recursionNewN: 'Another n',
+            recursionTree: 'Call tree',
+            recursionStack: 'Stack',
+            recursionCalls: (n) => `${n} call${n === 1 ? '' : 's'}`,
+            recursionDepth: (d) => `depth ${d}`,
+            recursionCaptions: {
+                factorialStep: (n) => `${n} ≤ 1? No: ${n} × factorial(${n - 1})`,
+                factorialBase: (n) => `${n} ≤ 1? Yes: base case, return 1`,
+                factorialCombine: (n, sub, v) => `factorial(${n}) = ${n} × ${sub} = ${v}`,
+                answer: (call, v, calls) => `${call} = ${v}, ${calls} call${calls === 1 ? '' : 's'}`,
+            },
             visualizerPlay: 'Play',
             visualizerPause: 'Pause',
             visualizerReset: 'Reset',
@@ -917,6 +984,49 @@ export const STRINGS = {
                     ],
                 },
             ],
+            recursionAccordion: [
+                {
+                    title: 'What recursion is',
+                    blocks: [
+                        { type: 'p', html: 'A <strong>recursive function</strong> solves a problem by calling itself on a smaller version of it: <code>n!</code> is <code>n × (n - 1)!</code>, a folder is the files and folders inside it. Every such function has two parts: the <strong>base case</strong>, where the answer is known at once, and the <strong>recursive step</strong>, which reduces the problem to a smaller one and builds the answer from its answer.' },
+                        { type: 'ul', items: [
+                            '<strong>For the recursion to end</strong>, the base case must be checked before the recursive call, and every step must bring the argument closer to it. The last part is easy to break without noticing: <code>NaN - 1</code> is <code>NaN</code> again, and <code>1e300 - 1 === 1e300</code>.',
+                            '<strong>Every call gets its own variables</strong> - a separate frame on the call stack. While a call waits for a smaller one to answer, its frame takes up memory.',
+                        ]},
+                    ],
+                },
+                {
+                    title: 'Recursion or a loop',
+                    blocks: [
+                        { type: 'p', html: 'Any recursion can be rewritten as a loop with an explicit stack in an array, and a simple one, like the factorial, as a loop with a counter. The choice comes down to the <strong>shape of the data</strong> and the <strong>depth</strong>.' },
+                        { type: 'ul', items: [
+                            '<strong>Recursion</strong> - when the data is nested in itself: trees, folders, JSON, bracketed expressions - and the depth is known to be small.',
+                            '<strong>A loop</strong> - when the depth grows with the input: the factorial, the sum of a long list, a linked list. That is how <code>os.walk</code> is done in CPython 3.12: the folder walk runs on an explicit stack, not on recursion.',
+                        ]},
+                    ],
+                },
+                {
+                    title: 'Time, memory and depth',
+                    blocks: [
+                        { type: 'p', html: 'The <strong>time</strong> of a recursion is the work of all calls together; if it is the same inside each, the number of calls times that work. The <strong>stack memory</strong> is the greatest depth: how many calls have not returned yet at once. For the factorial both are <code>n</code>, while a walk over a balanced tree of a million nodes makes a million calls but is only about 20 deep.' },
+                        { type: 'ul', items: [
+                            '<strong>Python</strong> counts the limit in calls: <code>sys.getrecursionlimit()</code> is 1000 by default, and beyond it comes <code>RecursionError</code>.',
+                            '<strong>Node</strong> caps the stack in bytes (<code>--stack-size</code>, 984 KB by default), and beyond it comes <code>RangeError: Maximum call stack size exceeded</code>. How many calls fit depends on the frame size: the recursive factorial in Node 24 gets from 8,897 to 15,565 levels deep, depending on whether V8 has optimized it yet.',
+                        ]},
+                    ],
+                },
+                {
+                    title: 'Kinds of recursion',
+                    blocks: [
+                        { type: 'ul', items: [
+                            '<strong>Linear:</strong> each call makes at most one recursive call - the factorial, the sum of a list. The call tree is a chain.',
+                            '<strong>Branching:</strong> a call makes two or more - naive Fibonacci numbers, a tree walk, the Tower of Hanoi. There end up being far more calls than levels.',
+                            '<strong>Tail:</strong> the recursive call is the last thing the function does, with nothing left to compute after it, as in <code>factorial(n - 1, n * acc)</code>.',
+                            '<strong>Mutual:</strong> two functions call each other, like <code>isEven</code> and <code>isOdd</code>; at least one of them needs a base case.',
+                        ]},
+                    ],
+                },
+            ]
         },
         architecturalPatterns: {
             breadcrumbHome: 'Askan Academy',

@@ -46,6 +46,7 @@ import { interpolationSearch } from './searching/interpolation-search.js';
 import { exponentialSearch } from './searching/exponential-search.js';
 import { fibonacciSearch } from './searching/fibonacci-search.js';
 import { ternarySearch } from './searching/ternary-search.js';
+import { baseCase } from './recursion/base-case.js';
 
 export { ALGORITHM_CATEGORIES, getCategory };
 
@@ -102,6 +103,9 @@ const ALGORITHMS_BY_CATEGORY = {
     exponentialSearch,
     fibonacciSearch,
     ternarySearch,
+  ],
+  recursion: [
+    baseCase,
   ],
 };
 

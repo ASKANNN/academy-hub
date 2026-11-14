@@ -336,6 +336,16 @@ const GLYPHS = {
     <path class="${B}" d="M2.5 15h3v5.5h-3z M8 11.5h3v9H8z M19 12h3v8.5h-3z"/>
     <path class="${A}" d="M9.5 3.5V8 M20.5 3.5V8.5"/>
     <path class="${F}" d="M13.5 7.5h3v13h-3z"/>`,
+
+  // Accent = the base case: a chain of calls going down, each waiting on the
+  // one below, and the filled last call standing on a floor line - the one
+  // input whose answer is known without another call, where the descent stops.
+  'base-case': `
+    <circle class="${B}" cx="12" cy="4.5" r="2.5"/>
+    <circle class="${B}" cx="12" cy="11" r="2.5"/>
+    <path class="${B}" d="M12 7v1.5 M12 13.5V15"/>
+    <circle class="${F}" cx="12" cy="17.5" r="2.6"/>
+    <path class="${A}" d="M3.5 21.5h17"/>`,
 };
 
 export function AlgorithmIcon({ slug = '', size = 'md', className = '' }) {

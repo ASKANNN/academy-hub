@@ -11,7 +11,7 @@ const GLYPHS = {
   'big-o': 'M4 4V20H20 M5 18C9 18 11 6 19 5 M16.8 6 19 5 18 7.4',
   sorting: 'M4 20h3V10H4z M9.5 20h3V4h-3z M15 20h3V13h-3z',
   searching: 'M11 4a7 7 0 1 0 0 14 7 7 0 0 0 0-14Z M16.2 16.2 21 21',
-  recursion: 'M12 4a8 8 0 1 0 8 8h-3a5 5 0 1 1-5-5V4Z M17 4v4h-4',
+  recursion: 'M3 3h18v18H3z M3 9h12v12 M3 15h6v6',
   'dynamic-programming': 'M4 4h16v16H4z M4 10.5h16 M10.5 4v16',
   'architectural-patterns':
     'M9 3h6v4H9z M3 15h6v4H3z M15 15h6v4H15z M12 7V12 M12 12 6 15 M12 12 18 15',

@@ -10,6 +10,7 @@ import { ComplexityPips } from '../components/ui/ComplexityPips.jsx';
 import { AlgorithmIllustration } from '../components/algorithms/AlgorithmIllustration.jsx';
 import { AlgorithmVisualizer } from '../components/algorithms/AlgorithmVisualizer.jsx';
 import { BigOVisualizer } from '../components/algorithms/BigOVisualizer.jsx';
+import { RecursionVisualizer } from '../components/algorithms/RecursionVisualizer.jsx';
 import { CodeBlock } from '../components/ui/CodeBlock.jsx';
 import { WalkthroughBlock } from '../components/ui/WalkthroughBlock.jsx';
 import { Tabs } from '../components/ui/Tabs.jsx';
@@ -20,6 +21,13 @@ import { getCategory, getAlgorithm, getAdjacentAlgorithms, getAlgorithmsByCatego
 import { TIER_KEY } from '../utils/tierLabels.js';
 import { getStrings } from '../i18n/strings.js';
 import { usePageMeta } from '../hooks/usePageMeta.js';
+
+// Categories whose items are not array procedures draw their own picture;
+// every other category uses the bar-chart visualizer.
+const VISUALIZERS = {
+  'big-o': BigOVisualizer,
+  recursion: RecursionVisualizer,
+};
 
 export default function AlgorithmDetailPage() {
   const { category: categorySlug, slug } = useParams();
@@ -60,6 +68,7 @@ export default function AlgorithmDetailPage() {
   }
 
   const categoryName = category.name[lang] ?? category.name.ru;
+  const Visualizer = VISUALIZERS[categorySlug] ?? AlgorithmVisualizer;
   const { prev, next } = getAdjacentAlgorithms(categorySlug, slug);
   const related = algorithm.relatedAlgorithms
     .map((relSlug) => getAlgorithmsByCategory(categorySlug).find((a) => a.slug === relSlug))
@@ -163,9 +172,7 @@ export default function AlgorithmDetailPage() {
               label: t.sectionVisualization,
               content: (
                 <div className="detail-section">
-                  {categorySlug === 'big-o'
-                    ? <BigOVisualizer slug={algorithm.slug} t={t} steps={algorithm.steps} lang={lang} stepBreakpoints={algorithm.stepBreakpoints} />
-                    : <AlgorithmVisualizer slug={algorithm.slug} t={t} steps={algorithm.steps} lang={lang} stepBreakpoints={algorithm.stepBreakpoints} />}
+                  <Visualizer slug={algorithm.slug} t={t} steps={algorithm.steps} lang={lang} stepBreakpoints={algorithm.stepBreakpoints} />
                   <ol className="algorithm-steps">
                     {algorithm.steps.map((step, i) => (
                       <li key={i} className="algorithm-steps__item">

@@ -37,11 +37,7 @@ export const ALGORITHM_CATEGORIES = [
       ru: 'Функции, которые решают задачу, вызывая себя на меньшей версии той же задачи',
       en: 'Functions that solve a problem by calling themselves on a smaller version of it',
     },
-    status: 'coming-soon',
-    topics: {
-      ru: ['Базовый случай', 'Стек вызовов', 'Хвостовая рекурсия', 'Мемоизация'],
-      en: ['Base case', 'Call stack', 'Tail recursion', 'Memoization'],
-    },
+    status: 'live',
   },
   {
     slug: 'dynamic-programming',

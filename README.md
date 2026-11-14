@@ -12,7 +12,7 @@ The home page is a map of academies. Each one is either live or planned.
 
 | Academy | Status | Content |
 | --- | --- | --- |
-| Algorithms | Live | Sorting (31), Big O Notation (9), Searching (7). Recursion and Dynamic Programming are planned. |
+| Algorithms | Live | Sorting (31), Big O Notation (9), Searching (7), Recursion (1 so far: Base Case). Dynamic Programming is planned. |
 | Architectural Patterns | Live | Presentation (MVC, MVP, MVVM), System Structure (Layered, Hexagonal, Microkernel, Client-Server), Distributed Systems (Microservices, Event-Driven, CQRS). |
 | Design Patterns | Live | A separate site, linked from the hub. |
 | Data Structures, Backend, DevOps, AI | Planned | The card lists the topics that are on the way. |
@@ -20,7 +20,7 @@ The home page is a map of academies. Each one is either live or planned.
 Every algorithm and pattern page has five tabs:
 
 1. **Intent**: the problem, the solution, when to use it, real-world examples, and a longer deep dive.
-2. **Visualization**: an animated step-by-step visualizer for algorithms, a growth chart for Big O, or an interactive component diagram for patterns.
+2. **Visualization**: an animated step-by-step visualizer for algorithms, a growth chart for Big O, a call tree with the call stack beside it for Recursion, or an interactive component diagram for patterns.
 3. **Implementation**: working code with a line-by-line walkthrough (JavaScript and Python for algorithms, JavaScript for patterns).
 4. **Pros & Cons**.
 5. **Quiz**: 10 questions, from basic to hard, with hints and explanations.
