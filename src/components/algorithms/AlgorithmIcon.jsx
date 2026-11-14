@@ -318,6 +318,15 @@ const GLYPHS = {
     <path class="${B}" d="M2.5 13.5h3v7h-3z M8 13.5h3v7H8z M19 13.5h3v7h-3z"/>
     <path class="${A}" d="M3 11V9H5.5V6.5H10.5V3.5H21"/>
     <path class="${F}" d="M13.5 13.5h3v7h-3z"/>`,
+
+  // Accent = the shrinking stretch: quarter arcs of radius 8, 5, 3, 2 - each
+  // step keeps the next smaller Fibonacci part - winding into a spiral whose
+  // centre sits over the filled cell. A curve that turns in on itself, not
+  // brackets (binary), equal arcs (jump), a slanted line or a staircase.
+  'fibonacci-search': `
+    <path class="${B}" d="M2.5 13.5h3v7h-3z M8 13.5h3v7H8z M19 13.5h3v7h-3z"/>
+    <path class="${A}" d="M5.5 11A8 8 0 0 1 13.5 3A5 5 0 0 1 18.5 8A3 3 0 0 1 15.5 11A2 2 0 0 1 13.5 9"/>
+    <path class="${F}" d="M13.5 13.5h3v7h-3z"/>`,
 };
 
 export function AlgorithmIcon({ slug = '', size = 'md', className = '' }) {

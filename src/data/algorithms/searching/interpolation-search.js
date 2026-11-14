@@ -361,7 +361,7 @@ export const interpolationSearch = {
     ],
   },
 
-  relatedAlgorithms: ['binary-search', 'jump-search', 'linear-search', 'exponential-search'],
+  relatedAlgorithms: ['binary-search', 'jump-search', 'linear-search', 'exponential-search', 'fibonacci-search'],
 
   quiz: [
     {

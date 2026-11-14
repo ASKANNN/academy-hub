@@ -275,12 +275,11 @@ export const STRINGS = {
                 {
                     title: 'Что такое поиск',
                     blocks: [
-                        { type: 'p', html: '<strong>Поиск</strong> в этом разделе - самая простая постановка: дан массив и значение, нужно вернуть индекс, где это значение лежит, или <code>-1</code>, если его нет. Отсутствие - такой же законный ответ, как находка, и доказать его часто дороже: найденный элемент может оказаться первым, а чтобы сказать «нет», линейному поиску нужно проверить всё.' },
-                        { type: 'p', html: '<strong>Главное - упорядочены ли данные.</strong> В неотсортированном массиве одно сравнение говорит только про один элемент, и остаётся <strong>Linear Search</strong>. В отсортированном каждое сравнение говорит про целую часть массива: если <code>arr[k]</code> меньше искомого, то и всё левее него тоже меньше. На этом построены остальные четыре алгоритма раздела - они отличаются только тем, какие элементы проверять.' },
+                        { type: 'p', html: '<strong>Задача:</strong> дан массив и значение, нужно вернуть индекс, где это значение лежит, или <code>-1</code>, если его нет. Ответ «нет» - такой же законный, как находка, и часто более дорогой: чтобы его дать, нужно исключить каждое место, где значение могло бы оказаться.' },
+                        { type: 'p', html: '<strong>Порядок решает всё.</strong> В неотсортированном массиве сравнение говорит про один элемент, и остаётся <strong>Linear Search</strong>. В отсортированном одно сравнение с <code>arr[k]</code> исключает целую часть: если он меньше искомого, то и всё левее него тоже. Остальные пять алгоритмов раздела - разные ответы на один вопрос: какой элемент проверить следующим - середину, конец блока, место по значению, удвоенную границу или точку по числам Фибоначчи.' },
                         { type: 'ul', items: [
-                            '<strong>Доступ по индексу:</strong> бинарному, интерполяционному и экспоненциальному поиску нужно за O(1) прочитать любой элемент. На связном списке каждый такой прыжок стоит прохода, и выигрыш пропадает.',
-                            '<strong>Сравнение - единица цены:</strong> во всех примерах раздела считается число прочитанных и сравненных элементов. Оно не зависит от железа и показывает, где алгоритм выигрывает, а где проигрывает.',
-                            '<strong>Дубликаты:</strong> если искомое встречается несколько раз, алгоритмы возвращают разные вхождения. Линейный и прыжковый - первое, бинарный, интерполяционный и экспоненциальный - какое попадётся. Нужно первое - используют <strong>lower bound</strong>, он разобран на странице Binary Search.',
+                            '<strong>Что считаем:</strong> пробу - одно чтение элемента и его сравнение с искомым. Число проб не зависит от железа, и все числа раздела - это пробы, даже где написано «сравнений». На одну пробу может уйти одна или две проверки «меньше / больше / равно»; где это меняет вывод, как на странице Fibonacci Search, они посчитаны отдельно.',
+                            '<strong>Доступ по индексу:</strong> все алгоритмы, которые прыгают по массиву, рассчитывают прочитать любой элемент за O(1). На связном списке каждый прыжок стоит прохода, и выигрыш пропадает.',
                         ]},
                     ],
                 },
@@ -293,10 +292,11 @@ export const STRINGS = {
                             '<strong>По одним данным ищут много раз:</strong> отсортировать один раз и дальше искать бинарным. Грубо, по числу сравнений, сортировка окупается, когда поисков больше порядка log₂ n - около 20 на миллионе элементов; точнее покажет замер, константы у сортировки и у прохода разные.',
                             '<strong>Отсортированный массив с доступом по индексу:</strong> Binary Search - выбор по умолчанию, не больше 20 сравнений на миллионе при любых данных. Он же есть в стандартных библиотеках: <code>bisect</code> в Python, <code>Arrays.binarySearch</code> в Java, <code>std::lower_bound</code> в C++.',
                             '<strong>Искомое обычно близко к началу или длина неизвестна:</strong> Exponential Search - около 2 log₂ i сравнений, где i - позиция искомого. На миллионе элементов для позиции 10 это 9 сравнений против 18 у бинарного, зато в конце массива вдвое больше: 40 против 20.',
+                            '<strong>Деление или сдвиг заметно дороже сложения:</strong> Fibonacci Search - отрезок делится в пропорции соседних чисел Фибоначчи только сложением и вычитанием. Платит он пробами: на миллионе элементов в среднем 19.9 против 19.0 у бинарного и 28 против 20 в худшем, так что окупиться может только там, где замер покажет дорогую арифметику.',
                             '<strong>Числовые ключи, распределённые равномерно, и дорогое обращение к данным:</strong> Interpolation Search - в среднем около 4 проб на миллионе вместо 19. Без гарантии: на неравномерных данных до n проб.',
                             '<strong>Шаг назад дорог, а вперёд дёшев:</strong> Jump Search - прыжки только вперёд и один возврат к началу блока. На миллионе элементов это до 1999 проверок, так что выигрывает он только там, где возврат назад действительно дорог.',
                         ]},
-                        { type: 'p', html: 'Практическое правило: если данные отсортированы, начинайте с <strong>Binary Search</strong> из стандартной библиотеки, а остальные берите, когда видно, какое из его допущений не выполняется - длина неизвестна, искомое почти всегда в начале, ключи равномерны, а чтение дорогое.' },
+                        { type: 'p', html: 'Практическое правило: если данные отсортированы, начинайте с <strong>Binary Search</strong> из стандартной библиотеки, а остальные берите, когда видно, какое из его допущений не выполняется - длина неизвестна, искомое почти всегда в начале, ключи равномерны, а чтение дорогое, деление дороже сложения.' },
                     ],
                 },
                 {
@@ -307,6 +307,7 @@ export const STRINGS = {
                             '<strong>O(n) - Linear Search:</strong> до 1 000 000 сравнений на миллионе элементов, в среднем около половины, если искомое есть и лежит в случайном месте.',
                             '<strong>O(√n) - Jump Search:</strong> до 1999 проверок - прыжки шагом 1000 и проход по одному блоку.',
                             '<strong>O(log n) - Binary Search:</strong> не больше 20 сравнений, в среднем 19, при любых данных.',
+                            '<strong>O(log n) с другой константой - Fibonacci Search:</strong> в среднем 19.9 пробы, в худшем 28 - около 1.44 log₂ n, потому что отрезок делится не пополам, а примерно 0.62 к 0.38.',
                             '<strong>O(log i) - Exponential Search:</strong> около 2 log₂ i, где i - позиция искомого: 9 сравнений для позиции 10 и 40 для последней. В худшем случае это тоже O(log n), но с константой вдвое больше, чем у бинарного.',
                             '<strong>O(log log n) в среднем - Interpolation Search:</strong> около 4 проб на равномерных ключах, но O(n) в худшем случае - 9999 проб на 10 000 чисел с одним выбросом в конце.',
                         ]},
@@ -316,21 +317,22 @@ export const STRINGS = {
                 {
                     title: 'Классификация',
                     blocks: [
-                        { type: 'p', html: 'Пять алгоритмов раздела удобно раскладывать по нескольким осям - так видно, какое допущение использует каждый.' },
+                        { type: 'p', html: 'Шесть алгоритмов раздела удобно раскладывать по нескольким осям - так видно, какое допущение использует каждый.' },
                         { type: 'ul', items: [
                             '<strong>Любой порядок:</strong> Linear Search - единственный, кому сортировка не нужна.',
-                            '<strong>Отсортированные данные, нужно только сравнение:</strong> Binary, Jump и Exponential Search. Подходят любые ключи, которые можно сравнить: числа, строки, даты.',
+                            '<strong>Отсортированные данные, нужно только сравнение:</strong> Binary, Jump, Exponential и Fibonacci Search. Подходят любые ключи, которые можно сравнить: числа, строки, даты.',
                             '<strong>Отсортированные числа:</strong> Interpolation Search - формула вычитает и делит ключи, и строки ей без перевода в число не подходят.',
                         ]},
                         { type: 'ul', items: [
                             '<strong>Последовательный ход:</strong> Linear Search, а у Jump Search - второй этап, проход внутри блока.',
                             '<strong>Деление пополам:</strong> Binary Search, а у Exponential Search - второй этап, внутри найденного отрезка.',
+                            '<strong>Неравное деление:</strong> Fibonacci Search - проба делит отрезок в пропорции соседних чисел Фибоначчи, около 0.38 к 0.62, и считается без деления.',
                             '<strong>Сначала прыжки, потом уточнение:</strong> Jump Search (шаг постоянный, √n) и Exponential Search (шаг удваивается) - найти отрезок, затем искать внутри него.',
                             '<strong>Оценка по значению:</strong> Interpolation Search - проба там, где искомое должно быть по своему значению.',
                         ]},
                         { type: 'ul', items: [
-                            '<strong>Длина нужна заранее:</strong> Binary, Jump и Interpolation Search. <strong>Не нужна:</strong> Linear и Exponential Search - они подходят для потока или функции вместо массива.',
-                            '<strong>Первое вхождение среди дубликатов:</strong> Linear и Jump Search - всегда; Binary, Interpolation и Exponential Search - любое. Первое гарантирует lower bound.',
+                            '<strong>Длина нужна заранее:</strong> Binary, Jump, Interpolation и Fibonacci Search. <strong>Не нужна:</strong> Linear и Exponential Search - они подходят для потока или функции вместо массива.',
+                            '<strong>Первое вхождение среди дубликатов:</strong> Linear и Jump Search - всегда; Binary, Interpolation, Exponential и Fibonacci Search - любое. Первое гарантирует lower bound.',
                         ]},
                         { type: 'p', html: 'За рамками раздела - поиск в других структурах: <strong>хеш-таблицы</strong> (O(1) в среднем), деревья поиска, обход графов (BFS, DFS) и поиск подстроки (KMP, Boyer-Moore). Они устроены иначе и относятся к своим темам.' },
                     ],
@@ -824,12 +826,11 @@ export const STRINGS = {
                 {
                     title: 'What search is',
                     blocks: [
-                        { type: 'p', html: '<strong>Search</strong> in this section is the simplest setting: given an array and a value, return the index where the value lies, or <code>-1</code> if it is not there. Absence is as valid an answer as a find, and proving it is often more expensive: a found element may turn out to be the first one, while to say "no" linear search has to check everything.' },
-                        { type: 'p', html: '<strong>What matters most is whether the data is ordered.</strong> In an unsorted array one comparison says something about one element only, and all that is left is <strong>Linear Search</strong>. In a sorted array every comparison says something about a whole part of the array: if <code>arr[k]</code> is less than the target, so is everything to its left. The other four algorithms in this section are built on that - they differ only in which elements they check.' },
+                        { type: 'p', html: '<strong>The task:</strong> given an array and a value, return the index where the value lies, or <code>-1</code> if it is not there. "No" is as valid an answer as a find, and it is often the more expensive one: to give it, every place where the value could be has to be ruled out.' },
+                        { type: 'p', html: '<strong>Order decides everything.</strong> In an unsorted array a comparison tells you about one element, and all that is left is <strong>Linear Search</strong>. In a sorted array one comparison with <code>arr[k]</code> rules out a whole part: if it is less than the target, so is everything to its left. The other five algorithms of this section are different answers to one question - which element to check next: the middle, the end of a block, the place given by the value, a doubled bound or a point given by Fibonacci numbers.' },
                         { type: 'ul', items: [
-                            '<strong>Access by index:</strong> binary, interpolation and exponential search need to read any element in O(1). On a linked list every such jump costs a walk, and the gain is gone.',
-                            '<strong>A comparison is the unit of cost:</strong> every example in this section counts elements read and compared. That number does not depend on the hardware and shows where an algorithm wins and where it loses.',
-                            '<strong>Duplicates:</strong> if the target occurs several times, the algorithms return different occurrences. Linear and jump search return the first; binary, interpolation and exponential search return whichever they hit. If you need the first, use <strong>lower bound</strong>, covered on the Binary Search page.',
+                            '<strong>What is counted:</strong> a probe - one read of an element and its comparison with the target. The number of probes does not depend on the hardware, and all the numbers in this section count probes, even where they say "comparisons". One probe may take one or two less / greater / equal checks; where that changes the conclusion, as on the Fibonacci Search page, the two are counted separately.',
+                            '<strong>Access by index:</strong> every algorithm that jumps around the array relies on reading any element in O(1). On a linked list each jump costs a walk, and the gain is gone.',
                         ]},
                     ],
                 },
@@ -842,10 +843,11 @@ export const STRINGS = {
                             '<strong>The same data searched many times:</strong> sort once and search with binary search from then on. Roughly, by comparison count, sorting pays off when there are more than about log₂ n searches - around 20 on a million elements; a measurement will be more precise, since sorting and walking have different constants.',
                             '<strong>A sorted array with access by index:</strong> Binary Search is the default, at most 20 comparisons on a million elements whatever the data. It is also in the standard libraries: <code>bisect</code> in Python, <code>Arrays.binarySearch</code> in Java, <code>std::lower_bound</code> in C++.',
                             '<strong>The target is usually near the start, or the length is unknown:</strong> Exponential Search - about 2 log₂ i comparisons, where i is the position of the target. On a million elements position 10 takes 9 comparisons against 18 for binary search, but at the end of the array it takes twice as many: 40 against 20.',
+                            '<strong>Division or shifts cost noticeably more than addition:</strong> Fibonacci Search - the stretch is split in the proportion of adjacent Fibonacci numbers using addition and subtraction only. It pays in probes: on a million elements 19.9 on average against 19.0 for binary search and 28 against 20 in the worst case, so it can pay off only where a measurement shows the arithmetic is expensive.',
                             '<strong>Evenly spread numeric keys and expensive access to the data:</strong> Interpolation Search - about 4 probes on a million on average instead of 19. With no guarantee: on uneven data up to n probes.',
                             '<strong>Stepping back is expensive, stepping forward is cheap:</strong> Jump Search - jumps only forward and one return to the start of a block. On a million elements that is up to 1999 checks, so it wins only where going back really is expensive.',
                         ]},
-                        { type: 'p', html: 'A practical rule: if the data is sorted, start with <strong>Binary Search</strong> from the standard library, and reach for the others when you can see which of its assumptions does not hold - the length is unknown, the target is almost always near the start, the keys are even and reads are expensive.' },
+                        { type: 'p', html: 'A practical rule: if the data is sorted, start with <strong>Binary Search</strong> from the standard library, and reach for the others when you can see which of its assumptions does not hold - the length is unknown, the target is almost always near the start, the keys are even and reads are expensive, or division costs more than addition.' },
                     ],
                 },
                 {
@@ -856,6 +858,7 @@ export const STRINGS = {
                             '<strong>O(n) - Linear Search:</strong> up to 1,000,000 comparisons on a million elements, about half on average if the target is present at a random place.',
                             '<strong>O(√n) - Jump Search:</strong> up to 1999 checks - jumps of 1000 and a pass through one block.',
                             '<strong>O(log n) - Binary Search:</strong> at most 20 comparisons, 19 on average, whatever the data.',
+                            '<strong>O(log n) with another constant - Fibonacci Search:</strong> 19.9 probes on average and at most 28 - about 1.44 log₂ n, because the stretch is split not in half but roughly 0.62 to 0.38.',
                             '<strong>O(log i) - Exponential Search:</strong> about 2 log₂ i, where i is the position of the target: 9 comparisons for position 10 and 40 for the last one. In the worst case that is O(log n) too, but with a constant twice that of binary search.',
                             '<strong>O(log log n) on average - Interpolation Search:</strong> about 4 probes on evenly spread keys, but O(n) in the worst case - 9999 probes on 10,000 numbers with one outlier at the end.',
                         ]},
@@ -865,21 +868,22 @@ export const STRINGS = {
                 {
                     title: 'Classification',
                     blocks: [
-                        { type: 'p', html: 'The five algorithms of this section are easiest to sort along a few axes - that shows which assumption each one relies on.' },
+                        { type: 'p', html: 'The six algorithms of this section are easiest to sort along a few axes - that shows which assumption each one relies on.' },
                         { type: 'ul', items: [
                             '<strong>Any order:</strong> Linear Search - the only one that needs no sorting.',
-                            '<strong>Sorted data, comparison only:</strong> Binary, Jump and Exponential Search. Any keys that can be compared will do: numbers, strings, dates.',
+                            '<strong>Sorted data, comparison only:</strong> Binary, Jump, Exponential and Fibonacci Search. Any keys that can be compared will do: numbers, strings, dates.',
                             '<strong>Sorted numbers:</strong> Interpolation Search - the formula subtracts and divides keys, so strings do not fit it without being turned into numbers.',
                         ]},
                         { type: 'ul', items: [
                             '<strong>Sequential walk:</strong> Linear Search, and the second stage of Jump Search, the pass inside a block.',
                             '<strong>Halving:</strong> Binary Search, and the second stage of Exponential Search, inside the stretch it found.',
+                            '<strong>An unequal split:</strong> Fibonacci Search - the probe splits the stretch in the proportion of adjacent Fibonacci numbers, about 0.38 to 0.62, computed without division.',
                             '<strong>Jumps first, then refinement:</strong> Jump Search (a fixed step, √n) and Exponential Search (a doubling step) - find a stretch, then search inside it.',
                             '<strong>Estimate from the value:</strong> Interpolation Search - the probe goes where the target should be given its value.',
                         ]},
                         { type: 'ul', items: [
-                            '<strong>Length needed in advance:</strong> Binary, Jump and Interpolation Search. <strong>Not needed:</strong> Linear and Exponential Search - they suit a stream or a function instead of an array.',
-                            '<strong>First occurrence among duplicates:</strong> Linear and Jump Search - always; Binary, Interpolation and Exponential Search - any. Lower bound guarantees the first.',
+                            '<strong>Length needed in advance:</strong> Binary, Jump, Interpolation and Fibonacci Search. <strong>Not needed:</strong> Linear and Exponential Search - they suit a stream or a function instead of an array.',
+                            '<strong>First occurrence among duplicates:</strong> Linear and Jump Search - always; Binary, Interpolation, Exponential and Fibonacci Search - any. Lower bound guarantees the first.',
                         ]},
                         { type: 'p', html: 'Beyond this section lies search in other structures: <strong>hash tables</strong> (O(1) on average), search trees, graph traversal (BFS, DFS) and substring search (KMP, Boyer-Moore). They work differently and belong to their own topics.' },
                     ],

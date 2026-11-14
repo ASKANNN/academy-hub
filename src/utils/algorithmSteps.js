@@ -134,6 +134,53 @@ function exponentialSearchSteps(input, target) {
   return frames;
 }
 
+// `hi` is tracked only for drawing: the code keeps just `offset` and the
+// Fibonacci numbers, and the right end they imply, `offset + fibM - 1`, can
+// run past `n - 1` or miss the last element when n is a Fibonacci number.
+function fibonacciSearchSteps(input, target) {
+  const a = [...input];
+  const n = a.length;
+  let fibMm2 = 0;
+  let fibMm1 = 1;
+  let fibM = fibMm2 + fibMm1;
+  while (fibM < n) {
+    fibMm2 = fibMm1;
+    fibMm1 = fibM;
+    fibM = fibMm2 + fibMm1;
+  }
+  let offset = -1;
+  let hi = n - 1;
+  const frames = [searchFrame(a, { range: [0, hi], phase: 0 })];
+  while (fibM > 1) {
+    const i = Math.min(offset + fibMm2, n - 1);
+    frames.push(searchFrame(a, { active: [i], range: [offset + 1, hi], phase: 1 }));
+    if (a[i] < target) {
+      fibM = fibMm1;
+      fibMm1 = fibMm2;
+      fibMm2 = fibM - fibMm1;
+      offset = i;
+    } else if (a[i] > target) {
+      fibM = fibMm2;
+      fibMm1 = fibMm1 - fibMm2;
+      fibMm2 = fibM - fibMm1;
+      hi = i - 1;
+    } else {
+      frames.push(searchFrame(a, { found: i, range: [i, i], phase: 4 }));
+      return frames;
+    }
+    if (offset + 1 <= hi) frames.push(searchFrame(a, { range: [offset + 1, hi], phase: 2 }));
+  }
+  if (fibMm1 === 1 && offset + 1 < n) {
+    frames.push(searchFrame(a, { active: [offset + 1], range: [offset + 1, offset + 1], phase: 3 }));
+    if (a[offset + 1] === target) {
+      frames.push(searchFrame(a, { found: offset + 1, range: [offset + 1, offset + 1], phase: 4 }));
+      return frames;
+    }
+  }
+  frames.push(searchFrame(a, { range: [offset + 1, offset], phase: 4 }));
+  return frames;
+}
+
 // Sample array and default target per search algorithm; the visualizer
 // switches to search mode for any slug listed here.
 export const SEARCH_SAMPLES = {
@@ -142,6 +189,7 @@ export const SEARCH_SAMPLES = {
   'jump-search': { array: [5, 6, 8, 9, 11, 12, 14, 16, 17, 19, 21, 22, 24, 26, 27, 29], target: 21 },
   'interpolation-search': { array: [10, 13, 17, 20, 24, 28, 31, 34, 38, 42, 45, 49], target: 42 },
   'exponential-search': { array: [12, 15, 17, 20, 23, 26, 28, 31, 34, 37, 39, 42], target: 26 },
+  'fibonacci-search': { array: [12, 15, 19, 22, 26, 29, 33, 36, 40, 43, 47, 50, 54], target: 33 },
 };
 
 function bubbleSortSteps(input) {
@@ -1471,6 +1519,7 @@ const GENERATORS = {
   'jump-search': jumpSearchSteps,
   'interpolation-search': interpolationSearchSteps,
   'exponential-search': exponentialSearchSteps,
+  'fibonacci-search': fibonacciSearchSteps,
 };
 
 export function generateSteps(slug, array, target) {
